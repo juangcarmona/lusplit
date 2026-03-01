@@ -567,6 +567,14 @@ test('sqlite repositories enforce globally unique ids across groups', async () =
     ownerParticipantId: asParticipantId('p2'),
     name: 'Unit 2'
   });
+  await assert.rejects(
+    sqlite.economicUnitRepository.save({
+      id: asEconomicUnitId('u1'),
+      groupId: asGroupId('g2'),
+      ownerParticipantId: asParticipantId('p2'),
+      name: 'Unit 1 clone'
+    })
+  );
 
   await sqlite.participantRepository.save({
     id: asParticipantId('p1'),
@@ -583,6 +591,59 @@ test('sqlite repositories enforce globally unique ids across groups', async () =
       economicUnitId: asEconomicUnitId('u2'),
       name: 'Alice clone',
       consumptionCategory: 'FULL'
+    })
+  );
+  await sqlite.participantRepository.save({
+    id: asParticipantId('p2'),
+    groupId: asGroupId('g2'),
+    economicUnitId: asEconomicUnitId('u2'),
+    name: 'Bob',
+    consumptionCategory: 'FULL'
+  });
+
+  await sqlite.expenseRepository.save({
+    id: asExpenseId('e1'),
+    groupId: asGroupId('g1'),
+    title: 'Expense 1',
+    paidByParticipantId: asParticipantId('p1'),
+    amountMinor: 100,
+    date: '2026-01-01T00:00:00.000Z',
+    splitDefinition: {
+      components: [{ type: 'REMAINDER', mode: 'EQUAL', participants: [asParticipantId('p1')] }]
+    }
+  });
+  await assert.rejects(
+    sqlite.expenseRepository.save({
+      id: asExpenseId('e1'),
+      groupId: asGroupId('g2'),
+      title: 'Expense 1 clone',
+      paidByParticipantId: asParticipantId('p2'),
+      amountMinor: 100,
+      date: '2026-01-01T00:00:00.000Z',
+      splitDefinition: {
+        components: [{ type: 'REMAINDER', mode: 'EQUAL', participants: [asParticipantId('p2')] }]
+      }
+    })
+  );
+
+  await sqlite.transferRepository.save({
+    id: asTransferId('t1'),
+    groupId: asGroupId('g1'),
+    fromParticipantId: asParticipantId('p1'),
+    toParticipantId: asParticipantId('p1'),
+    amountMinor: 50,
+    date: '2026-01-01T00:00:00.000Z',
+    type: 'MANUAL'
+  });
+  await assert.rejects(
+    sqlite.transferRepository.save({
+      id: asTransferId('t1'),
+      groupId: asGroupId('g2'),
+      fromParticipantId: asParticipantId('p2'),
+      toParticipantId: asParticipantId('p2'),
+      amountMinor: 50,
+      date: '2026-01-01T00:00:00.000Z',
+      type: 'MANUAL'
     })
   );
 
