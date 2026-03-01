@@ -1,0 +1,96 @@
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Node / pnpm
+# =========================
+node_modules/
+.pnpm-store/
+.pnp.*
+package-lock.json
+yarn.lock
+
+# Keep pnpm lockfile
+!pnpm-lock.yaml
+
+# =========================
+# Turborepo
+# =========================
+.turbo/
+
+# =========================
+# TypeScript
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Build outputs (packages)
+# =========================
+dist/
+build/
+out/
+coverage/
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# React Native / Expo
+# =========================
+# Expo
+.expo/
+.expo-shared/
+web-build/
+
+# Metro
+.metro-cache/
+
+# React Native
+android/.gradle/
+android/app/build/
+android/build/
+ios/Pods/
+ios/build/
+
+# Xcode
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata/
+
+# =========================
+# Next.js (web)
+# =========================
+.next/
+.vercel/
+
+# =========================
+# IDE
+# =========================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Misc
+# =========================
+*.tgz
