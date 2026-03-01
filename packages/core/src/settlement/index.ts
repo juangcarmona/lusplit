@@ -1,4 +1,5 @@
 import { ParticipantId } from '../ids';
+import { DomainError } from '../errors/domain-error';
 
 export interface SettlementTransfer {
   fromParticipantId: ParticipantId;
@@ -15,6 +16,11 @@ const sortByParticipantId = (left: Bucket, right: Bucket): number =>
   String(left.participantId).localeCompare(String(right.participantId));
 
 export const planSettlement = (balances: Map<ParticipantId, number>): SettlementTransfer[] => {
+  const sum = [...balances.values()].reduce((acc, value) => acc + value, 0);
+  if (sum !== 0) {
+    throw new DomainError(`Settlement invariant violated: sum=${sum}`);
+  }
+
   const creditors: Bucket[] = [...balances.entries()]
     .filter(([, balance]) => balance > 0)
     .map(([participantId, amountMinor]) => ({ participantId, amountMinor }))

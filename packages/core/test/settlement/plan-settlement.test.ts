@@ -1,7 +1,7 @@
 import test = require('node:test');
 import assert = require('node:assert/strict');
 
-import { asParticipantId, planSettlement } from '../../src';
+import { DomainError, asParticipantId, planSettlement } from '../../src';
 
 const a = asParticipantId('a');
 const b = asParticipantId('b');
@@ -23,4 +23,8 @@ test('creates deterministic settlement transfers', () => {
     { fromParticipantId: d, toParticipantId: a, amountMinor: 200 },
     { fromParticipantId: d, toParticipantId: b, amountMinor: 200 }
   ]);
+});
+
+test('throws when balances are not zero-sum', () => {
+  assert.throws(() => planSettlement(new Map([[a, 1]])), DomainError);
 });
