@@ -200,15 +200,15 @@ export class ParticipantRepositorySqlite implements ParticipantRepository {
 
       this.db
         .prepare(
-           `INSERT INTO participants (
-              group_id, id, economic_unit_id, name, consumption_category, custom_consumption_weight
-            ) VALUES (?, ?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-              group_id = excluded.group_id,
-              economic_unit_id = excluded.economic_unit_id,
-              name = excluded.name,
-              consumption_category = excluded.consumption_category,
-              custom_consumption_weight = excluded.custom_consumption_weight`
+            `INSERT INTO participants (
+               group_id, id, economic_unit_id, name, consumption_category, custom_consumption_weight
+             ) VALUES (?, ?, ?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET
+               economic_unit_id = excluded.economic_unit_id,
+               name = excluded.name,
+               consumption_category = excluded.consumption_category,
+               custom_consumption_weight = excluded.custom_consumption_weight
+             WHERE participants.group_id = excluded.group_id`
         )
         .run(
           String(participant.groupId),
@@ -255,12 +255,12 @@ export class EconomicUnitRepositorySqlite implements EconomicUnitRepository {
 
       this.db
         .prepare(
-           `INSERT INTO economic_units (group_id, id, owner_participant_id, name)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-              group_id = excluded.group_id,
-              owner_participant_id = excluded.owner_participant_id,
-              name = excluded.name`
+            `INSERT INTO economic_units (group_id, id, owner_participant_id, name)
+             VALUES (?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET
+               owner_participant_id = excluded.owner_participant_id,
+               name = excluded.name
+             WHERE economic_units.group_id = excluded.group_id`
         )
         .run(
           String(economicUnit.groupId),
@@ -309,17 +309,17 @@ export class ExpenseRepositorySqlite implements ExpenseRepository {
 
       this.db
         .prepare(
-           `INSERT INTO expenses (
-              group_id, id, title, paid_by_participant_id, amount_minor, date, split_definition_json, notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-              group_id = excluded.group_id,
-              title = excluded.title,
-              paid_by_participant_id = excluded.paid_by_participant_id,
-              amount_minor = excluded.amount_minor,
-             date = excluded.date,
-             split_definition_json = excluded.split_definition_json,
-             notes = excluded.notes`
+            `INSERT INTO expenses (
+               group_id, id, title, paid_by_participant_id, amount_minor, date, split_definition_json, notes
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET
+               title = excluded.title,
+               paid_by_participant_id = excluded.paid_by_participant_id,
+               amount_minor = excluded.amount_minor,
+              date = excluded.date,
+              split_definition_json = excluded.split_definition_json,
+              notes = excluded.notes
+             WHERE expenses.group_id = excluded.group_id`
         )
         .run(
           String(expense.groupId),
@@ -366,17 +366,17 @@ export class TransferRepositorySqlite implements TransferRepository {
 
       this.db
         .prepare(
-           `INSERT INTO transfers (
-              group_id, id, from_participant_id, to_participant_id, amount_minor, date, type, note
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
-              group_id = excluded.group_id,
-              from_participant_id = excluded.from_participant_id,
-              to_participant_id = excluded.to_participant_id,
-             amount_minor = excluded.amount_minor,
-             date = excluded.date,
-             type = excluded.type,
-             note = excluded.note`
+            `INSERT INTO transfers (
+               group_id, id, from_participant_id, to_participant_id, amount_minor, date, type, note
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET
+               from_participant_id = excluded.from_participant_id,
+               to_participant_id = excluded.to_participant_id,
+              amount_minor = excluded.amount_minor,
+              date = excluded.date,
+              type = excluded.type,
+              note = excluded.note
+             WHERE transfers.group_id = excluded.group_id`
         )
         .run(
           String(transfer.groupId),
