@@ -52,7 +52,12 @@ export const aggregateBalancesByEconomicUnitOwner = (
     throw new DomainError('Cannot aggregate balances without participants or economic units');
   }
 
-  const scopedGroupId = participants.length > 0 ? participants[0].groupId : economicUnits[0].groupId;
+  let scopedGroupId: Participant['groupId'];
+  if (participants.length > 0) {
+    scopedGroupId = participants[0].groupId;
+  } else {
+    scopedGroupId = economicUnits[0].groupId;
+  }
   assertGroupScoped({ groupId: scopedGroupId }, participants, economicUnits);
 
   const participantsById = new Map(participants.map((participant) => [participant.id, participant]));

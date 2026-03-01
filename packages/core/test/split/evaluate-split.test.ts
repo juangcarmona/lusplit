@@ -184,7 +184,7 @@ test('throws when participants are duplicated in REMAINDER', () => {
 });
 
 test('throws when split participants contain another group', () => {
-  const outParticipantId = asParticipantId('out');
+  const differentGroupParticipantId = asParticipantId('out');
   assert.throws(
     () =>
       evaluateSplit(
@@ -192,13 +192,13 @@ test('throws when split participants contain another group', () => {
           groupId,
           amountMinor: 100,
           splitDefinition: {
-            components: [{ type: 'REMAINDER', participants: [participantA, outParticipantId], mode: 'EQUAL' }]
+            components: [{ type: 'REMAINDER', participants: [participantA, differentGroupParticipantId], mode: 'EQUAL' }]
           }
         },
         [
           ...participants,
           {
-            id: outParticipantId,
+            id: differentGroupParticipantId,
             groupId: asGroupId('g2'),
             name: 'Out',
             economicUnitId: asEconomicUnitId('u-out'),
