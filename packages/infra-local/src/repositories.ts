@@ -316,9 +316,9 @@ export class ExpenseRepositorySqlite implements ExpenseRepository {
                title = excluded.title,
                paid_by_participant_id = excluded.paid_by_participant_id,
                amount_minor = excluded.amount_minor,
-              date = excluded.date,
-              split_definition_json = excluded.split_definition_json,
-              notes = excluded.notes
+               date = excluded.date,
+               split_definition_json = excluded.split_definition_json,
+               notes = excluded.notes
              WHERE expenses.group_id = excluded.group_id`
         )
         .run(
@@ -372,10 +372,10 @@ export class TransferRepositorySqlite implements TransferRepository {
              ON CONFLICT(id) DO UPDATE SET
                from_participant_id = excluded.from_participant_id,
                to_participant_id = excluded.to_participant_id,
-              amount_minor = excluded.amount_minor,
-              date = excluded.date,
-              type = excluded.type,
-              note = excluded.note
+               amount_minor = excluded.amount_minor,
+               date = excluded.date,
+               type = excluded.type,
+               note = excluded.note
              WHERE transfers.group_id = excluded.group_id`
         )
         .run(
