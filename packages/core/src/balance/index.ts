@@ -55,8 +55,10 @@ export const aggregateBalancesByEconomicUnitOwner = (
   let scopedGroupId: Participant['groupId'];
   if (participants.length > 0) {
     scopedGroupId = participants[0].groupId;
-  } else {
+  } else if (economicUnits.length > 0) {
     scopedGroupId = economicUnits[0].groupId;
+  } else {
+    return new Map();
   }
   assertGroupScoped({ groupId: scopedGroupId }, participants, economicUnits);
 
