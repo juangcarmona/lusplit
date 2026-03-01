@@ -11,6 +11,8 @@ import { ParticipantRepository } from '../../ports/participant-repository';
 import { ValidationError } from '../../errors';
 import { assertGroupOpen, assertNonEmpty, getRequiredGroup } from '../common';
 
+const MAX_ID_GENERATION_ATTEMPTS = 100;
+
 export class CreateParticipantUseCase {
   constructor(
     private readonly groupRepository: GroupRepository,
@@ -35,22 +37,30 @@ export class CreateParticipantUseCase {
     if (!economicUnit || String(economicUnit.groupId) !== input.groupId) {
       throw new ValidationError(`Economic unit is not in group ${input.groupId}`);
     }
+    assertNonEmpty(String(economicUnit.ownerParticipantId), 'ownerParticipantId');
 
+    const ownerParticipantId = String(economicUnit.ownerParticipantId);
+    const economicUnitId = String(economicUnit.id);
     const groupParticipants = await this.participantRepository.listByGroupId(input.groupId);
     const ownerExistsInGroup = groupParticipants.some(
-      (participant) => String(participant.id) === String(economicUnit.ownerParticipantId)
+      (participant) => String(participant.id) === ownerParticipantId
     );
     const hasParticipantsInEconomicUnit = groupParticipants.some(
-      (participant) => String(participant.economicUnitId) === String(economicUnit.id)
+      (participant) => String(participant.economicUnitId) === economicUnitId
     );
     const groupParticipantIds = new Set(groupParticipants.map((participant) => String(participant.id)));
     let participantId: string;
     if (!ownerExistsInGroup && !hasParticipantsInEconomicUnit) {
-      participantId = String(economicUnit.ownerParticipantId);
+      participantId = ownerParticipantId;
     } else {
+      let attempts = 0;
       participantId = this.idGenerator.nextId();
-      while (groupParticipantIds.has(participantId)) {
+      while (groupParticipantIds.has(participantId) && attempts < MAX_ID_GENERATION_ATTEMPTS) {
+        attempts += 1;
         participantId = this.idGenerator.nextId();
+      }
+      if (groupParticipantIds.has(participantId)) {
+        throw new ValidationError('Unable to generate a unique participant id');
       }
     }
 
@@ -62,15 +72,6 @@ export class CreateParticipantUseCase {
       consumptionCategory: input.consumptionCategory,
       customConsumptionWeight: input.customConsumptionWeight
     };
-
-    if (String(participant.id) === String(economicUnit.ownerParticipantId)) {
-      if (String(participant.economicUnitId) !== String(economicUnit.id)) {
-        throw new ValidationError(`Owner participant must belong to economic unit ${economicUnit.id}`);
-      }
-      if (String(participant.groupId) !== String(economicUnit.groupId)) {
-        throw new ValidationError(`Owner participant must belong to group ${economicUnit.groupId}`);
-      }
-    }
 
     await this.participantRepository.save(participant);
 
