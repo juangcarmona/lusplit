@@ -548,3 +548,54 @@ test('sqlite import rejects malformed snapshot references', async () => {
 
   sqlite.close();
 });
+
+test('sqlite repositories enforce globally unique ids across groups', async () => {
+  const sqlite = await createInfraLocalSqlite();
+
+  await sqlite.groupRepository.save({ id: asGroupId('g1'), currency: 'USD', closed: false });
+  await sqlite.groupRepository.save({ id: asGroupId('g2'), currency: 'USD', closed: false });
+
+  await sqlite.economicUnitRepository.save({
+    id: asEconomicUnitId('u1'),
+    groupId: asGroupId('g1'),
+    ownerParticipantId: asParticipantId('p1'),
+    name: 'Unit 1'
+  });
+  await sqlite.economicUnitRepository.save({
+    id: asEconomicUnitId('u2'),
+    groupId: asGroupId('g2'),
+    ownerParticipantId: asParticipantId('p2'),
+    name: 'Unit 2'
+  });
+
+  await sqlite.participantRepository.save({
+    id: asParticipantId('p1'),
+    groupId: asGroupId('g1'),
+    economicUnitId: asEconomicUnitId('u1'),
+    name: 'Alice',
+    consumptionCategory: 'FULL'
+  });
+
+  await assert.rejects(
+    sqlite.participantRepository.save({
+      id: asParticipantId('p1'),
+      groupId: asGroupId('g2'),
+      economicUnitId: asEconomicUnitId('u2'),
+      name: 'Alice clone',
+      consumptionCategory: 'FULL'
+    })
+  );
+
+  const participant = await sqlite.participantRepository.getById('p1');
+  assert.equal(participant?.groupId, 'g1');
+  sqlite.close();
+});
+
+test('sqlite import rejects wrong snapshot version and missing fields', async () => {
+  const sqlite = await createInfraLocalSqlite();
+
+  await assert.rejects(sqlite.importGroupSnapshot({ version: 2 }), /Unsupported snapshot version/);
+  await assert.rejects(sqlite.importGroupSnapshot({ version: 1 }), /Missing snapshot field: group/);
+
+  sqlite.close();
+});

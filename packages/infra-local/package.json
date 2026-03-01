@@ -15,6 +15,9 @@
     "test:coverage": "pnpm run build && node --test --experimental-test-coverage dist/test/**/*.test.js",
     "lint": "echo 'No lint configured for @lusplit/infra-local'"
   },
+  "engines": {
+    "node": "24.13.1"
+  },
   "dependencies": {
     "@lusplit/application": "workspace:*",
     "@lusplit/core": "workspace:*"

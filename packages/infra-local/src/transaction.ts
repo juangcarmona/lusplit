@@ -6,19 +6,22 @@ export class SqliteTransactionRunner {
   constructor(private readonly db: DatabaseSync) {}
 
   async runInTransaction<T>(fn: () => Promise<T>): Promise<T> {
-    if (this.depth > 0) {
-      return fn();
-    }
-
-    this.db.exec('BEGIN');
     this.depth += 1;
+    const isOutermost = this.depth === 1;
+    if (isOutermost) {
+      this.db.exec('BEGIN');
+    }
 
     try {
       const result = await fn();
-      this.db.exec('COMMIT');
+      if (isOutermost) {
+        this.db.exec('COMMIT');
+      }
       return result;
     } catch (error) {
-      this.db.exec('ROLLBACK');
+      if (isOutermost) {
+        this.db.exec('ROLLBACK');
+      }
       throw error;
     } finally {
       this.depth -= 1;

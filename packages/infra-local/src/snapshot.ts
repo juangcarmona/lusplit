@@ -246,8 +246,26 @@ export const importGroupSnapshot = async (
 ): Promise<void> => {
   const root = asRecord(snapshot, 'root');
 
+  if (!Object.prototype.hasOwnProperty.call(root, 'version')) {
+    throw new Error('Missing snapshot field: version');
+  }
   if (root.version !== 1) {
-    throw new Error('Unsupported snapshot version');
+    throw new Error(`Unsupported snapshot version: ${String(root.version)}`);
+  }
+  if (!Object.prototype.hasOwnProperty.call(root, 'group')) {
+    throw new Error('Missing snapshot field: group');
+  }
+  if (!Object.prototype.hasOwnProperty.call(root, 'participants')) {
+    throw new Error('Missing snapshot field: participants');
+  }
+  if (!Object.prototype.hasOwnProperty.call(root, 'economicUnits')) {
+    throw new Error('Missing snapshot field: economicUnits');
+  }
+  if (!Object.prototype.hasOwnProperty.call(root, 'expenses')) {
+    throw new Error('Missing snapshot field: expenses');
+  }
+  if (!Object.prototype.hasOwnProperty.call(root, 'transfers')) {
+    throw new Error('Missing snapshot field: transfers');
   }
 
   const group = asRecord(root.group, 'group');
