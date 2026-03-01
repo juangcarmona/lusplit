@@ -44,10 +44,16 @@ export const aggregateBalancesByEconomicUnitOwner = (
   participants: Participant[],
   economicUnits: EconomicUnit[]
 ): Map<ParticipantId, number> => {
-  const scopedGroupId = participants[0]?.groupId ?? economicUnits[0]?.groupId;
-  if (scopedGroupId) {
-    assertGroupScoped({ groupId: scopedGroupId }, participants, economicUnits);
+  if (participants.length === 0 && economicUnits.length === 0) {
+    if (balances.size === 0) {
+      return new Map();
+    }
+
+    throw new DomainError('Cannot aggregate balances without participants or economic units');
   }
+
+  const scopedGroupId = participants[0]?.groupId ?? economicUnits[0].groupId;
+  assertGroupScoped({ groupId: scopedGroupId }, participants, economicUnits);
 
   const participantsById = new Map(participants.map((participant) => [participant.id, participant]));
   const ownerByUnit = new Map<EconomicUnit['id'], ParticipantId>();
