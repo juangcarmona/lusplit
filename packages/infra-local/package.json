@@ -1,0 +1,28 @@
+{
+  "name": "@lusplit/infra-local",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test dist/test/**/*.test.js",
+    "test:coverage": "pnpm run build && node --test --experimental-test-coverage dist/test/**/*.test.js",
+    "lint": "echo 'No lint configured for @lusplit/infra-local'"
+  },
+  "engines": {
+    "node": ">=24.13.1 <25"
+  },
+  "dependencies": {
+    "@lusplit/application": "workspace:*",
+    "@lusplit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3"
+  }
+}
