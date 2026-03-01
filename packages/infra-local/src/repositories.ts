@@ -207,8 +207,7 @@ export class ParticipantRepositorySqlite implements ParticipantRepository {
                economic_unit_id = excluded.economic_unit_id,
                name = excluded.name,
                consumption_category = excluded.consumption_category,
-               custom_consumption_weight = excluded.custom_consumption_weight
-             WHERE participants.group_id = excluded.group_id`
+               custom_consumption_weight = excluded.custom_consumption_weight`
         )
         .run(
           String(participant.groupId),
@@ -259,8 +258,7 @@ export class EconomicUnitRepositorySqlite implements EconomicUnitRepository {
              VALUES (?, ?, ?, ?)
              ON CONFLICT(id) DO UPDATE SET
                owner_participant_id = excluded.owner_participant_id,
-               name = excluded.name
-             WHERE economic_units.group_id = excluded.group_id`
+               name = excluded.name`
         )
         .run(
           String(economicUnit.groupId),
@@ -318,8 +316,7 @@ export class ExpenseRepositorySqlite implements ExpenseRepository {
                amount_minor = excluded.amount_minor,
                date = excluded.date,
                split_definition_json = excluded.split_definition_json,
-               notes = excluded.notes
-             WHERE expenses.group_id = excluded.group_id`
+               notes = excluded.notes`
         )
         .run(
           String(expense.groupId),
@@ -375,8 +372,7 @@ export class TransferRepositorySqlite implements TransferRepository {
                amount_minor = excluded.amount_minor,
                date = excluded.date,
                type = excluded.type,
-               note = excluded.note
-             WHERE transfers.group_id = excluded.group_id`
+               note = excluded.note`
         )
         .run(
           String(transfer.groupId),
