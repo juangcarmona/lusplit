@@ -4,18 +4,19 @@ import { ParticipantId } from '../ids';
 import { assertMinorUnits } from '../money';
 
 export type RemainderMode = 'EQUAL' | 'WEIGHT' | 'PERCENT';
+export type ParticipantKeyed<T> = Partial<Record<ParticipantId, T>>;
 
 export interface FixedContribution {
   type: 'FIXED';
-  shares: Record<string, number>;
+  shares: ParticipantKeyed<number>;
 }
 
 export interface RemainderDistribution {
   type: 'REMAINDER';
   participants: ParticipantId[];
   mode: RemainderMode;
-  weights?: Record<string, string>;
-  percents?: Record<string, number>;
+  weights?: ParticipantKeyed<string>;
+  percents?: ParticipantKeyed<number>;
 }
 
 export type SplitComponent = FixedContribution | RemainderDistribution;
@@ -96,8 +97,8 @@ const allocateByWeights = (
   return allocations;
 };
 
-const toShareEntries = (shares: Record<string, number>): [ParticipantId, number][] =>
-  Object.entries(shares).map(([participantId, amount]) => [participantId as ParticipantId, amount]);
+const toParticipantEntries = <T>(values: ParticipantKeyed<T>): [ParticipantId, T][] =>
+  Object.entries(values) as [ParticipantId, T][];
 
 const deriveWeightForParticipant = (
   participant: Participant,
@@ -152,7 +153,7 @@ export const evaluateSplit = (
     if (component.type === 'FIXED') {
       let assigned = 0;
 
-      for (const [participantId, amount] of toShareEntries(component.shares)) {
+      for (const [participantId, amount] of toParticipantEntries(component.shares)) {
         assertKnownParticipant(participantId, participantMap);
         assertMinorUnits(amount, `fixedShare(${participantId})`);
 
@@ -188,8 +189,8 @@ export const evaluateSplit = (
       const weightByParticipant = new Map<ParticipantId, bigint>();
 
       for (const participantId of remainderParticipants) {
-        const percent = component.percents[String(participantId)];
-        if (!Number.isInteger(percent) || percent < 0) {
+        const percent = component.percents[participantId];
+        if (percent === undefined || !Number.isInteger(percent) || percent < 0) {
           throw new DomainError(`Invalid percent for ${participantId}`);
         }
 
@@ -223,7 +224,7 @@ export const evaluateSplit = (
         throw new DomainError(`Unknown participant ${participantId}`);
       }
 
-      const explicitWeight = component.weights?.[String(participantId)];
+      const explicitWeight = component.weights?.[participantId];
       weightByParticipant.set(participantId, deriveWeightForParticipant(participant, explicitWeight));
     }
 

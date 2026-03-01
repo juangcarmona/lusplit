@@ -1,4 +1,4 @@
-import { Expense, Participant } from '../entities';
+import { EconomicUnit, Expense, Participant } from '../entities';
 import { DomainError } from '../errors/domain-error';
 import { ParticipantId } from '../ids';
 import { assertMinorUnits } from '../money';
@@ -39,14 +39,24 @@ export const calculateParticipantBalances = (
 
 export const aggregateBalancesByEconomicUnitOwner = (
   balances: Map<ParticipantId, number>,
-  participants: Participant[]
+  participants: Participant[],
+  economicUnits: EconomicUnit[]
 ): Map<ParticipantId, number> => {
-  const ownerByUnit = new Map<Participant['economicUnitId'], ParticipantId>();
-  for (const participant of participants) {
-    if (!ownerByUnit.has(participant.economicUnitId)) {
-      ownerByUnit.set(participant.economicUnitId, participant.id);
+  const participantsById = new Map(participants.map((participant) => [participant.id, participant]));
+  const ownerByUnit = new Map<EconomicUnit['id'], ParticipantId>();
+  for (const economicUnit of economicUnits) {
+    ownerByUnit.set(economicUnit.id, economicUnit.ownerParticipantId);
+
+    const owner = participantsById.get(economicUnit.ownerParticipantId);
+    if (!owner) {
+      throw new DomainError(`Economic unit owner is not a participant: ${economicUnit.ownerParticipantId}`);
+    }
+
+    if (owner.economicUnitId !== economicUnit.id) {
+      throw new DomainError(`Economic unit owner must belong to its own unit: ${economicUnit.id}`);
     }
   }
+
   const unitByParticipant = new Map(participants.map((participant) => [participant.id, participant.economicUnitId]));
   const aggregated = new Map<ParticipantId, number>();
 

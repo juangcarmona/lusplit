@@ -2,6 +2,8 @@ import test = require('node:test');
 import assert = require('node:assert/strict');
 
 import {
+  DomainError,
+  EconomicUnit,
   Expense,
   Participant,
   aggregateBalancesByEconomicUnitOwner,
@@ -21,6 +23,10 @@ const participants: Participant[] = [
   { id: p1, groupId, name: 'A', economicUnitId: asEconomicUnitId('u1'), consumptionCategory: 'FULL' },
   { id: p2, groupId, name: 'B', economicUnitId: asEconomicUnitId('u2'), consumptionCategory: 'FULL' },
   { id: p3, groupId, name: 'C', economicUnitId: asEconomicUnitId('u2'), consumptionCategory: 'FULL' }
+];
+const units: EconomicUnit[] = [
+  { id: asEconomicUnitId('u1'), groupId, ownerParticipantId: p1, name: 'Unit 1' },
+  { id: asEconomicUnitId('u2'), groupId, ownerParticipantId: p2, name: 'Unit 2' }
 ];
 
 const expenses: Expense[] = [
@@ -64,8 +70,18 @@ test('aggregates balances by economic unit owner', () => {
     [p3, -300]
   ]);
 
-  const aggregated = aggregateBalancesByEconomicUnitOwner(balances, participants);
+  const aggregated = aggregateBalancesByEconomicUnitOwner(balances, participants, units);
 
   assert.equal(aggregated.get(p1), 400);
   assert.equal(aggregated.get(p2), -400);
+});
+
+test('throws when unit owner does not belong to its unit', () => {
+  assert.throws(
+    () =>
+      aggregateBalancesByEconomicUnitOwner(new Map([[p1, 0]]), participants, [
+        { id: asEconomicUnitId('u1'), groupId, ownerParticipantId: p2, name: 'Broken Unit' }
+      ]),
+    DomainError
+  );
 });
