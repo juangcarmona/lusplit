@@ -36,13 +36,8 @@ export class CreateParticipantUseCase {
       throw new ValidationError(`Economic unit is not in group ${input.groupId}`);
     }
 
-    const groupParticipants = await this.participantRepository.listByGroupId(input.groupId);
-    const ownerAlreadyExists = groupParticipants.some(
-      (participant) => participant.id === economicUnit.ownerParticipantId
-    );
-
     const participant: Participant = {
-      id: ownerAlreadyExists ? asParticipantId(this.idGenerator.nextId()) : economicUnit.ownerParticipantId,
+      id: asParticipantId(this.idGenerator.nextId()),
       groupId: asGroupId(input.groupId),
       economicUnitId: asEconomicUnitId(input.economicUnitId),
       name: input.name,

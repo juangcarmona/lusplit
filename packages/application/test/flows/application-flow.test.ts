@@ -54,8 +54,8 @@ test('end-to-end application flow computes deterministic balances and settlement
 
   const group = await createGroup.execute({ currency: 'USD' });
 
-  const unit1 = await createEconomicUnit.execute({ groupId: group.id, ownerParticipantId: 'p1', name: 'Unit 1' });
-  const unit2 = await createEconomicUnit.execute({ groupId: group.id, ownerParticipantId: 'p2', name: 'Unit 2' });
+  const unit1 = await createEconomicUnit.execute({ groupId: group.id, ownerParticipantId: 'id-4', name: 'Unit 1' });
+  const unit2 = await createEconomicUnit.execute({ groupId: group.id, ownerParticipantId: 'id-5', name: 'Unit 2' });
 
   const p1 = await createParticipant.execute({
     groupId: group.id,
@@ -105,14 +105,14 @@ test('end-to-end application flow computes deterministic balances and settlement
   const ownerSettlement = await getSettlementPlan.execute({ groupId: group.id, mode: 'ECONOMIC_UNIT_OWNER' });
 
   assert.deepEqual(balancesByParticipant, [
-    { participantId: p3.id, amountMinor: -550 },
-    { participantId: p1.id, amountMinor: 500 },
-    { participantId: p2.id, amountMinor: 50 }
+    { entityId: p1.id, amountMinor: 500 },
+    { entityId: p2.id, amountMinor: 50 },
+    { entityId: p3.id, amountMinor: -550 }
   ]);
 
   assert.deepEqual(balancesByOwner, [
-    { participantId: p1.id, amountMinor: 500 },
-    { participantId: p2.id, amountMinor: -500 }
+    { entityId: p1.id, amountMinor: 500 },
+    { entityId: p2.id, amountMinor: -500 }
   ]);
 
   assert.deepEqual(participantSettlement.transfers, [

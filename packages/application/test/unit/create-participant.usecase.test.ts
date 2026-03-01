@@ -22,7 +22,7 @@ test('CreateParticipantUseCase creates participant in existing economic unit', a
     consumptionCategory: 'FULL'
   });
 
-  assert.equal(result.id, 'p1');
+  assert.equal(result.id, 'id-1');
   assert.equal(result.name, 'Alice');
 });
 

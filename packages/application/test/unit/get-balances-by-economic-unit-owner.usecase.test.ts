@@ -35,8 +35,8 @@ test('GetBalancesByEconomicUnitOwnerUseCase aggregates balances by owner', async
   const result = await useCase.execute({ groupId: 'g1' });
 
   assert.deepEqual(result, [
-    { participantId: 'p1', amountMinor: 60 },
-    { participantId: 'p2', amountMinor: -60 }
+    { entityId: 'p1', amountMinor: 60 },
+    { entityId: 'p2', amountMinor: -60 }
   ]);
 });
 

@@ -16,6 +16,7 @@ test('GetGroupOverviewUseCase returns composed view model', async () => {
   await seedGroup(ctx, 'g1');
   await seedEconomicUnit(ctx, { id: 'u1', groupId: 'g1', ownerParticipantId: 'p1' });
   await seedParticipant(ctx, { id: 'p1', groupId: 'g1', economicUnitId: 'u1' });
+  await seedParticipant(ctx, { id: 'p2', groupId: 'g1', economicUnitId: 'u1' });
   await seedExpense(ctx, {
     id: 'e1',
     groupId: 'g1',
@@ -23,7 +24,7 @@ test('GetGroupOverviewUseCase returns composed view model', async () => {
     amountMinor: 100,
     splitDefinition: { components: [{ type: 'REMAINDER', participants: ['p1'], mode: 'EQUAL' }] as any }
   });
-  await seedTransfer(ctx, { id: 't1', groupId: 'g1', fromParticipantId: 'p1', toParticipantId: 'p1' });
+  await seedTransfer(ctx, { id: 't1', groupId: 'g1', fromParticipantId: 'p2', toParticipantId: 'p1' });
 
   const useCase = new GetGroupOverviewUseCase(
     ctx.groupRepository,

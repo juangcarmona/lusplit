@@ -45,6 +45,3 @@ export * from './usecases/queries/get-balances-by-participant';
 export * from './usecases/queries/get-expenses';
 export * from './usecases/queries/get-group-overview';
 export * from './usecases/queries/get-settlement-plan';
-
-export * from './mappers/entity-mappers';
-export * from './mappers/split-mappers';

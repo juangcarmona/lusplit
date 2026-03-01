@@ -25,8 +25,8 @@ test('GetBalancesByParticipantUseCase returns zero-sum balances', async () => {
   const result = await useCase.execute({ groupId: 'g1' });
 
   assert.deepEqual(result, [
-    { participantId: 'p1', amountMinor: 50 },
-    { participantId: 'p2', amountMinor: -50 }
+    { entityId: 'p1', amountMinor: 50 },
+    { entityId: 'p2', amountMinor: -50 }
   ]);
 });
 

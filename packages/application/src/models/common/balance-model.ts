@@ -1,4 +1,4 @@
 export interface BalanceModel {
-  participantId: string;
+  entityId: string;
   amountMinor: number;
 }

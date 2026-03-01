@@ -63,8 +63,8 @@ export const mapTransferToModel = (transfer: Transfer): TransferModel => ({
 
 export const mapBalancesToModel = (balances: Map<any, number>): BalanceModel[] =>
   [...balances.entries()]
-    .map(([participantId, amountMinor]) => ({ participantId: String(participantId), amountMinor }))
-    .sort((left, right) => left.participantId.localeCompare(right.participantId));
+    .map(([entityId, amountMinor]) => ({ entityId: String(entityId), amountMinor }))
+    .sort((left, right) => left.entityId.localeCompare(right.entityId));
 
 export const mapSettlementTransfersToModel = (transfers: SettlementTransfer[]): SettlementTransferModel[] =>
   transfers.map((transfer) => ({
