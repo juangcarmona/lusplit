@@ -50,16 +50,16 @@ If I ever introduce ads, it will only be to sustain optional backend infrastruct
 
 ## Architecture
 
-LuSplit is built as a monorepo:
+LuSplit is a Turborepo monorepo.
 
-- `core` – domain logic (pure TypeScript, deterministic money handling)
-- `application` – CQRS commands & queries
-- `infra-local` – local persistence (SQLite on mobile)
-- `mobile` – React Native app
-- `web` – web client (planned)
+- `packages/core` — Domain model (deterministic split & settlement logic)
+- `packages/application` — CQRS handlers
+- `packages/infra-local` — SQLite + export adapters
+- `apps/mobile` — React Native app
+- `apps/web` — Web client (planned)
 
-All money is stored in minor units (cents).  
-All calculations are deterministic and tested.
+Domain rules are defined in:
+`/packages/core/DOMAIN.md`
 
 ---
 
