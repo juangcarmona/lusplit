@@ -35,6 +35,7 @@ const participants: Participant[] = [
 test('evaluates FIXED then REMAINDER sequentially', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 1_000,
       splitDefinition: {
         components: [
@@ -55,6 +56,7 @@ test('evaluates FIXED then REMAINDER sequentially', () => {
 test('uses deterministic rounding by participant ordering', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 10,
       splitDefinition: {
         components: [{ type: 'REMAINDER', participants: [participantC, participantA, participantB], mode: 'EQUAL' }]
@@ -71,6 +73,7 @@ test('uses deterministic rounding by participant ordering', () => {
 test('supports WEIGHT mode from participant categories and explicit weights', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 7,
       splitDefinition: {
         components: [
@@ -92,6 +95,7 @@ test('supports WEIGHT mode from participant categories and explicit weights', ()
 test('supports PERCENT mode and consumes full remainder', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 101,
       splitDefinition: {
         components: [
@@ -114,6 +118,7 @@ test('supports PERCENT mode and consumes full remainder', () => {
 test('single participant can consume all remainder', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 250,
       splitDefinition: {
         components: [{ type: 'REMAINDER', participants: [participantA], mode: 'EQUAL' }]
@@ -132,6 +137,7 @@ test('throws if split does not consume full expense amount', () => {
     () =>
       evaluateSplit(
         {
+          groupId,
           amountMinor: 100,
           splitDefinition: { components: [] }
         },
@@ -144,6 +150,7 @@ test('throws if split does not consume full expense amount', () => {
 test('handles empty participants with zero amount', () => {
   const shares = evaluateSplit(
     {
+      groupId,
       amountMinor: 0,
       splitDefinition: { components: [] }
     },
@@ -158,6 +165,7 @@ test('throws when participants are duplicated in REMAINDER', () => {
     () =>
       evaluateSplit(
         {
+          groupId,
           amountMinor: 100,
           splitDefinition: {
             components: [
@@ -170,6 +178,32 @@ test('throws when participants are duplicated in REMAINDER', () => {
           }
         },
         participants
+      ),
+    DomainError
+  );
+});
+
+test('throws when split participants contain another group', () => {
+  assert.throws(
+    () =>
+      evaluateSplit(
+        {
+          groupId,
+          amountMinor: 100,
+          splitDefinition: {
+            components: [{ type: 'REMAINDER', participants: [participantA], mode: 'EQUAL' }]
+          }
+        },
+        [
+          ...participants,
+          {
+            id: asParticipantId('out'),
+            groupId: asGroupId('g2'),
+            name: 'Out',
+            economicUnitId: asEconomicUnitId('u-out'),
+            consumptionCategory: 'FULL'
+          }
+        ]
       ),
     DomainError
   );

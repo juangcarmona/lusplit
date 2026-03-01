@@ -1,4 +1,5 @@
 import { EconomicUnit, Expense, Participant } from '../entities';
+import { assertGroupScoped } from '../entities/guards';
 import { DomainError } from '../errors/domain-error';
 import { ParticipantId } from '../ids';
 import { assertMinorUnits } from '../money';
@@ -11,6 +12,7 @@ export const calculateParticipantBalances = (
   const balances = new Map<ParticipantId, number>(participants.map((participant) => [participant.id, 0]));
 
   for (const expense of expenses) {
+    assertGroupScoped(expense, participants);
     assertMinorUnits(expense.amountMinor, 'expense.amountMinor');
 
     if (!balances.has(expense.paidByParticipantId)) {
@@ -42,6 +44,11 @@ export const aggregateBalancesByEconomicUnitOwner = (
   participants: Participant[],
   economicUnits: EconomicUnit[]
 ): Map<ParticipantId, number> => {
+  const scopedGroupId = participants[0]?.groupId ?? economicUnits[0]?.groupId;
+  if (scopedGroupId) {
+    assertGroupScoped({ groupId: scopedGroupId }, participants, economicUnits);
+  }
+
   const participantsById = new Map(participants.map((participant) => [participant.id, participant]));
   const ownerByUnit = new Map<EconomicUnit['id'], ParticipantId>();
   for (const economicUnit of economicUnits) {

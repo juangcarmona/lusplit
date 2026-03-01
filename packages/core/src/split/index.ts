@@ -1,4 +1,5 @@
 import { Participant } from '../entities';
+import { assertGroupScoped } from '../entities/guards';
 import { DomainError } from '../errors/domain-error';
 import { ParticipantId } from '../ids';
 import { assertMinorUnits } from '../money';
@@ -140,9 +141,10 @@ const assertUniqueParticipants = (participantIds: ParticipantId[]): void => {
 };
 
 export const evaluateSplit = (
-  expense: { amountMinor: number; splitDefinition: SplitDefinition },
+  expense: { groupId: Participant['groupId']; amountMinor: number; splitDefinition: SplitDefinition },
   participants: Participant[]
 ): Map<ParticipantId, number> => {
+  assertGroupScoped(expense, participants);
   assertMinorUnits(expense.amountMinor, 'expense.amountMinor');
 
   const participantMap = new Map<ParticipantId, Participant>(participants.map((participant) => [participant.id, participant]));

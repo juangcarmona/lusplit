@@ -63,6 +63,22 @@ test('calculates participant balances with zero-sum invariant', () => {
   assert.equal([...balances.values()].reduce((sum, value) => sum + value, 0), 0);
 });
 
+test('throws when expense group differs from participants group', () => {
+  assert.throws(
+    () =>
+      calculateParticipantBalances(
+        [
+          {
+            ...expenses[0],
+            groupId: asGroupId('other-group')
+          }
+        ],
+        participants
+      ),
+    DomainError
+  );
+});
+
 test('aggregates balances by economic unit owner', () => {
   const balances = new Map([
     [p1, 400],
@@ -81,6 +97,16 @@ test('throws when unit owner does not belong to its unit', () => {
     () =>
       aggregateBalancesByEconomicUnitOwner(new Map([[p1, 0]]), participants, [
         { id: asEconomicUnitId('u1'), groupId, ownerParticipantId: p2, name: 'Broken Unit' }
+      ]),
+    DomainError
+  );
+});
+
+test('throws when economic units and participants are from different groups', () => {
+  assert.throws(
+    () =>
+      aggregateBalancesByEconomicUnitOwner(new Map([[p1, 0]]), participants, [
+        { id: asEconomicUnitId('u1'), groupId: asGroupId('g2'), ownerParticipantId: p1, name: 'Wrong Group Unit' }
       ]),
     DomainError
   );
