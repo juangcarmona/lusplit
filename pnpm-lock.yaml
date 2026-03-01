@@ -34,6 +34,19 @@ importers:
         specifier: ^25.3.3
         version: 25.3.3
 
+  packages/infra-local:
+    dependencies:
+      '@lusplit/application':
+        specifier: workspace:*
+        version: link:../application
+      '@lusplit/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^25.3.3
+        version: 25.3.3
+
 packages:
 
   '@types/node@25.3.3':

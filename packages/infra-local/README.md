@@ -1,7 +1,8 @@
 # @lusplit/infra-local
 
-Local implementations:
+Local infrastructure adapters for LuSplit:
 
-- SQLite persistence
-- Export (JSON/CSV/PDF)
-- Platform filesystem/share adapters
+- SQLite repository implementations for `@lusplit/application` ports
+- Schema migration runner (v1)
+- Transaction helper for command boundaries
+- Deterministic JSON snapshot export/import
