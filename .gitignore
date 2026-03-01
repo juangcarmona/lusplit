@@ -94,3 +94,9 @@ ios/build/
 # Misc
 # =========================
 *.tgz
+
+# =========================
+# Optional: Ignore test coverage reports if you don't want to commit them
+# =========================
+coverage/
+.coverage/
