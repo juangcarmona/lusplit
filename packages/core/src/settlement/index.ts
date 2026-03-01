@@ -1,5 +1,6 @@
 import { ParticipantId } from '../ids';
 import { DomainError } from '../errors/domain-error';
+import { assertMinorUnits } from '../money';
 
 export interface SettlementTransfer {
   fromParticipantId: ParticipantId;
@@ -16,6 +17,10 @@ const sortByParticipantId = (left: Bucket, right: Bucket): number =>
   String(left.participantId).localeCompare(String(right.participantId));
 
 export const planSettlement = (balances: Map<ParticipantId, number>): SettlementTransfer[] => {
+  for (const [participantId, balance] of balances.entries()) {
+    assertMinorUnits(balance, `balance(${participantId})`);
+  }
+
   const sum = [...balances.values()].reduce((acc, value) => acc + value, 0);
   if (sum !== 0) {
     throw new DomainError(`Settlement invariant violated: sum=${sum}`);
