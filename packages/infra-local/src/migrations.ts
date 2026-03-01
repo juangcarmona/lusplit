@@ -1,6 +1,8 @@
 import { DatabaseSync } from 'node:sqlite';
 
 const MIGRATION_V1_SQL = [
+  // Child tables use (group_id, id) as the relational key for group-scoped foreign keys,
+  // and UNIQUE(id) to keep ids globally unique so application getById(id) remains unambiguous.
   `CREATE TABLE IF NOT EXISTS groups (
     id TEXT PRIMARY KEY,
     currency TEXT NOT NULL,

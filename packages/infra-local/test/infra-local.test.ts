@@ -596,6 +596,37 @@ test('sqlite import rejects wrong snapshot version and missing fields', async ()
 
   await assert.rejects(sqlite.importGroupSnapshot({ version: 2 }), /Unsupported snapshot version/);
   await assert.rejects(sqlite.importGroupSnapshot({ version: 1 }), /Missing snapshot field: group/);
+  await assert.rejects(
+    sqlite.importGroupSnapshot({ version: 1, group: { id: 'g1', currency: 'USD', closed: false } }),
+    /Missing snapshot field: participants/
+  );
+  await assert.rejects(
+    sqlite.importGroupSnapshot({
+      version: 1,
+      group: { id: 'g1', currency: 'USD', closed: false },
+      participants: []
+    }),
+    /Missing snapshot field: economicUnits/
+  );
+  await assert.rejects(
+    sqlite.importGroupSnapshot({
+      version: 1,
+      group: { id: 'g1', currency: 'USD', closed: false },
+      participants: [],
+      economicUnits: []
+    }),
+    /Missing snapshot field: expenses/
+  );
+  await assert.rejects(
+    sqlite.importGroupSnapshot({
+      version: 1,
+      group: { id: 'g1', currency: 'USD', closed: false },
+      participants: [],
+      economicUnits: [],
+      expenses: []
+    }),
+    /Missing snapshot field: transfers/
+  );
 
   sqlite.close();
 });
