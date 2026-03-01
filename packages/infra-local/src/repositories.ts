@@ -118,8 +118,15 @@ const assertExistingIdBelongsToGroup = (
   id: string,
   groupId: string
 ): void => {
+  const idOwnershipQueryByTable = {
+    participants: 'SELECT group_id FROM participants WHERE id = ?',
+    economic_units: 'SELECT group_id FROM economic_units WHERE id = ?',
+    expenses: 'SELECT group_id FROM expenses WHERE id = ?',
+    transfers: 'SELECT group_id FROM transfers WHERE id = ?'
+  } as const;
+
   const existing = db
-    .prepare(`SELECT group_id FROM ${table} WHERE id = ?`)
+    .prepare(idOwnershipQueryByTable[table])
     .get(id) as { group_id: string } | undefined;
 
   if (existing && existing.group_id !== groupId) {
