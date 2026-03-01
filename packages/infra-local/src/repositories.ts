@@ -112,6 +112,21 @@ const mapTransfer = (row: TransferRow): Transfer => ({
   note: row.note ?? undefined
 });
 
+const assertExistingIdBelongsToGroup = (
+  db: DatabaseSync,
+  table: 'participants' | 'economic_units' | 'expenses' | 'transfers',
+  id: string,
+  groupId: string
+): void => {
+  const existing = db
+    .prepare(`SELECT group_id FROM ${table} WHERE id = ?`)
+    .get(id) as { group_id: string } | undefined;
+
+  if (existing && existing.group_id !== groupId) {
+    throw new Error(`Cannot reuse ${table} id in another group: ${id}`);
+  }
+};
+
 export class GroupRepositorySqlite implements GroupRepository {
   constructor(
     private readonly db: DatabaseSync,
@@ -174,12 +189,14 @@ export class ParticipantRepositorySqlite implements ParticipantRepository {
 
   async save(participant: Participant): Promise<void> {
     await this.transactionRunner.runInTransaction(async () => {
+      assertExistingIdBelongsToGroup(this.db, 'participants', String(participant.id), String(participant.groupId));
+
       this.db
         .prepare(
            `INSERT INTO participants (
-              id, group_id, economic_unit_id, name, consumption_category, custom_consumption_weight
+              group_id, id, economic_unit_id, name, consumption_category, custom_consumption_weight
             ) VALUES (?, ?, ?, ?, ?, ?)
-            ON CONFLICT(group_id, id) DO UPDATE SET
+            ON CONFLICT(id) DO UPDATE SET
               group_id = excluded.group_id,
               economic_unit_id = excluded.economic_unit_id,
               name = excluded.name,
@@ -187,8 +204,8 @@ export class ParticipantRepositorySqlite implements ParticipantRepository {
               custom_consumption_weight = excluded.custom_consumption_weight`
         )
         .run(
-          String(participant.id),
           String(participant.groupId),
+          String(participant.id),
           String(participant.economicUnitId),
           participant.name,
           participant.consumptionCategory,
@@ -227,18 +244,20 @@ export class EconomicUnitRepositorySqlite implements EconomicUnitRepository {
 
   async save(economicUnit: EconomicUnit): Promise<void> {
     await this.transactionRunner.runInTransaction(async () => {
+      assertExistingIdBelongsToGroup(this.db, 'economic_units', String(economicUnit.id), String(economicUnit.groupId));
+
       this.db
         .prepare(
-           `INSERT INTO economic_units (id, group_id, owner_participant_id, name)
+           `INSERT INTO economic_units (group_id, id, owner_participant_id, name)
             VALUES (?, ?, ?, ?)
-            ON CONFLICT(group_id, id) DO UPDATE SET
+            ON CONFLICT(id) DO UPDATE SET
               group_id = excluded.group_id,
               owner_participant_id = excluded.owner_participant_id,
               name = excluded.name`
         )
         .run(
-          String(economicUnit.id),
           String(economicUnit.groupId),
+          String(economicUnit.id),
           String(economicUnit.ownerParticipantId),
           economicUnit.name ?? null
         );
@@ -279,12 +298,14 @@ export class ExpenseRepositorySqlite implements ExpenseRepository {
 
   async save(expense: Expense): Promise<void> {
     await this.transactionRunner.runInTransaction(async () => {
+      assertExistingIdBelongsToGroup(this.db, 'expenses', String(expense.id), String(expense.groupId));
+
       this.db
         .prepare(
            `INSERT INTO expenses (
-              id, group_id, title, paid_by_participant_id, amount_minor, date, split_definition_json, notes
+              group_id, id, title, paid_by_participant_id, amount_minor, date, split_definition_json, notes
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(group_id, id) DO UPDATE SET
+            ON CONFLICT(id) DO UPDATE SET
               group_id = excluded.group_id,
               title = excluded.title,
               paid_by_participant_id = excluded.paid_by_participant_id,
@@ -294,8 +315,8 @@ export class ExpenseRepositorySqlite implements ExpenseRepository {
              notes = excluded.notes`
         )
         .run(
-          String(expense.id),
           String(expense.groupId),
+          String(expense.id),
           expense.title,
           String(expense.paidByParticipantId),
           expense.amountMinor,
@@ -334,12 +355,14 @@ export class TransferRepositorySqlite implements TransferRepository {
 
   async save(transfer: Transfer): Promise<void> {
     await this.transactionRunner.runInTransaction(async () => {
+      assertExistingIdBelongsToGroup(this.db, 'transfers', String(transfer.id), String(transfer.groupId));
+
       this.db
         .prepare(
            `INSERT INTO transfers (
-              id, group_id, from_participant_id, to_participant_id, amount_minor, date, type, note
+              group_id, id, from_participant_id, to_participant_id, amount_minor, date, type, note
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(group_id, id) DO UPDATE SET
+            ON CONFLICT(id) DO UPDATE SET
               group_id = excluded.group_id,
               from_participant_id = excluded.from_participant_id,
               to_participant_id = excluded.to_participant_id,
@@ -349,8 +372,8 @@ export class TransferRepositorySqlite implements TransferRepository {
              note = excluded.note`
         )
         .run(
-          String(transfer.id),
           String(transfer.groupId),
+          String(transfer.id),
           String(transfer.fromParticipantId),
           String(transfer.toParticipantId),
           transfer.amountMinor,
