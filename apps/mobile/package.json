@@ -1,0 +1,33 @@
+{
+  "name": "@lusplit/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "build": "echo 'Use Expo EAS build for production artifacts'",
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'No tests configured for @lusplit/mobile yet'",
+    "test:coverage": "echo 'No coverage configured for @lusplit/mobile yet'",
+    "lint": "echo 'No lint configured for @lusplit/mobile yet'"
+  },
+  "dependencies": {
+    "@lusplit/application": "workspace:*",
+    "@lusplit/infra-mobile": "workspace:*",
+    "@react-navigation/native": "^7.1.14",
+    "@react-navigation/native-stack": "^7.3.21",
+    "@reduxjs/toolkit": "^2.9.0",
+    "expo": "^53.0.0",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-redux": "^9.2.0",
+    "react-native": "0.79.5",
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-screens": "^4.10.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "typescript": "^5.4.0"
+  }
+}
