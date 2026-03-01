@@ -1,0 +1,8 @@
+{
+	"testing.defaultGutterClickAction": "run",
+	"testing.automaticallyOpenPeekView": "never",
+	"testing.coverageToolbarEnabled": true,
+	"testing.showCoverageInExplorer": true,
+	"testing.gutterEnabled": true,
+	"testing.followRunningTest": false
+}
