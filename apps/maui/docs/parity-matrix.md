@@ -8,7 +8,9 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 |---|---|---|
 | `packages/core/README.md` | Money uses integer minor units only. | `apps/maui/tests/LuSplit.Domain.Tests/FoundationParityTests.cs` `RejectsFractionalMinorUnits` |
 | `packages/core/test/split/evaluate-split.test.ts` | Deterministic remainder allocation by ordering assumptions. | `apps/maui/tests/LuSplit.Domain.Tests/FoundationParityTests.cs` `EqualSplitUsesDeterministicLexicalOrderingForRemainder` |
-| `packages/core/test/split/evaluate-split.test.ts` | Split output must consume full amount. | `apps/maui/tests/LuSplit.Domain.Tests/FoundationParityTests.cs` `EqualSplitIsZeroSumToExpenseAmount` |
+| `packages/core/test/split/evaluate-split.test.ts` | FIXED + REMAINDER sequencing, EQUAL/WEIGHT/PERCENT modes, duplicate/group guards. | `apps/maui/tests/LuSplit.Domain.Tests/SplitParityTests.cs` |
+| `packages/core/test/balance/calculate-balances.test.ts` | Participant balance zero-sum and economic-unit-owner aggregation guards. | `apps/maui/tests/LuSplit.Domain.Tests/BalanceParityTests.cs` |
+| `packages/core/test/settlement/plan-settlement.test.ts` | Deterministic settlement transfer plan with zero-sum validation. | `apps/maui/tests/LuSplit.Domain.Tests/SettlementParityTests.cs` |
 
 ## Application boundary constraints
 
@@ -30,7 +32,7 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 
 ## Next parity expansions (Milestone 2)
 
-- Port split modes: FIXED, REMAINDER/EQUAL, REMAINDER/WEIGHT, REMAINDER/PERCENT.
-- Port participant/economic-unit guards from `packages/core/src/entities`.
-- Port balance and settlement algorithms and their full test scenarios.
-- Add deterministic collection-order tests matching current TypeScript case-by-case behavior.
+- Add TS parity for explicit custom weight edge cases (`CUSTOM` category + precision constraints).
+- Add additional tie-breaker/ordering cases for weighted and percent remainder allocation.
+- Add negative/boundary invariant cases for split components (e.g., fixed exceeds remainder).
+- Extend parity coverage from core domain into application use-case flows in Milestone 2 continuation.

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using LuSplit.Domain.Entities;
 using LuSplit.Domain.Errors;
 using LuSplit.Domain.Money;
 using LuSplit.Domain.Split;
@@ -17,7 +18,24 @@ public sealed class FoundationParityTests
     [Fact]
     public void EqualSplitUsesDeterministicLexicalOrderingForRemainder()
     {
-        var result = DeterministicEqualSplit.Evaluate(new[] { "c", "a", "b" }, MoneyAmount.FromMinorUnits(10));
+        var result = SplitEvaluator.EvaluateSplit(
+            new Expense(
+                "e1",
+                "g1",
+                "Test",
+                "a",
+                10,
+                "2026-01-01",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { "c", "a", "b" }, RemainderMode.Equal)
+                })),
+            new[]
+            {
+                new Participant("a", "g1", "u1", "A", ConsumptionCategory.Full),
+                new Participant("b", "g1", "u2", "B", ConsumptionCategory.Full),
+                new Participant("c", "g1", "u3", "C", ConsumptionCategory.Full)
+            });
 
         Assert.Equal(4, result["a"]);
         Assert.Equal(3, result["b"]);
@@ -27,10 +45,26 @@ public sealed class FoundationParityTests
     [Fact]
     public void EqualSplitIsZeroSumToExpenseAmount()
     {
-        var amount = MoneyAmount.FromMinorUnits(101);
-        var result = DeterministicEqualSplit.Evaluate(new[] { "u2", "u1" }, amount);
+        var amountMinor = 101L;
+        var result = SplitEvaluator.EvaluateSplit(
+            new Expense(
+                "e1",
+                "g1",
+                "Test",
+                "u1",
+                amountMinor,
+                "2026-01-01",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { "u2", "u1" }, RemainderMode.Equal)
+                })),
+            new[]
+            {
+                new Participant("u1", "g1", "u1", "U1", ConsumptionCategory.Full),
+                new Participant("u2", "g1", "u2", "U2", ConsumptionCategory.Full)
+            });
 
-        Assert.Equal(amount.MinorUnits, result.Values.Sum());
+        Assert.Equal(amountMinor, result.Values.Sum());
     }
 
     [Fact]
