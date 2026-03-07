@@ -51,10 +51,63 @@ public sealed class CreateParticipantUseCaseTests
 
         var useCase = new CreateParticipantUseCase(repos, repos, repos, new SequentialIdGenerator());
 
-        await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
             GroupId: "g1",
             EconomicUnitId: "u1",
             Name: "Alice",
             ConsumptionCategory: ConsumptionCategory.Custom)));
+
+        Assert.Equal("customConsumptionWeight is required for CUSTOM consumptionCategory", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresName()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.EconomicUnits.Add(new EconomicUnit("u1", "g1", "p1"));
+
+        var useCase = new CreateParticipantUseCase(repos, repos, repos, new SequentialIdGenerator());
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
+            GroupId: "g1",
+            EconomicUnitId: "u1",
+            Name: "  ",
+            ConsumptionCategory: ConsumptionCategory.Full)));
+
+        Assert.Equal("name is required", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncErrorsWhenEconomicUnitIsOutsideGroup()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.EconomicUnits.Add(new EconomicUnit("u1", "g2", "p1"));
+
+        var useCase = new CreateParticipantUseCase(repos, repos, repos, new SequentialIdGenerator());
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
+            GroupId: "g1",
+            EconomicUnitId: "u1",
+            Name: "Alice",
+            ConsumptionCategory: ConsumptionCategory.Full)));
+
+        Assert.Equal("Economic unit is not in group g1", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncErrorsWhenGroupDoesNotExist()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new CreateParticipantUseCase(repos, repos, repos, new SequentialIdGenerator());
+
+        var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
+            GroupId: "missing",
+            EconomicUnitId: "u1",
+            Name: "Alice",
+            ConsumptionCategory: ConsumptionCategory.Full)));
+
+        Assert.Equal("Group not found: missing", error.Message);
     }
 }

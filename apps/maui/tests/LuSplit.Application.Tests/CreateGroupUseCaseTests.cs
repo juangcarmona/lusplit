@@ -25,6 +25,8 @@ public sealed class CreateGroupUseCaseTests
         var repos = new InMemoryQueryRepositories();
         var useCase = new CreateGroupUseCase(repos, new SequentialIdGenerator());
 
-        await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateGroupInput(string.Empty)));
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateGroupInput(string.Empty)));
+
+        Assert.Equal("currency is required", error.Message);
     }
 }
