@@ -58,6 +58,19 @@ public sealed class GetSettlementPlanUseCaseTests
         var repos = new InMemoryQueryRepositories();
         var useCase = new GetSettlementPlanUseCase(repos, repos, repos, repos);
 
-        await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing", SettlementMode.Participant));
+        var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing", SettlementMode.Participant));
+
+        Assert.Equal("Group not found: missing", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresGroupId()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new GetSettlementPlanUseCase(repos, repos, repos, repos);
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync("", SettlementMode.Participant));
+
+        Assert.Equal("groupId is required", error.Message);
     }
 }

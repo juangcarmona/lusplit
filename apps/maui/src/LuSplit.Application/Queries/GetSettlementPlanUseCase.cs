@@ -32,7 +32,7 @@ public sealed class GetSettlementPlanUseCase
     {
         if (string.IsNullOrWhiteSpace(groupId))
         {
-            throw new ArgumentException("groupId is required", nameof(groupId));
+            throw new ValidationError("groupId is required");
         }
 
         var group = await _groupRepository.GetByIdAsync(groupId, cancellationToken);

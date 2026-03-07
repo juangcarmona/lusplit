@@ -1,3 +1,4 @@
+using LuSplit.Application.Errors;
 using LuSplit.Application.Models;
 using LuSplit.Application.Queries;
 using LuSplit.Application.Tests.Fakes;
@@ -56,5 +57,27 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCaseTests
         var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
 
         await Assert.ThrowsAsync<DomainInvariantException>(() => useCase.ExecuteAsync("g1"));
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncErrorsForInvalidGroup()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+
+        var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing"));
+
+        Assert.Equal("Group not found: missing", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresGroupId()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync("   "));
+
+        Assert.Equal("groupId is required", error.Message);
     }
 }

@@ -47,7 +47,20 @@ public sealed class GetBalancesByParticipantUseCaseTests
         var repos = new InMemoryQueryRepositories();
         var useCase = new GetBalancesByParticipantUseCase(repos, repos, repos);
 
-        await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing"));
+        var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing"));
+
+        Assert.Equal("Group not found: missing", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresGroupId()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new GetBalancesByParticipantUseCase(repos, repos, repos);
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync("  "));
+
+        Assert.Equal("groupId is required", error.Message);
     }
 
     private static void SeedGroup(InMemoryQueryRepositories repos, string id)
