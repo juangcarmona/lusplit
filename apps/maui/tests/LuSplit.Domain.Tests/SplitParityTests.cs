@@ -166,6 +166,123 @@ public sealed class SplitParityTests
                 extendedParticipants));
     }
 
+    [Fact]
+    public void ThrowsWhenFixedSharesExceedRemainingAmount()
+    {
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    100,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new FixedSplitComponent(new Dictionary<string, long>
+                        {
+                            [ParticipantA] = 101
+                        })
+                    })),
+                Participants));
+    }
+
+    [Fact]
+    public void ThrowsWhenPercentSumIsNotExactlyHundred()
+    {
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    100,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new RemainderSplitComponent(
+                            new[] { ParticipantA, ParticipantB },
+                            RemainderMode.Percent,
+                            Percents: new Dictionary<string, int>
+                            {
+                                [ParticipantA] = 70,
+                                [ParticipantB] = 20
+                            })
+                    })),
+                Participants));
+    }
+
+    [Fact]
+    public void ThrowsWhenPercentModeIsMissingPercentMap()
+    {
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    100,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new RemainderSplitComponent(new[] { ParticipantA, ParticipantB }, RemainderMode.Percent)
+                    })),
+                Participants));
+    }
+
+    [Fact]
+    public void ThrowsWhenCustomWeightPrecisionExceedsSixDecimals()
+    {
+        var customParticipants = new[]
+        {
+            new Participant(ParticipantA, GroupId, "u1", "A", ConsumptionCategory.Custom, "1.1234567"),
+            new Participant(ParticipantB, GroupId, "u2", "B", ConsumptionCategory.Full)
+        };
+
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    10,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new RemainderSplitComponent(new[] { ParticipantA, ParticipantB }, RemainderMode.Weight)
+                    })),
+                customParticipants));
+    }
+
+    [Fact]
+    public void UsesDeterministicTieBreakerForEqualRemaindersInWeightMode()
+    {
+        var participants = new[]
+        {
+            new Participant(ParticipantA, GroupId, "u1", "A", ConsumptionCategory.Custom, "1"),
+            new Participant(ParticipantB, GroupId, "u2", "B", ConsumptionCategory.Custom, "1")
+        };
+
+        var shares = SplitEvaluator.EvaluateSplit(
+            BuildExpense(
+                1,
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { ParticipantB, ParticipantA }, RemainderMode.Weight)
+                })),
+            participants);
+
+        Assert.Equal(1, shares[ParticipantA]);
+        Assert.Equal(0, shares[ParticipantB]);
+    }
+
+    [Fact]
+    public void UsesDeterministicTieBreakerForEqualRemaindersInPercentMode()
+    {
+        var shares = SplitEvaluator.EvaluateSplit(
+            BuildExpense(
+                1,
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(
+                        new[] { ParticipantB, ParticipantA },
+                        RemainderMode.Percent,
+                        Percents: new Dictionary<string, int>
+                        {
+                            [ParticipantA] = 50,
+                            [ParticipantB] = 50
+                        })
+                })),
+            Participants);
+
+        Assert.Equal(1, shares[ParticipantA]);
+        Assert.Equal(0, shares[ParticipantB]);
+    }
+
     private static Expense BuildExpense(long amountMinor, SplitDefinition splitDefinition)
         => BuildExpense(GroupId, amountMinor, splitDefinition);
 

@@ -7,6 +7,8 @@ public enum ConsumptionCategory
     Custom
 }
 
+public sealed record Group(string Id, string Currency, bool Closed);
+
 public sealed record Participant(
     string Id,
     string GroupId,

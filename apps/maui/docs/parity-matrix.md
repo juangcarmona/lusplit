@@ -9,6 +9,7 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 | `packages/core/README.md` | Money uses integer minor units only. | `apps/maui/tests/LuSplit.Domain.Tests/FoundationParityTests.cs` `RejectsFractionalMinorUnits` |
 | `packages/core/test/split/evaluate-split.test.ts` | Deterministic remainder allocation by ordering assumptions. | `apps/maui/tests/LuSplit.Domain.Tests/FoundationParityTests.cs` `EqualSplitUsesDeterministicLexicalOrderingForRemainder` |
 | `packages/core/test/split/evaluate-split.test.ts` | FIXED + REMAINDER sequencing, EQUAL/WEIGHT/PERCENT modes, duplicate/group guards. | `apps/maui/tests/LuSplit.Domain.Tests/SplitParityTests.cs` |
+| `packages/core/src/split/index.ts` | Edge constraints: fixed overflow rejection, invalid percent handling, deterministic tie-breakers, custom-weight precision (<= 6 decimals). | `apps/maui/tests/LuSplit.Domain.Tests/SplitParityTests.cs` |
 | `packages/core/test/balance/calculate-balances.test.ts` | Participant balance zero-sum and economic-unit-owner aggregation guards. | `apps/maui/tests/LuSplit.Domain.Tests/BalanceParityTests.cs` |
 | `packages/core/test/settlement/plan-settlement.test.ts` | Deterministic settlement transfer plan with zero-sum validation. | `apps/maui/tests/LuSplit.Domain.Tests/SettlementParityTests.cs` |
 
@@ -18,6 +19,9 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 |---|---|---|
 | `packages/application/src/usecases/**` | Commands validate required IDs and payload constraints. | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseCommandTests.cs` `CreateRejectsMissingGroupId` |
 | `docs/ARCHITECTURE.md` | No floating money semantics in app flow. | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseCommandTests.cs` `CreateRejectsFractionalMinorUnits` |
+| `packages/application/test/unit/get-balances-by-participant.usecase.test.ts` | Query returns sorted participant balances and fails for missing group. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByParticipantUseCaseTests.cs` |
+| `packages/application/test/unit/get-balances-by-economic-unit-owner.usecase.test.ts` | Query aggregates balances by owner and validates owner/unit consistency. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByEconomicUnitOwnerUseCaseTests.cs` |
+| `packages/application/test/unit/get-settlement-plan.usecase.test.ts` | Query returns deterministic settlement plan in participant and owner modes; missing group yields not-found error. | `apps/maui/tests/LuSplit.Application.Tests/GetSettlementPlanUseCaseTests.cs` |
 
 ## Infrastructure contract constraints
 
@@ -32,7 +36,7 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 
 ## Next parity expansions (Milestone 2)
 
-- Add TS parity for explicit custom weight edge cases (`CUSTOM` category + precision constraints).
-- Add additional tie-breaker/ordering cases for weighted and percent remainder allocation.
-- Add negative/boundary invariant cases for split components (e.g., fixed exceeds remainder).
-- Extend parity coverage from core domain into application use-case flows in Milestone 2 continuation.
+- Port additional split edge cases from TS that use explicit `weights` maps in `REMAINDER/WEIGHT` mode.
+- Add parity tests for application query sorting/stability across larger datasets and multi-expense fixtures.
+- Start command use-case parity port (`add-expense`, `edit-expense`, `delete-expense`) against the same domain algorithms.
+- Expand application-level error parity (`ValidationError` semantics) to match TS behavior names and messages.
