@@ -22,6 +22,7 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 | `packages/application/test/unit/get-balances-by-participant.usecase.test.ts` | Query returns sorted participant balances and fails for missing group. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByParticipantUseCaseTests.cs` |
 | `packages/application/test/unit/get-balances-by-economic-unit-owner.usecase.test.ts` | Query aggregates balances by owner and validates owner/unit consistency. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByEconomicUnitOwnerUseCaseTests.cs` |
 | `packages/application/test/unit/get-settlement-plan.usecase.test.ts` | Query returns deterministic settlement plan in participant and owner modes; missing group yields not-found error. | `apps/maui/tests/LuSplit.Application.Tests/GetSettlementPlanUseCaseTests.cs` |
+| `packages/application/test/unit/get-expenses.usecase.test.ts` | Query returns mapped group expenses and errors for missing group. | `apps/maui/tests/LuSplit.Application.Tests/GetExpensesUseCaseTests.cs` |
 | `packages/application/test/unit/add-expense.usecase.test.ts` | Command stores expense with provided split definition and validates payer membership. | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseUseCaseTests.cs` |
 | `packages/application/test/unit/edit-expense.usecase.test.ts` | Command updates expense fields, revalidates split, and errors for unknown expense. | `apps/maui/tests/LuSplit.Application.Tests/EditExpenseUseCaseTests.cs` |
 | `packages/application/test/unit/delete-expense.usecase.test.ts` | Command deletes existing expense and errors for missing expense. | `apps/maui/tests/LuSplit.Application.Tests/DeleteExpenseUseCaseTests.cs` |
@@ -47,7 +48,6 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 
 - Port additional split edge cases from TS that use explicit `weights` maps in `REMAINDER/WEIGHT` mode.
 - Add parity tests for application query sorting/stability across larger datasets and multi-expense fixtures.
-- Port `packages/application/test/unit/get-expenses.usecase.test.ts` parity into `apps/maui/tests/LuSplit.Application.Tests`.
 - Port `packages/application/test/unit/get-group-overview.usecase.test.ts` parity into `apps/maui/tests/LuSplit.Application.Tests`.
 - Port remaining command parity only if new TS command scenarios are introduced beyond the current mirrored set.
 - Continue tightening error-message parity for any future command/query tests still missing explicit message assertions.
