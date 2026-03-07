@@ -3,12 +3,22 @@
     x:Class="LuSplit.App.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LuSplit.App"
-    Title="LuSplit.App">
+    xmlns:pages="clr-namespace:LuSplit.App.Pages"
+    Title="LuSplit">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate pages:HomePage}"
+            Route="home" />
+        <ShellContent
+            Title="Add"
+            ContentTemplate="{DataTemplate pages:AddExpensePage}"
+            Route="add-expense" />
+        <ShellContent
+            Title="Settle"
+            ContentTemplate="{DataTemplate pages:SettlementPage}"
+            Route="settle" />
+    </TabBar>
 
 </Shell>
