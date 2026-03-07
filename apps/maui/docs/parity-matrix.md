@@ -22,6 +22,9 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 | `packages/application/test/unit/get-balances-by-participant.usecase.test.ts` | Query returns sorted participant balances and fails for missing group. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByParticipantUseCaseTests.cs` |
 | `packages/application/test/unit/get-balances-by-economic-unit-owner.usecase.test.ts` | Query aggregates balances by owner and validates owner/unit consistency. | `apps/maui/tests/LuSplit.Application.Tests/GetBalancesByEconomicUnitOwnerUseCaseTests.cs` |
 | `packages/application/test/unit/get-settlement-plan.usecase.test.ts` | Query returns deterministic settlement plan in participant and owner modes; missing group yields not-found error. | `apps/maui/tests/LuSplit.Application.Tests/GetSettlementPlanUseCaseTests.cs` |
+| `packages/application/test/unit/add-expense.usecase.test.ts` | Command stores expense with provided split definition and validates payer membership. | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseUseCaseTests.cs` |
+| `packages/application/test/unit/edit-expense.usecase.test.ts` | Command updates expense fields, revalidates split, and errors for unknown expense. | `apps/maui/tests/LuSplit.Application.Tests/EditExpenseUseCaseTests.cs` |
+| `packages/application/test/unit/delete-expense.usecase.test.ts` | Command deletes existing expense and errors for missing expense. | `apps/maui/tests/LuSplit.Application.Tests/DeleteExpenseUseCaseTests.cs` |
 
 ## Infrastructure contract constraints
 
@@ -38,5 +41,5 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 
 - Port additional split edge cases from TS that use explicit `weights` maps in `REMAINDER/WEIGHT` mode.
 - Add parity tests for application query sorting/stability across larger datasets and multi-expense fixtures.
-- Start command use-case parity port (`add-expense`, `edit-expense`, `delete-expense`) against the same domain algorithms.
-- Expand application-level error parity (`ValidationError` semantics) to match TS behavior names and messages.
+- Expand command parity into `create-group`, `create-participant`, `create-economic-unit`, and transfer commands.
+- Tighten application-level error-message parity (`ValidationError`/`NotFoundError`) where exact text compatibility is desired.

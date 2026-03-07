@@ -49,4 +49,34 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
 
         return Task.FromResult(expenses);
     }
+
+    public Task<Expense?> GetExpenseByIdAsync(string expenseId, CancellationToken cancellationToken)
+    {
+        var expense = Expenses.FirstOrDefault(candidate => string.Equals(candidate.Id, expenseId, StringComparison.Ordinal));
+        return Task.FromResult(expense);
+    }
+
+    public Task SaveAsync(Expense expense, CancellationToken cancellationToken)
+    {
+        var existingIndex = Expenses.FindIndex(candidate => string.Equals(candidate.Id, expense.Id, StringComparison.Ordinal));
+        if (existingIndex >= 0)
+        {
+            Expenses[existingIndex] = expense;
+        }
+        else
+        {
+            Expenses.Add(expense);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(string groupId, string expenseId, CancellationToken cancellationToken)
+    {
+        Expenses.RemoveAll(candidate =>
+            string.Equals(candidate.GroupId, groupId, StringComparison.Ordinal)
+            && string.Equals(candidate.Id, expenseId, StringComparison.Ordinal));
+
+        return Task.CompletedTask;
+    }
 }
