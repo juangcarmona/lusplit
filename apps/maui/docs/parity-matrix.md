@@ -25,6 +25,12 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 | `packages/application/test/unit/add-expense.usecase.test.ts` | Command stores expense with provided split definition and validates payer membership. | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseUseCaseTests.cs` |
 | `packages/application/test/unit/edit-expense.usecase.test.ts` | Command updates expense fields, revalidates split, and errors for unknown expense. | `apps/maui/tests/LuSplit.Application.Tests/EditExpenseUseCaseTests.cs` |
 | `packages/application/test/unit/delete-expense.usecase.test.ts` | Command deletes existing expense and errors for missing expense. | `apps/maui/tests/LuSplit.Application.Tests/DeleteExpenseUseCaseTests.cs` |
+| `packages/application/test/unit/create-group.usecase.test.ts` | Command creates open group and validates currency input. | `apps/maui/tests/LuSplit.Application.Tests/CreateGroupUseCaseTests.cs` |
+| `packages/application/test/unit/create-participant.usecase.test.ts` | Command validates CUSTOM weight, aligns first participant id with economic-unit owner, then generates unique IDs. | `apps/maui/tests/LuSplit.Application.Tests/CreateParticipantUseCaseTests.cs` |
+| `packages/application/test/unit/create-economic-unit.usecase.test.ts` | Command creates unit in open group and rejects closed groups. | `apps/maui/tests/LuSplit.Application.Tests/CreateEconomicUnitUseCaseTests.cs` |
+| `packages/application/test/unit/add-manual-transfer.usecase.test.ts` | Command stores MANUAL transfer and validates distinct participants in group. | `apps/maui/tests/LuSplit.Application.Tests/AddManualTransferUseCaseTests.cs` |
+| `packages/application/test/unit/close-group.usecase.test.ts` | Command closes an existing group and errors for missing group. | `apps/maui/tests/LuSplit.Application.Tests/CloseGroupUseCaseTests.cs` |
+| `packages/application/src/usecases/common.ts` | Validation and not-found messages use lower-camel field names (for example, `groupId is required`). | `apps/maui/tests/LuSplit.Application.Tests/AddExpenseUseCaseTests.cs`, `apps/maui/tests/LuSplit.Application.Tests/EditExpenseUseCaseTests.cs`, `apps/maui/tests/LuSplit.Application.Tests/DeleteExpenseUseCaseTests.cs`, `apps/maui/tests/LuSplit.Application.Tests/CloseGroupUseCaseTests.cs` |
 
 ## Infrastructure contract constraints
 
@@ -41,5 +47,5 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 
 - Port additional split edge cases from TS that use explicit `weights` maps in `REMAINDER/WEIGHT` mode.
 - Add parity tests for application query sorting/stability across larger datasets and multi-expense fixtures.
-- Expand command parity into `create-group`, `create-participant`, `create-economic-unit`, and transfer commands.
-- Tighten application-level error-message parity (`ValidationError`/`NotFoundError`) where exact text compatibility is desired.
+- Port remaining command parity not yet covered beyond `add/edit/delete/close-group` (if new TS command tests are added).
+- Continue tightening error-message parity for any command/query tests still missing explicit message assertions.

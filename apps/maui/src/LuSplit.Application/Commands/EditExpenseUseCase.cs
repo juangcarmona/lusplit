@@ -24,8 +24,8 @@ public sealed class EditExpenseUseCase
 
     public async Task<ExpenseModel> ExecuteAsync(EditExpenseInput input, CancellationToken cancellationToken = default)
     {
-        AssertNonEmpty(input.GroupId, nameof(input.GroupId));
-        AssertNonEmpty(input.ExpenseId, nameof(input.ExpenseId));
+        AssertNonEmpty(input.GroupId, "groupId");
+        AssertNonEmpty(input.ExpenseId, "expenseId");
 
         var group = await _groupRepository.GetByIdAsync(input.GroupId, cancellationToken);
         if (group is null)

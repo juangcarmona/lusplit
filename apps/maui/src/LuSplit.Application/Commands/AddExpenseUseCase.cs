@@ -30,9 +30,9 @@ public sealed class AddExpenseUseCase
 
     public async Task<ExpenseModel> ExecuteAsync(AddExpenseInput input, CancellationToken cancellationToken = default)
     {
-        AssertNonEmpty(input.GroupId, nameof(input.GroupId));
-        AssertNonEmpty(input.Title, nameof(input.Title));
-        AssertNonEmpty(input.PaidByParticipantId, nameof(input.PaidByParticipantId));
+        AssertNonEmpty(input.GroupId, "groupId");
+        AssertNonEmpty(input.Title, "title");
+        AssertNonEmpty(input.PaidByParticipantId, "paidByParticipantId");
 
         if (input.AmountMinor <= 0)
         {

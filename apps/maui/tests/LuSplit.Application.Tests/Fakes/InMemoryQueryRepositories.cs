@@ -4,7 +4,7 @@ using LuSplit.Domain.Entities;
 
 namespace LuSplit.Application.Tests.Fakes;
 
-internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipantRepository, IEconomicUnitRepository, IExpenseRepository
+internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipantRepository, IEconomicUnitRepository, IExpenseRepository, ITransferRepository
 {
     public List<Group> Groups { get; } = new();
 
@@ -14,10 +14,27 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
 
     public List<Expense> Expenses { get; } = new();
 
+    public List<Transfer> Transfers { get; } = new();
+
     public Task<Group?> GetByIdAsync(string groupId, CancellationToken cancellationToken)
     {
         var group = Groups.FirstOrDefault(candidate => string.Equals(candidate.Id, groupId, StringComparison.Ordinal));
         return Task.FromResult(group);
+    }
+
+    public Task SaveGroupAsync(Group group, CancellationToken cancellationToken)
+    {
+        var existingIndex = Groups.FindIndex(candidate => string.Equals(candidate.Id, group.Id, StringComparison.Ordinal));
+        if (existingIndex >= 0)
+        {
+            Groups[existingIndex] = group;
+        }
+        else
+        {
+            Groups.Add(group);
+        }
+
+        return Task.CompletedTask;
     }
 
     public Task<IReadOnlyList<Participant>> ListParticipantsByGroupIdAsync(string groupId, CancellationToken cancellationToken)
@@ -29,6 +46,21 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
         return Task.FromResult(participants);
     }
 
+    public Task SaveParticipantAsync(Participant participant, CancellationToken cancellationToken)
+    {
+        var existingIndex = Participants.FindIndex(candidate => string.Equals(candidate.Id, participant.Id, StringComparison.Ordinal));
+        if (existingIndex >= 0)
+        {
+            Participants[existingIndex] = participant;
+        }
+        else
+        {
+            Participants.Add(participant);
+        }
+
+        return Task.CompletedTask;
+    }
+
     public Task<IReadOnlyList<EconomicUnit>> ListEconomicUnitsByGroupIdAsync(string groupId, CancellationToken cancellationToken)
     {
         IReadOnlyList<EconomicUnit> economicUnits = EconomicUnits
@@ -36,6 +68,27 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
             .ToArray();
 
         return Task.FromResult(economicUnits);
+    }
+
+    public Task<EconomicUnit?> GetEconomicUnitByIdAsync(string economicUnitId, CancellationToken cancellationToken)
+    {
+        var economicUnit = EconomicUnits.FirstOrDefault(candidate => string.Equals(candidate.Id, economicUnitId, StringComparison.Ordinal));
+        return Task.FromResult(economicUnit);
+    }
+
+    public Task SaveEconomicUnitAsync(EconomicUnit economicUnit, CancellationToken cancellationToken)
+    {
+        var existingIndex = EconomicUnits.FindIndex(candidate => string.Equals(candidate.Id, economicUnit.Id, StringComparison.Ordinal));
+        if (existingIndex >= 0)
+        {
+            EconomicUnits[existingIndex] = economicUnit;
+        }
+        else
+        {
+            EconomicUnits.Add(economicUnit);
+        }
+
+        return Task.CompletedTask;
     }
 
     public Task AddAsync(AddExpenseCommand command, CancellationToken cancellationToken)
@@ -76,6 +129,30 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
         Expenses.RemoveAll(candidate =>
             string.Equals(candidate.GroupId, groupId, StringComparison.Ordinal)
             && string.Equals(candidate.Id, expenseId, StringComparison.Ordinal));
+
+        return Task.CompletedTask;
+    }
+
+    public Task<IReadOnlyList<Transfer>> ListTransfersByGroupIdAsync(string groupId, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<Transfer> transfers = Transfers
+            .Where(candidate => string.Equals(candidate.GroupId, groupId, StringComparison.Ordinal))
+            .ToArray();
+
+        return Task.FromResult(transfers);
+    }
+
+    public Task SaveTransferAsync(Transfer transfer, CancellationToken cancellationToken)
+    {
+        var existingIndex = Transfers.FindIndex(candidate => string.Equals(candidate.Id, transfer.Id, StringComparison.Ordinal));
+        if (existingIndex >= 0)
+        {
+            Transfers[existingIndex] = transfer;
+        }
+        else
+        {
+            Transfers.Add(transfer);
+        }
 
         return Task.CompletedTask;
     }

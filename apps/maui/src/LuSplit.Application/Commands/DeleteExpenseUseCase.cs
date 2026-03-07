@@ -18,12 +18,12 @@ public sealed class DeleteExpenseUseCase
     {
         if (string.IsNullOrWhiteSpace(input.GroupId))
         {
-            throw new ValidationError("GroupId is required");
+            throw new ValidationError("groupId is required");
         }
 
         if (string.IsNullOrWhiteSpace(input.ExpenseId))
         {
-            throw new ValidationError("ExpenseId is required");
+            throw new ValidationError("expenseId is required");
         }
 
         var group = await _groupRepository.GetByIdAsync(input.GroupId, cancellationToken);

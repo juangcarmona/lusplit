@@ -37,6 +37,30 @@ public sealed class DeleteExpenseUseCaseTests
 
         var useCase = new DeleteExpenseUseCase(repos, repos);
 
-        await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync(new DeleteExpenseInput("g1", "missing")));
+        var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync(new DeleteExpenseInput("g1", "missing")));
+
+        Assert.Equal("Expense not found: missing", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresGroupId()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new DeleteExpenseUseCase(repos, repos);
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new DeleteExpenseInput("  ", "e1")));
+
+        Assert.Equal("groupId is required", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncRequiresExpenseId()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var useCase = new DeleteExpenseUseCase(repos, repos);
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new DeleteExpenseInput("g1", "  ")));
+
+        Assert.Equal("expenseId is required", error.Message);
     }
 }
