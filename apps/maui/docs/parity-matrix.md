@@ -40,6 +40,9 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 | Current source | Behavior in current implementation | .NET baseline test |
 |---|---|---|
 | `docs/EXPORT_FORMAT.md` + `packages/infra-local/src/snapshot.ts` | Snapshot schema contract has `version: 1`. | `apps/maui/tests/LuSplit.Infrastructure.Tests/SnapshotContractTests.cs` |
+| `packages/infra-local/src/migrations.ts` | SQLite schema v1 applies once, preserves FK constraints, and is idempotent. | `apps/maui/tests/LuSplit.Infrastructure.Tests/InfrastructureParityTests.cs` `SqliteMigrationsAreIdempotent` |
+| `packages/infra-local/src/repositories.ts` + `packages/infra-local/test/infra-local.test.ts` | SQLite repositories preserve deterministic balances/settlement behavior and ID ownership rules across groups. | `apps/maui/tests/LuSplit.Infrastructure.Tests/InfrastructureParityTests.cs` |
+| `packages/infra-local/src/snapshot.ts` + `packages/infra-local/test/infra-local.test.ts` | Snapshot export/import round-trip preserves balances/settlement and rejects malformed references/versions/missing fields. | `apps/maui/tests/LuSplit.Infrastructure.Tests/InfrastructureParityTests.cs` |
 
 ## Canonical fixture
 
@@ -52,5 +55,6 @@ This matrix tracks parity from current TypeScript behavior to initial .NET tests
 - Add parity tests for application query sorting/stability across larger datasets and multi-expense fixtures.
 - TS `packages/application/test/unit/*.test.ts` parity set is fully ported in current MAUI application tests.
 - TS `packages/application/test/flows/application-flow.test.ts` parity is ported in current MAUI application tests.
+- TS `packages/infra-local/test/infra-local.test.ts` parity scenarios are ported in current MAUI infrastructure tests.
 - Port remaining command parity only if new TS command scenarios are introduced beyond the current mirrored set.
 - Continue tightening error-message parity for any future command/query tests still missing explicit message assertions.
