@@ -286,25 +286,29 @@ public sealed class InfrastructureParityTests
         var balancesByParticipant = await new GetBalancesByParticipantUseCase(
             infra.GroupRepository,
             infra.ParticipantRepository,
-            infra.ExpenseRepository).ExecuteAsync(group.Id);
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(group.Id);
 
         var balancesByOwner = await new GetBalancesByEconomicUnitOwnerUseCase(
             infra.GroupRepository,
             infra.ParticipantRepository,
             infra.EconomicUnitRepository,
-            infra.ExpenseRepository).ExecuteAsync(group.Id);
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(group.Id);
 
         var settlementByParticipant = await new GetSettlementPlanUseCase(
             infra.GroupRepository,
             infra.ParticipantRepository,
             infra.EconomicUnitRepository,
-            infra.ExpenseRepository).ExecuteAsync(group.Id, SettlementMode.Participant);
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(group.Id, SettlementMode.Participant);
 
         var settlementByOwner = await new GetSettlementPlanUseCase(
             infra.GroupRepository,
             infra.ParticipantRepository,
             infra.EconomicUnitRepository,
-            infra.ExpenseRepository).ExecuteAsync(group.Id, SettlementMode.EconomicUnitOwner);
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(group.Id, SettlementMode.EconomicUnitOwner);
 
         var overview = await new GetGroupOverviewUseCase(
             infra.GroupRepository,
@@ -378,10 +382,10 @@ public sealed class InfrastructureParityTests
             await infra.ExpenseRepository.SaveAsync(expenses[0], CancellationToken.None);
         }
 
-        var balances = await new GetBalancesByParticipantUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.ExpenseRepository)
+        var balances = await new GetBalancesByParticipantUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.ExpenseRepository, infra.TransferRepository)
             .ExecuteAsync("g1");
 
-        var settlement = await new GetSettlementPlanUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.EconomicUnitRepository, infra.ExpenseRepository)
+        var settlement = await new GetSettlementPlanUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.EconomicUnitRepository, infra.ExpenseRepository, infra.TransferRepository)
             .ExecuteAsync("g1", SettlementMode.Participant);
 
         return (balances, settlement);

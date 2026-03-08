@@ -51,10 +51,12 @@ public sealed class BalanceParityTests
             }))
     };
 
+    private static readonly Transfer[] Transfers = Array.Empty<Transfer>();
+
     [Fact]
     public void CalculatesParticipantBalancesWithZeroSumInvariant()
     {
-        var balances = BalanceCalculator.CalculateParticipantBalances(Expenses, Participants);
+        var balances = BalanceCalculator.CalculateParticipantBalances(Expenses, Transfers, Participants);
 
         Assert.Equal(300, balances[ParticipantA]);
         Assert.Equal(0, balances[ParticipantB]);
@@ -71,7 +73,7 @@ public sealed class BalanceParityTests
         };
 
         Assert.Throws<DomainInvariantException>(() =>
-            BalanceCalculator.CalculateParticipantBalances(mismatchedExpenses, Participants));
+            BalanceCalculator.CalculateParticipantBalances(mismatchedExpenses, Transfers, Participants));
     }
 
     [Fact]

@@ -93,7 +93,7 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants);
+            await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants, null);
             StatusText = "Event saved.";
             OnPropertyChanged(nameof(ExpenseTitle));
             OnPropertyChanged(nameof(StatusText));

@@ -8,11 +8,6 @@ public static class BalanceCalculator
 {
     public static IReadOnlyDictionary<string, long> CalculateParticipantBalances(
         IReadOnlyList<Expense> expenses,
-        IReadOnlyList<Participant> participants)
-        => CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
-
-    public static IReadOnlyDictionary<string, long> CalculateParticipantBalances(
-        IReadOnlyList<Expense> expenses,
         IReadOnlyList<Transfer> transfers,
         IReadOnlyList<Participant> participants)
     {

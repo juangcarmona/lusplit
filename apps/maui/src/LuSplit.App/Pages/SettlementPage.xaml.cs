@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
+using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
@@ -29,7 +30,7 @@ public partial class SettlementPage : ContentPage
         var overview = await _dataService.GetOverviewAsync();
 
         WhoOwesWho.Clear();
-        foreach (var line in TripPresentationMapper.BuildWhoOwesWho(overview))
+        foreach (var line in TripPresentationMapper.BuildWhoOwesWho(overview, SettlementMode.Participant))
         {
             WhoOwesWho.Add(line);
         }

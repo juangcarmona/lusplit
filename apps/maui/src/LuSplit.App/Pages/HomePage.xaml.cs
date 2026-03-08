@@ -6,14 +6,17 @@ namespace LuSplit.App.Pages;
 public partial class HomePage : ContentPage
 {
     private readonly AppDataService _dataService;
+    private string? _currentTripId;
 
-    public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
+    public ObservableCollection<TripListItemModel> Trips { get; } = new();
 
-    public ObservableCollection<string> BalancePreview { get; } = new();
+    public string CurrentTripName { get; private set; } = "Trips";
 
-    public string TripHeaderText { get; private set; } = "Current trip";
+    public string CurrentTripSummaryText { get; private set; } = "Create a trip to get started.";
 
-    public string TripSummaryText { get; private set; } = "0 people ready to go";
+    public string CurrentTripBalanceText { get; private set; } = string.Empty;
+
+    public bool HasCurrentTrip { get; private set; }
 
     public HomePage(AppDataService dataService)
     {
@@ -33,25 +36,25 @@ public partial class HomePage : ContentPage
 
     private async Task LoadAsync()
     {
-        var overview = await _dataService.GetOverviewAsync();
+        var trips = await _dataService.GetTripsAsync();
 
-        TripHeaderText = "Current trip";
-        TripSummaryText = TripPresentationMapper.BuildTripSummary(overview);
-
-        BalancePreview.Clear();
-        foreach (var line in TripPresentationMapper.BuildBalancePreview(overview, 2))
+        Trips.Clear();
+        foreach (var trip in trips)
         {
-            BalancePreview.Add(line);
+            Trips.Add(trip);
         }
 
-        TimelineItems.Clear();
-        foreach (var item in TripPresentationMapper.BuildTimeline(overview))
-        {
-            TimelineItems.Add(item);
-        }
+        var currentTrip = trips.FirstOrDefault(trip => trip.IsCurrent) ?? trips.FirstOrDefault();
+        _currentTripId = currentTrip?.GroupId;
+        HasCurrentTrip = currentTrip is not null;
+        CurrentTripName = currentTrip?.Name ?? "Trips";
+        CurrentTripSummaryText = currentTrip?.SummaryText ?? "Create a trip to get started.";
+        CurrentTripBalanceText = currentTrip?.BalancePreviewText ?? string.Empty;
 
-        OnPropertyChanged(nameof(TripHeaderText));
-        OnPropertyChanged(nameof(TripSummaryText));
+        OnPropertyChanged(nameof(CurrentTripName));
+        OnPropertyChanged(nameof(CurrentTripSummaryText));
+        OnPropertyChanged(nameof(CurrentTripBalanceText));
+        OnPropertyChanged(nameof(HasCurrentTrip));
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -59,8 +62,52 @@ public partial class HomePage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private async void OnAddEventClicked(object? sender, EventArgs e)
+    private async void OnOpenCurrentTripClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
+        if (!string.IsNullOrWhiteSpace(_currentTripId))
+        {
+            await OpenTripAsync(_currentTripId);
+        }
+    }
+
+    private async void OnEditCurrentTripClicked(object? sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(_currentTripId))
+        {
+            await EditTripAsync(_currentTripId);
+        }
+    }
+
+    private async void OnOpenTripClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
+        {
+            await OpenTripAsync(groupId);
+        }
+    }
+
+    private async void OnEditTripClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
+        {
+            await EditTripAsync(groupId);
+        }
+    }
+
+    private async void OnNewTripClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"{AppRoutes.TripDetails}?mode=create");
+    }
+
+    private async Task OpenTripAsync(string groupId)
+    {
+        await _dataService.SelectTripAsync(groupId);
+        await Shell.Current.GoToAsync(AppRoutes.TripTimeline);
+    }
+
+    private async Task EditTripAsync(string groupId)
+    {
+        await _dataService.SelectTripAsync(groupId);
+        await Shell.Current.GoToAsync(AppRoutes.TripDetails);
     }
 }

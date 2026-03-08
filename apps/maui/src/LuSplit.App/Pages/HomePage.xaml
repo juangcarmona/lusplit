@@ -4,56 +4,73 @@
              x:Class="LuSplit.App.Pages.HomePage"
              Title="Trips">
     <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
-        <VerticalStackLayout Padding="20,24,20,12" Spacing="8">
-            <Label Text="Trips" Style="{StaticResource DisplayTitle}" />
-            <Label Text="{Binding TripHeaderText}" Style="{StaticResource SectionTitle}" />
-            <Label Text="{Binding TripSummaryText}" Style="{StaticResource BodyMuted}" />
-
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding BalancePreview}" Spacing="4">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding .}" Style="{StaticResource BodyMuted}" />
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
-        </VerticalStackLayout>
-
-        <CollectionView Grid.Row="1"
-                        Margin="20,0,20,0"
-                        ItemsSource="{Binding TimelineItems}"
-                        SelectionMode="None">
-            <CollectionView.Header>
-                <Label Margin="0,0,0,12" Text="What happened" Style="{StaticResource SectionTitle}" />
-            </CollectionView.Header>
-            <CollectionView.EmptyView>
-                <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                    <Label Text="Your trip just started." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                    <Label Text="Add the first event." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
-                    <Label Text="Dinner • Taxi • Groceries" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+        <ScrollView>
+            <VerticalStackLayout Padding="20,24,20,12" Spacing="16">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Trips" Style="{StaticResource DisplayTitle}" />
+                    <Label Text="Pick up where you left off or start a new trip." Style="{StaticResource BodyMuted}" />
                 </VerticalStackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource ExpenseItemBorder}">
-                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto">
-                            <Label Grid.RowSpan="3"
-                                   Text="{Binding Icon}"
-                                   FontSize="28"
-                                   VerticalTextAlignment="Center" />
-                            <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource CardTitle}" />
-                            <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
-                            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PrimaryText}" Style="{StaticResource BodyText}" />
-                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding SecondaryText}" Style="{StaticResource BodyMuted}" />
-                            <Label Grid.Row="2" Grid.Column="2" Text="{Binding DateText}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+
+                <Border IsVisible="{Binding HasCurrentTrip}" Style="{StaticResource ExpenseItemBorder}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Current trip" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{Binding CurrentTripName}" Style="{StaticResource SectionTitle}" />
+                        <Label Text="{Binding CurrentTripSummaryText}" Style="{StaticResource BodyText}" />
+                        <Label Text="{Binding CurrentTripBalanceText}" Style="{StaticResource BodyMuted}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Button Grid.Column="0" Text="Open trip" Clicked="OnOpenCurrentTripClicked" />
+                            <Button Grid.Column="1" Text="Trip details" Clicked="OnEditCurrentTripClicked" />
                         </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <CollectionView ItemsSource="{Binding Trips}" SelectionMode="None">
+                    <CollectionView.Header>
+                        <Label Margin="0,0,0,12" Text="All trips" Style="{StaticResource SectionTitle}" />
+                    </CollectionView.Header>
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="0,24,0,0" Spacing="8">
+                            <Label Text="No trips yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="Create your first trip and start adding events." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource ExpenseItemBorder}">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="{Binding StatusText}" Style="{StaticResource FieldLabel}" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
+                                            <Label Text="{Binding SummaryText}" Style="{StaticResource BodyText}" />
+                                            <Label Text="{Binding BalancePreviewText}" Style="{StaticResource BodyMuted}" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Currency}"
+                                               Style="{StaticResource BodyMuted}"
+                                               VerticalTextAlignment="Start" />
+                                    </Grid>
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                        <Button Grid.Column="0"
+                                                Text="Open"
+                                                Clicked="OnOpenTripClicked"
+                                                CommandParameter="{Binding GroupId}" />
+                                        <Button Grid.Column="1"
+                                                Text="Details"
+                                                Clicked="OnEditTripClicked"
+                                                CommandParameter="{Binding GroupId}" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
 
         <Button Grid.Row="2"
                 Margin="20,12,20,20"
-                Text="+ Add event"
-                Clicked="OnAddEventClicked" />
+                Text="+ New trip"
+                Clicked="OnNewTripClicked" />
     </Grid>
 </ContentPage>

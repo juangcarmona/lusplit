@@ -24,9 +24,9 @@ public sealed class ApplicationFlowParityTests
             repos,
             idGenerator,
             new FixedClock("2026-01-01T00:00:00.000Z"));
-        var getBalancesByParticipant = new GetBalancesByParticipantUseCase(repos, repos, repos);
-        var getBalancesByEconomicUnitOwner = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
-        var getSettlementPlan = new GetSettlementPlanUseCase(repos, repos, repos, repos);
+        var getBalancesByParticipant = new GetBalancesByParticipantUseCase(repos, repos, repos, repos);
+        var getBalancesByEconomicUnitOwner = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos);
+        var getSettlementPlan = new GetSettlementPlanUseCase(repos, repos, repos, repos, repos);
 
         var group = await createGroup.ExecuteAsync(new CreateGroupInput("USD"));
         var unit1 = await createEconomicUnit.ExecuteAsync(new CreateEconomicUnitInput(group.Id, "id-4", "Unit 1"));

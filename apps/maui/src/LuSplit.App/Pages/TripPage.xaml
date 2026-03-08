@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LuSplit.App.Pages.TripPage"
+             Title="Trip">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="0">
+            <VerticalStackLayout Padding="20,24,20,12" Spacing="8">
+                <Label Text="{Binding TripName}" Style="{StaticResource DisplayTitle}" />
+                <Label Text="{Binding TripSummaryText}" Style="{StaticResource SectionTitle}" />
+                <Label Text="{Binding TripBalancePreviewText}" Style="{StaticResource BodyMuted}" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button Grid.Column="0" Text="Trip details" Clicked="OnTripDetailsClicked" />
+                    <Button Grid.Column="1" Text="Back to trips" Clicked="OnBackToTripsClicked" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <CollectionView Grid.Row="1"
+                            Margin="20,0,20,0"
+                            ItemsSource="{Binding TimelineItems}"
+                            SelectionMode="None">
+                <CollectionView.Header>
+                    <Label Margin="0,0,0,12" Text="What happened" Style="{StaticResource SectionTitle}" />
+                </CollectionView.Header>
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
+                        <Label Text="Your trip just started." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label Text="Add the first event." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <Label Text="Dinner • Taxi • Groceries" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource ExpenseItemBorder}">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto">
+                                <Label Grid.RowSpan="3"
+                                       Text="{Binding Icon}"
+                                       FontSize="28"
+                                       VerticalTextAlignment="Center" />
+                                <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource CardTitle}" />
+                                <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
+                                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PrimaryText}" Style="{StaticResource BodyText}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding SecondaryText}" Style="{StaticResource BodyMuted}" />
+                                <Label Grid.Row="2" Grid.Column="2" Text="{Binding DateText}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Row="2"
+                    Margin="20,12,20,20"
+                    Text="+ Add event"
+                    Clicked="OnAddEventClicked" />
+        </Grid>
+    </ScrollView>
+</ContentPage>

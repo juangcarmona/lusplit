@@ -28,30 +28,57 @@ public sealed class ActivityDayGroupViewModel : ObservableCollection<ActivityEnt
 }
 
 public sealed record BalanceLineViewModel(string Text, string AmountText);
+public sealed record EventIconOptionViewModel(string Icon, string Label)
+{
+    public string DisplayText => $"{Icon} {Label}";
+}
 
 public static class TripPresentationMapper
 {
-    public static IReadOnlyList<TimelineEntryViewModel> BuildTimeline(GroupOverviewModel overview)
+    private static readonly EventIconOptionViewModel[] BuiltInEventIcons =
+    {
+        new("✨", "Anything else"),
+        new("🍝", "Meal"),
+        new("🚕", "Transport"),
+        new("🛒", "Groceries"),
+        new("🎟", "Tickets"),
+        new("🏨", "Stay"),
+        new("🍻", "Drinks"),
+        new("☕", "Coffee"),
+        new("🎉", "Fun")
+    };
+
+    public static IReadOnlyList<EventIconOptionViewModel> GetEventIconOptions()
+        => BuiltInEventIcons;
+
+    public static EventIconOptionViewModel ResolveEventIconOption(string? icon)
+        => BuiltInEventIcons.FirstOrDefault(option => string.Equals(option.Icon, icon, StringComparison.Ordinal))
+            ?? BuiltInEventIcons[0];
+
+    public static string SuggestEventIcon(string title)
+        => IconForEvent(title);
+
+    public static IReadOnlyList<TimelineEntryViewModel> BuildTimeline(GroupOverviewModel overview, IReadOnlyDictionary<string, string>? expenseIcons = null)
     {
         var participantsById = overview.Participants.ToDictionary(participant => participant.Id, participant => participant.Name, StringComparer.Ordinal);
         var currency = overview.Group.Currency;
 
         return overview.Expenses
-            .Select(expense => BuildExpenseTimelineEntry(expense, participantsById, currency))
+            .Select(expense => BuildExpenseTimelineEntry(expense, participantsById, currency, expenseIcons))
             .Concat(overview.Transfers.Select(transfer => BuildPaymentTimelineEntry(transfer, participantsById, currency)))
             .OrderByDescending(item => item.SortDate)
             .ThenByDescending(item => item.Title, StringComparer.Ordinal)
             .ToArray();
     }
 
-    public static IReadOnlyList<ActivityDayGroupViewModel> BuildActivity(GroupOverviewModel overview)
+    public static IReadOnlyList<ActivityDayGroupViewModel> BuildActivity(GroupOverviewModel overview, IReadOnlyDictionary<string, string>? expenseIcons = null)
     {
         var participantsById = overview.Participants.ToDictionary(participant => participant.Id, participant => participant.Name, StringComparer.Ordinal);
         var currency = overview.Group.Currency;
 
         var items = overview.Expenses
             .Select(expense => new ActivityEntryViewModel(
-                IconForEvent(expense.Title),
+                ResolveExpenseIcon(expense, expenseIcons),
                 $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} added {expense.Title}",
                 DescribeExpense(expense, participantsById),
                 FormatMinor(expense.AmountMinor, currency),
@@ -71,18 +98,22 @@ public static class TripPresentationMapper
             .ToArray();
     }
 
-    public static IReadOnlyList<BalanceLineViewModel> BuildWhoOwesWho(GroupOverviewModel overview)
+    public static IReadOnlyList<BalanceLineViewModel> BuildWhoOwesWho(GroupOverviewModel overview, SettlementMode mode)
     {
-        return overview.SettlementByParticipant.Transfers
+        var transfers = mode == SettlementMode.Participant
+            ? overview.SettlementByParticipant.Transfers
+            : overview.SettlementByEconomicUnitOwner.Transfers;
+
+        return transfers
             .Select(transfer => new BalanceLineViewModel(
-                $"{ResolveParticipantName(transfer.FromParticipantId, overview.Participants)} owes {ResolveParticipantName(transfer.ToParticipantId, overview.Participants)}",
+                $"{ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode)} owes {ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)}",
                 FormatMinor(transfer.AmountMinor, overview.Group.Currency)))
             .ToArray();
     }
 
     public static IReadOnlyList<string> BuildBalancePreview(GroupOverviewModel overview, int maxItems)
     {
-        var lines = BuildWhoOwesWho(overview)
+        var lines = BuildWhoOwesWho(overview, SettlementMode.Participant)
             .Take(maxItems)
             .Select(line => $"{line.Text} {line.AmountText}")
             .ToArray();
@@ -101,11 +132,12 @@ public static class TripPresentationMapper
     private static TimelineEntryViewModel BuildExpenseTimelineEntry(
         ExpenseModel expense,
         IReadOnlyDictionary<string, string> participantsById,
-        string currency)
+        string currency,
+        IReadOnlyDictionary<string, string>? expenseIcons)
     {
         var date = ParseDate(expense.Date);
         return new TimelineEntryViewModel(
-            IconForEvent(expense.Title),
+            ResolveExpenseIcon(expense, expenseIcons),
             expense.Title,
             FormatMinor(expense.AmountMinor, currency),
             $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} paid {FormatMinor(expense.AmountMinor, currency)}",
@@ -164,6 +196,37 @@ public static class TripPresentationMapper
         }
 
         return $"Shared equally between {peopleText}";
+    }
+
+    private static string ResolveExpenseIcon(ExpenseModel expense, IReadOnlyDictionary<string, string>? expenseIcons)
+    {
+        if (expenseIcons is not null && expenseIcons.TryGetValue(expense.Id, out var explicitIcon) && !string.IsNullOrWhiteSpace(explicitIcon))
+        {
+            return explicitIcon;
+        }
+
+        return IconForEvent(expense.Title);
+    }
+
+    private static string ResolveBalanceEntityName(string entityId, GroupOverviewModel overview, SettlementMode mode)
+    {
+        if (mode == SettlementMode.Participant)
+        {
+            return ResolveParticipantName(entityId, overview.Participants);
+        }
+
+        var unit = overview.EconomicUnits.FirstOrDefault(candidate => string.Equals(candidate.OwnerParticipantId, entityId, StringComparison.Ordinal));
+        if (unit is null)
+        {
+            return ResolveParticipantName(entityId, overview.Participants);
+        }
+
+        if (!string.IsNullOrWhiteSpace(unit.Name))
+        {
+            return unit.Name!;
+        }
+
+        return $"{ResolveParticipantName(entityId, overview.Participants)}'s household";
     }
 
     private static string IconForEvent(string title)
@@ -226,7 +289,7 @@ public static class TripPresentationMapper
     private static string ResolveParticipantName(string participantId, IReadOnlyDictionary<string, string> participantsById)
         => participantsById.TryGetValue(participantId, out var name) ? name : "Person";
 
-    private static string DescribeDay(DateTimeOffset date)
+    public static string DescribeDay(DateTimeOffset date)
     {
         var today = DateTimeOffset.Now.Date;
         var target = date.LocalDateTime.Date;
@@ -244,7 +307,7 @@ public static class TripPresentationMapper
         return date.ToLocalTime().ToString("MMM d", CultureInfo.InvariantCulture);
     }
 
-    private static DateTimeOffset ParseDate(string value)
+    public static DateTimeOffset ParseDate(string value)
         => DateTimeOffset.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var date)
             ? date
             : DateTimeOffset.MinValue;

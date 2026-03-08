@@ -20,6 +20,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<AppDataService>();
 		builder.Services.AddSingleton<AppShell>();
 		builder.Services.AddTransient<HomePage>();
+		builder.Services.AddTransient<TripPage>();
+		builder.Services.AddTransient<TripDetailsPage>();
 		builder.Services.AddTransient<ActivityPage>();
 		builder.Services.AddTransient<AddExpensePage>();
 		builder.Services.AddTransient<SettlementPage>();
