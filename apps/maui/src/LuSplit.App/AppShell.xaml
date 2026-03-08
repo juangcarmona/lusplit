@@ -8,17 +8,17 @@
 
     <TabBar>
         <ShellContent
-            Title="Home"
+            Title="Trips"
             ContentTemplate="{DataTemplate pages:HomePage}"
-            Route="home" />
+            Route="trips" />
         <ShellContent
-            Title="Add"
-            ContentTemplate="{DataTemplate pages:AddExpensePage}"
-            Route="add-expense" />
+            Title="Activity"
+            ContentTemplate="{DataTemplate pages:ActivityPage}"
+            Route="activity" />
         <ShellContent
-            Title="Settle"
+            Title="Balances"
             ContentTemplate="{DataTemplate pages:SettlementPage}"
-            Route="settle" />
+            Route="balances" />
     </TabBar>
 
 </Shell>

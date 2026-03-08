@@ -26,7 +26,7 @@ public sealed class GetGroupOverviewUseCaseTests
             "2026-01-01",
             new SplitDefinition(new SplitComponent[]
             {
-                new RemainderSplitComponent(new[] { "p1" }, RemainderMode.Equal)
+                new RemainderSplitComponent(new[] { "p1", "p2" }, RemainderMode.Equal)
             })));
         repos.Transfers.Add(new Transfer(
             "t1",
@@ -48,6 +48,7 @@ public sealed class GetGroupOverviewUseCaseTests
         Assert.Equal(SettlementMode.Participant, result.SettlementByParticipant.Mode);
         Assert.Equal("e1", result.Expenses[0].Id);
         Assert.Equal("t1", result.Transfers[0].Id);
+        Assert.Equal(new[] { new BalanceModel("p1", 40), new BalanceModel("p2", -40) }, result.BalancesByParticipant);
     }
 
     [Fact]

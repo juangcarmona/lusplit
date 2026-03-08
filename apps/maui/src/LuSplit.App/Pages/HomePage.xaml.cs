@@ -1,8 +1,5 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Windows.Input;
 using LuSplit.App.Services;
-using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
@@ -10,28 +7,17 @@ public partial class HomePage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<ExpenseItemViewModel> Expenses { get; } = new();
+    public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
 
-    public ICommand RefreshCommand { get; }
+    public ObservableCollection<string> BalancePreview { get; } = new();
 
-    public string GroupName { get; private set; } = "LuSplit";
+    public string TripHeaderText { get; private set; } = "Current trip";
 
-    public string GroupSubtitle { get; private set; } = "Shared expenses with calm clarity";
-
-    public string SummaryText { get; private set; } = "0 expenses";
-
-    public string OwesAmountText { get; private set; } = "$0.00";
-
-    public string SettledAmountText { get; private set; } = "$0.00";
-
-    public string ExpenseCountText { get; private set; } = "0 items";
-
-    public bool IsLoading { get; private set; }
+    public string TripSummaryText { get; private set; } = "0 people ready to go";
 
     public HomePage(AppDataService dataService)
     {
         _dataService = dataService;
-        RefreshCommand = new Command(async () => await LoadAsync());
 
         InitializeComponent();
         BindingContext = this;
@@ -45,57 +31,27 @@ public partial class HomePage : ContentPage
         await LoadAsync();
     }
 
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
-    }
-
     private async Task LoadAsync()
     {
-        if (IsLoading)
+        var overview = await _dataService.GetOverviewAsync();
+
+        TripHeaderText = "Current trip";
+        TripSummaryText = TripPresentationMapper.BuildTripSummary(overview);
+
+        BalancePreview.Clear();
+        foreach (var line in TripPresentationMapper.BuildBalancePreview(overview, 2))
         {
-            return;
+            BalancePreview.Add(line);
         }
 
-        IsLoading = true;
-        OnPropertyChanged(nameof(IsLoading));
-
-        try
+        TimelineItems.Clear();
+        foreach (var item in TripPresentationMapper.BuildTimeline(overview))
         {
-            var overview = await _dataService.GetOverviewAsync();
-
-            GroupName = overview.Group.Id;
-            GroupSubtitle = $"{overview.Summary.ParticipantCount} people • {overview.Summary.EconomicUnitCount} households";
-            SummaryText = $"{overview.Summary.ExpenseCount} expenses";
-            ExpenseCountText = $"{overview.Expenses.Count} items";
-
-            var owes = overview.BalancesByParticipant.Where(balance => balance.AmountMinor < 0).Sum(balance => -balance.AmountMinor);
-            var settled = overview.BalancesByParticipant.Where(balance => balance.AmountMinor > 0).Sum(balance => balance.AmountMinor);
-            OwesAmountText = FormatMinor(owes);
-            SettledAmountText = FormatMinor(settled);
-
-            Expenses.Clear();
-            foreach (var expense in overview.Expenses.OrderByDescending(expense => expense.Date, StringComparer.Ordinal))
-            {
-                Expenses.Add(new ExpenseItemViewModel(
-                    expense.Title,
-                    FormatMinor(expense.AmountMinor),
-                    DateTimeOffset.Parse(expense.Date, CultureInfo.InvariantCulture).ToString("MMM d", CultureInfo.InvariantCulture),
-                    $"Paid by {expense.PaidByParticipantId}"));
-            }
-
-            OnPropertyChanged(nameof(GroupName));
-            OnPropertyChanged(nameof(GroupSubtitle));
-            OnPropertyChanged(nameof(SummaryText));
-            OnPropertyChanged(nameof(ExpenseCountText));
-            OnPropertyChanged(nameof(OwesAmountText));
-            OnPropertyChanged(nameof(SettledAmountText));
+            TimelineItems.Add(item);
         }
-        finally
-        {
-            IsLoading = false;
-            OnPropertyChanged(nameof(IsLoading));
-        }
+
+        OnPropertyChanged(nameof(TripHeaderText));
+        OnPropertyChanged(nameof(TripSummaryText));
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -103,8 +59,8 @@ public partial class HomePage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private static string FormatMinor(long minor)
-        => string.Create(CultureInfo.InvariantCulture, $"${minor / 100.0:0.00}");
-
-    public sealed record ExpenseItemViewModel(string Title, string Amount, string Meta, string Payer);
+    private async void OnAddEventClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
+    }
 }

@@ -3,13 +3,13 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class SettlementPage : ContentPage
+public partial class ActivityPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
+    public ObservableCollection<ActivityDayGroupViewModel> ActivityGroups { get; } = new();
 
-    public SettlementPage(AppDataService dataService)
+    public ActivityPage(AppDataService dataService)
     {
         _dataService = dataService;
         InitializeComponent();
@@ -27,22 +27,18 @@ public partial class SettlementPage : ContentPage
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
+        var groups = TripPresentationMapper.BuildActivity(overview);
 
-        WhoOwesWho.Clear();
-        foreach (var line in TripPresentationMapper.BuildWhoOwesWho(overview))
+        ActivityGroups.Clear();
+        foreach (var group in groups)
         {
-            WhoOwesWho.Add(line);
+            ActivityGroups.Add(group);
         }
     }
 
     private async void OnAddEventClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.AddEvent);
-    }
-
-    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)

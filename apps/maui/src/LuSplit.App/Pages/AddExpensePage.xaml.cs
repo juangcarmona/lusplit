@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 
@@ -15,7 +16,7 @@ public partial class AddExpensePage : ContentPage
 
     public string ExpenseTitle { get; set; } = string.Empty;
 
-    public string AmountMinorText { get; set; } = string.Empty;
+    public string AmountText { get; set; } = string.Empty;
 
     public DateTime ExpenseDate { get; set; } = DateTime.Today;
 
@@ -39,6 +40,7 @@ public partial class AddExpensePage : ContentPage
     private async Task LoadParticipantsAsync()
     {
         var participants = await _dataService.GetParticipantsAsync();
+        var defaults = _dataService.GetEventDraftDefaults();
         _participants.Clear();
         _participants.AddRange(participants);
 
@@ -48,10 +50,12 @@ public partial class AddExpensePage : ContentPage
         foreach (var participant in participants)
         {
             PayerNames.Add(participant.Name);
-            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, participant.Name, true));
+            var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
+            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, participant.Name, isSelected));
         }
 
-        SelectedPayerName = PayerNames.FirstOrDefault();
+        SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal))?.Name
+            ?? PayerNames.FirstOrDefault();
         OnPropertyChanged(nameof(SelectedPayerName));
     }
 
@@ -66,9 +70,9 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            if (!long.TryParse(AmountMinorText, out var amountMinor) || amountMinor <= 0)
+            if (!TryParseAmount(AmountText, out var amountMinor))
             {
-                StatusText = "Amount must be a positive integer in minor units.";
+                StatusText = "Enter a valid amount.";
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -84,26 +88,45 @@ public partial class AddExpensePage : ContentPage
             var selectedParticipants = ParticipantOptions.Where(option => option.IsSelected).Select(option => option.Id).ToArray();
             if (selectedParticipants.Length == 0)
             {
-                StatusText = "Select at least one participant for split.";
+                StatusText = "Pick at least one person.";
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants);
-            ExpenseTitle = string.Empty;
-            AmountMinorText = string.Empty;
-            ExpenseDate = DateTime.Today;
-            StatusText = "Expense saved.";
+            StatusText = "Event saved.";
             OnPropertyChanged(nameof(ExpenseTitle));
-            OnPropertyChanged(nameof(AmountMinorText));
-            OnPropertyChanged(nameof(ExpenseDate));
             OnPropertyChanged(nameof(StatusText));
+            await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
             StatusText = ex.Message;
             OnPropertyChanged(nameof(StatusText));
         }
+    }
+
+    private void OnQuickChoiceClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button { CommandParameter: string value } && !string.IsNullOrWhiteSpace(value))
+        {
+            ExpenseTitle = value;
+            OnPropertyChanged(nameof(ExpenseTitle));
+        }
+    }
+
+    private static bool TryParseAmount(string text, out long amountMinor)
+    {
+        var styles = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+        if (decimal.TryParse(text, styles, CultureInfo.InvariantCulture, out var invariant)
+            || decimal.TryParse(text, styles, CultureInfo.CurrentCulture, out invariant))
+        {
+            amountMinor = (long)Math.Round(invariant * 100m, MidpointRounding.AwayFromZero);
+            return amountMinor > 0;
+        }
+
+        amountMinor = 0;
+        return false;
     }
 
     public sealed class ParticipantOptionViewModel : BindableObject

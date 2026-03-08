@@ -32,7 +32,7 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCaseTests
                 new RemainderSplitComponent(new[] { "p1", "p2", "p3" }, RemainderMode.Equal)
             })));
 
-        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos);
 
         var result = await useCase.ExecuteAsync("g1");
 
@@ -54,7 +54,7 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCaseTests
         repos.Participants.Add(new Participant("p1", "g1", "u1", "P1", ConsumptionCategory.Full));
         repos.Participants.Add(new Participant("p2", "g1", "u2", "P2", ConsumptionCategory.Full));
 
-        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos);
 
         await Assert.ThrowsAsync<DomainInvariantException>(() => useCase.ExecuteAsync("g1"));
     }
@@ -63,7 +63,7 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCaseTests
     public async Task ExecuteAsyncErrorsForInvalidGroup()
     {
         var repos = new InMemoryQueryRepositories();
-        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos);
 
         var error = await Assert.ThrowsAsync<NotFoundError>(() => useCase.ExecuteAsync("missing"));
 
@@ -74,7 +74,7 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCaseTests
     public async Task ExecuteAsyncRequiresGroupId()
     {
         var repos = new InMemoryQueryRepositories();
-        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos);
+        var useCase = new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos);
 
         var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync("   "));
 

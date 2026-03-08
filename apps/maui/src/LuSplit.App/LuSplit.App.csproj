@@ -77,4 +77,13 @@
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ActivityPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\RecordPaymentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

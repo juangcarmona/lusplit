@@ -13,6 +13,8 @@ public sealed class AppDataService : IAsyncDisposable
 
     private readonly SemaphoreSlim _gate = new(1, 1);
     private InfraLocalSqlite? _infra;
+    private string? _lastPaidByParticipantId;
+    private IReadOnlyList<string> _lastParticipantIds = Array.Empty<string>();
 
     public event EventHandler? DataChanged;
 
@@ -58,6 +60,9 @@ public sealed class AppDataService : IAsyncDisposable
         return overview.Participants;
     }
 
+    public EventDraftDefaults GetEventDraftDefaults()
+        => new(_lastPaidByParticipantId, _lastParticipantIds);
+
     public async Task AddExpenseAsync(string title, long amountMinor, string paidByParticipantId, DateTime date, IReadOnlyList<string> participantIds)
     {
         var infra = await GetInfraAsync();
@@ -80,6 +85,29 @@ public sealed class AppDataService : IAsyncDisposable
                 SplitDefinition: split,
                 Date: date.ToUniversalTime().ToString("O")));
 
+        _lastPaidByParticipantId = paidByParticipantId;
+        _lastParticipantIds = participantIds.ToArray();
+
+        DataChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public async Task AddPaymentAsync(string fromParticipantId, string toParticipantId, long amountMinor, DateTime date)
+    {
+        var infra = await GetInfraAsync();
+
+        await new AddManualTransferUseCase(
+            infra.GroupRepository,
+            infra.ParticipantRepository,
+            infra.TransferRepository,
+            new GuidIdGenerator(),
+            new UtcClock()).ExecuteAsync(new AddManualTransferInput(
+                GroupId: DefaultGroupId,
+                FromParticipantId: fromParticipantId,
+                ToParticipantId: toParticipantId,
+                AmountMinor: amountMinor,
+                Date: date.ToUniversalTime().ToString("O"),
+                Note: "Recorded in app"));
+
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -88,16 +116,17 @@ public sealed class AppDataService : IAsyncDisposable
         var infra = await GetInfraAsync();
 
         IReadOnlyList<BalanceModel> balances = mode == SettlementMode.Participant
-            ? await new GetBalancesByParticipantUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.ExpenseRepository)
+            ? await new GetBalancesByParticipantUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.ExpenseRepository, infra.TransferRepository)
                 .ExecuteAsync(DefaultGroupId)
-            : await new GetBalancesByEconomicUnitOwnerUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.EconomicUnitRepository, infra.ExpenseRepository)
+            : await new GetBalancesByEconomicUnitOwnerUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.EconomicUnitRepository, infra.ExpenseRepository, infra.TransferRepository)
                 .ExecuteAsync(DefaultGroupId);
 
         var settlement = await new GetSettlementPlanUseCase(
             infra.GroupRepository,
             infra.ParticipantRepository,
             infra.EconomicUnitRepository,
-            infra.ExpenseRepository).ExecuteAsync(DefaultGroupId, mode);
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(DefaultGroupId, mode);
 
         return (balances, settlement);
     }
@@ -176,3 +205,5 @@ public sealed class AppDataService : IAsyncDisposable
         public string NowIso() => DateTimeOffset.UtcNow.ToString("O");
     }
 }
+
+public sealed record EventDraftDefaults(string? PaidByParticipantId, IReadOnlyList<string> ParticipantIds);

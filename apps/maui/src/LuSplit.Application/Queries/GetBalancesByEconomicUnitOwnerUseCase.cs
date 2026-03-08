@@ -11,17 +11,20 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCase
     private readonly IParticipantRepository _participantRepository;
     private readonly IEconomicUnitRepository _economicUnitRepository;
     private readonly IExpenseRepository _expenseRepository;
+    private readonly ITransferRepository _transferRepository;
 
     public GetBalancesByEconomicUnitOwnerUseCase(
         IGroupRepository groupRepository,
         IParticipantRepository participantRepository,
         IEconomicUnitRepository economicUnitRepository,
-        IExpenseRepository expenseRepository)
+        IExpenseRepository expenseRepository,
+        ITransferRepository transferRepository)
     {
         _groupRepository = groupRepository;
         _participantRepository = participantRepository;
         _economicUnitRepository = economicUnitRepository;
         _expenseRepository = expenseRepository;
+        _transferRepository = transferRepository;
     }
 
     public async Task<IReadOnlyList<BalanceModel>> ExecuteAsync(string groupId, CancellationToken cancellationToken = default)
@@ -40,7 +43,8 @@ public sealed class GetBalancesByEconomicUnitOwnerUseCase
         var participants = await _participantRepository.ListParticipantsByGroupIdAsync(groupId, cancellationToken);
         var economicUnits = await _economicUnitRepository.ListEconomicUnitsByGroupIdAsync(groupId, cancellationToken);
         var expenses = await _expenseRepository.ListExpensesByGroupIdAsync(groupId, cancellationToken);
-        var participantBalances = BalanceCalculator.CalculateParticipantBalances(expenses, participants);
+        var transfers = await _transferRepository.ListTransfersByGroupIdAsync(groupId, cancellationToken);
+        var participantBalances = BalanceCalculator.CalculateParticipantBalances(expenses, transfers, participants);
         var ownerBalances = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(participantBalances, participants, economicUnits);
 
         return ownerBalances

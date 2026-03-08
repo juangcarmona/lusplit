@@ -2,15 +2,24 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.AddExpensePage"
-             Title="Add Expense">
+             Title="Add event">
     <ScrollView>
         <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
-            <Label Text="Add expense" Style="{StaticResource DisplayTitle}" />
-            <Label Text="Large fields, clear split, no finance jargon." Style="{StaticResource BodyMuted}" />
+            <Label Text="Add event" Style="{StaticResource DisplayTitle}" />
+            <Label Text="Record what just happened." Style="{StaticResource BodyMuted}" />
+
+            <Label Text="What happened?" Style="{StaticResource SectionTitle}" />
+            <FlexLayout Wrap="Wrap" Direction="Row">
+                <Button Margin="0,0,8,8" Text="Dinner" Clicked="OnQuickChoiceClicked" CommandParameter="Dinner" />
+                <Button Margin="0,0,8,8" Text="Taxi" Clicked="OnQuickChoiceClicked" CommandParameter="Taxi" />
+                <Button Margin="0,0,8,8" Text="Groceries" Clicked="OnQuickChoiceClicked" CommandParameter="Groceries" />
+                <Button Margin="0,0,8,8" Text="Tickets" Clicked="OnQuickChoiceClicked" CommandParameter="Tickets" />
+                <Button Margin="0,0,8,8" Text="Custom" Clicked="OnQuickChoiceClicked" CommandParameter="" />
+            </FlexLayout>
 
             <Border Style="{StaticResource FormFieldBorder}">
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="Title" Style="{StaticResource FieldLabel}" />
+                    <Label Text="Event" Style="{StaticResource FieldLabel}" />
                     <Entry Text="{Binding ExpenseTitle}" Placeholder="Dinner, groceries, ride..." ClearButtonVisibility="WhileEditing" />
                 </VerticalStackLayout>
             </Border>
@@ -18,8 +27,8 @@
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Amount (minor units)" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding AmountMinorText}" Keyboard="Numeric" Placeholder="e.g. 1250" />
+                        <Label Text="Amount" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding AmountText}" Keyboard="Numeric" Placeholder="12.50" />
                     </VerticalStackLayout>
                 </Border>
                 <Border Grid.Column="1" Style="{StaticResource FormFieldBorder}">
@@ -37,7 +46,8 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Label Text="Split people (equal default)" Style="{StaticResource SectionTitle}" />
+            <Label Text="Who joined?" Style="{StaticResource SectionTitle}" />
+            <Label Text="Everyone is included by default." Style="{StaticResource BodyMuted}" />
             <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding ParticipantOptions}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
@@ -51,7 +61,7 @@
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
 
-            <Button Text="Save expense" Clicked="OnSaveClicked" />
+            <Button Text="Save event" Clicked="OnSaveClicked" />
             <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
         </VerticalStackLayout>
     </ScrollView>

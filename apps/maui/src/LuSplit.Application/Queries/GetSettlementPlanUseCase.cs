@@ -12,17 +12,20 @@ public sealed class GetSettlementPlanUseCase
     private readonly IParticipantRepository _participantRepository;
     private readonly IEconomicUnitRepository _economicUnitRepository;
     private readonly IExpenseRepository _expenseRepository;
+    private readonly ITransferRepository _transferRepository;
 
     public GetSettlementPlanUseCase(
         IGroupRepository groupRepository,
         IParticipantRepository participantRepository,
         IEconomicUnitRepository economicUnitRepository,
-        IExpenseRepository expenseRepository)
+        IExpenseRepository expenseRepository,
+        ITransferRepository transferRepository)
     {
         _groupRepository = groupRepository;
         _participantRepository = participantRepository;
         _economicUnitRepository = economicUnitRepository;
         _expenseRepository = expenseRepository;
+        _transferRepository = transferRepository;
     }
 
     public async Task<SettlementPlanModel> ExecuteAsync(
@@ -43,7 +46,12 @@ public sealed class GetSettlementPlanUseCase
 
         var participants = await _participantRepository.ListParticipantsByGroupIdAsync(groupId, cancellationToken);
         var expenses = await _expenseRepository.ListExpensesByGroupIdAsync(groupId, cancellationToken);
-        var participantBalances = BalanceCalculator.CalculateParticipantBalances(expenses, participants);
+        var recordedTransfers = await _transferRepository.ListTransfersByGroupIdAsync(groupId, cancellationToken);
+
+        var participantBalances = BalanceCalculator.CalculateParticipantBalances(
+            expenses,
+            recordedTransfers,
+            participants);
 
         IReadOnlyDictionary<string, long> balances = mode switch
         {
@@ -55,13 +63,13 @@ public sealed class GetSettlementPlanUseCase
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown settlement mode")
         };
 
-        var transfers = SettlementPlanner.PlanSettlement(balances)
+        var plannedTransfers = SettlementPlanner.PlanSettlement(balances)
             .Select(transfer => new SettlementTransferModel(
                 transfer.FromParticipantId,
                 transfer.ToParticipantId,
                 transfer.AmountMinor))
             .ToArray();
 
-        return new SettlementPlanModel(mode, transfers);
+        return new SettlementPlanModel(mode, plannedTransfers);
     }
 }

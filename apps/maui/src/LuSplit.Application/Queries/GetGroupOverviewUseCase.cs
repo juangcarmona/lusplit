@@ -47,7 +47,7 @@ public sealed class GetGroupOverviewUseCase
         var expenses = await _expenseRepository.ListExpensesByGroupIdAsync(groupId, cancellationToken);
         var transfers = await _transferRepository.ListTransfersByGroupIdAsync(groupId, cancellationToken);
 
-        var balancesByParticipant = BalanceCalculator.CalculateParticipantBalances(expenses, participants);
+        var balancesByParticipant = BalanceCalculator.CalculateParticipantBalances(expenses, transfers, participants);
         var balancesByEconomicUnitOwner = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(
             balancesByParticipant,
             participants,

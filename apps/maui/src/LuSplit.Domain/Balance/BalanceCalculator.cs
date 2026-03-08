@@ -9,6 +9,12 @@ public static class BalanceCalculator
     public static IReadOnlyDictionary<string, long> CalculateParticipantBalances(
         IReadOnlyList<Expense> expenses,
         IReadOnlyList<Participant> participants)
+        => CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
+
+    public static IReadOnlyDictionary<string, long> CalculateParticipantBalances(
+        IReadOnlyList<Expense> expenses,
+        IReadOnlyList<Transfer> transfers,
+        IReadOnlyList<Participant> participants)
     {
         var balances = participants.ToDictionary(participant => participant.Id, _ => 0L, StringComparer.Ordinal);
 
@@ -28,6 +34,24 @@ public static class BalanceCalculator
             {
                 balances[participantId] -= share;
             }
+        }
+
+        foreach (var transfer in transfers)
+        {
+            GroupScopeAssertions.AssertGroupScoped(transfer.GroupId, participants);
+
+            if (!balances.ContainsKey(transfer.FromParticipantId))
+            {
+                throw new DomainInvariantException($"Unknown transfer sender {transfer.FromParticipantId}");
+            }
+
+            if (!balances.ContainsKey(transfer.ToParticipantId))
+            {
+                throw new DomainInvariantException($"Unknown transfer receiver {transfer.ToParticipantId}");
+            }
+
+            balances[transfer.FromParticipantId] += transfer.AmountMinor;
+            balances[transfer.ToParticipantId] -= transfer.AmountMinor;
         }
 
         var sum = balances.Values.Sum();
