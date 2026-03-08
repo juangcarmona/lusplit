@@ -100,3 +100,20 @@ ios/build/
 # =========================
 coverage/
 .coverage/
+# =========================
+
+# Build artifacts
+
+# =========================
+# .NET / MAUI
+# =========================
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# MAUI specific generated artifacts
+apps/maui/src/LuSplit.App/.vs/
+apps/maui/src/LuSplit.App/.idea/
+
+/apps/maui/.vs

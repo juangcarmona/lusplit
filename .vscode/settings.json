@@ -4,5 +4,11 @@
 	"testing.coverageToolbarEnabled": true,
 	"testing.showCoverageInExplorer": true,
 	"testing.gutterEnabled": true,
-	"testing.followRunningTest": false
+	"testing.followRunningTest": false,
+	"chat.tools.terminal.autoApprove": {
+		"/^dotnet --version$/": {
+			"approve": true,
+			"matchCommandLine": true
+		}
+	}
 }

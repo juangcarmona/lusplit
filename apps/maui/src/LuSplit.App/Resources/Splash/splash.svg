@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="LuSplit splash">
+
+	<rect x="0" y="0" width="512" height="512" fill="#2CB1A1"/>
+	<circle cx="256" cy="256" r="180" fill="#FFFFFF"/>
+
+	<g transform="translate(116,116) scale(1.09375)">
+		<polygon fill="#2CB1A1" points="24,24 116,24 96,88 116,88 116,232 24,232"/>
+		<polygon fill="#5A74FF" points="140,24 232,24 232,232 140,232 140,88 160,88"/>
+	</g>
+
+</svg>

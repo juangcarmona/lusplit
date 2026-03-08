@@ -1,0 +1,8 @@
+{
+  "amountMinor": 10,
+  "expectedShares": {
+    "a": 4,
+    "b": 3,
+    "c": 3
+  }
+}
