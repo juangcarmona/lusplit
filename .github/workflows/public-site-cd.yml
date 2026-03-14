@@ -1,0 +1,51 @@
+name: public-site-cd
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - '.github/workflows/public-site-cd.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy production site
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: src/web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.12.0
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.WEB_SITE_DEPLOYMENT_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: website
+          api_location: ""
+          output_location: dist

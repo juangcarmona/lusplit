@@ -1,0 +1,296 @@
+/* LuSplit Global Styles — Design token–based, brand aligned */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+
+/* ─── Tokens ─────────────────────────────────────────────── */
+:root {
+  /* Brand palette */
+  --color-teal:    #2CB1A1;
+  --color-indigo:  #5A74FF;
+  --color-navy:    #1F2937;
+  --color-snow:    #F6F8FB;
+  --color-white:   #FFFFFF;
+  --color-muted:   #6B7280;
+  --color-positive:#16A34A;
+  --color-amber:   #F59E0B;
+  --color-error:   #DC2626;
+
+  /* Semantic surface + text (light mode) */
+  --bg:            var(--color-snow);
+  --bg-surface:    var(--color-white);
+  --bg-teal-soft:  #EAF8F6;
+  --bg-indigo-soft:#EEF1FF;
+  --text-primary:  var(--color-navy);
+  --text-muted:    var(--color-muted);
+  --text-on-accent:#FFFFFF;
+  --border:        #E5E7EB;
+  --border-hover:  #D1D5DB;
+
+  /* Accents */
+  --accent-teal:   var(--color-teal);
+  --accent-indigo: var(--color-indigo);
+
+  /* Shape */
+  --radius-card:   16px;
+  --radius-button: 12px;
+  --radius-input:  10px;
+  --radius-sm:     8px;
+
+  /* Elevation */
+  --shadow-soft:   0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-card:   0 4px 16px rgba(0, 0, 0, 0.06);
+
+  /* Motion */
+  --duration-fast:     120ms;
+  --duration-standard: 180ms;
+  --ease-default:      ease-out;
+
+  /* Layout */
+  --max-width: 1024px;
+  --page-px:   1.5rem;
+}
+
+/* ─── Dark mode tokens ───────────────────────────────────── */
+html.dark {
+  --bg:            #0F172A;
+  --bg-surface:    #1E293B;
+  --bg-teal-soft:  #0D2925;
+  --bg-indigo-soft:#111827;
+  --text-primary:  #F1F5F9;
+  --text-muted:    #94A3B8;
+  --border:        #334155;
+  --border-hover:  #475569;
+  --shadow-soft:   0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card:   0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Nunito', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color var(--duration-standard) var(--ease-default),
+              color var(--duration-standard) var(--ease-default);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* ─── Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.375rem, 3vw, 1.875rem); }
+h3 { font-size: clamp(1.125rem, 2.5vw, 1.375rem); }
+h4 { font-size: 1.125rem; }
+
+p {
+  color: var(--text-primary);
+  max-width: 65ch;
+}
+
+a {
+  color: var(--accent-teal);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+a:hover {
+  color: var(--accent-indigo);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-block: 0.25rem;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background: var(--bg-teal-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ─── Layout helpers ─────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-px);
+}
+
+.section {
+  padding-block: 4rem;
+}
+
+.section--tight {
+  padding-block: 2.5rem;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-button);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default),
+    border-color var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background-color: var(--accent-teal);
+  color: var(--text-on-accent);
+  border-color: var(--accent-teal);
+}
+
+.btn--primary:hover {
+  background-color: #24998B;
+  border-color: #24998B;
+  color: var(--text-on-accent);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+
+/* ─── Cards ──────────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ─── Prose (rendered Markdown) ──────────────────────────── */
+.prose {
+  max-width: 70ch;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose h1:first-child,
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin-bottom: 1rem;
+  max-width: none;
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 1rem;
+}
+
+.prose li {
+  margin-block: 0.375rem;
+}
+
+.prose a {
+  color: var(--accent-teal);
+  text-decoration: underline;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-block: 2rem;
+}
+
+/* ─── Utility ────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  :root {
+    --page-px: 1rem;
+  }
+
+  .section {
+    padding-block: 2.5rem;
+  }
+}

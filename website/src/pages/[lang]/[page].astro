@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FallbackNotice from '../../components/FallbackNotice.astro';
+import {
+  SUPPORTED_LANGS,
+  PAGES,
+  getPageContent,
+  getUiStrings,
+} from '../../lib/i18n';
+import type { Lang } from '../../lib/i18n';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return SUPPORTED_LANGS.flatMap(lang =>
+    PAGES.map(page => ({ params: { lang, page } })),
+  );
+};
+
+const { lang, page } = Astro.params as { lang: Lang; page: string };
+const ui = getUiStrings(lang);
+const { Content, frontmatter, isFallback } = getPageContent(lang, page);
+---
+
+<BaseLayout lang={lang} title={frontmatter.title} description={frontmatter.description} ui={ui}>
+  <section class="page-content section">
+    <div class="container">
+      {isFallback && <FallbackNotice ui={ui} />}
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-content {
+    min-height: 60vh;
+  }
+</style>

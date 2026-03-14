@@ -1,0 +1,40 @@
+{
+  "nav.home": "Inicio",
+  "nav.features": "Funciones",
+  "nav.howItWorks": "Cómo funciona",
+  "nav.privacy": "Privacidad",
+  "nav.support": "Soporte",
+
+  "hero.tagline": "Divide gastos sin complicaciones",
+  "hero.subtitle": "Una herramienta tranquila para gastos compartidos entre familias y amigos. Gratis, sin conexión y de código abierto.",
+  "hero.ctaPrimary": "Ver funciones",
+  "hero.ctaSecondary": "Cómo funciona",
+
+  "features.sectionTitle": "Qué hace LuSplit",
+  "features.sectionSubtitle": "Un conjunto de herramientas para dividir gastos de forma justa.",
+
+  "feature1.title": "Grupos",
+  "feature1.desc": "Crea un grupo para cualquier situación compartida: viajes, pisos o eventos.",
+  "feature2.title": "División justa",
+  "feature2.desc": "Divide en partes iguales, por importe exacto, por porcentaje o por peso.",
+  "feature3.title": "Saldos claros",
+  "feature3.desc": "Sabe siempre quién debe qué. Los saldos se actualizan al momento.",
+  "feature4.title": "Liquidación simple",
+  "feature4.desc": "Obtén una lista mínima de transferencias. Liquida sin complicaciones.",
+  "feature5.title": "Exporta todo",
+  "feature5.desc": "Llévate tus datos en JSON, CSV o PDF. Te pertenecen.",
+  "feature6.title": "Sin cuentas necesarias",
+  "feature6.desc": "Sin registro. Sin login. Funciona de inmediato en tu dispositivo.",
+
+  "cta.headline": "¿Listo para dividir de forma justa?",
+  "cta.subtext": "LuSplit es de código abierto y gratuito para siempre. Sin barreras de pago.",
+  "cta.button": "Ver cómo funciona",
+
+  "footer.tagline": "Una herramienta tranquila para gastos compartidos.",
+  "footer.copyright": "LuSplit. Código abierto. Gratis para siempre.",
+
+  "theme.toggle": "Cambiar modo oscuro",
+  "lang.label": "Idioma",
+
+  "fallback.notice": "Esta página aún no está disponible en tu idioma. Mostrando contenido en inglés."
+}

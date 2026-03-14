@@ -1,0 +1,48 @@
+---
+import type { UiStrings } from '../lib/i18n';
+
+interface Props {
+  ui: UiStrings;
+}
+
+const { ui } = Astro.props;
+
+const notice = ui['fallback.notice'] ?? 'This page is not yet available in your language. Showing English content.';
+---
+
+<div class="fallback-notice" role="note" aria-label="Content notice">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="8" x2="12" y2="12"/>
+    <line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  <p>{notice}</p>
+</div>
+
+<style>
+  .fallback-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    background: var(--bg-indigo-soft);
+    border: 1px solid var(--accent-indigo);
+    border-left-width: 4px;
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .fallback-notice svg {
+    color: var(--accent-indigo);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .fallback-notice p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    max-width: none;
+    color: var(--text-primary);
+  }
+</style>

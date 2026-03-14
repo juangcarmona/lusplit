@@ -20,11 +20,14 @@ yarn-error.log*
 node_modules/
 .pnpm-store/
 .pnp.*
-package-lock.json
+# package-lock.json
 yarn.lock
 
 # Keep pnpm lockfile
 !pnpm-lock.yaml
+
+.vs/
+.vscode/
 
 # =========================
 # Turborepo
@@ -117,3 +120,5 @@ apps/maui/src/LuSplit.App/.vs/
 apps/maui/src/LuSplit.App/.idea/
 
 /apps/maui/.vs
+/apps/maui/.github/copilot-instructions.md
+src/LuSplit.App/LuSplit.App.secrets.props

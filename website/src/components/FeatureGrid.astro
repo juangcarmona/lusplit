@@ -1,0 +1,104 @@
+---
+import type { UiStrings } from '../lib/i18n';
+
+export interface Feature {
+  titleKey: string;
+  descKey: string;
+  accent?: 'teal' | 'indigo';
+}
+
+interface Props {
+  ui: UiStrings;
+  features: Feature[];
+}
+
+const { ui, features } = Astro.props;
+
+// Simple icon mapping — inline SVG per feature slot
+const icons = [
+  // Users / Group
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  // Sliders / Split
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>`,
+  // Check / Balances
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
+  // Arrows / Settlement
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`,
+  // Download / Export
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+  // Shield / Privacy
+  `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+];
+---
+
+<div class="feature-grid">
+  {features.map((f, i) => (
+    <div class={`feature-card card${i % 2 === 0 ? ' feature-card--teal' : ' feature-card--indigo'}`}>
+      <div class={`feature-icon${i % 2 === 0 ? ' feature-icon--teal' : ' feature-icon--indigo'}`} set:html={icons[i % icons.length]} />
+      <h3 class="feature-title">{ui[f.titleKey] ?? f.titleKey}</h3>
+      <p class="feature-desc">{ui[f.descKey] ?? f.descKey}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: box-shadow var(--duration-standard) var(--ease-default),
+                transform var(--duration-fast) var(--ease-default);
+  }
+
+  .feature-card:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+  }
+
+  .feature-card--teal {
+    border-top: 3px solid var(--accent-teal);
+  }
+
+  .feature-card--indigo {
+    border-top: 3px solid var(--accent-indigo);
+  }
+
+  .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .feature-icon--teal {
+    background: var(--bg-teal-soft);
+    color: var(--accent-teal);
+  }
+
+  .feature-icon--indigo {
+    background: var(--bg-indigo-soft);
+    color: var(--accent-indigo);
+  }
+
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .feature-desc {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: none;
+  }
+</style>

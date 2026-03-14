@@ -1,0 +1,121 @@
+---
+import type { Lang, UiStrings } from '../lib/i18n';
+import { localizedHref } from '../lib/i18n';
+
+interface Props {
+  ui: UiStrings;
+  lang: Lang;
+  headline?: string;
+  subtitle?: string;
+  ctaPrimary?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondary?: string;
+  ctaSecondaryHref?: string;
+}
+
+const {
+  ui,
+  lang,
+  headline    = ui['hero.tagline']     ?? 'Split expenses without the chaos',
+  subtitle    = ui['hero.subtitle']    ?? 'A calm shared-expense tool for families and friends.',
+  ctaPrimary       = ui['hero.ctaPrimary']      ?? 'See Features',
+  ctaPrimaryHref   = localizedHref(lang, '/features'),
+  ctaSecondary     = ui['hero.ctaSecondary']    ?? 'How it works',
+  ctaSecondaryHref = localizedHref(lang, '/how-it-works'),
+} = Astro.props;
+---
+
+<section class="hero section">
+  <div class="container hero-inner">
+    <div class="hero-logo-wrap">
+      <img
+        src="/lusplit-logo.svg"
+        alt="LuSplit"
+        class="hero-logo"
+        width="80"
+        height="80"
+      />
+    </div>
+
+    <div class="hero-text">
+      <p class="hero-product-name">LuSplit</p>
+      <h1 class="hero-headline">{headline}</h1>
+      <p class="hero-subtitle">{subtitle}</p>
+
+      <div class="hero-actions">
+        <a href={ctaPrimaryHref} class="btn btn--primary hero-cta">{ctaPrimary}</a>
+        <a href={ctaSecondaryHref} class="btn btn--secondary hero-cta">{ctaSecondary}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding-block: 4rem;
+  }
+
+  .hero-logo-wrap {
+    flex-shrink: 0;
+  }
+
+  .hero-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hero-product-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-teal);
+  }
+
+  .hero-headline {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-primary);
+    max-width: 18ch;
+  }
+
+  .hero-subtitle {
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+    max-width: 52ch;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding-block: 2.5rem;
+    }
+  }
+</style>

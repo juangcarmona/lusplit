@@ -1,0 +1,82 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  accent?: 'teal' | 'indigo' | 'none';
+  centered?: boolean;
+}
+
+const { title, subtitle, accent = 'none', centered = false } = Astro.props;
+---
+
+<section class={`section-block section ${centered ? 'section-block--centered' : ''}`}>
+  <div class="container">
+    {(title || subtitle) && (
+      <div class={`section-header${accent !== 'none' ? ` section-header--${accent}` : ''}`}>
+        {title && <h2 class="section-title">{title}</h2>}
+        {subtitle && <p class="section-subtitle">{subtitle}</p>}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section-block {
+    background: var(--bg);
+  }
+
+  .section-block:nth-child(even) {
+    background: var(--bg-surface);
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-block--centered .section-header {
+    text-align: center;
+  }
+
+  .section-block--centered .section-subtitle {
+    margin-inline: auto;
+  }
+
+  .section-header--teal .section-title::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 3px;
+    background: var(--accent-teal);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+
+  .section-header--indigo .section-title::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 3px;
+    background: var(--accent-indigo);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+
+  .section-block--centered .section-header--teal .section-title::after,
+  .section-block--centered .section-header--indigo .section-title::after {
+    margin-inline: auto;
+  }
+
+  .section-title {
+    font-size: clamp(1.375rem, 3vw, 1.875rem);
+    color: var(--text-primary);
+    margin-bottom: 0.625rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 55ch;
+    line-height: 1.7;
+  }
+</style>
