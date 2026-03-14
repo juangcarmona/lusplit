@@ -48,7 +48,7 @@ jobs:
         run: dotnet workload restore src/LuSplit.App/LuSplit.App.csproj
 
       - name: Restore
-        run: dotnet restore src/LuSplit.slnx --locked-mode
+        run: dotnet restore LuSplit.slnx --locked-mode
 
       - name: Build Android
         run: dotnet build src/LuSplit.App/LuSplit.App.csproj -c Release -f net10.0-android --no-restore
