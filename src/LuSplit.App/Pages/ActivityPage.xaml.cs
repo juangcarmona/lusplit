@@ -39,11 +39,6 @@ public partial class ActivityPage : ContentPage
         }
     }
 
-    private async void OnAddEventClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
-    }
-
     private async void OnDataChanged(object? sender, EventArgs e)
     {
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);

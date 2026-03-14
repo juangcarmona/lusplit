@@ -175,6 +175,18 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextMutedGray}, Dark={StaticResource TextMutedOnDark}}" />
     </Style>
 
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource TextOnDark}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource StrokeDark}}" />
+        <Setter Property="BorderWidth" Value="1.5" />
+        <Setter Property="FontFamily" Value="BrandMedium" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+    </Style>
+
     <Style x:Key="ChipBorder" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}" />
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource StrokeLight}, Dark={StaticResource StrokeDark}}" />

@@ -4,6 +4,7 @@ using LuSplit.Application.Queries;
 using LuSplit.Domain.Entities;
 using LuSplit.Domain.Split;
 using LuSplit.Infrastructure.Client;
+using LuSplit.Infrastructure.Export;
 using Microsoft.Maui.Storage;
 
 namespace LuSplit.App.Services;
@@ -269,6 +270,27 @@ public sealed class AppDataService : IAsyncDisposable
             infra.TransferRepository).ExecuteAsync(selectedGroupId, mode);
 
         return (balances, settlement);
+    }
+
+    public async Task<ExportFileResult> ExportTripAsync(string groupId, ExportFormat format)
+    {
+        var workspace = await GetTripWorkspaceAsync(groupId);
+        var outputDir = FileSystem.CacheDirectory;
+        var dto = new ExportTripDto(
+            groupId,
+            workspace.TripName,
+            DateTimeOffset.UtcNow.ToString("O"),
+            workspace.Overview,
+            outputDir);
+
+        var exporter = new TripExporterService();
+        return format switch
+        {
+            ExportFormat.Json => await exporter.ExportJsonAsync(dto),
+            ExportFormat.Csv => await exporter.ExportCsvBundleAsync(dto),
+            ExportFormat.Pdf => await exporter.ExportPdfAsync(dto),
+            _ => throw new ArgumentOutOfRangeException(nameof(format))
+        };
     }
 
     public async ValueTask DisposeAsync()

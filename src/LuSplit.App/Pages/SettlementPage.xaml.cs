@@ -39,11 +39,6 @@ public partial class SettlementPage : ContentPage
         }
     }
 
-    private async void OnAddEventClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
-    }
-
     private async void OnRecordPaymentClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.RecordPayment);

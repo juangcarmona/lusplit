@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.SettlementPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Balances">
+             Title="Settle up">
     <Grid RowDefinitions="*,Auto">
 
 
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
             <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="Who owes who" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Simple balances for this trip." Style="{StaticResource BodyMuted}" />
+                <Label Text="Who owes what" Style="{StaticResource DisplayTitle}" />
+                <Label Text="Record payments only when money actually changes hands." Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
@@ -35,15 +35,16 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Grid Grid.Row="2" Margin="20,12,20,20" ColumnDefinitions="*,*" ColumnSpacing="12">
-                <Button Grid.Column="0" Text="+ Add event" Clicked="OnAddEventClicked" />
-                <Button Grid.Column="1" Text="Record payment" Clicked="OnRecordPaymentClicked" />
-            </Grid>
+            <Button Grid.Row="2"
+                Margin="20,12,20,20"
+                Text="Record payment"
+                Clicked="OnRecordPaymentClicked" />
         </Grid>
 
         <Border Grid.Row="1"
-                BackgroundColor="{StaticResource White}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
+                HeightRequest="56"
                 Padding="0,4">
             <admob:MTAdView
                 x:Name="BottomBanner"

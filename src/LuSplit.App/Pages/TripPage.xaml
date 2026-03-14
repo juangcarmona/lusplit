@@ -4,32 +4,62 @@
              x:Class="LuSplit.App.Pages.TripPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              Title="Trip">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Details" Clicked="OnTripDetailsClicked" />
+    </ContentPage.ToolbarItems>
+
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="0">
-                <VerticalStackLayout Padding="20,24,20,12" Spacing="8">
-                    <Label Text="{Binding TripName}" Style="{StaticResource DisplayTitle}" />
-                    <Label Text="{Binding TripSummaryText}" Style="{StaticResource SectionTitle}" />
-                    <Label Text="{Binding TripBalancePreviewText}" Style="{StaticResource BodyMuted}" />
+            <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
 
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                        <Button Grid.Column="0" Text="Trip details" Clicked="OnTripDetailsClicked" />
-                        <Button Grid.Column="1" Text="Back to trips" Clicked="OnBackToTripsClicked" />
-                    </Grid>
+                <!-- Trip header -->
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding TripName}" Style="{StaticResource DisplayTitle}" />
+                    <Label Text="{Binding TripSummaryText}" Style="{StaticResource BodyMuted}" />
                 </VerticalStackLayout>
 
-                <CollectionView Grid.Row="1"
-                            Margin="20,0,20,0"
-                            ItemsSource="{Binding TimelineItems}"
-                            SelectionMode="None">
-                    <CollectionView.Header>
-                        <Label Margin="0,0,0,12" Text="What happened" Style="{StaticResource SectionTitle}" />
-                    </CollectionView.Header>
+                <!-- Balance summary card -->
+                <Border Style="{StaticResource ExpenseItemBorder}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Who owes what" Style="{StaticResource SectionTitle}" />
+                        <CollectionView ItemsSource="{Binding BalanceLines}"
+                                        SelectionMode="None">
+                            <CollectionView.EmptyView>
+                                <Label Text="Everyone is even right now." Style="{StaticResource BodyText}" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,0,0,6">
+                                        <Label Text="{Binding Text}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource CardAmount}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Button Text="Settle up"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalOptions="Start"
+                                Clicked="OnSettleUpClicked" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Events section -->
+                <Label Text="Events" Style="{StaticResource SectionTitle}" Margin="0,4,0,0" />
+
+                <CollectionView ItemsSource="{Binding TimelineItems}"
+                                SelectionMode="None">
                     <CollectionView.EmptyView>
-                        <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                            <Label Text="Your trip just started." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                            <Label Text="Add the first event." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
-                            <Label Text="Dinner • Taxi • Groceries" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <VerticalStackLayout Padding="0,16,0,0" Spacing="8">
+                            <Label Text="Your trip just started."
+                                   Style="{StaticResource SectionTitle}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Add the first expense below."
+                                   Style="{StaticResource BodyMuted}"
+                                   HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
@@ -37,9 +67,9 @@
                             <Border Style="{StaticResource ExpenseItemBorder}">
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto">
                                     <Label Grid.RowSpan="3"
-                                       Text="{Binding Icon}"
-                                       FontSize="28"
-                                       VerticalTextAlignment="Center" />
+                                           Text="{Binding Icon}"
+                                           FontSize="28"
+                                           VerticalTextAlignment="Center" />
                                     <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource CardTitle}" />
                                     <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
                                     <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PrimaryText}" Style="{StaticResource BodyText}" />
@@ -51,16 +81,23 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Grid.Row="2"
-                    Margin="20,12,20,20"
-                    Text="+ Add event"
-                    Clicked="OnAddEventClicked" />
-            </Grid>
+                <!-- Quick actions -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0">
+                    <Button Grid.Column="0" Text="+ Add expense" Clicked="OnAddEventClicked" />
+                    <Button Grid.Column="1"
+                            Text="Record payment"
+                            Style="{StaticResource SecondaryButton}"
+                            Clicked="OnRecordPaymentClicked" />
+                </Grid>
+
+            </VerticalStackLayout>
         </ScrollView>
+
+        <!-- Ad banner -->
         <Border Grid.Row="1"
-                BackgroundColor="{StaticResource CardDark}"
-                HeightRequest="56"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
+                HeightRequest="56"
                 Padding="0,4">
             <admob:MTAdView
                 x:Name="BottomBanner"

@@ -15,10 +15,6 @@
             Title="Activity"
             ContentTemplate="{DataTemplate pages:ActivityPage}"
             Route="activity" />
-        <ShellContent
-            Title="Balances"
-            ContentTemplate="{DataTemplate pages:SettlementPage}"
-            Route="balances" />
     </TabBar>
 
 </Shell>
