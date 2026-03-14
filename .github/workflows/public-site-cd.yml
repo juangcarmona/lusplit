@@ -21,7 +21,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/web
+        working-directory: website
 
     steps:
       - name: Checkout
