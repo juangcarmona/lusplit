@@ -1,0 +1,40 @@
+{
+  "nav.home": "Home",
+  "nav.features": "Features",
+  "nav.howItWorks": "How it Works",
+  "nav.privacy": "Privacy",
+  "nav.support": "Support",
+
+  "hero.tagline": "Split expenses without the chaos",
+  "hero.subtitle": "A calm shared-expense tool for families and friends. Free, offline-first, and open-source.",
+  "hero.ctaPrimary": "See Features",
+  "hero.ctaSecondary": "How it Works",
+
+  "features.sectionTitle": "What LuSplit does",
+  "features.sectionSubtitle": "A focused set of tools for splitting expenses fairly.",
+
+  "feature1.title": "Groups",
+  "feature1.desc": "Create a group for any shared situation — trips, households, or events.",
+  "feature2.title": "Fair Splitting",
+  "feature2.desc": "Split equally, by exact amount, by percentage, or by weight.",
+  "feature3.title": "Clear Balances",
+  "feature3.desc": "Always know who owes what. Balances are updated as you go.",
+  "feature4.title": "Simple Settlement",
+  "feature4.desc": "Get a minimal list of transfers. Settle without back-and-forth.",
+  "feature5.title": "Export Everything",
+  "feature5.desc": "Take your data as JSON, CSV, or PDF. It belongs to you.",
+  "feature6.title": "No Accounts Needed",
+  "feature6.desc": "No sign-up. No login. Works immediately on your device.",
+
+  "cta.headline": "Ready to split fairly?",
+  "cta.subtext": "LuSplit is open-source and free forever. No paywalls.",
+  "cta.button": "See how it works",
+
+  "footer.tagline": "A calm utility for shared expenses.",
+  "footer.copyright": "LuSplit. Open-source. Free forever.",
+
+  "theme.toggle": "Toggle dark mode",
+  "lang.label": "Language",
+
+  "fallback.notice": "This page is not yet available in your language. Showing English content."
+}

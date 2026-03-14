@@ -1,0 +1,62 @@
+---
+import type { Lang, UiStrings } from '../lib/i18n';
+import { SUPPORTED_LANGS, LANG_NAMES } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  ui: UiStrings;
+  currentPath: string;
+}
+
+const { lang, ui, currentPath } = Astro.props;
+
+function switchLangHref(targetLang: Lang): string {
+  // Replace the current lang segment with the target lang
+  return currentPath.replace(/^\/(en|es|fr|de|pt|it)(\/|$)/, `/${targetLang}$2`) || `/${targetLang}`;
+}
+---
+
+<div class="lang-switcher">
+  <label for="lang-select" class="visually-hidden">{ui['lang.label'] ?? 'Language'}</label>
+  <select
+    id="lang-select"
+    class="lang-select"
+    aria-label={ui['lang.label'] ?? 'Select language'}
+    onchange="window.location.href = this.value"
+  >
+    {SUPPORTED_LANGS.map(l => (
+      <option value={switchLangHref(l)} selected={l === lang}>
+        {LANG_NAMES[l]}
+      </option>
+    ))}
+  </select>
+</div>
+
+<style>
+  .lang-select {
+    appearance: none;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.375rem 2rem 0.375rem 0.625rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    transition: border-color var(--duration-fast) var(--ease-default);
+  }
+
+  .lang-select:hover {
+    border-color: var(--accent-teal);
+  }
+
+  .lang-select:focus {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+  }
+</style>

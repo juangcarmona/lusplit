@@ -1,0 +1,40 @@
+{
+  "nav.home": "Startseite",
+  "nav.features": "Funktionen",
+  "nav.howItWorks": "So funktioniert es",
+  "nav.privacy": "Datenschutz",
+  "nav.support": "Support",
+
+  "hero.tagline": "Kosten teilen ohne Chaos",
+  "hero.subtitle": "Ein ruhiges Tool für gemeinsame Ausgaben unter Familien und Freunden. Kostenlos, offline-fähig und open-source.",
+  "hero.ctaPrimary": "Funktionen ansehen",
+  "hero.ctaSecondary": "So funktioniert es",
+
+  "features.sectionTitle": "Was LuSplit leistet",
+  "features.sectionSubtitle": "Ein fokussierter Satz an Werkzeugen für eine faire Kostenaufteilung.",
+
+  "feature1.title": "Gruppen",
+  "feature1.desc": "Erstellen Sie eine Gruppe für jede gemeinsame Situation — Reisen, Wohngemeinschaften oder Events.",
+  "feature2.title": "Faire Aufteilung",
+  "feature2.desc": "Teilen Sie zu gleichen Teilen, nach Betrag, nach Prozentsatz oder nach Gewicht auf.",
+  "feature3.title": "Klare Salden",
+  "feature3.desc": "Sehen Sie jederzeit, wer wem was schuldet. Salden werden laufend aktualisiert.",
+  "feature4.title": "Einfache Abrechnung",
+  "feature4.desc": "Erhalten Sie eine minimale Liste von Überweisungen. Abrechnen ohne Hin und Her.",
+  "feature5.title": "Alles exportieren",
+  "feature5.desc": "Nehmen Sie Ihre Daten als JSON, CSV oder PDF mit. Sie gehören Ihnen.",
+  "feature6.title": "Kein Konto erforderlich",
+  "feature6.desc": "Keine Registrierung. Kein Login. Funktioniert sofort auf Ihrem Gerät.",
+
+  "cta.headline": "Bereit für eine faire Aufteilung?",
+  "cta.subtext": "LuSplit ist open-source und für immer kostenlos. Keine Bezahlschranken.",
+  "cta.button": "So funktioniert es",
+
+  "footer.tagline": "Ein ruhiges Tool für gemeinsame Ausgaben.",
+  "footer.copyright": "LuSplit. Open-source. Für immer kostenlos.",
+
+  "theme.toggle": "Dunkelmodus umschalten",
+  "lang.label": "Sprache",
+
+  "fallback.notice": "Diese Seite ist noch nicht in Ihrer Sprache verfügbar. Es wird englischer Inhalt angezeigt."
+}

@@ -1,0 +1,48 @@
+name: public-site-ci
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - '.github/workflows/public-site-ci.yml'
+      - '.github/workflows/public-site-cd.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Astro site
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting/lint
+        run: npm run lint --if-present
+
+      - name: Run Astro checks
+        run: npm run check --if-present
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: public-site-dist
+          path: website/dist
+          if-no-files-found: error

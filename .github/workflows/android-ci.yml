@@ -1,0 +1,54 @@
+name: android-ci
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/LuSplit.*/**'
+      - '.github/workflows/android-ci.yml'
+      - '.github/workflows/android-cd.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: android-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Android app
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Create secrets props
+        shell: pwsh
+        run: |
+          @"
+          <Project>
+            <PropertyGroup>
+              <MapsApiKey>${{ secrets.MAPS_API_KEY }}</MapsApiKey>
+              <AdMobAppId>${{ secrets.ADMOB_APP_ID }}</AdMobAppId>
+              <AdMobBannerTest>${{ secrets.ADMOB_BANNER_TEST }}</AdMobBannerTest>
+              <AdMobBannerProd>${{ secrets.ADMOB_BANNER_PROD }}</AdMobBannerProd>
+            </PropertyGroup>
+          </Project>
+          "@ | Set-Content -Path src/LuSplit.App/LuSplit.App.secrets.props -Encoding UTF8
+
+      - name: Install required workloads
+        run: dotnet workload restore src/LuSplit.App/LuSplit.App.csproj
+
+      - name: Restore
+        run: dotnet restore src/LuSplit.slnx --locked-mode
+
+      - name: Build Android
+        run: dotnet build src/LuSplit.App/LuSplit.App.csproj -c Release -f net10.0-android --no-restore

@@ -1,0 +1,56 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import SectionBlock from '../../components/SectionBlock.astro';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import CtaBlock from '../../components/CtaBlock.astro';
+import FallbackNotice from '../../components/FallbackNotice.astro';
+import { SUPPORTED_LANGS, getPageContent, getUiStrings, localizedHref } from '../../lib/i18n';
+import type { Lang } from '../../lib/i18n';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+};
+
+const { lang } = Astro.params as { lang: Lang };
+const ui = getUiStrings(lang);
+const { Content, frontmatter, isFallback } = getPageContent(lang, 'home');
+
+const features = [
+  { titleKey: 'feature1.title', descKey: 'feature1.desc' },
+  { titleKey: 'feature2.title', descKey: 'feature2.desc' },
+  { titleKey: 'feature3.title', descKey: 'feature3.desc' },
+  { titleKey: 'feature4.title', descKey: 'feature4.desc' },
+  { titleKey: 'feature5.title', descKey: 'feature5.desc' },
+  { titleKey: 'feature6.title', descKey: 'feature6.desc' },
+];
+---
+
+<BaseLayout lang={lang} title={frontmatter.title} description={frontmatter.description} ui={ui}>
+  <HeroSection lang={lang} ui={ui} />
+
+  <SectionBlock
+    title={ui['features.sectionTitle']}
+    subtitle={ui['features.sectionSubtitle']}
+    accent="teal"
+    centered={false}
+  >
+    <FeatureGrid ui={ui} features={features} />
+  </SectionBlock>
+
+  <SectionBlock>
+    {isFallback && <FallbackNotice ui={ui} />}
+    <div class="prose">
+      <Content />
+    </div>
+  </SectionBlock>
+
+  <CtaBlock
+    headline={ui['cta.headline']}
+    subtext={ui['cta.subtext']}
+    buttonLabel={ui['cta.button']}
+    buttonHref={localizedHref(lang, '/how-it-works')}
+    accent="teal"
+  />
+</BaseLayout>

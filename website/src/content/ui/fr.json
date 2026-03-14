@@ -1,0 +1,40 @@
+{
+  "nav.home": "Accueil",
+  "nav.features": "Fonctionnalités",
+  "nav.howItWorks": "Comment ça marche",
+  "nav.privacy": "Confidentialité",
+  "nav.support": "Support",
+
+  "hero.tagline": "Partagez les dépenses sans complications",
+  "hero.subtitle": "Un outil calme pour les dépenses partagées entre familles et amis. Gratuit, hors ligne et open-source.",
+  "hero.ctaPrimary": "Voir les fonctionnalités",
+  "hero.ctaSecondary": "Comment ça marche",
+
+  "features.sectionTitle": "Ce que fait LuSplit",
+  "features.sectionSubtitle": "Un ensemble d'outils pour partager équitablement les dépenses.",
+
+  "feature1.title": "Groupes",
+  "feature1.desc": "Créez un groupe pour toute situation partagée : voyages, logements ou événements.",
+  "feature2.title": "Partage équitable",
+  "feature2.desc": "Divisez à parts égales, par montant exact, par pourcentage ou par pondération.",
+  "feature3.title": "Soldes clairs",
+  "feature3.desc": "Sachez toujours qui doit quoi. Les soldes sont mis à jour au fur et à mesure.",
+  "feature4.title": "Règlement simple",
+  "feature4.desc": "Obtenez une liste minimale de virements. Réglez sans allers-retours.",
+  "feature5.title": "Exportez tout",
+  "feature5.desc": "Récupérez vos données en JSON, CSV ou PDF. Elles vous appartiennent.",
+  "feature6.title": "Sans compte requis",
+  "feature6.desc": "Pas d'inscription. Pas de connexion. Fonctionne immédiatement sur votre appareil.",
+
+  "cta.headline": "Prêt à partager équitablement ?",
+  "cta.subtext": "LuSplit est open-source et gratuit pour toujours. Sans barrières tarifaires.",
+  "cta.button": "Voir comment ça marche",
+
+  "footer.tagline": "Un outil calme pour les dépenses partagées.",
+  "footer.copyright": "LuSplit. Open-source. Gratuit pour toujours.",
+
+  "theme.toggle": "Basculer le mode sombre",
+  "lang.label": "Langue",
+
+  "fallback.notice": "Cette page n'est pas encore disponible dans votre langue. Affichage du contenu en anglais."
+}

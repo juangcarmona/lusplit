@@ -1,0 +1,38 @@
+﻿using LuSplit.App.Pages;
+using LuSplit.App.Services;
+using Microsoft.Extensions.Logging;
+using Plugin.MauiMtAdmob;
+
+namespace LuSplit.App;
+
+public static class MauiProgram
+{
+	public static MauiApp CreateMauiApp()
+	{
+		var builder = MauiApp.CreateBuilder();
+		builder
+			.UseMauiApp<App>()
+			.UseMauiMTAdmob()
+            .ConfigureFonts(fonts =>
+			{
+				fonts.AddFont("OpenSans-Regular.ttf", "BrandRegular");
+				fonts.AddFont("OpenSans-Semibold.ttf", "BrandMedium");
+			});
+
+		builder.Services.AddSingleton<AppDataService>();
+		builder.Services.AddSingleton<AppShell>();
+		builder.Services.AddTransient<HomePage>();
+		builder.Services.AddTransient<TripPage>();
+		builder.Services.AddTransient<TripDetailsPage>();
+		builder.Services.AddTransient<ActivityPage>();
+		builder.Services.AddTransient<AddExpensePage>();
+		builder.Services.AddTransient<SettlementPage>();
+		builder.Services.AddTransient<RecordPaymentPage>();
+
+#if DEBUG
+		builder.Logging.AddDebug();
+#endif
+
+		return builder.Build();
+	}
+}

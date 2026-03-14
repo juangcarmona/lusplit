@@ -1,0 +1,88 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/global.css';
+import type { Lang } from '../lib/i18n';
+import type { UiStrings } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  ui: UiStrings;
+  /** Canonical href override. Defaults to /en equivalent of current page. */
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  ui,
+  canonical,
+  ogImage = '/lusplit-logo.png',
+} = Astro.props;
+
+const siteUrl = 'https://lusplit.app';
+const canonicalUrl = canonical ?? `${siteUrl}/en${Astro.url.pathname.replace(/^\/(en|es|fr|de|pt|it)/, '')}`;
+const fullTitle = title.includes('LuSplit') ? title : `${title} — LuSplit`;
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:site_name" content="LuSplit" />
+    <meta property="og:locale" content={lang} />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/lusplit-logo.svg" />
+    <link rel="icon" type="image/png" href="/lusplit-logo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme init: read localStorage before first paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem('lusplit-theme');
+          if (stored === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else if (stored === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <SiteHeader lang={lang} ui={ui} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} ui={ui} />
+  </body>
+</html>

@@ -1,0 +1,227 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import type { Lang, UiStrings } from '../lib/i18n';
+import { localizedHref } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  ui: UiStrings;
+}
+
+const { lang, ui } = Astro.props;
+
+const navItems = [
+  { key: 'nav.home',       href: localizedHref(lang, '/') },
+  { key: 'nav.features',   href: localizedHref(lang, '/features') },
+  { key: 'nav.howItWorks', href: localizedHref(lang, '/how-it-works') },
+  { key: 'nav.privacy',    href: localizedHref(lang, '/privacy') },
+  { key: 'nav.support',    href: localizedHref(lang, '/support') },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={localizedHref(lang, '/')} class="logo-link" aria-label="LuSplit home">
+      <img src="/lusplit-logo.svg" alt="LuSplit" class="logo-img" width="36" height="36" />
+      <span class="logo-wordmark">LuSplit</span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+      <span class="hamburger"></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" role="navigation" aria-label="Main navigation">
+      <ul class="nav-list">
+        {navItems.map(item => (
+          <li>
+            <a
+              href={item.href}
+              class={`nav-link${currentPath === item.href || currentPath === item.href + '/' ? ' nav-link--active' : ''}`}
+            >
+              {ui[item.key] ?? item.key}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <LanguageSwitcher lang={lang} ui={ui} currentPath={currentPath} />
+      <ThemeToggle ui={ui} />
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('main-nav--open', !expanded);
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 64px;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .logo-wordmark {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .logo-link:hover .logo-wordmark {
+    color: var(--accent-teal);
+  }
+
+  .main-nav {
+    flex: 1;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-default),
+                background-color var(--duration-fast) var(--ease-default);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link:hover,
+  .nav-link--active {
+    color: var(--accent-teal);
+    background-color: var(--bg-teal-soft);
+    text-decoration: none;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    min-height: 44px;
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    margin-left: auto;
+  }
+
+  .hamburger,
+  .hamburger::before,
+  .hamburger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform var(--duration-fast) var(--ease-default),
+                opacity var(--duration-fast) var(--ease-default);
+  }
+
+  .hamburger {
+    position: relative;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .hamburger::before { top: -6px; }
+  .hamburger::after  { top: 6px; }
+
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .main-nav {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      padding: 0.75rem var(--page-px);
+      flex: none;
+    }
+
+    .main-nav--open {
+      display: block;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .nav-link {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+</style>
