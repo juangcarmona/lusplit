@@ -6,10 +6,10 @@
              Title="Activity">
     <Grid RowDefinitions="*,Auto">
 
-        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+        <Grid RowDefinitions="Auto,*" RowSpacing="0">
             <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
                 <Label Text="Activity" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Everything that happened recently." Style="{StaticResource BodyMuted}" />
+                <Label Text="Recent events from your current trip." Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
@@ -19,8 +19,8 @@
                         SelectionMode="None">
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                        <Label Text="No activity yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                        <Label Text="Add the first event to get this trip moving." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <Label Text="Nothing here yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label Text="Open a trip and add the first event." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.GroupHeaderTemplate>
@@ -45,15 +45,12 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Button Grid.Row="2"
-                Margin="20,12,20,20"
-                Text="+ Add event"
-                Clicked="OnAddEventClicked" />
         </Grid>
 
         <Border Grid.Row="1"
-                BackgroundColor="{StaticResource White}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
+                HeightRequest="56"
                 Padding="0,4">
             <admob:MTAdView
                 x:Name="BottomBanner"

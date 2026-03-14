@@ -9,5 +9,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(AppRoutes.TripDetails, typeof(Pages.TripDetailsPage));
 		Routing.RegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));
 		Routing.RegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
+		Routing.RegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
 	}
 }

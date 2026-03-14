@@ -5,7 +5,9 @@
              x:Class="LuSplit.App.Pages.HomePage"
              Title="Trips">
     <Grid RowDefinitions="*,Auto">
-        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+
+        <!-- Main content: scrollable trip list + New trip button -->
+        <Grid RowDefinitions="*,Auto" RowSpacing="0">
             <ScrollView>
                 <VerticalStackLayout Padding="20,24,20,12" Spacing="16">
                     <VerticalStackLayout Spacing="6">
@@ -13,23 +15,7 @@
                         <Label Text="Pick up where you left off or start a new trip." Style="{StaticResource BodyMuted}" />
                     </VerticalStackLayout>
 
-                    <Border IsVisible="{Binding HasCurrentTrip}" Style="{StaticResource ExpenseItemBorder}">
-                        <VerticalStackLayout Spacing="10">
-                            <Label Text="Current trip" Style="{StaticResource FieldLabel}" />
-                            <Label Text="{Binding CurrentTripName}" Style="{StaticResource SectionTitle}" />
-                            <Label Text="{Binding CurrentTripSummaryText}" Style="{StaticResource BodyText}" />
-                            <Label Text="{Binding CurrentTripBalanceText}" Style="{StaticResource BodyMuted}" />
-                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                                <Button Grid.Column="0" Text="Open trip" Clicked="OnOpenCurrentTripClicked" />
-                                <Button Grid.Column="1" Text="Trip details" Clicked="OnEditCurrentTripClicked" />
-                            </Grid>
-                        </VerticalStackLayout>
-                    </Border>
-
                     <CollectionView ItemsSource="{Binding Trips}" SelectionMode="None">
-                        <CollectionView.Header>
-                            <Label Margin="0,0,0,12" Text="All trips" Style="{StaticResource SectionTitle}" />
-                        </CollectionView.Header>
                         <CollectionView.EmptyView>
                             <VerticalStackLayout Padding="0,24,0,0" Spacing="8">
                                 <Label Text="No trips yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
@@ -39,28 +25,31 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource ExpenseItemBorder}">
-                                    <VerticalStackLayout Spacing="8">
-                                        <Label Text="{Binding StatusText}" Style="{StaticResource FieldLabel}" />
+                                    <VerticalStackLayout Spacing="10">
                                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                             <VerticalStackLayout Spacing="4">
                                                 <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
                                                 <Label Text="{Binding SummaryText}" Style="{StaticResource BodyText}" />
                                                 <Label Text="{Binding BalancePreviewText}" Style="{StaticResource BodyMuted}" />
                                             </VerticalStackLayout>
-                                            <Label Grid.Column="1"
-                                               Text="{Binding Currency}"
-                                               Style="{StaticResource BodyMuted}"
-                                               VerticalTextAlignment="Start" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Start">
+                                                <Label Text="{Binding Currency}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                                                <Border Style="{StaticResource PillBorder}" IsVisible="{Binding IsCurrent}">
+                                                    <Label Text="Active" Style="{StaticResource PillLabel}" TextColor="{StaticResource PanelLeftTeal}" />
+                                                </Border>
+                                            </VerticalStackLayout>
                                         </Grid>
-                                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                             <Button Grid.Column="0"
                                                 Text="Open"
                                                 Clicked="OnOpenTripClicked"
                                                 CommandParameter="{Binding GroupId}" />
                                             <Button Grid.Column="1"
                                                 Text="Details"
+                                                Style="{StaticResource SecondaryButton}"
                                                 Clicked="OnEditTripClicked"
-                                                CommandParameter="{Binding GroupId}" />
+                                                CommandParameter="{Binding GroupId}"
+                                                WidthRequest="100" />
                                         </Grid>
                                     </VerticalStackLayout>
                                 </Border>
@@ -70,15 +59,15 @@
                 </VerticalStackLayout>
             </ScrollView>
 
-            <Button Grid.Row="2"
+            <Button Grid.Row="1"
                 Margin="20,12,20,20"
                 Text="+ New trip"
                 Clicked="OnNewTripClicked" />
         </Grid>
 
-
+        <!-- Ad banner -->
         <Border Grid.Row="1"
-                BackgroundColor="{StaticResource CardDark}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
                 HeightRequest="56"
                 Padding="0,4">

@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
+using LuSplit.Application.Models;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
 
 namespace LuSplit.App.Pages;
 
@@ -27,6 +29,8 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     public string StatusText { get; set; } = string.Empty;
 
     public string PageTitle => IsCreateMode ? "New trip" : "Trip details";
+
+    public bool CanExport => !IsCreateMode;
 
     public string PageSubtitle => IsCreateMode
         ? "Set up the trip once, then start adding events."
@@ -97,6 +101,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         OnPropertyChanged(nameof(PageTitle));
         OnPropertyChanged(nameof(PageSubtitle));
         OnPropertyChanged(nameof(SaveButtonText));
+        OnPropertyChanged(nameof(CanExport));
     }
 
     private async void OnAddPersonClicked(object? sender, EventArgs e)
@@ -223,6 +228,46 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         if (!CurrencyOptions.Contains(currency, StringComparer.OrdinalIgnoreCase))
         {
             CurrencyOptions.Add(currency.ToUpperInvariant());
+        }
+    }
+
+    private async void OnExportClicked(object? sender, EventArgs e)
+    {
+        if (_groupId is null) return;
+
+        var choice = await DisplayActionSheet(
+            "Export this trip",
+            "Cancel",
+            null,
+            "JSON snapshot",
+            "CSV spreadsheet",
+            "PDF summary");
+
+        if (string.IsNullOrEmpty(choice) || choice == "Cancel") return;
+
+        var format = choice switch
+        {
+            "JSON snapshot" => (ExportFormat?)ExportFormat.Json,
+            "CSV spreadsheet" => ExportFormat.Csv,
+            "PDF summary" => ExportFormat.Pdf,
+            _ => (ExportFormat?)null
+        };
+
+        if (format is null) return;
+
+        try
+        {
+            var result = await _dataService.ExportTripAsync(_groupId, format.Value);
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = "Export trip",
+                File = new ShareFile(result.FilePath, result.MimeType)
+            });
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Export failed. {ex.Message}";
+            OnPropertyChanged(nameof(StatusText));
         }
     }
 

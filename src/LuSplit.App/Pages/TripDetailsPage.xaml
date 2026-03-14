@@ -63,12 +63,20 @@
                 </Border>
 
                 <Button Text="{Binding SaveButtonText}" Clicked="OnSaveClicked" />
+
+                <Button Text="Export trip"
+                        IsVisible="{Binding CanExport}"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,4,0,0"
+                        Clicked="OnExportClicked" />
+
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
         </ScrollView>
         <Border Grid.Row="1"
-            BackgroundColor="{StaticResource White}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
             StrokeThickness="0"
+            HeightRequest="56"
             Padding="0,4">
             <admob:MTAdView
             x:Name="BottomBanner"

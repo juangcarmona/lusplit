@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
+using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
@@ -9,11 +10,11 @@ public partial class TripPage : ContentPage
 
     public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
 
+    public ObservableCollection<BalanceLineViewModel> BalanceLines { get; } = new();
+
     public string TripName { get; private set; } = "Trip";
 
-    public string TripSummaryText { get; private set; } = "0 people ready to go";
-
-    public string TripBalancePreviewText { get; private set; } = "Everyone is even right now.";
+    public string TripSummaryText { get; private set; } = string.Empty;
 
     public TripPage(AppDataService dataService)
     {
@@ -40,18 +41,18 @@ public partial class TripPage : ContentPage
 
         TripName = workspace.TripName;
         TripSummaryText = TripPresentationMapper.BuildTripSummary(workspace.Overview);
-        TripBalancePreviewText = TripPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? "Everyone is even right now.";
         Title = workspace.TripName;
 
         TimelineItems.Clear();
         foreach (var item in TripPresentationMapper.BuildTimeline(workspace.Overview, workspace.ExpenseIcons))
-        {
             TimelineItems.Add(item);
-        }
+
+        BalanceLines.Clear();
+        foreach (var line in TripPresentationMapper.BuildWhoOwesWho(workspace.Overview, SettlementMode.Participant))
+            BalanceLines.Add(line);
 
         OnPropertyChanged(nameof(TripName));
         OnPropertyChanged(nameof(TripSummaryText));
-        OnPropertyChanged(nameof(TripBalancePreviewText));
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -64,13 +65,18 @@ public partial class TripPage : ContentPage
         await Shell.Current.GoToAsync(AppRoutes.TripDetails);
     }
 
-    private async void OnBackToTripsClicked(object? sender, EventArgs e)
+    private async void OnSettleUpClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync(AppRoutes.Settlement);
     }
 
     private async void OnAddEventClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.AddEvent);
+    }
+
+    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
     }
 }
