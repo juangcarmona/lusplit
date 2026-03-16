@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 
@@ -68,14 +69,14 @@ public partial class AddExpensePage : ContentPage
         {
             if (string.IsNullOrWhiteSpace(ExpenseTitle))
             {
-                StatusText = "Title is required.";
+                StatusText = AppResources.Validation_TitleRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             if (!TryParseAmount(AmountText, out var amountMinor))
             {
-                StatusText = "Enter a valid amount.";
+                StatusText = AppResources.Validation_InvalidAmount;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -83,7 +84,7 @@ public partial class AddExpensePage : ContentPage
             var payer = _participants.FirstOrDefault(p => p.Name == SelectedPayerName);
             if (payer is null)
             {
-                StatusText = "Select a payer.";
+                StatusText = AppResources.Validation_SelectPayer;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -91,13 +92,13 @@ public partial class AddExpensePage : ContentPage
             var selectedParticipants = ParticipantOptions.Where(option => option.IsSelected).Select(option => option.Id).ToArray();
             if (selectedParticipants.Length == 0)
             {
-                StatusText = "Pick at least one person.";
+                StatusText = AppResources.Validation_PickAtLeastOnePerson;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants, null);
-            StatusText = "Event saved.";
+            StatusText = AppResources.AddEvent_Saved;
             OnPropertyChanged(nameof(ExpenseTitle));
             OnPropertyChanged(nameof(StatusText));
             await Shell.Current.GoToAsync("..");

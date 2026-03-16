@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 
@@ -69,21 +70,21 @@ public partial class RecordPaymentPage : ContentPage
 
             if (from is null || to is null)
             {
-                StatusText = "Choose both people.";
+                StatusText = AppResources.Validation_ChooseBothPeople;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             if (string.Equals(from.Id, to.Id, StringComparison.Ordinal))
             {
-                StatusText = "Payment needs two different people.";
+                StatusText = AppResources.Validation_DifferentPeople;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             if (!TryParseAmount(AmountText, out var amountMinor))
             {
-                StatusText = "Enter a valid amount.";
+                StatusText = AppResources.Validation_InvalidAmount;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }

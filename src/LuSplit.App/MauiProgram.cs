@@ -9,6 +9,8 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
+		LocalizationHelper.ApplyPersistedLanguage();
+
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
@@ -20,7 +22,7 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<AppDataService>();
-		builder.Services.AddSingleton<AppShell>();
+		builder.Services.AddTransient<AppShell>();
 		builder.Services.AddTransient<HomePage>();
 		builder.Services.AddTransient<TripPage>();
 		builder.Services.AddTransient<TripDetailsPage>();
@@ -28,6 +30,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<AddExpensePage>();
 		builder.Services.AddTransient<SettlementPage>();
 		builder.Services.AddTransient<RecordPaymentPage>();
+		builder.Services.AddTransient<LanguageSettingsPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

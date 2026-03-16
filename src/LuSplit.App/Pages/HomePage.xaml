@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.HomePage"
-             Title="Trips">
+             Title="{x:Static loc:AppResources.Trips_Title}">
     <Grid RowDefinitions="*,Auto">
 
         <!-- Main content: scrollable trip list + New trip button -->
@@ -11,15 +12,15 @@
             <ScrollView>
                 <VerticalStackLayout Padding="20,24,20,12" Spacing="16">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Trips" Style="{StaticResource DisplayTitle}" />
-                        <Label Text="Pick up where you left off or start a new trip." Style="{StaticResource BodyMuted}" />
+                        <Label Text="{x:Static loc:AppResources.Trips_Title}" Style="{StaticResource DisplayTitle}" />
+                        <Label Text="{x:Static loc:AppResources.Trips_Subtitle}" Style="{StaticResource BodyMuted}" />
                     </VerticalStackLayout>
 
                     <CollectionView ItemsSource="{Binding Trips}" SelectionMode="None">
                         <CollectionView.EmptyView>
                             <VerticalStackLayout Padding="0,24,0,0" Spacing="8">
-                                <Label Text="No trips yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                                <Label Text="Create your first trip and start adding events." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                                <Label Text="{x:Static loc:AppResources.Trips_EmptyTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                                <Label Text="{x:Static loc:AppResources.Trips_EmptySubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                             </VerticalStackLayout>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
@@ -35,17 +36,17 @@
                                             <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Start">
                                                 <Label Text="{Binding Currency}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
                                                 <Border Style="{StaticResource PillBorder}" IsVisible="{Binding IsCurrent}">
-                                                    <Label Text="Active" Style="{StaticResource PillLabel}" TextColor="{StaticResource PanelLeftTeal}" />
+                                                    <Label Text="{x:Static loc:AppResources.Trips_Active}" Style="{StaticResource PillLabel}" TextColor="{StaticResource PanelLeftTeal}" />
                                                 </Border>
                                             </VerticalStackLayout>
                                         </Grid>
                                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                             <Button Grid.Column="0"
-                                                Text="Open"
+                                                Text="{x:Static loc:AppResources.Trips_Open}"
                                                 Clicked="OnOpenTripClicked"
                                                 CommandParameter="{Binding GroupId}" />
                                             <Button Grid.Column="1"
-                                                Text="Details"
+                                                Text="{x:Static loc:AppResources.Trips_Details}"
                                                 Style="{StaticResource SecondaryButton}"
                                                 Clicked="OnEditTripClicked"
                                                 CommandParameter="{Binding GroupId}"
@@ -61,7 +62,7 @@
 
             <Button Grid.Row="1"
                 Margin="20,12,20,20"
-                Text="+ New trip"
+                Text="{x:Static loc:AppResources.Trips_NewTrip}"
                 Clicked="OnNewTripClicked" />
         </Grid>
 

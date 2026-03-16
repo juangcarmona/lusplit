@@ -3,53 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.AddExpensePage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Add event">
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             Title="{x:Static loc:AppResources.AddEvent_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
-                <Label Text="Add event" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Record what just happened." Style="{StaticResource BodyMuted}" />
+            <VerticalStackLayout Padding="8,8,8,8" Spacing="4">
+                <Label Text="{x:Static loc:AppResources.AddEvent_Title}" Style="{StaticResource DisplayTitle}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_Subtitle}" Style="{StaticResource BodyMuted}" />
 
-                <Label Text="What happened?" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_WhatHappened}" Style="{StaticResource SectionTitle}" />
                 <FlexLayout Wrap="Wrap" Direction="Row">
-                    <Button Margin="0,0,8,8" Text="Dinner" Clicked="OnQuickChoiceClicked" CommandParameter="Dinner" />
-                    <Button Margin="0,0,8,8" Text="Taxi" Clicked="OnQuickChoiceClicked" CommandParameter="Taxi" />
-                    <Button Margin="0,0,8,8" Text="Groceries" Clicked="OnQuickChoiceClicked" CommandParameter="Groceries" />
-                    <Button Margin="0,0,8,8" Text="Tickets" Clicked="OnQuickChoiceClicked" CommandParameter="Tickets" />
-                    <Button Margin="0,0,8,8" Text="Custom" Clicked="OnQuickChoiceClicked" CommandParameter="" />
+                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickDinner}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickDinner}" />
+                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickTaxi}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickTaxi}" />
+                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickGroceries}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickGroceries}" />
+                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickTickets}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickTickets}" />
+                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickCustom}" Clicked="OnQuickChoiceClicked" CommandParameter="" />
                 </FlexLayout>
 
                 <Border Style="{StaticResource FormFieldBorder}">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Event" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding ExpenseTitle}" Placeholder="Dinner, groceries, ride..." ClearButtonVisibility="WhileEditing" />
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{x:Static loc:AppResources.AddEvent_EventLabel}" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding ExpenseTitle}" Placeholder="{x:Static loc:AppResources.AddEvent_EventPlaceholder}" ClearButtonVisibility="WhileEditing" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
-                        <VerticalStackLayout Spacing="6">
-                            <Label Text="Amount" Style="{StaticResource FieldLabel}" />
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{x:Static loc:AppResources.Common_Amount}" Style="{StaticResource FieldLabel}" />
                             <Entry Text="{Binding AmountText}" Keyboard="Numeric" Placeholder="12.50" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Grid.Column="1" Style="{StaticResource FormFieldBorder}">
-                        <VerticalStackLayout Spacing="6">
-                            <Label Text="Date" Style="{StaticResource FieldLabel}" />
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
                             <DatePicker Date="{Binding ExpenseDate}" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
 
                 <Border Style="{StaticResource FormFieldBorder}">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Paid by" Style="{StaticResource FieldLabel}" />
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{x:Static loc:AppResources.AddEvent_PaidBy}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName}" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Label Text="Who joined?" Style="{StaticResource SectionTitle}" />
-                <Label Text="Everyone is included by default." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_EveryoneDefault}" Style="{StaticResource BodyMuted}" />
                 <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding ParticipantOptions}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
@@ -63,7 +64,7 @@
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
 
-                <Button Text="Save event" Clicked="OnSaveClicked" />
+                <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}" Clicked="OnSaveClicked" />
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
         </ScrollView>

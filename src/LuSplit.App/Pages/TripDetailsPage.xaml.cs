@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
@@ -28,15 +29,15 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public string StatusText { get; set; } = string.Empty;
 
-    public string PageTitle => IsCreateMode ? "New trip" : "Trip details";
+    public string PageTitle => IsCreateMode ? AppResources.TripDetails_PageTitleCreate : AppResources.TripDetails_PageTitleEdit;
 
     public bool CanExport => !IsCreateMode;
 
     public string PageSubtitle => IsCreateMode
-        ? "Set up the trip once, then start adding events."
-        : "Update the basics and keep the trip ready for the next event.";
+        ? AppResources.TripDetails_SubtitleCreate
+        : AppResources.TripDetails_SubtitleEdit;
 
-    public string SaveButtonText => IsCreateMode ? "Create trip" : "Save trip";
+    public string SaveButtonText => IsCreateMode ? AppResources.TripDetails_CreateButton : AppResources.TripDetails_SaveButton;
 
     private bool IsCreateMode => string.Equals(_mode, CreateMode, StringComparison.OrdinalIgnoreCase);
 
@@ -110,7 +111,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         {
             if (string.IsNullOrWhiteSpace(NewPersonName))
             {
-                StatusText = "Person name is required.";
+                StatusText = AppResources.Validation_PersonNameRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -119,26 +120,26 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             {
                 People.Add(new TripPersonEditorViewModel(
                     NewPersonName.Trim(),
-                    string.IsNullOrWhiteSpace(NewHouseholdName) ? "Settles on their own" : NewHouseholdName.Trim(),
+                    string.IsNullOrWhiteSpace(NewHouseholdName) ? AppResources.TripDetails_SettlesOnOwn : NewHouseholdName.Trim(),
                     true));
             }
             else
             {
                 if (string.IsNullOrWhiteSpace(_groupId))
                 {
-                    StatusText = "Trip not found.";
+                    StatusText = AppResources.Validation_TripNotFound;
                     OnPropertyChanged(nameof(StatusText));
                     return;
                 }
 
                 await _dataService.AddTripMemberAsync(_groupId, NewPersonName, NewHouseholdName);
-                StatusText = "Person added.";
+                StatusText = AppResources.TripDetails_PersonAdded;
                 await LoadAsync();
             }
 
             NewPersonName = string.Empty;
             NewHouseholdName = string.Empty;
-            StatusText = IsCreateMode ? "Person added to the new trip." : StatusText;
+            StatusText = IsCreateMode ? AppResources.TripDetails_PersonAddedNew : StatusText;
             OnPropertyChanged(nameof(NewPersonName));
             OnPropertyChanged(nameof(NewHouseholdName));
             OnPropertyChanged(nameof(StatusText));
@@ -170,14 +171,14 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         {
             if (string.IsNullOrWhiteSpace(TripName))
             {
-                StatusText = "Trip name is required.";
+                StatusText = AppResources.Validation_TripNameRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(SelectedCurrency))
             {
-                StatusText = "Choose a currency.";
+                StatusText = AppResources.Validation_SelectCurrency;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -186,7 +187,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             {
                 if (People.Count == 0)
                 {
-                    StatusText = "Add at least one person.";
+                    StatusText = AppResources.Validation_AddAtLeastOnePerson;
                     OnPropertyChanged(nameof(StatusText));
                     return;
                 }
@@ -196,7 +197,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                     SelectedCurrency,
                     People.Select(person => new TripDraftMember(
                         person.Name,
-                        string.Equals(person.HouseholdText, "Settles on their own", StringComparison.Ordinal)
+                        string.Equals(person.HouseholdText, AppResources.TripDetails_SettlesOnOwn, StringComparison.Ordinal)
                             ? null
                             : person.HouseholdText)).ToArray());
 
@@ -207,7 +208,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             {
                 if (string.IsNullOrWhiteSpace(_groupId))
                 {
-                    StatusText = "Trip not found.";
+                    StatusText = AppResources.Validation_TripNotFound;
                     OnPropertyChanged(nameof(StatusText));
                     return;
                 }
@@ -236,22 +237,19 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         if (_groupId is null) return;
 
         var choice = await DisplayActionSheet(
-            "Export this trip",
-            "Cancel",
+            AppResources.Export_DialogTitle,
+            AppResources.Common_Cancel,
             null,
-            "JSON snapshot",
-            "CSV spreadsheet",
-            "PDF summary");
+            AppResources.Export_JsonOption,
+            AppResources.Export_CsvOption,
+            AppResources.Export_PdfOption);
 
-        if (string.IsNullOrEmpty(choice) || choice == "Cancel") return;
+        if (string.IsNullOrEmpty(choice) || choice == AppResources.Common_Cancel) return;
 
-        var format = choice switch
-        {
-            "JSON snapshot" => (ExportFormat?)ExportFormat.Json,
-            "CSV spreadsheet" => ExportFormat.Csv,
-            "PDF summary" => ExportFormat.Pdf,
-            _ => (ExportFormat?)null
-        };
+        ExportFormat? format = null;
+        if (choice == AppResources.Export_JsonOption) format = ExportFormat.Json;
+        else if (choice == AppResources.Export_CsvOption) format = ExportFormat.Csv;
+        else if (choice == AppResources.Export_PdfOption) format = ExportFormat.Pdf;
 
         if (format is null) return;
 
@@ -260,13 +258,13 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             var result = await _dataService.ExportTripAsync(_groupId, format.Value);
             await Share.RequestAsync(new ShareFileRequest
             {
-                Title = "Export trip",
+                Title = AppResources.Export_ShareTitle,
                 File = new ShareFile(result.FilePath, result.MimeType)
             });
         }
         catch (Exception ex)
         {
-            StatusText = $"Export failed. {ex.Message}";
+            StatusText = string.Format(AppResources.Export_Failed, ex.Message);
             OnPropertyChanged(nameof(StatusText));
         }
     }

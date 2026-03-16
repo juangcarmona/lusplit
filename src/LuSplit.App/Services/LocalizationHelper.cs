@@ -1,0 +1,101 @@
+using System.Globalization;
+using MauiApplication = Microsoft.Maui.Controls.Application;
+using MauiMainThread = Microsoft.Maui.ApplicationModel.MainThread;
+
+namespace LuSplit.App.Services;
+
+/// <summary>
+/// Handles language detection, persistence, and application for the app.
+/// </summary>
+public static class LocalizationHelper
+{
+    private const string LanguagePreferenceKey = "app_language";
+
+    /// <summary>
+    /// The cultures explicitly supported by this app (satellite RESX files exist for these).
+    /// </summary>
+    public static readonly IReadOnlyList<LanguageOption> SupportedLanguages = new[]
+    {
+        new LanguageOption("",   "🌐", "System Default"),
+        new LanguageOption("en", "🇬🇧", "English"),
+        new LanguageOption("es", "🇪🇸", "Español"),
+        new LanguageOption("fr", "🇫🇷", "Français"),
+        new LanguageOption("de", "🇩🇪", "Deutsch"),
+        new LanguageOption("it", "🇮🇹", "Italiano"),
+        new LanguageOption("pt", "🇵🇹", "Português"),
+    };
+
+    private static readonly HashSet<string> _supportedCodes =
+        new(SupportedLanguages.Select(l => l.Culture).Where(c => c.Length > 0), StringComparer.OrdinalIgnoreCase);
+
+    // Captured once at process start so "System Default" can truly restore the original OS culture.
+    private static readonly CultureInfo _osCulture = CultureInfo.CurrentUICulture;
+
+    /// <summary>
+    /// Reads persisted language preference and applies it. Called once during app startup.
+    /// </summary>
+    public static void ApplyPersistedLanguage()
+    {
+        var saved = GetSavedLanguageCode();
+
+        if (!string.IsNullOrEmpty(saved) && _supportedCodes.Contains(saved))
+        {
+            ApplyCulture(new CultureInfo(saved));
+        }
+        // else: keep the current OS culture; ResourceManager will fall back to en if unsupported.
+    }
+
+    /// <summary>Returns the language code saved in preferences, or empty string for System Default.</summary>
+    public static string GetSavedLanguageCode() =>
+        Preferences.Default.Get(LanguagePreferenceKey, string.Empty);
+
+    /// <summary>
+    /// Persists the chosen language code, applies the culture, and rebuilds the UI.
+    /// Pass an empty string to restore System Default.
+    /// </summary>
+    public static void SetAndApplyLanguage(string cultureCode)
+    {
+        Preferences.Default.Set(LanguagePreferenceKey, cultureCode ?? string.Empty);
+
+        if (string.IsNullOrEmpty(cultureCode))
+        {
+            ApplyCulture(_osCulture);
+        }
+        else
+        {
+            ApplyCulture(new CultureInfo(cultureCode));
+        }
+
+        RebuildUi();
+    }
+
+    // -----------------------------------------------------------------------
+
+    private static void ApplyCulture(CultureInfo culture)
+    {
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+        Thread.CurrentThread.CurrentCulture = culture;
+        Thread.CurrentThread.CurrentUICulture = culture;
+    }
+
+    private static void RebuildUi()
+    {
+        MauiMainThread.BeginInvokeOnMainThread(() =>
+        {
+            var services = App.Services;
+            if (services is null) return;
+
+            var window = MauiApplication.Current?.Windows.FirstOrDefault();
+            if (window is null) return;
+
+            window.Page = services.GetRequiredService<AppShell>();
+        });
+    }
+}
+
+/// <summary>A language available in the language picker.</summary>
+public sealed record LanguageOption(string Culture, string Flag, string NativeName)
+{
+    public string DisplayLabel => $"{Flag} {NativeName}";
+}

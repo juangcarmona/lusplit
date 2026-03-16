@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.SettlementPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Settle up">
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             Title="{x:Static loc:AppResources.Settlement_Title}">
     <Grid RowDefinitions="*,Auto">
-
 
         <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
             <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="Who owes what" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Record payments only when money actually changes hands." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource DisplayTitle}" />
+                <Label Text="{x:Static loc:AppResources.Settlement_Subtitle}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
@@ -19,8 +19,8 @@
                         SelectionMode="None">
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                        <Label Text="Everyone is even." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                        <Label Text="Record a payment only when money actually changes hands." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <Label Text="{x:Static loc:AppResources.Settlement_EmptyTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label Text="{x:Static loc:AppResources.Settlement_EmptySubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
@@ -37,7 +37,7 @@
 
             <Button Grid.Row="2"
                 Margin="20,12,20,20"
-                Text="Record payment"
+                Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
                 Clicked="OnRecordPaymentClicked" />
         </Grid>
 
@@ -52,3 +52,4 @@
         </Border>
     </Grid>
 </ContentPage>
+

@@ -5,10 +5,18 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
-		Routing.RegisterRoute(AppRoutes.TripTimeline, typeof(Pages.TripPage));
-		Routing.RegisterRoute(AppRoutes.TripDetails, typeof(Pages.TripDetailsPage));
-		Routing.RegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));
-		Routing.RegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
-		Routing.RegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
+		TryRegisterRoute(AppRoutes.TripTimeline, typeof(Pages.TripPage));
+		TryRegisterRoute(AppRoutes.TripDetails, typeof(Pages.TripDetailsPage));
+		TryRegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));
+		TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
+		TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
+		TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
+	}
+
+	// Guard against duplicate registration when the shell is rebuilt for language changes.
+	private static void TryRegisterRoute(string route, Type pageType)
+	{
+		try { Routing.RegisterRoute(route, pageType); }
+		catch (ArgumentException) { /* already registered – safe to ignore */ }
 	}
 }
