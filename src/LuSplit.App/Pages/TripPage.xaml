@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.TripPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Trip">
+             Title="{x:Static loc:AppResources.Trip_Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Details" Clicked="OnTripDetailsClicked" />
+        <ToolbarItem Text="{x:Static loc:AppResources.Trip_DetailsButton}" Clicked="OnTripDetailsClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,Auto">
@@ -22,11 +23,11 @@
                 <!-- Balance summary card -->
                 <Border Style="{StaticResource ExpenseItemBorder}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Who owes what" Style="{StaticResource SectionTitle}" />
+                        <Label Text="{x:Static loc:AppResources.Trip_WhoOwesWhat}" Style="{StaticResource SectionTitle}" />
                         <CollectionView ItemsSource="{Binding BalanceLines}"
                                         SelectionMode="None">
                             <CollectionView.EmptyView>
-                                <Label Text="Everyone is even right now." Style="{StaticResource BodyText}" />
+                                <Label Text="{x:Static loc:AppResources.Trip_EveryoneEven}" Style="{StaticResource BodyText}" />
                             </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -40,7 +41,7 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-                        <Button Text="Settle up"
+                        <Button Text="{x:Static loc:AppResources.Trip_SettleUp}"
                                 Style="{StaticResource SecondaryButton}"
                                 HorizontalOptions="Start"
                                 Clicked="OnSettleUpClicked" />
@@ -48,16 +49,16 @@
                 </Border>
 
                 <!-- Events section -->
-                <Label Text="Events" Style="{StaticResource SectionTitle}" Margin="0,4,0,0" />
+                <Label Text="{x:Static loc:AppResources.Trip_Events}" Style="{StaticResource SectionTitle}" Margin="0,4,0,0" />
 
                 <CollectionView ItemsSource="{Binding TimelineItems}"
                                 SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,16,0,0" Spacing="8">
-                            <Label Text="Your trip just started."
+                            <Label Text="{x:Static loc:AppResources.Trip_EmptyTitle}"
                                    Style="{StaticResource SectionTitle}"
                                    HorizontalTextAlignment="Center" />
-                            <Label Text="Add the first expense below."
+                            <Label Text="{x:Static loc:AppResources.Trip_EmptySubtitle}"
                                    Style="{StaticResource BodyMuted}"
                                    HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
@@ -83,9 +84,9 @@
 
                 <!-- Quick actions -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0">
-                    <Button Grid.Column="0" Text="+ Add expense" Clicked="OnAddEventClicked" />
+                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Trip_AddExpense}" Clicked="OnAddEventClicked" />
                     <Button Grid.Column="1"
-                            Text="Record payment"
+                            Text="{x:Static loc:AppResources.Trip_RecordPayment}"
                             Style="{StaticResource SecondaryButton}"
                             Clicked="OnRecordPaymentClicked" />
                 </Grid>

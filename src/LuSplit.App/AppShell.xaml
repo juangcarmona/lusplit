@@ -4,17 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:LuSplit.App.Pages"
+    xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
     Title="LuSplit">
 
     <TabBar>
         <ShellContent
-            Title="Trips"
+            Title="{x:Static loc:AppResources.Trips_Title}"
             ContentTemplate="{DataTemplate pages:HomePage}"
             Route="trips" />
         <ShellContent
-            Title="Activity"
+            Title="{x:Static loc:AppResources.Activity_Title}"
             ContentTemplate="{DataTemplate pages:ActivityPage}"
             Route="activity" />
+        <ShellContent
+            Title="{x:Static loc:AppResources.Settings_Title}"
+            ContentTemplate="{DataTemplate pages:LanguageSettingsPage}"
+            Route="settings" />
     </TabBar>
 
 </Shell>

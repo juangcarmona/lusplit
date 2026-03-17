@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>Recent events from your current trip.</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>Nothing here yet.</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>Open a trip and add the first event.</value>
+  </data>
+
+  <!-- Trips (Home) -->
+  <data name="Trips_Title" xml:space="preserve">
+    <value>Trips</value>
+  </data>
+  <data name="Trips_Subtitle" xml:space="preserve">
+    <value>Pick up where you left off or start a new trip.</value>
+  </data>
+  <data name="Trips_EmptyTitle" xml:space="preserve">
+    <value>No trips yet.</value>
+  </data>
+  <data name="Trips_EmptySubtitle" xml:space="preserve">
+    <value>Create your first trip and start adding events.</value>
+  </data>
+  <data name="Trips_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Trips_Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Trips_NewTrip" xml:space="preserve">
+    <value>+ New trip</value>
+  </data>
+  <data name="Trips_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+
+  <!-- Trip timeline -->
+  <data name="Trip_Title" xml:space="preserve">
+    <value>Trip</value>
+  </data>
+  <data name="Trip_DetailsButton" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Trip_WhoOwesWhat" xml:space="preserve">
+    <value>Who owes what</value>
+  </data>
+  <data name="Trip_EveryoneEven" xml:space="preserve">
+    <value>Everyone is even right now.</value>
+  </data>
+  <data name="Trip_SettleUp" xml:space="preserve">
+    <value>Settle up</value>
+  </data>
+  <data name="Trip_Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="Trip_EmptyTitle" xml:space="preserve">
+    <value>Your trip just started.</value>
+  </data>
+  <data name="Trip_EmptySubtitle" xml:space="preserve">
+    <value>Add the first expense below.</value>
+  </data>
+  <data name="Trip_AddExpense" xml:space="preserve">
+    <value>+ Add expense</value>
+  </data>
+  <data name="Trip_RecordPayment" xml:space="preserve">
+    <value>Record payment</value>
+  </data>
+
+  <!-- Trip Details -->
+  <data name="TripDetails_Title" xml:space="preserve">
+    <value>Trip details</value>
+  </data>
+  <data name="TripDetails_PageTitleCreate" xml:space="preserve">
+    <value>New trip</value>
+  </data>
+  <data name="TripDetails_PageTitleEdit" xml:space="preserve">
+    <value>Trip details</value>
+  </data>
+  <data name="TripDetails_SubtitleCreate" xml:space="preserve">
+    <value>Set up the trip once, then start adding events.</value>
+  </data>
+  <data name="TripDetails_SubtitleEdit" xml:space="preserve">
+    <value>Update the basics and keep the trip ready for the next event.</value>
+  </data>
+  <data name="TripDetails_TripNameLabel" xml:space="preserve">
+    <value>Trip name</value>
+  </data>
+  <data name="TripDetails_TripNamePlaceholder" xml:space="preserve">
+    <value>Beach weekend, cabin stay...</value>
+  </data>
+  <data name="TripDetails_CurrencyLabel" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="TripDetails_PeopleSection" xml:space="preserve">
+    <value>People</value>
+  </data>
+  <data name="TripDetails_HouseholdHint" xml:space="preserve">
+    <value>Use the same household name when people should settle together.</value>
+  </data>
+  <data name="TripDetails_NoPeopleTitle" xml:space="preserve">
+    <value>No people yet.</value>
+  </data>
+  <data name="TripDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>Add at least one person before saving the trip.</value>
+  </data>
+  <data name="TripDetails_AddPersonSection" xml:space="preserve">
+    <value>Add person</value>
+  </data>
+  <data name="TripDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="TripDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>Household or family (optional)</value>
+  </data>
+  <data name="TripDetails_AddPersonButton" xml:space="preserve">
+    <value>Add person</value>
+  </data>
+  <data name="TripDetails_CreateButton" xml:space="preserve">
+    <value>Create trip</value>
+  </data>
+  <data name="TripDetails_SaveButton" xml:space="preserve">
+    <value>Save trip</value>
+  </data>
+  <data name="TripDetails_ExportButton" xml:space="preserve">
+    <value>Export trip</value>
+  </data>
+  <data name="TripDetails_SettlesOnOwn" xml:space="preserve">
+    <value>Settles on their own</value>
+  </data>
+  <data name="TripDetails_PersonAdded" xml:space="preserve">
+    <value>Person added.</value>
+  </data>
+  <data name="TripDetails_PersonAddedNew" xml:space="preserve">
+    <value>Person added to the new trip.</value>
+  </data>
+  <data name="TripDetails_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>Add event</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>Record what just happened.</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>What happened?</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>Dinner</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>Taxi</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>Groceries</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>Dinner, groceries, ride...</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>Paid by</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>Who joined?</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>Everyone is included by default.</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>Save event</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>Event saved.</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>Settle up</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>Who owes what</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>Record payments only when money actually changes hands.</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>Everyone is even.</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>Record a payment only when money actually changes hands.</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>Record payment</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>Record payment</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>Capture a real payment and keep the trip timeline honest.</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>Who paid?</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>Who received it?</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>Save payment</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>Export this trip</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>JSON snapshot</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>CSV spreadsheet</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>PDF summary</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>Export trip</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>Export failed. {0}</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>Title is required.</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>Enter a valid amount.</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>Select a payer.</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>Pick at least one person.</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>Person name is required.</value>
+  </data>
+  <data name="Validation_TripNotFound" xml:space="preserve">
+    <value>Trip not found.</value>
+  </data>
+  <data name="Validation_TripNameRequired" xml:space="preserve">
+    <value>Trip name is required.</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>Choose a currency.</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>Add at least one person.</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>Choose both people.</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>Payment needs two different people.</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>Choose your preferred language.</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>Language updated.</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>System Default</value>
+  </data>
+
+</root>

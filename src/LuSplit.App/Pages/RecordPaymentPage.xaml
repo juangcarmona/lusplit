@@ -3,23 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.RecordPaymentPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Record payment">
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             Title="{x:Static loc:AppResources.RecordPayment_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
-                <Label Text="Record payment" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Capture a real payment and keep the trip timeline honest." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.RecordPayment_Title}" Style="{StaticResource DisplayTitle}" />
+                <Label Text="{x:Static loc:AppResources.RecordPayment_Subtitle}" Style="{StaticResource BodyMuted}" />
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Who paid?" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.RecordPayment_WhoPaid}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PersonNames}" SelectedItem="{Binding SelectedFromName}" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Who received it?" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.RecordPayment_WhoReceived}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PersonNames}" SelectedItem="{Binding SelectedToName}" />
                     </VerticalStackLayout>
                 </Border>
@@ -27,23 +28,22 @@
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Amount" Style="{StaticResource FieldLabel}" />
+                            <Label Text="{x:Static loc:AppResources.Common_Amount}" Style="{StaticResource FieldLabel}" />
                             <Entry Text="{Binding AmountText}" Keyboard="Numeric" Placeholder="12.50" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Grid.Column="1" Style="{StaticResource FormFieldBorder}">
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Date" Style="{StaticResource FieldLabel}" />
+                            <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
                             <DatePicker Date="{Binding PaymentDate}" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
 
-                <Button Text="Save payment" Clicked="OnSaveClicked" />
+                <Button Text="{x:Static loc:AppResources.RecordPayment_SaveButton}" Clicked="OnSaveClicked" />
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
         </ScrollView>
-
 
         <Border Grid.Row="1"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
@@ -56,3 +56,4 @@
         </Border>
     </Grid>
 </ContentPage>
+

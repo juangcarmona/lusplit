@@ -3,35 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.TripDetailsPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Trip details">
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             Title="{x:Static loc:AppResources.TripDetails_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
+            <VerticalStackLayout Padding="8,8,8,8" Spacing="14">
                 <Label Text="{Binding PageTitle}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{Binding PageSubtitle}" Style="{StaticResource BodyMuted}" />
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Trip name" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding TripName}" Placeholder="Beach weekend, cabin stay..." ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.TripDetails_TripNameLabel}" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding TripName}" Placeholder="{x:Static loc:AppResources.TripDetails_TripNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Currency" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.TripDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding CurrencyOptions}" SelectedItem="{Binding SelectedCurrency}" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Label Text="People" Style="{StaticResource SectionTitle}" />
-                <Label Text="Use the same household name when people should settle together." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.TripDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.TripDetails_HouseholdHint}" Style="{StaticResource BodyMuted}" />
 
                 <CollectionView ItemsSource="{Binding People}" SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,8,0,0" Spacing="8">
-                            <Label Text="No people yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                            <Label Text="Add at least one person before saving the trip." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.TripDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.TripDetails_NoPeopleSubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
@@ -44,7 +45,7 @@
                                     </VerticalStackLayout>
                                     <Button Grid.Column="1"
                                         IsVisible="{Binding CanRemove}"
-                                        Text="Remove"
+                                        Text="{x:Static loc:AppResources.TripDetails_Remove}"
                                         Clicked="OnRemovePersonClicked"
                                         CommandParameter="{Binding Name}" />
                                 </Grid>
@@ -55,16 +56,16 @@
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Add person" Style="{StaticResource SectionTitle}" />
-                        <Entry Text="{Binding NewPersonName}" Placeholder="Alex" ClearButtonVisibility="WhileEditing" />
-                        <Entry Text="{Binding NewHouseholdName}" Placeholder="Household or family (optional)" ClearButtonVisibility="WhileEditing" />
-                        <Button Text="Add person" Clicked="OnAddPersonClicked" />
+                        <Label Text="{x:Static loc:AppResources.TripDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
+                        <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.TripDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Entry Text="{Binding NewHouseholdName}" Placeholder="{x:Static loc:AppResources.TripDetails_HouseholdNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Button Text="{x:Static loc:AppResources.TripDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Button Text="{Binding SaveButtonText}" Clicked="OnSaveClicked" />
 
-                <Button Text="Export trip"
+                <Button Text="{x:Static loc:AppResources.TripDetails_ExportButton}"
                         IsVisible="{Binding CanExport}"
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,4,0,0"

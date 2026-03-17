@@ -8,6 +8,9 @@ public partial class App : Microsoft.Maui.Controls.Application
 {
 	private readonly IServiceProvider _services;
 
+	/// <summary>Exposed so LocalizationHelper can resolve AppShell on UI rebuild.</summary>
+	public static IServiceProvider? Services { get; private set; }
+
 	public App()
 		: this(IPlatformApplication.Current?.Services ?? throw new InvalidOperationException("Missing platform service provider."))
 	{
@@ -16,6 +19,7 @@ public partial class App : Microsoft.Maui.Controls.Application
 	public App(IServiceProvider services)
 	{
 		_services = services;
+		Services = services;
 		InitializeComponent();
 	}
 

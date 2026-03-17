@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.ActivityPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="Activity">
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             Title="{x:Static loc:AppResources.Activity_Title}">
     <Grid RowDefinitions="*,Auto">
 
         <Grid RowDefinitions="Auto,*" RowSpacing="0">
             <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="Activity" Style="{StaticResource DisplayTitle}" />
-                <Label Text="Recent events from your current trip." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.Activity_Title}" Style="{StaticResource DisplayTitle}" />
+                <Label Text="{x:Static loc:AppResources.Activity_Subtitle}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
@@ -19,8 +20,8 @@
                         SelectionMode="None">
                 <CollectionView.EmptyView>
                     <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                        <Label Text="Nothing here yet." Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                        <Label Text="Open a trip and add the first event." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label Text="{x:Static loc:AppResources.Activity_EmptySubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.GroupHeaderTemplate>

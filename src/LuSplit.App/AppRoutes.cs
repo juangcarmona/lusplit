@@ -7,4 +7,5 @@ public static class AppRoutes
     public const string AddEvent = "add-event";
     public const string RecordPayment = "record-payment";
     public const string Settlement = "settle-up";
+    public const string LanguageSettings = "language-settings";
 }
