@@ -8,4 +8,5 @@ public static class AppRoutes
     public const string RecordPayment = "record-payment";
     public const string Settlement = "settle-up";
     public const string LanguageSettings = "language-settings";
+    public const string ArchivedTrips = "archived-trips";
 }

@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
+using LuSplit.Domain.Entities;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
 
 namespace LuSplit.App.Pages;
@@ -11,6 +12,10 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     private readonly AppDataService _dataService;
     private string _mode = EditMode;
     private string? _groupId;
+    // Set when navigating from an archived trip view, to load a specific group
+    // without changing the user's currently selected active trip.
+    private string? _overrideGroupId;
+    private bool _isArchived;
 
     private const string CreateMode = "create";
     private const string EditMode = "edit";
@@ -18,6 +23,14 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
 
     public ObservableCollection<TripPersonEditorViewModel> People { get; } = new();
+
+    // Consumption category options shown in the Add Person picker.
+    public ObservableCollection<string> ConsumptionOptions { get; } = new()
+    {
+        AppResources.TripDetails_ConsumptionFull,
+        AppResources.TripDetails_ConsumptionHalf,
+        AppResources.TripDetails_ConsumptionCustom
+    };
 
     public string TripName { get; set; } = string.Empty;
 
@@ -27,15 +40,31 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public string NewHouseholdName { get; set; } = string.Empty;
 
+    public string SelectedConsumptionOption { get; set; } = AppResources.TripDetails_ConsumptionFull;
+
+    public string NewCustomWeight { get; set; } = string.Empty;
+
     public string StatusText { get; set; } = string.Empty;
 
-    public string PageTitle => IsCreateMode ? AppResources.TripDetails_PageTitleCreate : AppResources.TripDetails_PageTitleEdit;
+    public bool IsArchived => _isArchived;
+
+    /// <summary>True when the trip can be edited — i.e. it is not archived.</summary>
+    public bool CanEdit => !IsCreateMode && !_isArchived;
 
     public bool CanExport => !IsCreateMode;
 
+    /// <summary>Archive button is visible only in non-archived edit mode.</summary>
+    public bool CanArchive => !IsCreateMode && !_isArchived;
+
+    /// <summary>Custom-weight entry is visible only when "Custom weight" is selected.</summary>
+    public bool IsCustomConsumption =>
+        string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionCustom, StringComparison.Ordinal);
+
+    public string PageTitle => IsCreateMode ? AppResources.TripDetails_PageTitleCreate : AppResources.TripDetails_PageTitleEdit;
+
     public string PageSubtitle => IsCreateMode
         ? AppResources.TripDetails_SubtitleCreate
-        : AppResources.TripDetails_SubtitleEdit;
+        : (_isArchived ? AppResources.TripDetails_ArchivedStatus : AppResources.TripDetails_SubtitleEdit);
 
     public string SaveButtonText => IsCreateMode ? AppResources.TripDetails_CreateButton : AppResources.TripDetails_SaveButton;
 
@@ -53,9 +82,13 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        _mode = query.TryGetValue("mode", out var value) && string.Equals(value?.ToString(), CreateMode, StringComparison.OrdinalIgnoreCase)
+        _mode = query.TryGetValue("mode", out var modeVal) && string.Equals(modeVal?.ToString(), CreateMode, StringComparison.OrdinalIgnoreCase)
             ? CreateMode
             : EditMode;
+
+        _overrideGroupId = query.TryGetValue("groupId", out var gid) && !string.IsNullOrWhiteSpace(gid?.ToString())
+            ? gid.ToString()
+            : null;
     }
 
     protected override async void OnAppearing()
@@ -67,6 +100,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     private async Task LoadAsync()
     {
         StatusText = string.Empty;
+        _isArchived = false;
 
         if (IsCreateMode)
         {
@@ -77,8 +111,12 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         }
         else
         {
-            var details = await _dataService.GetTripDetailsAsync();
+            var details = _overrideGroupId is not null
+                ? await _dataService.GetTripDetailsAsync(_overrideGroupId)
+                : await _dataService.GetTripDetailsAsync();
+
             _groupId = details.GroupId;
+            _isArchived = details.IsArchived;
             TripName = details.TripName;
             EnsureCurrencyOption(details.Currency);
             SelectedCurrency = details.Currency;
@@ -86,23 +124,23 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             People.Clear();
             foreach (var person in details.Members)
             {
-                People.Add(new TripPersonEditorViewModel(person.Name, person.HouseholdName, false));
+                People.Add(new TripPersonEditorViewModel(
+                    person.Name,
+                    person.HouseholdName,
+                    false,
+                    person.IsOwner,
+                    person.ConsumptionCategory,
+                    person.CustomConsumptionWeight));
             }
         }
 
         NewPersonName = string.Empty;
         NewHouseholdName = string.Empty;
+        SelectedConsumptionOption = AppResources.TripDetails_ConsumptionFull;
+        NewCustomWeight = string.Empty;
         Title = PageTitle;
 
-        OnPropertyChanged(nameof(TripName));
-        OnPropertyChanged(nameof(SelectedCurrency));
-        OnPropertyChanged(nameof(NewPersonName));
-        OnPropertyChanged(nameof(NewHouseholdName));
-        OnPropertyChanged(nameof(StatusText));
-        OnPropertyChanged(nameof(PageTitle));
-        OnPropertyChanged(nameof(PageSubtitle));
-        OnPropertyChanged(nameof(SaveButtonText));
-        OnPropertyChanged(nameof(CanExport));
+        NotifyAllProperties();
     }
 
     private async void OnAddPersonClicked(object? sender, EventArgs e)
@@ -116,12 +154,27 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                 return;
             }
 
+            var category = ResolveConsumptionCategory();
+
+            if (category == ConsumptionCategory.Custom)
+            {
+                if (string.IsNullOrWhiteSpace(NewCustomWeight) || !decimal.TryParse(NewCustomWeight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
+                {
+                    StatusText = AppResources.Validation_InvalidCustomWeight;
+                    OnPropertyChanged(nameof(StatusText));
+                    return;
+                }
+            }
+
             if (IsCreateMode)
             {
                 People.Add(new TripPersonEditorViewModel(
                     NewPersonName.Trim(),
                     string.IsNullOrWhiteSpace(NewHouseholdName) ? AppResources.TripDetails_SettlesOnOwn : NewHouseholdName.Trim(),
-                    true));
+                    true,
+                    false,
+                    CategoryToString(category),
+                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null));
             }
             else
             {
@@ -132,17 +185,22 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                     return;
                 }
 
-                await _dataService.AddTripMemberAsync(_groupId, NewPersonName, NewHouseholdName);
+                await _dataService.AddTripMemberAsync(
+                    _groupId,
+                    NewPersonName,
+                    NewHouseholdName,
+                    category,
+                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null);
                 StatusText = AppResources.TripDetails_PersonAdded;
                 await LoadAsync();
             }
 
             NewPersonName = string.Empty;
             NewHouseholdName = string.Empty;
+            SelectedConsumptionOption = AppResources.TripDetails_ConsumptionFull;
+            NewCustomWeight = string.Empty;
             StatusText = IsCreateMode ? AppResources.TripDetails_PersonAddedNew : StatusText;
-            OnPropertyChanged(nameof(NewPersonName));
-            OnPropertyChanged(nameof(NewHouseholdName));
-            OnPropertyChanged(nameof(StatusText));
+            NotifyAddPersonProperties();
         }
         catch (Exception ex)
         {
@@ -199,7 +257,9 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                         person.Name,
                         string.Equals(person.HouseholdText, AppResources.TripDetails_SettlesOnOwn, StringComparison.Ordinal)
                             ? null
-                            : person.HouseholdText)).ToArray());
+                            : person.HouseholdText,
+                        StringToCategory(person.ConsumptionCategory),
+                        person.CustomConsumptionWeight)).ToArray());
 
                 await Shell.Current.GoToAsync("//trips");
                 await Shell.Current.GoToAsync(AppRoutes.TripTimeline);
@@ -216,6 +276,30 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                 await _dataService.UpdateTripAsync(_groupId, TripName, SelectedCurrency);
                 await Shell.Current.GoToAsync("..");
             }
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    private async void OnArchiveClicked(object? sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(_groupId)) return;
+
+        var confirmed = await DisplayAlert(
+            AppResources.TripDetails_ArchiveConfirmTitle,
+            AppResources.TripDetails_ArchiveConfirmMessage,
+            AppResources.TripDetails_ArchiveConfirmYes,
+            AppResources.Common_Cancel);
+
+        if (!confirmed) return;
+
+        try
+        {
+            await _dataService.ArchiveTripAsync(_groupId);
+            await Shell.Current.GoToAsync("//trips");
         }
         catch (Exception ex)
         {
@@ -269,5 +353,77 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         }
     }
 
-    public sealed record TripPersonEditorViewModel(string Name, string HouseholdText, bool CanRemove);
+    private ConsumptionCategory ResolveConsumptionCategory()
+    {
+        if (string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionHalf, StringComparison.Ordinal))
+            return ConsumptionCategory.Half;
+        if (string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionCustom, StringComparison.Ordinal))
+            return ConsumptionCategory.Custom;
+        return ConsumptionCategory.Full;
+    }
+
+    private static string CategoryToString(ConsumptionCategory category)
+        => category switch
+        {
+            ConsumptionCategory.Half => "HALF",
+            ConsumptionCategory.Custom => "CUSTOM",
+            _ => "FULL"
+        };
+
+    private static ConsumptionCategory StringToCategory(string value)
+        => value switch
+        {
+            "HALF" => ConsumptionCategory.Half,
+            "CUSTOM" => ConsumptionCategory.Custom,
+            _ => ConsumptionCategory.Full
+        };
+
+    private void NotifyAllProperties()
+    {
+        OnPropertyChanged(nameof(TripName));
+        OnPropertyChanged(nameof(SelectedCurrency));
+        OnPropertyChanged(nameof(IsArchived));
+        OnPropertyChanged(nameof(CanEdit));
+        OnPropertyChanged(nameof(CanExport));
+        OnPropertyChanged(nameof(CanArchive));
+        OnPropertyChanged(nameof(PageTitle));
+        OnPropertyChanged(nameof(PageSubtitle));
+        OnPropertyChanged(nameof(SaveButtonText));
+        NotifyAddPersonProperties();
+        OnPropertyChanged(nameof(StatusText));
+    }
+
+    private void NotifyAddPersonProperties()
+    {
+        OnPropertyChanged(nameof(NewPersonName));
+        OnPropertyChanged(nameof(NewHouseholdName));
+        OnPropertyChanged(nameof(SelectedConsumptionOption));
+        OnPropertyChanged(nameof(NewCustomWeight));
+        OnPropertyChanged(nameof(IsCustomConsumption));
+        OnPropertyChanged(nameof(StatusText));
+    }
+}
+
+public sealed record TripPersonEditorViewModel(
+    string Name,
+    string HouseholdText,
+    bool CanRemove,
+    bool IsOwner = false,
+    string ConsumptionCategory = "FULL",
+    string? CustomConsumptionWeight = null)
+{
+    /// <summary>Shows "Payer" for the economic unit owner, "Dependent" for other members of a shared household.
+    /// Only shown in edit mode (items loaded from the database, not items staged in create mode).</summary>
+    public bool ShowRoleBadge => !CanRemove;
+
+    public string RoleBadge => IsOwner
+        ? AppResources.TripDetails_PersonIsOwner
+        : AppResources.TripDetails_PersonIsDependent;
+
+    public string ConsumptionLabel => ConsumptionCategory switch
+    {
+        "HALF" => AppResources.TripDetails_ConsumptionHalf,
+        "CUSTOM" => $"{AppResources.TripDetails_ConsumptionCustom}: {CustomConsumptionWeight}",
+        _ => AppResources.TripDetails_ConsumptionFull
+    };
 }

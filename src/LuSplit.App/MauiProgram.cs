@@ -31,6 +31,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<SettlementPage>();
 		builder.Services.AddTransient<RecordPaymentPage>();
 		builder.Services.AddTransient<LanguageSettingsPage>();
+		builder.Services.AddTransient<ArchivedTripsPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

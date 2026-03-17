@@ -11,6 +11,17 @@
                 <Label Text="{Binding PageTitle}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{Binding PageSubtitle}" Style="{StaticResource BodyMuted}" />
 
+                <!-- Archived trip banner -->
+                <Border IsVisible="{Binding IsArchived}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="12,8">
+                    <Label Text="{x:Static loc:AppResources.TripDetails_ArchivedStatus}"
+                           Style="{StaticResource BodyMuted}"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
                         <Label Text="{x:Static loc:AppResources.TripDetails_TripNameLabel}" Style="{StaticResource FieldLabel}" />
@@ -42,6 +53,9 @@
                                     <VerticalStackLayout Spacing="4">
                                         <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
                                         <Label Text="{Binding HouseholdText}" Style="{StaticResource BodyMuted}" />
+                                        <Label Text="{Binding RoleBadge}" Style="{StaticResource BodyMuted}"
+                                               IsVisible="{Binding ShowRoleBadge}" />
+                                        <Label Text="{Binding ConsumptionLabel}" Style="{StaticResource BodyMuted}" />
                                     </VerticalStackLayout>
                                     <Button Grid.Column="1"
                                         IsVisible="{Binding CanRemove}"
@@ -54,22 +68,40 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Border Style="{StaticResource FormFieldBorder}">
+                <!-- Add person section (hidden for archived trips) -->
+                <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding CanEdit}">
                     <VerticalStackLayout Spacing="12">
                         <Label Text="{x:Static loc:AppResources.TripDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
+                        <Label Text="{x:Static loc:AppResources.TripDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
                         <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.TripDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
                         <Entry Text="{Binding NewHouseholdName}" Placeholder="{x:Static loc:AppResources.TripDetails_HouseholdNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.TripDetails_ConsumptionCategoryLabel}" Style="{StaticResource FieldLabel}" />
+                        <Picker ItemsSource="{Binding ConsumptionOptions}"
+                                SelectedItem="{Binding SelectedConsumptionOption}" />
+                        <Entry Text="{Binding NewCustomWeight}"
+                               Placeholder="{x:Static loc:AppResources.TripDetails_CustomWeightPlaceholder}"
+                               Keyboard="Numeric"
+                               IsVisible="{Binding IsCustomConsumption}"
+                               ClearButtonVisibility="WhileEditing" />
                         <Button Text="{x:Static loc:AppResources.TripDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Button Text="{Binding SaveButtonText}" Clicked="OnSaveClicked" />
+                <!-- Save / create button (hidden for archived trips) -->
+                <Button Text="{Binding SaveButtonText}" IsVisible="{Binding CanEdit}" Clicked="OnSaveClicked" />
 
                 <Button Text="{x:Static loc:AppResources.TripDetails_ExportButton}"
                         IsVisible="{Binding CanExport}"
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,4,0,0"
                         Clicked="OnExportClicked" />
+
+                <!-- Archive button: only visible for active (non-archived) edit-mode trips -->
+                <Button Text="{x:Static loc:AppResources.TripDetails_ArchiveButton}"
+                        IsVisible="{Binding CanArchive}"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,0,0"
+                        Clicked="OnArchiveClicked" />
 
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>

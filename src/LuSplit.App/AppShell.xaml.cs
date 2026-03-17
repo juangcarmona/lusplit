@@ -11,6 +11,7 @@ public partial class AppShell : Shell
 		TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
 		TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
 		TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
+		TryRegisterRoute(AppRoutes.ArchivedTrips, typeof(Pages.ArchivedTripsPage));
 	}
 
 	// Guard against duplicate registration when the shell is rebuilt for language changes.

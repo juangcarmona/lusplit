@@ -129,6 +129,27 @@ public static class TripPresentationMapper
             : $"{overview.Summary.ParticipantCount} people • {eventCount} events";
     }
 
+    /// <summary>
+    /// Picks the settlement mode that best reflects the trip's participant structure.
+    /// When all participants have their own economic unit (no dependents), participant-level
+    /// and owner-level settlement are identical — either works. When some participants are
+    /// dependents (share an economic unit with another payer), owner mode aggregates their
+    /// balances under the payer, which is the natural family / household view.
+    /// </summary>
+    public static SettlementMode ResolveSettlementMode(GroupOverviewModel overview)
+    {
+        // If the number of economic units equals the number of participants, every person
+        // has their own independent unit — both modes produce the same result.
+        if (overview.EconomicUnits.Count >= overview.Participants.Count)
+        {
+            return SettlementMode.Participant;
+        }
+
+        // At least one economic unit has multiple participants (dependents exist).
+        // Use owner mode so the household payer surfaces as the settlement entity.
+        return SettlementMode.EconomicUnitOwner;
+    }
+
     private static TimelineEntryViewModel BuildExpenseTimelineEntry(
         ExpenseModel expense,
         IReadOnlyDictionary<string, string> participantsById,
