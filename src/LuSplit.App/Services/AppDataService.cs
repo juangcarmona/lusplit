@@ -92,6 +92,8 @@ public sealed class AppDataService : IAsyncDisposable
         foreach (var groupId in groupIds)
         {
             var workspace = await GetTripWorkspaceAsync(groupId);
+            // Archived trips are hidden from the active list.
+            if (workspace.Overview.Group.Closed) continue;
             var lastActivity = GetLastActivity(workspace.Overview);
             var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
             trips.Add(new TripListItemModel(
@@ -112,6 +114,34 @@ public sealed class AppDataService : IAsyncDisposable
             .ToArray();
     }
 
+    public async Task<IReadOnlyList<TripListItemModel>> GetArchivedTripsAsync()
+    {
+        var groupIds = await ListGroupIdsAsync();
+        var trips = new List<TripListItemModel>(groupIds.Count);
+
+        foreach (var groupId in groupIds)
+        {
+            var workspace = await GetTripWorkspaceAsync(groupId);
+            if (!workspace.Overview.Group.Closed) continue;
+            var lastActivity = GetLastActivity(workspace.Overview);
+            var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
+            trips.Add(new TripListItemModel(
+                groupId,
+                workspace.TripName,
+                workspace.Overview.Group.Currency,
+                false,
+                TripPresentationMapper.BuildTripSummary(workspace.Overview),
+                TripPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? "Settled.",
+                string.Empty,
+                rankDate));
+        }
+
+        return trips
+            .OrderByDescending(t => t.RankDate)
+            .ThenBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
     public async Task<TripDetailsModel> GetTripDetailsAsync()
         => await GetTripDetailsAsync(await GetSelectedGroupIdAsync());
 
@@ -119,18 +149,41 @@ public sealed class AppDataService : IAsyncDisposable
     {
         var workspace = await GetTripWorkspaceAsync(groupId);
         var householdNames = BuildHouseholdLookup(workspace.Overview);
+        var ownerIdsByUnit = workspace.Overview.EconomicUnits
+            .ToDictionary(unit => unit.Id, unit => unit.OwnerParticipantId, StringComparer.Ordinal);
 
         return new TripDetailsModel(
             groupId,
             workspace.TripName,
             workspace.Overview.Group.Currency,
+            workspace.Overview.Group.Closed,
             workspace.Overview.Participants
                 .OrderBy(participant => participant.Name, StringComparer.OrdinalIgnoreCase)
                 .Select(participant => new TripMemberModel(
                     participant.Id,
                     participant.Name,
-                    householdNames.TryGetValue(participant.EconomicUnitId, out var householdName) ? householdName : participant.Name))
+                    householdNames.TryGetValue(participant.EconomicUnitId, out var householdName) ? householdName : participant.Name,
+                    ownerIdsByUnit.TryGetValue(participant.EconomicUnitId, out var ownerId) &&
+                        string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
+                    participant.ConsumptionCategory.ToString().ToUpperInvariant(),
+                    participant.CustomConsumptionWeight))
                 .ToArray());
+    }
+
+    /// <summary>Archives a trip. Archived trips are read-only — the domain blocks new expenses and participants on closed groups.</summary>
+    public async Task ArchiveTripAsync(string groupId)
+    {
+        var infra = await GetInfraAsync();
+        await new CloseGroupUseCase(infra.GroupRepository).ExecuteAsync(new CloseGroupInput(groupId));
+
+        // If the archived trip was the active selection, fall through to the next active trip.
+        if (string.Equals(_selectedGroupId, groupId, StringComparison.Ordinal))
+        {
+            _selectedGroupId = null;
+            Preferences.Default.Remove(SelectedGroupPreferenceKey);
+        }
+
+        DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public EventDraftDefaults GetEventDraftDefaults()
@@ -154,7 +207,9 @@ public sealed class AppDataService : IAsyncDisposable
         var memberDrafts = members
             .Select(member => new TripDraftMember(
                 NormalizeRequired(member.Name, "Each person needs a name."),
-                NormalizeOptional(member.HouseholdName)))
+                NormalizeOptional(member.HouseholdName),
+                member.ConsumptionCategory,
+                member.CustomConsumptionWeight))
             .ToArray();
 
         if (memberDrafts.Length == 0)
@@ -187,11 +242,16 @@ public sealed class AppDataService : IAsyncDisposable
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task AddTripMemberAsync(string groupId, string personName, string? householdName)
+    public async Task AddTripMemberAsync(
+        string groupId,
+        string personName,
+        string? householdName,
+        ConsumptionCategory consumptionCategory = ConsumptionCategory.Full,
+        string? customConsumptionWeight = null)
     {
         var normalizedName = NormalizeRequired(personName, "Person name is required.");
         var normalizedHouseholdName = NormalizeOptional(householdName);
-        await AddMembersAsync(groupId, new[] { new TripDraftMember(normalizedName, normalizedHouseholdName) });
+        await AddMembersAsync(groupId, new[] { new TripDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -530,7 +590,8 @@ ON CONFLICT(expense_id) DO UPDATE SET
                 groupId,
                 unit.Id,
                 member.Name,
-                ConsumptionCategory.Full));
+                member.ConsumptionCategory,
+                member.CustomConsumptionWeight));
         }
     }
 
@@ -649,9 +710,21 @@ public sealed record TripDetailsModel(
     string GroupId,
     string TripName,
     string Currency,
+    bool IsArchived,
     IReadOnlyList<TripMemberModel> Members);
 
-public sealed record TripMemberModel(string ParticipantId, string Name, string HouseholdName);
-public sealed record TripDraftMember(string Name, string? HouseholdName);
+public sealed record TripMemberModel(
+    string ParticipantId,
+    string Name,
+    string HouseholdName,
+    bool IsOwner,
+    string ConsumptionCategory,
+    string? CustomConsumptionWeight);
+
+public sealed record TripDraftMember(
+    string Name,
+    string? HouseholdName,
+    ConsumptionCategory ConsumptionCategory = ConsumptionCategory.Full,
+    string? CustomConsumptionWeight = null);
 
 sealed record TripMetadataRecord(string? Name, DateTimeOffset? LastOpenedUtc);

@@ -14,6 +14,17 @@
         <ScrollView>
             <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
 
+                <!-- Archived trip banner (hidden for active trips) -->
+                <Border IsVisible="{Binding IsArchived}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="12,8">
+                    <Label Text="{x:Static loc:AppResources.TripDetails_ArchivedStatus}"
+                           Style="{StaticResource BodyMuted}"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
                 <!-- Trip header -->
                 <VerticalStackLayout Spacing="4">
                     <Label Text="{Binding TripName}" Style="{StaticResource DisplayTitle}" />
@@ -82,8 +93,9 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <!-- Quick actions -->
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0">
+                <!-- Quick actions (hidden for archived trips) -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0"
+                      IsVisible="{Binding CanEdit}">
                     <Button Grid.Column="0" Text="{x:Static loc:AppResources.Trip_AddExpense}" Clicked="OnAddEventClicked" />
                     <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.Trip_RecordPayment}"

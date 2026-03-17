@@ -3,13 +3,13 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class HomePage : ContentPage
+public partial class ArchivedTripsPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
     public ObservableCollection<TripListItemModel> Trips { get; } = new();
 
-    public HomePage(AppDataService dataService)
+    public ArchivedTripsPage(AppDataService dataService)
     {
         _dataService = dataService;
 
@@ -30,7 +30,7 @@ public partial class HomePage : ContentPage
 
     private async Task LoadAsync()
     {
-        var trips = await _dataService.GetTripsAsync();
+        var trips = await _dataService.GetArchivedTripsAsync();
 
         Trips.Clear();
         foreach (var trip in trips)
@@ -42,31 +42,14 @@ public partial class HomePage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private async void OnOpenTripClicked(object? sender, EventArgs e)
+    // Navigate to the trip timeline in read-only (archived) mode.
+    // We pass the groupId as a query param so TripPage loads that specific trip
+    // WITHOUT changing the user's currently selected active trip.
+    private async void OnViewTripClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await _dataService.SelectTripAsync(groupId);
-            await Shell.Current.GoToAsync(AppRoutes.TripTimeline);
+            await Shell.Current.GoToAsync($"{AppRoutes.TripTimeline}?groupId={Uri.EscapeDataString(groupId)}");
         }
-    }
-
-    private async void OnEditTripClicked(object? sender, EventArgs e)
-    {
-        if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
-        {
-            await _dataService.SelectTripAsync(groupId);
-            await Shell.Current.GoToAsync(AppRoutes.TripDetails);
-        }
-    }
-
-    private async void OnNewTripClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync($"{AppRoutes.TripDetails}?mode=create");
-    }
-
-    private async void OnViewArchivedClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.ArchivedTrips);
     }
 }

@@ -29,6 +29,7 @@ public static class AppResources
     public static string Trips_Details => Get(nameof(Trips_Details));
     public static string Trips_NewTrip => Get(nameof(Trips_NewTrip));
     public static string Trips_Active => Get(nameof(Trips_Active));
+    public static string Trips_ViewArchived => Get(nameof(Trips_ViewArchived));
 
     // --- Trip timeline ---
     public static string Trip_Title => Get(nameof(Trip_Title));
@@ -66,6 +67,19 @@ public static class AppResources
     public static string TripDetails_PersonAdded => Get(nameof(TripDetails_PersonAdded));
     public static string TripDetails_PersonAddedNew => Get(nameof(TripDetails_PersonAddedNew));
     public static string TripDetails_Remove => Get(nameof(TripDetails_Remove));
+    public static string TripDetails_ArchiveButton => Get(nameof(TripDetails_ArchiveButton));
+    public static string TripDetails_ArchiveConfirmTitle => Get(nameof(TripDetails_ArchiveConfirmTitle));
+    public static string TripDetails_ArchiveConfirmMessage => Get(nameof(TripDetails_ArchiveConfirmMessage));
+    public static string TripDetails_ArchiveConfirmYes => Get(nameof(TripDetails_ArchiveConfirmYes));
+    public static string TripDetails_ArchivedStatus => Get(nameof(TripDetails_ArchivedStatus));
+    public static string TripDetails_ConsumptionCategoryLabel => Get(nameof(TripDetails_ConsumptionCategoryLabel));
+    public static string TripDetails_ConsumptionFull => Get(nameof(TripDetails_ConsumptionFull));
+    public static string TripDetails_ConsumptionHalf => Get(nameof(TripDetails_ConsumptionHalf));
+    public static string TripDetails_ConsumptionCustom => Get(nameof(TripDetails_ConsumptionCustom));
+    public static string TripDetails_CustomWeightPlaceholder => Get(nameof(TripDetails_CustomWeightPlaceholder));
+    public static string TripDetails_PersonIsOwner => Get(nameof(TripDetails_PersonIsOwner));
+    public static string TripDetails_PersonIsDependent => Get(nameof(TripDetails_PersonIsDependent));
+    public static string TripDetails_AddPersonHint => Get(nameof(TripDetails_AddPersonHint));
 
     // --- Add Event ---
     public static string AddEvent_Title => Get(nameof(AddEvent_Title));
@@ -124,6 +138,15 @@ public static class AppResources
     public static string Validation_AddAtLeastOnePerson => Get(nameof(Validation_AddAtLeastOnePerson));
     public static string Validation_ChooseBothPeople => Get(nameof(Validation_ChooseBothPeople));
     public static string Validation_DifferentPeople => Get(nameof(Validation_DifferentPeople));
+    public static string Validation_InvalidCustomWeight => Get(nameof(Validation_InvalidCustomWeight));
+    public static string Validation_CustomWeightRequiredForCustomCategory => Get(nameof(Validation_CustomWeightRequiredForCustomCategory));
+
+    // --- Archived trips ---
+    public static string Archived_Title => Get(nameof(Archived_Title));
+    public static string Archived_Subtitle => Get(nameof(Archived_Subtitle));
+    public static string Archived_EmptyTitle => Get(nameof(Archived_EmptyTitle));
+    public static string Archived_EmptySubtitle => Get(nameof(Archived_EmptySubtitle));
+    public static string Archived_Badge => Get(nameof(Archived_Badge));
 
     // --- Settings ---
     public static string Settings_Title => Get(nameof(Settings_Title));
