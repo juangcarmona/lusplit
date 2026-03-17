@@ -3,13 +3,13 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class ArchivedTripsPage : ContentPage
+public partial class ArchivedGroupsPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<TripListItemModel> Trips { get; } = new();
+    public ObservableCollection<GroupListItemModel> Groups { get; } = new();
 
-    public ArchivedTripsPage(AppDataService dataService)
+    public ArchivedGroupsPage(AppDataService dataService)
     {
         _dataService = dataService;
 
@@ -30,11 +30,11 @@ public partial class ArchivedTripsPage : ContentPage
 
     private async Task LoadAsync()
     {
-        var trips = await _dataService.GetArchivedTripsAsync();
+        var groups = await _dataService.GetArchivedGroupsAsync();
 
-        Trips.Clear();
-        foreach (var trip in trips)
-            Trips.Add(trip);
+        Groups.Clear();
+        foreach (var group in groups)
+            Groups.Add(group);
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -42,14 +42,14 @@ public partial class ArchivedTripsPage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    // Navigate to the trip timeline in read-only (archived) mode.
-    // We pass the groupId as a query param so TripPage loads that specific trip
-    // WITHOUT changing the user's currently selected active trip.
-    private async void OnViewTripClicked(object? sender, EventArgs e)
+    // Navigate to the group timeline in read-only (archived) mode.
+    // We pass the groupId as a query param so GroupPage loads that specific group
+    // WITHOUT changing the user's currently selected active group.
+    private async void OnViewGroupClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await Shell.Current.GoToAsync($"{AppRoutes.TripTimeline}?groupId={Uri.EscapeDataString(groupId)}");
+            await Shell.Current.GoToAsync($"{AppRoutes.GroupTimeline}?groupId={Uri.EscapeDataString(groupId)}");
         }
     }
 }

@@ -3,14 +3,14 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.Infrastructure.Export;
 
-internal sealed class PdfTripExporter
+internal sealed class PdfGroupExporter
 {
-    public async Task<ExportFileResult> ExportAsync(ExportTripDto dto, CancellationToken ct)
+    public async Task<ExportFileResult> ExportAsync(ExportGroupDto dto, CancellationToken ct)
     {
         var lines = BuildLines(dto);
         var pdfBytes = SimplePdfBuilder.Build(lines);
 
-        var slug = ExportFileNaming.Slug(dto.TripName, dto.ExportedAt);
+        var slug = ExportFileNaming.Slug(dto.GroupName, dto.ExportedAt);
         var fileName = $"{slug}-summary.pdf";
         var filePath = Path.Combine(dto.OutputDirectory, fileName);
 
@@ -18,7 +18,7 @@ internal sealed class PdfTripExporter
         return new ExportFileResult(filePath, fileName, "application/pdf");
     }
 
-    private static IReadOnlyList<PdfLine> BuildLines(ExportTripDto dto)
+    private static IReadOnlyList<PdfLine> BuildLines(ExportGroupDto dto)
     {
         var o = dto.Overview;
         var byId = o.Participants.ToDictionary(p => p.Id, p => p.Name, StringComparer.Ordinal);
@@ -26,7 +26,7 @@ internal sealed class PdfTripExporter
         var lines = new List<PdfLine>();
 
         // ── Header ──────────────────────────────────────────────
-        lines.Add(new PdfLine(dto.TripName, PdfLineStyle.Title));
+        lines.Add(new PdfLine(dto.GroupName, PdfLineStyle.Title));
         var exportDate = DateTimeOffset.TryParse(dto.ExportedAt, null,
             DateTimeStyles.None, out var dt)
             ? dt.UtcDateTime.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture)

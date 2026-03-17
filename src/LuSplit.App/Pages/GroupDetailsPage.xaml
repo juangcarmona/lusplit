@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LuSplit.App.Pages.TripDetailsPage"
+             x:Class="LuSplit.App.Pages.GroupDetailsPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             Title="{x:Static loc:AppResources.TripDetails_Title}">
+             Title="{x:Static loc:AppResources.GroupDetails_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="8,8,8,8" Spacing="14">
                 <Label Text="{Binding PageTitle}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{Binding PageSubtitle}" Style="{StaticResource BodyMuted}" />
 
-                <!-- Archived trip banner -->
+                <!-- Archived group banner -->
                 <Border IsVisible="{Binding IsArchived}"
                         BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 10"
                         Padding="12,8">
-                    <Label Text="{x:Static loc:AppResources.TripDetails_ArchivedStatus}"
+                    <Label Text="{x:Static loc:AppResources.GroupDetails_ArchivedStatus}"
                            Style="{StaticResource BodyMuted}"
                            HorizontalTextAlignment="Center" />
                 </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="{x:Static loc:AppResources.TripDetails_TripNameLabel}" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding TripName}" Placeholder="{x:Static loc:AppResources.TripDetails_TripNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_GroupNameLabel}" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding GroupName}" Placeholder="{x:Static loc:AppResources.GroupDetails_GroupNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="{x:Static loc:AppResources.TripDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding CurrencyOptions}" SelectedItem="{Binding SelectedCurrency}" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Label Text="{x:Static loc:AppResources.TripDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
-                <Label Text="{x:Static loc:AppResources.TripDetails_HouseholdHint}" Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.GroupDetails_HouseholdHint}" Style="{StaticResource BodyMuted}" />
 
                 <CollectionView ItemsSource="{Binding People}" SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,8,0,0" Spacing="8">
-                            <Label Text="{x:Static loc:AppResources.TripDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                            <Label Text="{x:Static loc:AppResources.TripDetails_NoPeopleSubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleSubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
@@ -59,7 +59,7 @@
                                     </VerticalStackLayout>
                                     <Button Grid.Column="1"
                                         IsVisible="{Binding CanRemove}"
-                                        Text="{x:Static loc:AppResources.TripDetails_Remove}"
+                                        Text="{x:Static loc:AppResources.GroupDetails_Remove}"
                                         Clicked="OnRemovePersonClicked"
                                         CommandParameter="{Binding Name}" />
                                 </Grid>
@@ -68,36 +68,37 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <!-- Add person section (hidden for archived trips) -->
+                <!-- Add person section (hidden for archived groups) -->
                 <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding CanEdit}">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="{x:Static loc:AppResources.TripDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
-                        <Label Text="{x:Static loc:AppResources.TripDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
-                        <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.TripDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
-                        <Entry Text="{Binding NewHouseholdName}" Placeholder="{x:Static loc:AppResources.TripDetails_HouseholdNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
-                        <Label Text="{x:Static loc:AppResources.TripDetails_ConsumptionCategoryLabel}" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
+                        <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.GroupDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Entry Text="{Binding NewHouseholdName}" Placeholder="{x:Static loc:AppResources.GroupDetails_HouseholdNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_ConsumptionCategoryLabel}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding ConsumptionOptions}"
-                                SelectedItem="{Binding SelectedConsumptionOption}" />
+                                SelectedItem="{Binding SelectedConsumption}"
+                                ItemDisplayBinding="{Binding Label}" />
                         <Entry Text="{Binding NewCustomWeight}"
-                               Placeholder="{x:Static loc:AppResources.TripDetails_CustomWeightPlaceholder}"
+                               Placeholder="{x:Static loc:AppResources.GroupDetails_CustomWeightPlaceholder}"
                                Keyboard="Numeric"
                                IsVisible="{Binding IsCustomConsumption}"
                                ClearButtonVisibility="WhileEditing" />
-                        <Button Text="{x:Static loc:AppResources.TripDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
+                        <Button Text="{x:Static loc:AppResources.GroupDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Save / create button (hidden for archived trips) -->
+                <!-- Save / create button (hidden for archived groups) -->
                 <Button Text="{Binding SaveButtonText}" IsVisible="{Binding CanEdit}" Clicked="OnSaveClicked" />
 
-                <Button Text="{x:Static loc:AppResources.TripDetails_ExportButton}"
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ExportButton}"
                         IsVisible="{Binding CanExport}"
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,4,0,0"
                         Clicked="OnExportClicked" />
 
-                <!-- Archive button: only visible for active (non-archived) edit-mode trips -->
-                <Button Text="{x:Static loc:AppResources.TripDetails_ArchiveButton}"
+                <!-- Archive button: only visible for active (non-archived) edit-mode groups -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ArchiveButton}"
                         IsVisible="{Binding CanArchive}"
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,0,0,0"

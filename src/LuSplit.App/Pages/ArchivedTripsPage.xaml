@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             x:Class="LuSplit.App.Pages.ArchivedTripsPage"
+             x:Class="LuSplit.App.Pages.ArchivedGroupsPage"
              Title="{x:Static loc:AppResources.Archived_Title}">
     <Grid RowDefinitions="*,Auto">
 
@@ -14,7 +14,7 @@
                     <Label Text="{x:Static loc:AppResources.Archived_Subtitle}" Style="{StaticResource BodyMuted}" />
                 </VerticalStackLayout>
 
-                <CollectionView ItemsSource="{Binding Trips}" SelectionMode="None">
+                <CollectionView ItemsSource="{Binding Groups}" SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,24,0,0" Spacing="8">
                             <Label Text="{x:Static loc:AppResources.Archived_EmptyTitle}"
@@ -44,9 +44,9 @@
                                             </Border>
                                         </VerticalStackLayout>
                                     </Grid>
-                                    <Button Text="{x:Static loc:AppResources.Trips_Open}"
+                                    <Button Text="{x:Static loc:AppResources.Groups_Open}"
                                             Style="{StaticResource SecondaryButton}"
-                                            Clicked="OnViewTripClicked"
+                                            Clicked="OnViewGroupClicked"
                                             CommandParameter="{Binding GroupId}" />
                                 </VerticalStackLayout>
                             </Border>

@@ -3,17 +3,16 @@ using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 using LuSplit.Domain.Entities;
-using Microsoft.Maui.ApplicationModel.DataTransfer;
 
 namespace LuSplit.App.Pages;
 
-public partial class TripDetailsPage : ContentPage, IQueryAttributable
+public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     private string _mode = EditMode;
     private string? _groupId;
-    // Set when navigating from an archived trip view, to load a specific group
-    // without changing the user's currently selected active trip.
+    // Set when navigating from an archived group view, to load a specific group
+    // without changing the user's currently selected active group.
     private string? _overrideGroupId;
     private bool _isArchived;
 
@@ -22,17 +21,14 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
 
-    public ObservableCollection<TripPersonEditorViewModel> People { get; } = new();
+    public ObservableCollection<GroupPersonEditorViewModel> People { get; } = new();
 
     // Consumption category options shown in the Add Person picker.
-    public ObservableCollection<string> ConsumptionOptions { get; } = new()
-    {
-        AppResources.TripDetails_ConsumptionFull,
-        AppResources.TripDetails_ConsumptionHalf,
-        AppResources.TripDetails_ConsumptionCustom
-    };
+    // Using an enum-backed view model so the picker comparison is stable
+    // regardless of the active locale — avoids comparing localized strings.
+    public ObservableCollection<ConsumptionOptionViewModel> ConsumptionOptions { get; }
 
-    public string TripName { get; set; } = string.Empty;
+    public string GroupName { get; set; } = string.Empty;
 
     public string? SelectedCurrency { get; set; } = "USD";
 
@@ -40,7 +36,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public string NewHouseholdName { get; set; } = string.Empty;
 
-    public string SelectedConsumptionOption { get; set; } = AppResources.TripDetails_ConsumptionFull;
+    public ConsumptionOptionViewModel SelectedConsumption { get; set; }
 
     public string NewCustomWeight { get; set; } = string.Empty;
 
@@ -48,7 +44,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     public bool IsArchived => _isArchived;
 
-    /// <summary>True when the trip can be edited — i.e. it is not archived.</summary>
+    /// <summary>True when the group can be edited — i.e. it is not archived.</summary>
     public bool CanEdit => !IsCreateMode && !_isArchived;
 
     public bool CanExport => !IsCreateMode;
@@ -57,22 +53,28 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     public bool CanArchive => !IsCreateMode && !_isArchived;
 
     /// <summary>Custom-weight entry is visible only when "Custom weight" is selected.</summary>
-    public bool IsCustomConsumption =>
-        string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionCustom, StringComparison.Ordinal);
+    public bool IsCustomConsumption => SelectedConsumption?.Category == ConsumptionCategory.Custom;
 
-    public string PageTitle => IsCreateMode ? AppResources.TripDetails_PageTitleCreate : AppResources.TripDetails_PageTitleEdit;
+    public string PageTitle => IsCreateMode ? AppResources.GroupDetails_PageTitleCreate : AppResources.GroupDetails_PageTitleEdit;
 
     public string PageSubtitle => IsCreateMode
-        ? AppResources.TripDetails_SubtitleCreate
-        : (_isArchived ? AppResources.TripDetails_ArchivedStatus : AppResources.TripDetails_SubtitleEdit);
+        ? AppResources.GroupDetails_SubtitleCreate
+        : (_isArchived ? AppResources.GroupDetails_ArchivedStatus : AppResources.GroupDetails_SubtitleEdit);
 
-    public string SaveButtonText => IsCreateMode ? AppResources.TripDetails_CreateButton : AppResources.TripDetails_SaveButton;
+    public string SaveButtonText => IsCreateMode ? AppResources.GroupDetails_CreateButton : AppResources.GroupDetails_SaveButton;
 
     private bool IsCreateMode => string.Equals(_mode, CreateMode, StringComparison.OrdinalIgnoreCase);
 
-    public TripDetailsPage(AppDataService dataService)
+    public GroupDetailsPage(AppDataService dataService)
     {
         _dataService = dataService;
+        ConsumptionOptions = new()
+        {
+            new(ConsumptionCategory.Full, AppResources.GroupDetails_ConsumptionFull),
+            new(ConsumptionCategory.Half, AppResources.GroupDetails_ConsumptionHalf),
+            new(ConsumptionCategory.Custom, AppResources.GroupDetails_ConsumptionCustom),
+        };
+        SelectedConsumption = ConsumptionOptions[0];
         InitializeComponent();
         BindingContext = this;
 #if ANDROID
@@ -105,26 +107,26 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
         if (IsCreateMode)
         {
             _groupId = null;
-            TripName = string.Empty;
+            GroupName = string.Empty;
             SelectedCurrency = SelectedCurrency is null ? "USD" : SelectedCurrency;
             People.Clear();
         }
         else
         {
             var details = _overrideGroupId is not null
-                ? await _dataService.GetTripDetailsAsync(_overrideGroupId)
-                : await _dataService.GetTripDetailsAsync();
+                ? await _dataService.GetGroupDetailsAsync(_overrideGroupId)
+                : await _dataService.GetGroupDetailsAsync();
 
             _groupId = details.GroupId;
             _isArchived = details.IsArchived;
-            TripName = details.TripName;
+            GroupName = details.GroupName;
             EnsureCurrencyOption(details.Currency);
             SelectedCurrency = details.Currency;
 
             People.Clear();
             foreach (var person in details.Members)
             {
-                People.Add(new TripPersonEditorViewModel(
+                People.Add(new GroupPersonEditorViewModel(
                     person.Name,
                     person.HouseholdName,
                     false,
@@ -136,7 +138,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
         NewPersonName = string.Empty;
         NewHouseholdName = string.Empty;
-        SelectedConsumptionOption = AppResources.TripDetails_ConsumptionFull;
+        SelectedConsumption = ConsumptionOptions[0];
         NewCustomWeight = string.Empty;
         Title = PageTitle;
 
@@ -168,9 +170,9 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
             if (IsCreateMode)
             {
-                People.Add(new TripPersonEditorViewModel(
+                People.Add(new GroupPersonEditorViewModel(
                     NewPersonName.Trim(),
-                    string.IsNullOrWhiteSpace(NewHouseholdName) ? AppResources.TripDetails_SettlesOnOwn : NewHouseholdName.Trim(),
+                    string.IsNullOrWhiteSpace(NewHouseholdName) ? null : NewHouseholdName.Trim(),
                     true,
                     false,
                     CategoryToString(category),
@@ -180,26 +182,26 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
             {
                 if (string.IsNullOrWhiteSpace(_groupId))
                 {
-                    StatusText = AppResources.Validation_TripNotFound;
+                    StatusText = AppResources.Validation_GroupNotFound;
                     OnPropertyChanged(nameof(StatusText));
                     return;
                 }
 
-                await _dataService.AddTripMemberAsync(
+                await _dataService.AddGroupMemberAsync(
                     _groupId,
                     NewPersonName,
                     NewHouseholdName,
                     category,
                     category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null);
-                StatusText = AppResources.TripDetails_PersonAdded;
+                StatusText = AppResources.GroupDetails_PersonAdded;
                 await LoadAsync();
             }
 
             NewPersonName = string.Empty;
             NewHouseholdName = string.Empty;
-            SelectedConsumptionOption = AppResources.TripDetails_ConsumptionFull;
+            SelectedConsumption = ConsumptionOptions[0];
             NewCustomWeight = string.Empty;
-            StatusText = IsCreateMode ? AppResources.TripDetails_PersonAddedNew : StatusText;
+            StatusText = IsCreateMode ? AppResources.GroupDetails_PersonAddedNew : StatusText;
             NotifyAddPersonProperties();
         }
         catch (Exception ex)
@@ -227,9 +229,9 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(TripName))
+            if (string.IsNullOrWhiteSpace(GroupName))
             {
-                StatusText = AppResources.Validation_TripNameRequired;
+                StatusText = AppResources.Validation_GroupNameRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -250,30 +252,28 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
                     return;
                 }
 
-                await _dataService.CreateTripAsync(
-                    TripName,
+                await _dataService.CreateGroupAsync(
+                    GroupName,
                     SelectedCurrency,
-                    People.Select(person => new TripDraftMember(
+                    People.Select(person => new GroupDraftMember(
                         person.Name,
-                        string.Equals(person.HouseholdText, AppResources.TripDetails_SettlesOnOwn, StringComparison.Ordinal)
-                            ? null
-                            : person.HouseholdText,
+                        string.IsNullOrEmpty(person.HouseholdName) ? null : person.HouseholdName,
                         StringToCategory(person.ConsumptionCategory),
                         person.CustomConsumptionWeight)).ToArray());
 
-                await Shell.Current.GoToAsync("//trips");
-                await Shell.Current.GoToAsync(AppRoutes.TripTimeline);
+                await Shell.Current.GoToAsync("//groups");
+                await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
             }
             else
             {
                 if (string.IsNullOrWhiteSpace(_groupId))
                 {
-                    StatusText = AppResources.Validation_TripNotFound;
+                    StatusText = AppResources.Validation_GroupNotFound;
                     OnPropertyChanged(nameof(StatusText));
                     return;
                 }
 
-                await _dataService.UpdateTripAsync(_groupId, TripName, SelectedCurrency);
+                await _dataService.UpdateGroupAsync(_groupId, GroupName, SelectedCurrency);
                 await Shell.Current.GoToAsync("..");
             }
         }
@@ -288,18 +288,18 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     {
         if (string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var confirmed = await DisplayAlert(
-            AppResources.TripDetails_ArchiveConfirmTitle,
-            AppResources.TripDetails_ArchiveConfirmMessage,
-            AppResources.TripDetails_ArchiveConfirmYes,
+        var confirmed = await DisplayAlertAsync(
+            AppResources.GroupDetails_ArchiveConfirmTitle,
+            AppResources.GroupDetails_ArchiveConfirmMessage,
+            AppResources.GroupDetails_ArchiveConfirmYes,
             AppResources.Common_Cancel);
 
         if (!confirmed) return;
 
         try
         {
-            await _dataService.ArchiveTripAsync(_groupId);
-            await Shell.Current.GoToAsync("//trips");
+            await _dataService.ArchiveGroupAsync(_groupId);
+            await Shell.Current.GoToAsync("//groups");
         }
         catch (Exception ex)
         {
@@ -320,26 +320,27 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     {
         if (_groupId is null) return;
 
-        var choice = await DisplayActionSheet(
+        var exportOptions = new (string Label, ExportFormat Format)[]
+        {
+            (AppResources.Export_JsonOption, ExportFormat.Json),
+            (AppResources.Export_CsvOption, ExportFormat.Csv),
+            (AppResources.Export_PdfOption, ExportFormat.Pdf),
+        };
+
+        var choice = await DisplayActionSheetAsync(
             AppResources.Export_DialogTitle,
             AppResources.Common_Cancel,
             null,
-            AppResources.Export_JsonOption,
-            AppResources.Export_CsvOption,
-            AppResources.Export_PdfOption);
+            exportOptions.Select(o => o.Label).ToArray());
 
         if (string.IsNullOrEmpty(choice) || choice == AppResources.Common_Cancel) return;
 
-        ExportFormat? format = null;
-        if (choice == AppResources.Export_JsonOption) format = ExportFormat.Json;
-        else if (choice == AppResources.Export_CsvOption) format = ExportFormat.Csv;
-        else if (choice == AppResources.Export_PdfOption) format = ExportFormat.Pdf;
-
-        if (format is null) return;
+        var selected = Array.Find(exportOptions, o => string.Equals(o.Label, choice, StringComparison.Ordinal));
+        if (selected.Label is null) return;
 
         try
         {
-            var result = await _dataService.ExportTripAsync(_groupId, format.Value);
+            var result = await _dataService.ExportGroupAsync(_groupId, selected.Format);
             await Share.RequestAsync(new ShareFileRequest
             {
                 Title = AppResources.Export_ShareTitle,
@@ -354,13 +355,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     }
 
     private ConsumptionCategory ResolveConsumptionCategory()
-    {
-        if (string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionHalf, StringComparison.Ordinal))
-            return ConsumptionCategory.Half;
-        if (string.Equals(SelectedConsumptionOption, AppResources.TripDetails_ConsumptionCustom, StringComparison.Ordinal))
-            return ConsumptionCategory.Custom;
-        return ConsumptionCategory.Full;
-    }
+        => SelectedConsumption?.Category ?? ConsumptionCategory.Full;
 
     private static string CategoryToString(ConsumptionCategory category)
         => category switch
@@ -380,7 +375,7 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
 
     private void NotifyAllProperties()
     {
-        OnPropertyChanged(nameof(TripName));
+        OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(SelectedCurrency));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
@@ -397,16 +392,16 @@ public partial class TripDetailsPage : ContentPage, IQueryAttributable
     {
         OnPropertyChanged(nameof(NewPersonName));
         OnPropertyChanged(nameof(NewHouseholdName));
-        OnPropertyChanged(nameof(SelectedConsumptionOption));
+        OnPropertyChanged(nameof(SelectedConsumption));
         OnPropertyChanged(nameof(NewCustomWeight));
         OnPropertyChanged(nameof(IsCustomConsumption));
         OnPropertyChanged(nameof(StatusText));
     }
 }
 
-public sealed record TripPersonEditorViewModel(
+public sealed record GroupPersonEditorViewModel(
     string Name,
-    string HouseholdText,
+    string? HouseholdName,  // null or empty means "settles on own" — avoids localized-string comparison
     bool CanRemove,
     bool IsOwner = false,
     string ConsumptionCategory = "FULL",
@@ -417,13 +412,24 @@ public sealed record TripPersonEditorViewModel(
     public bool ShowRoleBadge => !CanRemove;
 
     public string RoleBadge => IsOwner
-        ? AppResources.TripDetails_PersonIsOwner
-        : AppResources.TripDetails_PersonIsDependent;
+        ? AppResources.GroupDetails_PersonIsOwner
+        : AppResources.GroupDetails_PersonIsDependent;
+
+    /// <summary>Display text for the household column. Falls back to the localized "Settles on their own" sentinel when no household name is set.</summary>
+    public string HouseholdText => string.IsNullOrEmpty(HouseholdName)
+        ? AppResources.GroupDetails_SettlesOnOwn
+        : HouseholdName;
 
     public string ConsumptionLabel => ConsumptionCategory switch
     {
-        "HALF" => AppResources.TripDetails_ConsumptionHalf,
-        "CUSTOM" => $"{AppResources.TripDetails_ConsumptionCustom}: {CustomConsumptionWeight}",
-        _ => AppResources.TripDetails_ConsumptionFull
+        "HALF" => AppResources.GroupDetails_ConsumptionHalf,
+        "CUSTOM" => $"{AppResources.GroupDetails_ConsumptionCustom}: {CustomConsumptionWeight}",
+        _ => AppResources.GroupDetails_ConsumptionFull
     };
 }
+
+/// <summary>
+/// Stable enum-backed option for the consumption category picker.
+/// Using <see cref="Category"/> for comparisons avoids binding to localized labels.
+/// </summary>
+public sealed record ConsumptionOptionViewModel(ConsumptionCategory Category, string Label);

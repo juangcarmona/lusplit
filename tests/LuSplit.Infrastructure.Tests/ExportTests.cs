@@ -15,7 +15,7 @@ public sealed class ExportTests
     public async Task ExportJson_ContainsAllExpectedTopLevelFields()
     {
         var dto = await CreateTestDto();
-        var exporter = new TripExporterService();
+        var exporter = new GroupExporterService();
 
         var result = await exporter.ExportJsonAsync(dto);
 
@@ -26,7 +26,7 @@ public sealed class ExportTests
         using var doc = JsonDocument.Parse(await File.ReadAllTextAsync(result.FilePath));
         var root = doc.RootElement;
         Assert.Equal(1, root.GetProperty("schemaVersion").GetInt32());
-        Assert.Equal("Test Trip", root.GetProperty("tripName").GetString());
+        Assert.Equal("Test Group", root.GetProperty("groupName").GetString());
         Assert.Equal(2, root.GetProperty("participants").GetArrayLength());
         Assert.Equal(1, root.GetProperty("expenses").GetArrayLength());
         Assert.Equal(0, root.GetProperty("transfers").GetArrayLength());
@@ -37,7 +37,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto(); // expense amountMinor = 1000
 
-        var result = await new TripExporterService().ExportJsonAsync(dto);
+        var result = await new GroupExporterService().ExportJsonAsync(dto);
 
         using var doc = JsonDocument.Parse(await File.ReadAllTextAsync(result.FilePath));
         var expense = doc.RootElement.GetProperty("expenses")[0];
@@ -45,11 +45,11 @@ public sealed class ExportTests
     }
 
     [Fact]
-    public async Task ExportJson_FileNameIsSlugifiedTripName()
+    public async Task ExportJson_FileNameIsSlugifiedGroupName()
     {
         var dto = await CreateTestDto("Weekend in Paris!");
 
-        var result = await new TripExporterService().ExportJsonAsync(dto);
+        var result = await new GroupExporterService().ExportJsonAsync(dto);
 
         Assert.Contains("weekend-in-paris", result.FileName, StringComparison.OrdinalIgnoreCase);
         Assert.EndsWith(".snapshot.json", result.FileName);
@@ -60,7 +60,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto();
 
-        var result = await new TripExporterService().ExportCsvBundleAsync(dto);
+        var result = await new GroupExporterService().ExportCsvBundleAsync(dto);
 
         Assert.True(File.Exists(result.FilePath));
         Assert.Equal("application/zip", result.MimeType);
@@ -79,7 +79,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto();
 
-        var result = await new TripExporterService().ExportCsvBundleAsync(dto);
+        var result = await new GroupExporterService().ExportCsvBundleAsync(dto);
 
         using var zip = ZipFile.OpenRead(result.FilePath);
         var entry = zip.GetEntry("expenses.csv")!;
@@ -96,7 +96,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto(); // expense amountMinor = 1000 → "10.00"
 
-        var result = await new TripExporterService().ExportCsvBundleAsync(dto);
+        var result = await new GroupExporterService().ExportCsvBundleAsync(dto);
 
         using var zip = ZipFile.OpenRead(result.FilePath);
         var entry = zip.GetEntry("expenses.csv")!;
@@ -112,7 +112,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto();
 
-        var result = await new TripExporterService().ExportCsvBundleAsync(dto);
+        var result = await new GroupExporterService().ExportCsvBundleAsync(dto);
 
         using var zip = ZipFile.OpenRead(result.FilePath);
         var entry = zip.GetEntry("members.csv")!;
@@ -128,7 +128,7 @@ public sealed class ExportTests
     {
         var dto = await CreateTestDto();
 
-        var result = await new TripExporterService().ExportPdfAsync(dto);
+        var result = await new GroupExporterService().ExportPdfAsync(dto);
 
         Assert.True(File.Exists(result.FilePath));
         Assert.Equal("application/pdf", result.MimeType);
@@ -140,24 +140,24 @@ public sealed class ExportTests
     }
 
     [Fact]
-    public async Task ExportPdf_ContainsTripNameInContent()
+    public async Task ExportPdf_ContainsGroupNameInContent()
     {
-        var dto = await CreateTestDto("My Mediterranean Trip");
+        var dto = await CreateTestDto("My Mediterranean Group");
 
         var bytes = await File.ReadAllBytesAsync(
-            (await new TripExporterService().ExportPdfAsync(dto)).FilePath);
+            (await new GroupExporterService().ExportPdfAsync(dto)).FilePath);
 
-        // Trip name must appear in the PDF content stream (Latin-1 encoded)
+        // Group name must appear in the PDF content stream (Latin-1 encoded)
         var raw = System.Text.Encoding.Latin1.GetString(bytes);
-        Assert.Contains("My Mediterranean Trip", raw);
+        Assert.Contains("My Mediterranean Group", raw);
     }
 
     [Fact]
-    public async Task ExportPdf_EmptyTripShowsAllSettledMessage()
+    public async Task ExportPdf_EmptyGroupShowsAllSettledMessage()
     {
-        var dto = await CreateEmptyTripDto();
+        var dto = await CreateEmptyGroupDto();
         var bytes = await File.ReadAllBytesAsync(
-            (await new TripExporterService().ExportPdfAsync(dto)).FilePath);
+            (await new GroupExporterService().ExportPdfAsync(dto)).FilePath);
 
         var raw = System.Text.Encoding.Latin1.GetString(bytes);
         Assert.Contains("even", raw, StringComparison.OrdinalIgnoreCase);
@@ -165,7 +165,7 @@ public sealed class ExportTests
 
     // ── Helpers ──────────────────────────────────────────────────────────────
 
-    private static async Task<ExportTripDto> CreateTestDto(string tripName = "Test Trip")
+    private static async Task<ExportGroupDto> CreateTestDto(string groupName = "Test Group")
     {
         using var infra = await InfraLocalSqlite.CreateAsync();
 
@@ -195,10 +195,10 @@ public sealed class ExportTests
         var outputDir = Path.Combine(Path.GetTempPath(), $"lusplit-export-{Guid.NewGuid():N}");
         Directory.CreateDirectory(outputDir);
 
-        return new ExportTripDto("g-exp", tripName, "2026-03-14T10:00:00.000Z", overview, outputDir);
+        return new ExportGroupDto("g-exp", groupName, "2026-03-14T10:00:00.000Z", overview, outputDir);
     }
 
-    private static async Task<ExportTripDto> CreateEmptyTripDto()
+    private static async Task<ExportGroupDto> CreateEmptyGroupDto()
     {
         using var infra = await InfraLocalSqlite.CreateAsync();
 
@@ -216,6 +216,6 @@ public sealed class ExportTests
         var outputDir = Path.Combine(Path.GetTempPath(), $"lusplit-export-{Guid.NewGuid():N}");
         Directory.CreateDirectory(outputDir);
 
-        return new ExportTripDto("g-empty", "Empty Trip", "2026-03-14T10:00:00.000Z", overview, outputDir);
+        return new ExportGroupDto("g-empty", "Empty Group", "2026-03-14T10:00:00.000Z", overview, outputDir);
     }
 }

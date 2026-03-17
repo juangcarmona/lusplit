@@ -31,10 +31,10 @@ public partial class SettlementPage : ContentPage
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
-        var settlementMode = TripPresentationMapper.ResolveSettlementMode(overview);
+        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
 
         WhoOwesWho.Clear();
-        foreach (var line in TripPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
+        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
         {
             WhoOwesWho.Add(line);
         }

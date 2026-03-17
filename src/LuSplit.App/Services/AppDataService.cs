@@ -1,6 +1,7 @@
 using LuSplit.Application.Commands;
 using LuSplit.Application.Models;
 using LuSplit.Application.Queries;
+using LuSplit.App.Resources.Localization;
 using LuSplit.Domain.Entities;
 using LuSplit.Domain.Split;
 using LuSplit.Infrastructure.Client;
@@ -50,15 +51,15 @@ public sealed class AppDataService : IAsyncDisposable
     }
 
     public async Task<GroupOverviewModel> GetOverviewAsync()
-        => (await GetTripWorkspaceAsync()).Overview;
+        => (await GetGroupWorkspaceAsync()).Overview;
 
     public async Task<GroupOverviewModel> GetOverviewAsync(string groupId)
-        => (await GetTripWorkspaceAsync(groupId)).Overview;
+        => (await GetGroupWorkspaceAsync(groupId)).Overview;
 
-    public async Task<TripWorkspaceModel> GetTripWorkspaceAsync()
-        => await GetTripWorkspaceAsync(await GetSelectedGroupIdAsync());
+    public async Task<GroupWorkspaceModel> GetGroupWorkspaceAsync()
+        => await GetGroupWorkspaceAsync(await GetSelectedGroupIdAsync());
 
-    public async Task<TripWorkspaceModel> GetTripWorkspaceAsync(string groupId)
+    public async Task<GroupWorkspaceModel> GetGroupWorkspaceAsync(string groupId)
     {
         var infra = await GetInfraAsync();
         var overview = await new GetGroupOverviewUseCase(
@@ -68,10 +69,10 @@ public sealed class AppDataService : IAsyncDisposable
             infra.ExpenseRepository,
             infra.TransferRepository).ExecuteAsync(groupId);
 
-        var metadata = await GetTripMetadataAsync(groupId);
-        return new TripWorkspaceModel(
+        var metadata = await GetGroupMetadataAsync(groupId);
+        return new GroupWorkspaceModel(
             groupId,
-            ResolveTripName(metadata.Name, overview),
+            ResolveGroupName(metadata.Name, overview),
             overview,
             await GetExpenseIconsAsync(groupId),
             metadata.LastOpenedUtc);
@@ -83,83 +84,83 @@ public sealed class AppDataService : IAsyncDisposable
         return overview.Participants;
     }
 
-    public async Task<IReadOnlyList<TripListItemModel>> GetTripsAsync()
+    public async Task<IReadOnlyList<GroupListItemModel>> GetGroupsAsync()
     {
         var selectedGroupId = await GetSelectedGroupIdAsync();
         var groupIds = await ListGroupIdsAsync();
-        var trips = new List<TripListItemModel>(groupIds.Count);
+        var groups = new List<GroupListItemModel>(groupIds.Count);
 
         foreach (var groupId in groupIds)
         {
-            var workspace = await GetTripWorkspaceAsync(groupId);
-            // Archived trips are hidden from the active list.
+            var workspace = await GetGroupWorkspaceAsync(groupId);
+            // Archived groups are hidden from the active list.
             if (workspace.Overview.Group.Closed) continue;
             var lastActivity = GetLastActivity(workspace.Overview);
             var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
-            trips.Add(new TripListItemModel(
+            groups.Add(new GroupListItemModel(
                 groupId,
-                workspace.TripName,
+                workspace.GroupName,
                 workspace.Overview.Group.Currency,
                 string.Equals(groupId, selectedGroupId, StringComparison.Ordinal),
-                TripPresentationMapper.BuildTripSummary(workspace.Overview),
-                TripPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? "Add the first event.",
-                BuildTripStatusText(string.Equals(groupId, selectedGroupId, StringComparison.Ordinal), workspace.LastOpenedUtc, lastActivity),
+                GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
+                GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_AddFirstEvent,
+                BuildGroupStatusText(string.Equals(groupId, selectedGroupId, StringComparison.Ordinal), workspace.LastOpenedUtc, lastActivity),
                 rankDate));
         }
 
-        return trips
-            .OrderByDescending(trip => trip.IsCurrent)
-            .ThenByDescending(trip => trip.RankDate)
-            .ThenBy(trip => trip.Name, StringComparer.OrdinalIgnoreCase)
+        return groups
+            .OrderByDescending(group => group.IsCurrent)
+            .ThenByDescending(group => group.RankDate)
+            .ThenBy(group => group.Name, StringComparer.OrdinalIgnoreCase)
             .ToArray();
     }
 
-    public async Task<IReadOnlyList<TripListItemModel>> GetArchivedTripsAsync()
+    public async Task<IReadOnlyList<GroupListItemModel>> GetArchivedGroupsAsync()
     {
         var groupIds = await ListGroupIdsAsync();
-        var trips = new List<TripListItemModel>(groupIds.Count);
+        var groups = new List<GroupListItemModel>(groupIds.Count);
 
         foreach (var groupId in groupIds)
         {
-            var workspace = await GetTripWorkspaceAsync(groupId);
+            var workspace = await GetGroupWorkspaceAsync(groupId);
             if (!workspace.Overview.Group.Closed) continue;
             var lastActivity = GetLastActivity(workspace.Overview);
             var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
-            trips.Add(new TripListItemModel(
+            groups.Add(new GroupListItemModel(
                 groupId,
-                workspace.TripName,
+                workspace.GroupName,
                 workspace.Overview.Group.Currency,
                 false,
-                TripPresentationMapper.BuildTripSummary(workspace.Overview),
-                TripPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? "Settled.",
+                GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
+                GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_Settled,
                 string.Empty,
                 rankDate));
         }
 
-        return trips
+        return groups
             .OrderByDescending(t => t.RankDate)
             .ThenBy(t => t.Name, StringComparer.OrdinalIgnoreCase)
             .ToArray();
     }
 
-    public async Task<TripDetailsModel> GetTripDetailsAsync()
-        => await GetTripDetailsAsync(await GetSelectedGroupIdAsync());
+    public async Task<GroupDetailsModel> GetGroupDetailsAsync()
+        => await GetGroupDetailsAsync(await GetSelectedGroupIdAsync());
 
-    public async Task<TripDetailsModel> GetTripDetailsAsync(string groupId)
+    public async Task<GroupDetailsModel> GetGroupDetailsAsync(string groupId)
     {
-        var workspace = await GetTripWorkspaceAsync(groupId);
+        var workspace = await GetGroupWorkspaceAsync(groupId);
         var householdNames = BuildHouseholdLookup(workspace.Overview);
         var ownerIdsByUnit = workspace.Overview.EconomicUnits
             .ToDictionary(unit => unit.Id, unit => unit.OwnerParticipantId, StringComparer.Ordinal);
 
-        return new TripDetailsModel(
+        return new GroupDetailsModel(
             groupId,
-            workspace.TripName,
+            workspace.GroupName,
             workspace.Overview.Group.Currency,
             workspace.Overview.Group.Closed,
             workspace.Overview.Participants
                 .OrderBy(participant => participant.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(participant => new TripMemberModel(
+                .Select(participant => new GroupMemberModel(
                     participant.Id,
                     participant.Name,
                     householdNames.TryGetValue(participant.EconomicUnitId, out var householdName) ? householdName : participant.Name,
@@ -170,13 +171,13 @@ public sealed class AppDataService : IAsyncDisposable
                 .ToArray());
     }
 
-    /// <summary>Archives a trip. Archived trips are read-only — the domain blocks new expenses and participants on closed groups.</summary>
-    public async Task ArchiveTripAsync(string groupId)
+    /// <summary>Archives a group. Archived groups are read-only — the domain blocks new expenses and participants on closed groups.</summary>
+    public async Task ArchiveGroupAsync(string groupId)
     {
         var infra = await GetInfraAsync();
         await new CloseGroupUseCase(infra.GroupRepository).ExecuteAsync(new CloseGroupInput(groupId));
 
-        // If the archived trip was the active selection, fall through to the next active trip.
+        // If the archived group was the active selection, fall through to the next active group.
         if (string.Equals(_selectedGroupId, groupId, StringComparison.Ordinal))
         {
             _selectedGroupId = null;
@@ -189,24 +190,24 @@ public sealed class AppDataService : IAsyncDisposable
     public EventDraftDefaults GetEventDraftDefaults()
         => new(_lastPaidByParticipantId, _lastParticipantIds);
 
-    public async Task SelectTripAsync(string groupId)
+    public async Task SelectGroupAsync(string groupId)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(groupId);
 
         _selectedGroupId = groupId.Trim();
         Preferences.Default.Set(SelectedGroupPreferenceKey, _selectedGroupId);
-        await TouchTripAsync(_selectedGroupId);
+        await TouchGroupAsync(_selectedGroupId);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task<string> CreateTripAsync(string tripName, string currency, IReadOnlyList<TripDraftMember> members)
+    public async Task<string> CreateGroupAsync(string groupName, string currency, IReadOnlyList<GroupDraftMember> members)
     {
-        var normalizedName = NormalizeRequired(tripName, "Trip name is required.");
-        var normalizedCurrency = NormalizeRequired(currency, "Currency is required.").ToUpperInvariant();
+        var normalizedName = NormalizeRequired(groupName, AppResources.Validation_GroupNameRequired);
+        var normalizedCurrency = NormalizeRequired(currency, AppResources.Validation_CurrencyRequired).ToUpperInvariant();
 
         var memberDrafts = members
-            .Select(member => new TripDraftMember(
-                NormalizeRequired(member.Name, "Each person needs a name."),
+            .Select(member => new GroupDraftMember(
+                NormalizeRequired(member.Name, AppResources.Validation_EachPersonNeedsName),
                 NormalizeOptional(member.HouseholdName),
                 member.ConsumptionCategory,
                 member.CustomConsumptionWeight))
@@ -214,44 +215,44 @@ public sealed class AppDataService : IAsyncDisposable
 
         if (memberDrafts.Length == 0)
         {
-            throw new InvalidOperationException("Add at least one person.");
+            throw new InvalidOperationException(AppResources.Validation_AddAtLeastOnePerson);
         }
 
         var infra = await GetInfraAsync();
         var group = await new CreateGroupUseCase(infra.GroupRepository, _idGenerator)
             .ExecuteAsync(new CreateGroupInput(normalizedCurrency));
 
-        await SaveTripMetadataAsync(group.Id, normalizedName, DateTimeOffset.UtcNow);
+        await SaveGroupMetadataAsync(group.Id, normalizedName, DateTimeOffset.UtcNow);
         await AddMembersAsync(group.Id, memberDrafts);
-        await SelectTripAsync(group.Id);
+        await SelectGroupAsync(group.Id);
         return group.Id;
     }
 
-    public async Task UpdateTripAsync(string groupId, string tripName, string currency)
+    public async Task UpdateGroupAsync(string groupId, string groupName, string currency)
     {
-        var normalizedName = NormalizeRequired(tripName, "Trip name is required.");
-        var normalizedCurrency = NormalizeRequired(currency, "Currency is required.").ToUpperInvariant();
+        var normalizedName = NormalizeRequired(groupName, AppResources.Validation_GroupNameRequired);
+        var normalizedCurrency = NormalizeRequired(currency, AppResources.Validation_CurrencyRequired).ToUpperInvariant();
         var infra = await GetInfraAsync();
         var existing = await infra.GroupRepository.GetByIdAsync(groupId, CancellationToken.None)
-            ?? throw new InvalidOperationException("Trip not found.");
+            ?? throw new InvalidOperationException(AppResources.Validation_GroupNotFound);
 
         await infra.GroupRepository.SaveGroupAsync(existing with { Currency = normalizedCurrency }, CancellationToken.None);
 
-        var metadata = await GetTripMetadataAsync(groupId);
-        await SaveTripMetadataAsync(groupId, normalizedName, metadata.LastOpenedUtc);
+        var metadata = await GetGroupMetadataAsync(groupId);
+        await SaveGroupMetadataAsync(groupId, normalizedName, metadata.LastOpenedUtc);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task AddTripMemberAsync(
+    public async Task AddGroupMemberAsync(
         string groupId,
         string personName,
         string? householdName,
         ConsumptionCategory consumptionCategory = ConsumptionCategory.Full,
         string? customConsumptionWeight = null)
     {
-        var normalizedName = NormalizeRequired(personName, "Person name is required.");
+        var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
         var normalizedHouseholdName = NormalizeOptional(householdName);
-        await AddMembersAsync(groupId, new[] { new TripDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
+        await AddMembersAsync(groupId, new[] { new GroupDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -332,18 +333,18 @@ public sealed class AppDataService : IAsyncDisposable
         return (balances, settlement);
     }
 
-    public async Task<ExportFileResult> ExportTripAsync(string groupId, ExportFormat format)
+    public async Task<ExportFileResult> ExportGroupAsync(string groupId, ExportFormat format)
     {
-        var workspace = await GetTripWorkspaceAsync(groupId);
+        var workspace = await GetGroupWorkspaceAsync(groupId);
         var outputDir = FileSystem.CacheDirectory;
-        var dto = new ExportTripDto(
+        var dto = new ExportGroupDto(
             groupId,
-            workspace.TripName,
+            workspace.GroupName,
             DateTimeOffset.UtcNow.ToString("O"),
             workspace.Overview,
             outputDir);
 
-        var exporter = new TripExporterService();
+        var exporter = new GroupExporterService();
         return format switch
         {
             ExportFormat.Json => await exporter.ExportJsonAsync(dto),
@@ -377,7 +378,7 @@ public sealed class AppDataService : IAsyncDisposable
 
         using var command = infra.Db.CreateCommand();
         command.CommandText = @"
-CREATE TABLE IF NOT EXISTS trip_metadata (
+CREATE TABLE IF NOT EXISTS group_metadata (
   group_id TEXT PRIMARY KEY NOT NULL REFERENCES groups(id) ON DELETE CASCADE,
   name TEXT NULL,
   last_opened_utc TEXT NULL
@@ -436,7 +437,7 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
             }),
             "Weekly staples"), CancellationToken.None);
 
-        await SaveTripMetadataAsync(DefaultGroupId, "Weekend trip", DateTimeOffset.UtcNow);
+        await SaveGroupMetadataAsync(DefaultGroupId, "Weekend group", DateTimeOffset.UtcNow);
     }
 
     private async Task<string> GetSelectedGroupIdAsync()
@@ -473,36 +474,36 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
         return groupIds;
     }
 
-    private async Task<TripMetadataRecord> GetTripMetadataAsync(string groupId)
+    private async Task<GroupMetadataRecord> GetGroupMetadataAsync(string groupId)
     {
         var infra = await GetInfraAsync();
 
         using var command = infra.Db.CreateCommand();
-        command.CommandText = "SELECT name, last_opened_utc FROM trip_metadata WHERE group_id = $groupId";
+        command.CommandText = "SELECT name, last_opened_utc FROM group_metadata WHERE group_id = $groupId";
         command.Parameters.AddWithValue("$groupId", groupId);
 
         using var reader = command.ExecuteReader();
         if (!reader.Read())
         {
-            return new TripMetadataRecord(null, null);
+            return new GroupMetadataRecord(null, null);
         }
 
-        return new TripMetadataRecord(
+        return new GroupMetadataRecord(
             reader.IsDBNull(0) ? null : reader.GetString(0),
             reader.IsDBNull(1) || !DateTimeOffset.TryParse(reader.GetString(1), out var lastOpenedUtc) ? null : lastOpenedUtc);
     }
 
-    private async Task SaveTripMetadataAsync(string groupId, string? name, DateTimeOffset? lastOpenedUtc)
+    private async Task SaveGroupMetadataAsync(string groupId, string? name, DateTimeOffset? lastOpenedUtc)
     {
         var infra = await GetInfraAsync();
 
         using var command = infra.Db.CreateCommand();
         command.CommandText = @"
-INSERT INTO trip_metadata (group_id, name, last_opened_utc)
+INSERT INTO group_metadata (group_id, name, last_opened_utc)
 VALUES ($groupId, $name, $lastOpenedUtc)
 ON CONFLICT(group_id) DO UPDATE SET
-  name = COALESCE(excluded.name, trip_metadata.name),
-  last_opened_utc = COALESCE(excluded.last_opened_utc, trip_metadata.last_opened_utc);";
+  name = COALESCE(excluded.name, group_metadata.name),
+  last_opened_utc = COALESCE(excluded.last_opened_utc, group_metadata.last_opened_utc);";
         command.Parameters.AddWithValue("$groupId", groupId);
         command.Parameters.AddWithValue("$name", (object?)name ?? DBNull.Value);
         command.Parameters.AddWithValue("$lastOpenedUtc", lastOpenedUtc?.ToString("O") ?? (object)DBNull.Value);
@@ -511,8 +512,8 @@ ON CONFLICT(group_id) DO UPDATE SET
         await Task.CompletedTask;
     }
 
-    private Task TouchTripAsync(string groupId)
-        => SaveTripMetadataAsync(groupId, null, DateTimeOffset.UtcNow);
+    private Task TouchGroupAsync(string groupId)
+        => SaveGroupMetadataAsync(groupId, null, DateTimeOffset.UtcNow);
 
     private async Task<IReadOnlyDictionary<string, string>> GetExpenseIconsAsync(string groupId)
     {
@@ -553,7 +554,7 @@ ON CONFLICT(expense_id) DO UPDATE SET
         await Task.CompletedTask;
     }
 
-    private async Task AddMembersAsync(string groupId, IReadOnlyList<TripDraftMember> members)
+    private async Task AddMembersAsync(string groupId, IReadOnlyList<GroupDraftMember> members)
     {
         var infra = await GetInfraAsync();
         var createEconomicUnit = new CreateEconomicUnitUseCase(infra.GroupRepository, infra.EconomicUnitRepository, _idGenerator);
@@ -605,11 +606,11 @@ ON CONFLICT(expense_id) DO UPDATE SET
                 ? unit.Name!
                 : participantsById.TryGetValue(unit.OwnerParticipantId, out var ownerName)
                     ? ownerName
-                    : "Household",
+                    : AppResources.Status_Household,
             StringComparer.Ordinal);
     }
 
-    private static string ResolveTripName(string? storedName, GroupOverviewModel overview)
+    private static string ResolveGroupName(string? storedName, GroupOverviewModel overview)
     {
         if (!string.IsNullOrWhiteSpace(storedName))
         {
@@ -624,36 +625,36 @@ ON CONFLICT(expense_id) DO UPDATE SET
 
         return participantNames.Length switch
         {
-            0 => "Trip",
+            0 => AppResources.Status_DefaultGroupName,
             1 => participantNames[0],
-            _ => string.Join(", ", participantNames.Take(participantNames.Length - 1)) + " and " + participantNames[^1]
+            _ => string.Join(", ", participantNames.Take(participantNames.Length - 1)) + " " + AppResources.Mapper_And + " " + participantNames[^1]
         };
     }
 
-    private static string BuildTripStatusText(bool isCurrent, DateTimeOffset? lastOpenedUtc, DateTimeOffset? lastActivityUtc)
+    private static string BuildGroupStatusText(bool isCurrent, DateTimeOffset? lastOpenedUtc, DateTimeOffset? lastActivityUtc)
     {
         if (isCurrent)
         {
-            return "Current trip";
+            return AppResources.Status_CurrentGroup;
         }
 
         if (lastOpenedUtc.HasValue)
         {
-            return $"Opened {TripPresentationMapper.DescribeDay(lastOpenedUtc.Value)}";
+            return string.Format(AppResources.Status_OpenedOn, GroupPresentationMapper.DescribeDay(lastOpenedUtc.Value));
         }
 
         if (lastActivityUtc.HasValue)
         {
-            return $"Recent activity {TripPresentationMapper.DescribeDay(lastActivityUtc.Value)}";
+            return string.Format(AppResources.Status_RecentActivity, GroupPresentationMapper.DescribeDay(lastActivityUtc.Value));
         }
 
-        return "Ready for the first event";
+        return AppResources.Status_ReadyForFirstEvent;
     }
 
     private static DateTimeOffset? GetLastActivity(GroupOverviewModel overview)
     {
-        var lastExpense = overview.Expenses.Select(expense => TripPresentationMapper.ParseDate(expense.Date));
-        var lastTransfer = overview.Transfers.Select(transfer => TripPresentationMapper.ParseDate(transfer.Date));
+        var lastExpense = overview.Expenses.Select(expense => GroupPresentationMapper.ParseDate(expense.Date));
+        var lastTransfer = overview.Transfers.Select(transfer => GroupPresentationMapper.ParseDate(transfer.Date));
         var latest = lastExpense.Concat(lastTransfer).DefaultIfEmpty(DateTimeOffset.MinValue).Max();
         return latest == DateTimeOffset.MinValue ? null : latest;
     }
@@ -689,14 +690,14 @@ ON CONFLICT(expense_id) DO UPDATE SET
 }
 
 public sealed record EventDraftDefaults(string? PaidByParticipantId, IReadOnlyList<string> ParticipantIds);
-public sealed record TripWorkspaceModel(
+public sealed record GroupWorkspaceModel(
     string GroupId,
-    string TripName,
+    string GroupName,
     GroupOverviewModel Overview,
     IReadOnlyDictionary<string, string> ExpenseIcons,
     DateTimeOffset? LastOpenedUtc);
 
-public sealed record TripListItemModel(
+public sealed record GroupListItemModel(
     string GroupId,
     string Name,
     string Currency,
@@ -706,14 +707,14 @@ public sealed record TripListItemModel(
     string StatusText,
     DateTimeOffset RankDate);
 
-public sealed record TripDetailsModel(
+public sealed record GroupDetailsModel(
     string GroupId,
-    string TripName,
+    string GroupName,
     string Currency,
     bool IsArchived,
-    IReadOnlyList<TripMemberModel> Members);
+    IReadOnlyList<GroupMemberModel> Members);
 
-public sealed record TripMemberModel(
+public sealed record GroupMemberModel(
     string ParticipantId,
     string Name,
     string HouseholdName,
@@ -721,10 +722,10 @@ public sealed record TripMemberModel(
     string ConsumptionCategory,
     string? CustomConsumptionWeight);
 
-public sealed record TripDraftMember(
+public sealed record GroupDraftMember(
     string Name,
     string? HouseholdName,
     ConsumptionCategory ConsumptionCategory = ConsumptionCategory.Full,
     string? CustomConsumptionWeight = null);
 
-sealed record TripMetadataRecord(string? Name, DateTimeOffset? LastOpenedUtc);
+sealed record GroupMetadataRecord(string? Name, DateTimeOffset? LastOpenedUtc);

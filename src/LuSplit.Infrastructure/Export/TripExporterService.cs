@@ -3,18 +3,18 @@ using LuSplit.Application.Ports;
 
 namespace LuSplit.Infrastructure.Export;
 
-public sealed class TripExporterService : IGroupExporter
+public sealed class GroupExporterService : IGroupExporter
 {
-    private readonly JsonTripExporter _json = new();
-    private readonly CsvTripExporter _csv = new();
-    private readonly PdfTripExporter _pdf = new();
+    private readonly JsonGroupExporter _json = new();
+    private readonly CsvGroupExporter _csv = new();
+    private readonly PdfGroupExporter _pdf = new();
 
-    public Task<ExportFileResult> ExportJsonAsync(ExportTripDto dto, CancellationToken ct = default)
+    public Task<ExportFileResult> ExportJsonAsync(ExportGroupDto dto, CancellationToken ct = default)
         => _json.ExportAsync(dto, ct);
 
-    public Task<ExportFileResult> ExportCsvBundleAsync(ExportTripDto dto, CancellationToken ct = default)
+    public Task<ExportFileResult> ExportCsvBundleAsync(ExportGroupDto dto, CancellationToken ct = default)
         => _csv.ExportAsync(dto, ct);
 
-    public Task<ExportFileResult> ExportPdfAsync(ExportTripDto dto, CancellationToken ct = default)
+    public Task<ExportFileResult> ExportPdfAsync(ExportGroupDto dto, CancellationToken ct = default)
         => _pdf.ExportAsync(dto, ct);
 }

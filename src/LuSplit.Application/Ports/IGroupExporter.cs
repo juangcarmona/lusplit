@@ -4,7 +4,7 @@ namespace LuSplit.Application.Ports;
 
 public interface IGroupExporter
 {
-    Task<ExportFileResult> ExportJsonAsync(ExportTripDto dto, CancellationToken ct = default);
-    Task<ExportFileResult> ExportCsvBundleAsync(ExportTripDto dto, CancellationToken ct = default);
-    Task<ExportFileResult> ExportPdfAsync(ExportTripDto dto, CancellationToken ct = default);
+    Task<ExportFileResult> ExportJsonAsync(ExportGroupDto dto, CancellationToken ct = default);
+    Task<ExportFileResult> ExportCsvBundleAsync(ExportGroupDto dto, CancellationToken ct = default);
+    Task<ExportFileResult> ExportPdfAsync(ExportGroupDto dto, CancellationToken ct = default);
 }

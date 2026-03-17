@@ -24,14 +24,14 @@ public static class MauiProgram
 		builder.Services.AddSingleton<AppDataService>();
 		builder.Services.AddTransient<AppShell>();
 		builder.Services.AddTransient<HomePage>();
-		builder.Services.AddTransient<TripPage>();
-		builder.Services.AddTransient<TripDetailsPage>();
+		builder.Services.AddTransient<GroupPage>();
+		builder.Services.AddTransient<GroupDetailsPage>();
 		builder.Services.AddTransient<ActivityPage>();
 		builder.Services.AddTransient<AddExpensePage>();
 		builder.Services.AddTransient<SettlementPage>();
 		builder.Services.AddTransient<RecordPaymentPage>();
 		builder.Services.AddTransient<LanguageSettingsPage>();
-		builder.Services.AddTransient<ArchivedTripsPage>();
+		builder.Services.AddTransient<ArchivedGroupsPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

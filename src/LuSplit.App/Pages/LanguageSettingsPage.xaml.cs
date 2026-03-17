@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
@@ -20,9 +21,14 @@ public partial class LanguageSettingsPage : ContentPage
 
         foreach (var option in LocalizationHelper.SupportedLanguages)
         {
+            // The "System Default" entry uses a resource key so its label follows the active language.
+            var displayLabel = string.IsNullOrEmpty(option.Culture)
+                ? $"{option.Flag} {AppResources.Language_SystemDefault}"
+                : option.DisplayLabel;
+
             Languages.Add(new LanguageOptionViewModel(
                 option.Culture,
-                option.DisplayLabel,
+                displayLabel,
                 string.Equals(option.Culture, saved, StringComparison.OrdinalIgnoreCase)));
         }
     }
