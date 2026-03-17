@@ -91,7 +91,7 @@ jobs:
         run: dotnet workload restore src/LuSplit.App/LuSplit.App.csproj
 
       - name: Restore
-        run: dotnet restore src/LuSplit.slnx
+        run: dotnet restore ./LuSplit.slnx
 
       - name: Publish signed AAB
         run: >
