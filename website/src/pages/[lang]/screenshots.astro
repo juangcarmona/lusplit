@@ -1,0 +1,230 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SUPPORTED_LANGS, getUiStrings } from '../../lib/i18n';
+import type { Lang } from '../../lib/i18n';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+};
+
+const { lang } = Astro.params as { lang: Lang };
+const ui = getUiStrings(lang);
+
+const pageTitles: Record<Lang, string> = {
+  en: 'Screenshots — LuSplit',
+  es: 'Capturas de pantalla — LuSplit',
+  fr: "Captures d'écran — LuSplit",
+  de: 'Screenshots — LuSplit',
+  pt: 'Capturas de ecrã — LuSplit',
+  it: 'Schermate — LuSplit',
+};
+
+const pageDescriptions: Record<Lang, string> = {
+  en: 'See LuSplit in action. Real screenshots from the app showing groups, expenses, balances, and settlement.',
+  es: 'Descubre LuSplit en acción. Capturas reales de la app: grupos, gastos, saldos y liquidación.',
+  fr: "Découvrez LuSplit en action. Vraies captures d'écran de l'appli : groupes, dépenses, soldes et règlement.",
+  de: 'Sehen Sie LuSplit in Aktion. Echte Screenshots der App: Gruppen, Ausgaben, Salden und Abrechnung.',
+  pt: 'Veja o LuSplit em ação. Capturas reais da app: grupos, despesas, saldos e liquidação.',
+  it: 'Guarda LuSplit in azione. Screenshot reali dell\'app: gruppi, spese, saldi e liquidazione.',
+};
+
+const headings: Record<Lang, string> = {
+  en: 'Screenshots',
+  es: 'Capturas de pantalla',
+  fr: "Captures d'écran",
+  de: 'Screenshots',
+  pt: 'Capturas de ecrã',
+  it: 'Schermate',
+};
+
+const intros: Record<Lang, string> = {
+  en: 'A look at LuSplit across its main screens. Clean, focused, and built for everyday use.',
+  es: 'Un vistazo a LuSplit en sus pantallas principales. Limpio, enfocado y pensado para el uso diario.',
+  fr: "Un aperçu de LuSplit sur ses écrans principaux. Épuré, ciblé et conçu pour une utilisation quotidienne.",
+  de: 'Ein Blick auf LuSplit in seinen wichtigsten Ansichten. Klar, fokussiert und für den täglichen Einsatz entwickelt.',
+  pt: 'Um olhar sobre o LuSplit nas suas principais ecrãs. Limpo, focado e feito para uso diário.',
+  it: "Uno sguardo a LuSplit nelle sue schermate principali. Pulito, mirato e pensato per l'uso quotidiano.",
+};
+
+const screenshotCaptions: Record<string, Record<Lang, string>> = {
+  home_en: {
+    en: 'Home — your groups at a glance',
+    es: 'Inicio — tus grupos de un vistazo',
+    fr: 'Accueil — vos groupes en un coup d\'œil',
+    de: 'Startseite — Ihre Gruppen auf einen Blick',
+    pt: 'Início — os seus grupos num relance',
+    it: 'Home — i tuoi gruppi a colpo d\'occhio',
+  },
+  trip_details_en: {
+    en: 'Trip details — all expenses in one place',
+    es: 'Detalles del viaje — todos los gastos en un lugar',
+    fr: 'Détails du voyage — toutes les dépenses au même endroit',
+    de: 'Reisedetails — alle Ausgaben auf einen Blick',
+    pt: 'Detalhes da viagem — todas as despesas num só lugar',
+    it: 'Dettagli viaggio — tutte le spese in un unico posto',
+  },
+  trip_details_bottom_en: {
+    en: 'Balances — who owes what at a glance',
+    es: 'Saldos — quién debe qué de un vistazo',
+    fr: 'Soldes — qui doit quoi en un coup d\'œil',
+    de: 'Salden — wer schuldet was auf einen Blick',
+    pt: 'Saldos — quem deve o quê num relance',
+    it: 'Saldi — chi deve cosa a colpo d\'occhio',
+  },
+  activity_en: {
+    en: 'Activity — recent transactions and changes',
+    es: 'Actividad — transacciones y cambios recientes',
+    fr: 'Activité — transactions et modifications récentes',
+    de: 'Aktivität — aktuelle Transaktionen und Änderungen',
+    pt: 'Atividade — transações e alterações recentes',
+    it: 'Attività — transazioni e modifiche recenti',
+  },
+  add_event_en: {
+    en: 'Add expense — record what was paid and by whom',
+    es: 'Añadir gasto — registra qué se pagó y por quién',
+    fr: 'Ajouter une dépense — enregistrez ce qui a été payé et par qui',
+    de: 'Ausgabe hinzufügen — erfassen Sie, was gezahlt wurde und von wem',
+    pt: 'Adicionar despesa — registe o que foi pago e por quem',
+    it: 'Aggiungi spesa — registra cosa è stato pagato e da chi',
+  },
+  record_paument_en: {
+    en: 'Record payment — log a direct payment between members',
+    es: 'Registrar pago — anota un pago directo entre miembros',
+    fr: 'Enregistrer un paiement — consignez un paiement direct entre membres',
+    de: 'Zahlung erfassen — direkte Zahlung zwischen Mitgliedern aufzeichnen',
+    pt: 'Registar pagamento — registar um pagamento direto entre membros',
+    it: 'Registra pagamento — registra un pagamento diretto tra membri',
+  },
+  settle_up_en: {
+    en: 'Settle up — minimal transfer plan to zero all balances',
+    es: 'Liquidar — plan mínimo de transferencias para saldar todo',
+    fr: 'Régler — plan de virements minimal pour solder tous les comptes',
+    de: 'Abrechnen — minimaler Überweisungsplan zum Ausgleich aller Salden',
+    pt: 'Liquidar — plano mínimo de transferências para zerar todos os saldos',
+    it: 'Pareggia i conti — piano minimo di bonifici per azzerare tutti i saldi',
+  },
+  settings_en: {
+    en: 'Settings — manage your preferences',
+    es: 'Ajustes — gestiona tus preferencias',
+    fr: 'Paramètres — gérez vos préférences',
+    de: 'Einstellungen — verwalten Sie Ihre Einstellungen',
+    pt: 'Definições — gira as suas preferências',
+    it: 'Impostazioni — gestisci le tue preferenze',
+  },
+};
+
+const screenshots = [
+  'home_en',
+  'trip_details_en',
+  'trip_details_bottom_en',
+  'activity_en',
+  'add_event_en',
+  'record_paument_en',
+  'settle_up_en',
+  'settings_en',
+];
+
+const pageTitle = pageTitles[lang];
+const pageDescription = pageDescriptions[lang];
+const heading = headings[lang];
+const intro = intros[lang];
+---
+
+<BaseLayout lang={lang} title={pageTitle} description={pageDescription} ui={ui}>
+  <section class="screenshots-page section">
+    <div class="container">
+      <header class="screenshots-header">
+        <h1 class="screenshots-title">{heading}</h1>
+        <p class="screenshots-intro">{intro}</p>
+      </header>
+
+      <div class="screenshots-grid">
+        {screenshots.map(name => (
+          <figure class="screenshot-card">
+            <div class="screenshot-img-wrap">
+              <img
+                src={`/screenshots/${name}.png`}
+                alt={screenshotCaptions[name][lang]}
+                loading="lazy"
+                class="screenshot-img"
+              />
+            </div>
+            <figcaption class="screenshot-caption">
+              {screenshotCaptions[name][lang]}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .screenshots-page {
+    min-height: 60vh;
+  }
+
+  .screenshots-header {
+    margin-bottom: 3rem;
+  }
+
+  .screenshots-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .screenshots-intro {
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+    max-width: 60ch;
+    line-height: 1.7;
+  }
+
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .screenshot-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .screenshot-img-wrap {
+    border-radius: var(--radius-md, 12px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    background: var(--bg-surface);
+  }
+
+  .screenshot-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.25s ease;
+  }
+
+  .screenshot-img-wrap:hover .screenshot-img {
+    transform: scale(1.02);
+  }
+
+  .screenshot-caption {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-inline: 0.25rem;
+  }
+
+  @media (max-width: 480px) {
+    .screenshots-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
