@@ -7,7 +7,7 @@ public partial class HomePage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<TripListItemModel> Trips { get; } = new();
+    public ObservableCollection<GroupListItemModel> Groups { get; } = new();
 
     public HomePage(AppDataService dataService)
     {
@@ -30,11 +30,11 @@ public partial class HomePage : ContentPage
 
     private async Task LoadAsync()
     {
-        var trips = await _dataService.GetTripsAsync();
+        var groups = await _dataService.GetGroupsAsync();
 
-        Trips.Clear();
-        foreach (var trip in trips)
-            Trips.Add(trip);
+        Groups.Clear();
+        foreach (var group in groups)
+            Groups.Add(group);
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -42,31 +42,31 @@ public partial class HomePage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private async void OnOpenTripClicked(object? sender, EventArgs e)
+    private async void OnOpenGroupClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await _dataService.SelectTripAsync(groupId);
-            await Shell.Current.GoToAsync(AppRoutes.TripTimeline);
+            await _dataService.SelectGroupAsync(groupId);
+            await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
         }
     }
 
-    private async void OnEditTripClicked(object? sender, EventArgs e)
+    private async void OnEditGroupClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await _dataService.SelectTripAsync(groupId);
-            await Shell.Current.GoToAsync(AppRoutes.TripDetails);
+            await _dataService.SelectGroupAsync(groupId);
+            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
         }
     }
 
-    private async void OnNewTripClicked(object? sender, EventArgs e)
+    private async void OnNewGroupClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{AppRoutes.TripDetails}?mode=create");
+        await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?mode=create");
     }
 
     private async void OnViewArchivedClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.ArchivedTrips);
+        await Shell.Current.GoToAsync(AppRoutes.ArchivedGroups);
     }
 }

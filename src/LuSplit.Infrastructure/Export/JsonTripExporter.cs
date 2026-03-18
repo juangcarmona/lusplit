@@ -6,16 +6,16 @@ using LuSplit.Infrastructure.Sqlite;
 
 namespace LuSplit.Infrastructure.Export;
 
-internal sealed class JsonTripExporter
+internal sealed class JsonGroupExporter
 {
     private static readonly JsonSerializerOptions WriteOptions = new() { WriteIndented = true };
 
-    public async Task<ExportFileResult> ExportAsync(ExportTripDto dto, CancellationToken ct)
+    public async Task<ExportFileResult> ExportAsync(ExportGroupDto dto, CancellationToken ct)
     {
         var root = BuildRoot(dto);
         var json = JsonSerializer.Serialize(root, WriteOptions);
 
-        var slug = ExportFileNaming.Slug(dto.TripName, dto.ExportedAt);
+        var slug = ExportFileNaming.Slug(dto.GroupName, dto.ExportedAt);
         var fileName = $"{slug}.snapshot.json";
         var filePath = Path.Combine(dto.OutputDirectory, fileName);
 
@@ -24,13 +24,13 @@ internal sealed class JsonTripExporter
         return new ExportFileResult(filePath, fileName, "application/json");
     }
 
-    private static object BuildRoot(ExportTripDto dto)
+    private static object BuildRoot(ExportGroupDto dto)
     {
         var o = dto.Overview;
         return new
         {
             schemaVersion = SnapshotContract.Version,
-            tripName = dto.TripName,
+            groupName = dto.GroupName,
             exportedAt = dto.ExportedAt,
             group = new
             {

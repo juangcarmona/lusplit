@@ -83,6 +83,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\GroupDetailsPage.xaml.cs">
+	    <DependentUpon>GroupDetailsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\GroupPage.xaml.cs">
+	    <DependentUpon>GroupPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Pages\ActivityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -92,10 +101,10 @@
 	  <MauiXaml Update="Pages\RecordPaymentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TripDetailsPage.xaml">
+	  <MauiXaml Update="Pages\GroupDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TripPage.xaml">
+	  <MauiXaml Update="Pages\GroupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

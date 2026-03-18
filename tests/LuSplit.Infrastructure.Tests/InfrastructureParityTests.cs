@@ -115,7 +115,7 @@ public sealed class InfrastructureParityTests
     }
 
     [Fact]
-    public async Task SqliteExportImportRoundTripPreservesBalancesAndSettlement()
+    public async Task SqliteExportImportRoundGroupPreservesBalancesAndSettlement()
     {
         using var source = await InfraLocalSqlite.CreateAsync();
         var sourceResult = await RunScenarioAsync(source);

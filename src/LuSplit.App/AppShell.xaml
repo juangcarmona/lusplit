@@ -9,9 +9,9 @@
 
     <TabBar>
         <ShellContent
-            Title="{x:Static loc:AppResources.Trips_Title}"
+            Title="{x:Static loc:AppResources.Groups_Title}"
             ContentTemplate="{DataTemplate pages:HomePage}"
-            Route="trips" />
+            Route="groups" />
         <ShellContent
             Title="{x:Static loc:AppResources.Activity_Title}"
             ContentTemplate="{DataTemplate pages:ActivityPage}"

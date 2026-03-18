@@ -17,135 +17,135 @@
     <value>Activité</value>
   </data>
   <data name="Activity_Subtitle" xml:space="preserve">
-    <value>Événements récents de votre voyage actuel.</value>
+    <value>Événements récents de votre groupe actuel.</value>
   </data>
   <data name="Activity_EmptyTitle" xml:space="preserve">
     <value>Rien ici pour l'instant.</value>
   </data>
   <data name="Activity_EmptySubtitle" xml:space="preserve">
-    <value>Ouvrez un voyage et ajoutez le premier événement.</value>
+    <value>Ouvrez un groupe et ajoutez le premier événement.</value>
   </data>
-  <data name="Trips_Title" xml:space="preserve">
-    <value>Voyages</value>
+  <data name="Groups_Title" xml:space="preserve">
+    <value>Groupes</value>
   </data>
-  <data name="Trips_Subtitle" xml:space="preserve">
-    <value>Reprenez là où vous en étiez ou démarrez un nouveau voyage.</value>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>Reprenez là où vous en étiez ou démarrez un nouveau groupe.</value>
   </data>
-  <data name="Trips_EmptyTitle" xml:space="preserve">
-    <value>Aucun voyage pour l'instant.</value>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>Aucun groupe pour l'instant.</value>
   </data>
-  <data name="Trips_EmptySubtitle" xml:space="preserve">
-    <value>Créez votre premier voyage et commencez à ajouter des événements.</value>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>Créez votre premier groupe et commencez à ajouter des événements.</value>
   </data>
-  <data name="Trips_Open" xml:space="preserve">
+  <data name="Groups_Open" xml:space="preserve">
     <value>Ouvrir</value>
   </data>
-  <data name="Trips_Details" xml:space="preserve">
+  <data name="Groups_Details" xml:space="preserve">
     <value>Détails</value>
   </data>
-  <data name="Trips_NewTrip" xml:space="preserve">
-    <value>+ Nouveau voyage</value>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ Nouveau groupe</value>
   </data>
-  <data name="Trips_Active" xml:space="preserve">
+  <data name="Groups_Active" xml:space="preserve">
     <value>Actif</value>
   </data>
-  <data name="Trip_Title" xml:space="preserve">
-    <value>Voyage</value>
+  <data name="Group_Title" xml:space="preserve">
+    <value>Groupe</value>
   </data>
-  <data name="Trip_DetailsButton" xml:space="preserve">
+  <data name="Group_DetailsButton" xml:space="preserve">
     <value>Détails</value>
   </data>
-  <data name="Trip_WhoOwesWhat" xml:space="preserve">
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
     <value>Qui doit quoi</value>
   </data>
-  <data name="Trip_EveryoneEven" xml:space="preserve">
+  <data name="Group_EveryoneEven" xml:space="preserve">
     <value>Tout le monde est quitte pour l'instant.</value>
   </data>
-  <data name="Trip_SettleUp" xml:space="preserve">
+  <data name="Group_SettleUp" xml:space="preserve">
     <value>Solder</value>
   </data>
-  <data name="Trip_Events" xml:space="preserve">
+  <data name="Group_Events" xml:space="preserve">
     <value>Événements</value>
   </data>
-  <data name="Trip_EmptyTitle" xml:space="preserve">
-    <value>Votre voyage vient de commencer.</value>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>Votre groupe est prêt.</value>
   </data>
-  <data name="Trip_EmptySubtitle" xml:space="preserve">
+  <data name="Group_EmptySubtitle" xml:space="preserve">
     <value>Ajoutez la première dépense ci-dessous.</value>
   </data>
-  <data name="Trip_AddExpense" xml:space="preserve">
+  <data name="Group_AddExpense" xml:space="preserve">
     <value>+ Ajouter une dépense</value>
   </data>
-  <data name="Trip_RecordPayment" xml:space="preserve">
+  <data name="Group_RecordPayment" xml:space="preserve">
     <value>Enregistrer un paiement</value>
   </data>
-  <data name="TripDetails_Title" xml:space="preserve">
-    <value>Détails du voyage</value>
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>Détails du groupe</value>
   </data>
-  <data name="TripDetails_PageTitleCreate" xml:space="preserve">
-    <value>Nouveau voyage</value>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>Nouveau groupe</value>
   </data>
-  <data name="TripDetails_PageTitleEdit" xml:space="preserve">
-    <value>Détails du voyage</value>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>Détails du groupe</value>
   </data>
-  <data name="TripDetails_SubtitleCreate" xml:space="preserve">
-    <value>Configurez le voyage une fois, puis commencez à ajouter des événements.</value>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>Configurer le groupe une fois, puis commencer à ajouter des événements.</value>
   </data>
-  <data name="TripDetails_SubtitleEdit" xml:space="preserve">
-    <value>Mettez à jour les bases et gardez le voyage prêt pour le prochain événement.</value>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>Mettez à jour les bases et gardez le groupe prêt pour le prochain événement.</value>
   </data>
-  <data name="TripDetails_TripNameLabel" xml:space="preserve">
-    <value>Nom du voyage</value>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>Nom du groupe</value>
   </data>
-  <data name="TripDetails_TripNamePlaceholder" xml:space="preserve">
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
     <value>Week-end à la plage, séjour en chalet...</value>
   </data>
-  <data name="TripDetails_CurrencyLabel" xml:space="preserve">
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
     <value>Devise</value>
   </data>
-  <data name="TripDetails_PeopleSection" xml:space="preserve">
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
     <value>Participants</value>
   </data>
-  <data name="TripDetails_HouseholdHint" xml:space="preserve">
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
     <value>Utilisez le même nom de foyer quand des personnes doivent régler ensemble.</value>
   </data>
-  <data name="TripDetails_NoPeopleTitle" xml:space="preserve">
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
     <value>Aucun participant pour l'instant.</value>
   </data>
-  <data name="TripDetails_NoPeopleSubtitle" xml:space="preserve">
-    <value>Ajoutez au moins une personne avant de sauvegarder le voyage.</value>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>Ajoutez au moins une personne avant de sauvegarder le groupe.</value>
   </data>
-  <data name="TripDetails_AddPersonSection" xml:space="preserve">
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
     <value>Ajouter une personne</value>
   </data>
-  <data name="TripDetails_PersonNamePlaceholder" xml:space="preserve">
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Prénom</value>
   </data>
-  <data name="TripDetails_HouseholdNamePlaceholder" xml:space="preserve">
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
     <value>Foyer ou famille (facultatif)</value>
   </data>
-  <data name="TripDetails_AddPersonButton" xml:space="preserve">
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
     <value>Ajouter une personne</value>
   </data>
-  <data name="TripDetails_CreateButton" xml:space="preserve">
-    <value>Créer le voyage</value>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>Créer le groupe</value>
   </data>
-  <data name="TripDetails_SaveButton" xml:space="preserve">
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
     <value>Sauvegarder</value>
   </data>
-  <data name="TripDetails_ExportButton" xml:space="preserve">
-    <value>Exporter le voyage</value>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>Exporter le groupe</value>
   </data>
-  <data name="TripDetails_SettlesOnOwn" xml:space="preserve">
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
     <value>Règle seul</value>
   </data>
-  <data name="TripDetails_PersonAdded" xml:space="preserve">
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
     <value>Personne ajoutée.</value>
   </data>
-  <data name="TripDetails_PersonAddedNew" xml:space="preserve">
-    <value>Personne ajoutée au nouveau voyage.</value>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>Personne ajoutée au nouveau groupe.</value>
   </data>
-  <data name="TripDetails_Remove" xml:space="preserve">
+  <data name="GroupDetails_Remove" xml:space="preserve">
     <value>Supprimer</value>
   </data>
   <data name="AddEvent_Title" xml:space="preserve">
@@ -215,7 +215,7 @@
     <value>Enregistrer un paiement</value>
   </data>
   <data name="RecordPayment_Subtitle" xml:space="preserve">
-    <value>Capturez un vrai paiement et gardez la chronologie du voyage honnête.</value>
+    <value>Capturez un vrai paiement et gardez la chronologie du groupe honnête.</value>
   </data>
   <data name="RecordPayment_WhoPaid" xml:space="preserve">
     <value>Qui a payé ?</value>
@@ -236,7 +236,7 @@
     <value>Annuler</value>
   </data>
   <data name="Export_DialogTitle" xml:space="preserve">
-    <value>Exporter ce voyage</value>
+    <value>Exporter ce groupe</value>
   </data>
   <data name="Export_JsonOption" xml:space="preserve">
     <value>Instantané JSON</value>
@@ -248,7 +248,7 @@
     <value>Résumé PDF</value>
   </data>
   <data name="Export_ShareTitle" xml:space="preserve">
-    <value>Exporter le voyage</value>
+    <value>Exporter le groupe</value>
   </data>
   <data name="Export_Failed" xml:space="preserve">
     <value>Échec de l'export. {0}</value>
@@ -268,11 +268,11 @@
   <data name="Validation_PersonNameRequired" xml:space="preserve">
     <value>Le nom est obligatoire.</value>
   </data>
-  <data name="Validation_TripNotFound" xml:space="preserve">
-    <value>Voyage introuvable.</value>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>Groupe introuvable.</value>
   </data>
-  <data name="Validation_TripNameRequired" xml:space="preserve">
-    <value>Le nom du voyage est obligatoire.</value>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>Le nom du groupe est obligatoire.</value>
   </data>
   <data name="Validation_SelectCurrency" xml:space="preserve">
     <value>Choisissez une devise.</value>
@@ -300,6 +300,169 @@
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>Système</value>
+  </data>
+
+  <!-- GroupDetails missing keys -->
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>Archiver le groupe</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>Archiver ce groupe ?</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>Ce groupe sera archivé. Vous pourrez toujours le lire et l'exporter, mais vous ne pourrez plus ajouter de nouveaux événements.</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>Ce groupe est archivé et en lecture seule.</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>Part de consommation</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>Complète</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>Moitié</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>Pondération personnalisée</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>ex. 0,5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>Payeur</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>Dépendant</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>Ajoutez d'abord le payeur. Ajoutez ensuite les membres de la famille avec le même nom de foyer — ils régleront sous le payeur.</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>Entrez une pondération personnalisée valide (ex. 0,5).</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>La pondération personnalisée est requise quand la consommation est définie sur Personnalisé.</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>Groupes archivés</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>Ces groupes sont fermés. Vous pouvez toujours les lire et les exporter.</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>Aucun groupe archivé pour l'instant.</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>Les groupes archivés apparaissent ici.</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>Archivé</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>La devise est requise.</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>Chaque personne a besoin d'un nom.</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>Personne</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>tout le monde</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>et</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>Partagé équitablement entre {0}</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>Pondéré entre {0}</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>Partagé par pourcentages entre {0}</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>Partagé avec des montants personnalisés entre {0}</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>Montants personnalisés pour {0}</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>Foyer de {0}</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>Paiement</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0} a payé {1}</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>Paiement enregistré</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0} a ajouté {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0} a payé {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>Paiement enregistré</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0} doit {1}</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>Tout le monde est quitte pour l'instant.</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0} personnes prêtes</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0} personnes · {1} événements</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>Aujourd'hui</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>Hier</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>Groupe actuel</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>Ouvert {0}</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>Activité récente {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>Prêt pour le premier événement</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>Ajoutez le premier événement.</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>Soldé.</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>Foyer</value>
   </data>
 
 </root>

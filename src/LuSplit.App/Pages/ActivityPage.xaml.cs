@@ -30,7 +30,7 @@ public partial class ActivityPage : ContentPage
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
-        var groups = TripPresentationMapper.BuildActivity(overview);
+        var groups = GroupPresentationMapper.BuildActivity(overview);
 
         ActivityGroups.Clear();
         foreach (var group in groups)

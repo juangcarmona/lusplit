@@ -14,10 +14,10 @@ namespace LuSplit.Application.Tests;
 /// "Closed" and "archived" are synonymous. A closed group is visible in the archived list
 /// and is read-only: the application layer blocks new expenses and participants on closed groups.
 /// </summary>
-public sealed class ArchiveTripFlowTests
+public sealed class ArchiveGroupFlowTests
 {
     [Fact]
-    public async Task ArchivingATripSetsClosedFlagOnGroup()
+    public async Task ArchivingAGroupSetsClosedFlagOnGroup()
     {
         var repos = new InMemoryQueryRepositories();
         repos.Groups.Add(new Group("g1", "USD", false));
@@ -29,7 +29,7 @@ public sealed class ArchiveTripFlowTests
     }
 
     [Fact]
-    public async Task AddingParticipantToArchivedTripIsRejected()
+    public async Task AddingParticipantToArchivedGroupIsRejected()
     {
         var repos = new InMemoryQueryRepositories();
         repos.Groups.Add(new Group("g1", "USD", true)); // already archived
@@ -44,7 +44,7 @@ public sealed class ArchiveTripFlowTests
     }
 
     [Fact]
-    public async Task AddingEconomicUnitToArchivedTripIsRejected()
+    public async Task AddingEconomicUnitToArchivedGroupIsRejected()
     {
         var repos = new InMemoryQueryRepositories();
         repos.Groups.Add(new Group("g1", "USD", true));
@@ -58,9 +58,9 @@ public sealed class ArchiveTripFlowTests
     }
 
     [Fact]
-    public async Task ArchivedTripGroupOverviewIsStillReadable()
+    public async Task ArchivedGroupGroupOverviewIsStillReadable()
     {
-        // Archived trips can be read (for export, inspection); the group remains in the repository.
+        // Archived groups can be read (for export, inspection); the group remains in the repository.
         var repos = new InMemoryQueryRepositories();
         repos.Groups.Add(new Group("g1", "USD", true));
         repos.EconomicUnits.Add(new EconomicUnit("u1", "g1", "p1"));
@@ -73,7 +73,7 @@ public sealed class ArchiveTripFlowTests
     }
 
     [Fact]
-    public async Task ArchivingAlreadyArchivedTripIsIdempotent()
+    public async Task ArchivingAlreadyArchivedGroupIsIdempotent()
     {
         var repos = new InMemoryQueryRepositories();
         repos.Groups.Add(new Group("g1", "USD", false));

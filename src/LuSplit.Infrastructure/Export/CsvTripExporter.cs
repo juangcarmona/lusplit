@@ -5,11 +5,11 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.Infrastructure.Export;
 
-internal sealed class CsvTripExporter
+internal sealed class CsvGroupExporter
 {
-    public async Task<ExportFileResult> ExportAsync(ExportTripDto dto, CancellationToken ct)
+    public async Task<ExportFileResult> ExportAsync(ExportGroupDto dto, CancellationToken ct)
     {
-        var slug = ExportFileNaming.Slug(dto.TripName, dto.ExportedAt);
+        var slug = ExportFileNaming.Slug(dto.GroupName, dto.ExportedAt);
         var fileName = $"{slug}-export.zip";
         var filePath = Path.Combine(dto.OutputDirectory, fileName);
 

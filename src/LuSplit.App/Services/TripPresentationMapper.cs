@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using LuSplit.App.Resources.Localization;
 using LuSplit.Application.Models;
 using LuSplit.Domain.Split;
 
@@ -33,7 +34,7 @@ public sealed record EventIconOptionViewModel(string Icon, string Label)
     public string DisplayText => $"{Icon} {Label}";
 }
 
-public static class TripPresentationMapper
+public static class GroupPresentationMapper
 {
     private static readonly EventIconOptionViewModel[] BuiltInEventIcons =
     {
@@ -79,14 +80,14 @@ public static class TripPresentationMapper
         var items = overview.Expenses
             .Select(expense => new ActivityEntryViewModel(
                 ResolveExpenseIcon(expense, expenseIcons),
-                $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} added {expense.Title}",
+                string.Format(AppResources.Mapper_ActivityExpenseTitle, ResolveParticipantName(expense.PaidByParticipantId, participantsById), expense.Title),
                 DescribeExpense(expense, participantsById),
                 FormatMinor(expense.AmountMinor, currency),
                 ParseDate(expense.Date)))
             .Concat(overview.Transfers.Select(transfer => new ActivityEntryViewModel(
                 "💸",
-                $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} paid {ResolveParticipantName(transfer.ToParticipantId, participantsById)}",
-                "Payment recorded",
+                string.Format(AppResources.Mapper_ActivityPaymentTitle, ResolveParticipantName(transfer.FromParticipantId, participantsById), ResolveParticipantName(transfer.ToParticipantId, participantsById)),
+                AppResources.Mapper_ActivityPaymentDetail,
                 FormatMinor(transfer.AmountMinor, currency),
                 ParseDate(transfer.Date))))
             .OrderByDescending(item => item.SortDate)
@@ -106,7 +107,7 @@ public static class TripPresentationMapper
 
         return transfers
             .Select(transfer => new BalanceLineViewModel(
-                $"{ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode)} owes {ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)}",
+                string.Format(AppResources.Mapper_BalanceOwes, ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode), ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)),
                 FormatMinor(transfer.AmountMinor, overview.Group.Currency)))
             .ToArray();
     }
@@ -118,19 +119,19 @@ public static class TripPresentationMapper
             .Select(line => $"{line.Text} {line.AmountText}")
             .ToArray();
 
-        return lines.Length == 0 ? new[] { "Everyone is even right now." } : lines;
+        return lines.Length == 0 ? new[] { AppResources.Mapper_BalanceEvenNow } : lines;
     }
 
-    public static string BuildTripSummary(GroupOverviewModel overview)
+    public static string BuildGroupSummary(GroupOverviewModel overview)
     {
         var eventCount = overview.Summary.ExpenseCount + overview.Summary.TransferCount;
         return eventCount == 0
-            ? $"{overview.Summary.ParticipantCount} people ready to go"
-            : $"{overview.Summary.ParticipantCount} people • {eventCount} events";
+            ? string.Format(AppResources.Mapper_SummaryReadyToGo, overview.Summary.ParticipantCount)
+            : string.Format(AppResources.Mapper_SummaryEvents, overview.Summary.ParticipantCount, eventCount);
     }
 
     /// <summary>
-    /// Picks the settlement mode that best reflects the trip's participant structure.
+    /// Picks the settlement mode that best reflects the group's participant structure.
     /// When all participants have their own economic unit (no dependents), participant-level
     /// and owner-level settlement are identical — either works. When some participants are
     /// dependents (share an economic unit with another payer), owner mode aggregates their
@@ -161,7 +162,7 @@ public static class TripPresentationMapper
             ResolveExpenseIcon(expense, expenseIcons),
             expense.Title,
             FormatMinor(expense.AmountMinor, currency),
-            $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} paid {FormatMinor(expense.AmountMinor, currency)}",
+            string.Format(AppResources.Mapper_PaymentPrimaryText, ResolveParticipantName(expense.PaidByParticipantId, participantsById), FormatMinor(expense.AmountMinor, currency)),
             DescribeExpense(expense, participantsById),
             DescribeDay(date),
             date);
@@ -175,10 +176,10 @@ public static class TripPresentationMapper
         var date = ParseDate(transfer.Date);
         return new TimelineEntryViewModel(
             "💸",
-            "Payment",
+            AppResources.Mapper_PaymentTitle,
             FormatMinor(transfer.AmountMinor, currency),
-            $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} paid {ResolveParticipantName(transfer.ToParticipantId, participantsById)}",
-            "Recorded payment",
+            string.Format(AppResources.Mapper_PaymentPrimaryText, ResolveParticipantName(transfer.FromParticipantId, participantsById), ResolveParticipantName(transfer.ToParticipantId, participantsById)),
+            AppResources.Mapper_PaymentSecondaryText,
             DescribeDay(date),
             date);
     }
@@ -201,22 +202,22 @@ public static class TripPresentationMapper
 
         if (expense.SplitDefinition.Components.OfType<RemainderSplitComponent>().Any(component => component.Mode == RemainderMode.Weight))
         {
-            return $"Weighted between {peopleText}";
+            return string.Format(AppResources.Mapper_SplitWeighted, peopleText);
         }
 
         if (expense.SplitDefinition.Components.OfType<RemainderSplitComponent>().Any(component => component.Mode == RemainderMode.Percent))
         {
-            return $"Shared by percentages between {peopleText}";
+            return string.Format(AppResources.Mapper_SplitByPercentage, peopleText);
         }
 
         if (expense.SplitDefinition.Components.OfType<FixedSplitComponent>().Any())
         {
             return expense.SplitDefinition.Components.OfType<RemainderSplitComponent>().Any()
-                ? $"Shared with custom amounts between {peopleText}"
-                : $"Custom amounts for {peopleText}";
+                ? string.Format(AppResources.Mapper_SplitCustomAmounts, peopleText)
+                : string.Format(AppResources.Mapper_SplitCustomAmountsOnly, peopleText);
         }
 
-        return $"Shared equally between {peopleText}";
+        return string.Format(AppResources.Mapper_SplitEqual, peopleText);
     }
 
     private static string ResolveExpenseIcon(ExpenseModel expense, IReadOnlyDictionary<string, string>? expenseIcons)
@@ -247,7 +248,7 @@ public static class TripPresentationMapper
             return unit.Name!;
         }
 
-        return $"{ResolveParticipantName(entityId, overview.Participants)}'s household";
+        return string.Format(AppResources.Mapper_HouseholdOf, ResolveParticipantName(entityId, overview.Participants));
     }
 
     private static string IconForEvent(string title)
@@ -305,10 +306,10 @@ public static class TripPresentationMapper
         => ResolveParticipantName(participantId, overview.Participants);
 
     private static string ResolveParticipantName(string participantId, IReadOnlyList<ParticipantModel> participants)
-        => participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? "Person";
+        => participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? AppResources.Mapper_Person;
 
     private static string ResolveParticipantName(string participantId, IReadOnlyDictionary<string, string> participantsById)
-        => participantsById.TryGetValue(participantId, out var name) ? name : "Person";
+        => participantsById.TryGetValue(participantId, out var name) ? name : AppResources.Mapper_Person;
 
     public static string DescribeDay(DateTimeOffset date)
     {
@@ -317,15 +318,15 @@ public static class TripPresentationMapper
 
         if (target == today)
         {
-            return "Today";
+            return AppResources.Mapper_Today;
         }
 
         if (target == today.AddDays(-1))
         {
-            return "Yesterday";
+            return AppResources.Mapper_Yesterday;
         }
 
-        return date.ToLocalTime().ToString("MMM d", CultureInfo.InvariantCulture);
+        return date.ToLocalTime().ToString("MMM d", CultureInfo.CurrentCulture);
     }
 
     public static DateTimeOffset ParseDate(string value)
@@ -337,7 +338,7 @@ public static class TripPresentationMapper
     {
         if (names.Count == 0)
         {
-            return "everyone";
+            return AppResources.Mapper_Everyone;
         }
 
         if (names.Count == 1)
@@ -345,12 +346,13 @@ public static class TripPresentationMapper
             return names[0];
         }
 
+        var andWord = AppResources.Mapper_And;
         if (names.Count == 2)
         {
-            return $"{names[0]} and {names[1]}";
+            return $"{names[0]} {andWord} {names[1]}";
         }
 
-        return $"{string.Join(", ", names.Take(names.Count - 1))} and {names[^1]}";
+        return $"{string.Join(", ", names.Take(names.Count - 1))} {andWord} {names[^1]}";
     }
 
     private static string FormatMinor(long minor, string currency)
@@ -365,7 +367,7 @@ public static class TripPresentationMapper
         };
 
         return string.IsNullOrEmpty(symbol)
-            ? string.Create(CultureInfo.InvariantCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
-            : string.Create(CultureInfo.InvariantCulture, $"{symbol}{amount:0.00}");
+            ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
+            : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
 }

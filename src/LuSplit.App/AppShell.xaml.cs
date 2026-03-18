@@ -5,13 +5,13 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
-		TryRegisterRoute(AppRoutes.TripTimeline, typeof(Pages.TripPage));
-		TryRegisterRoute(AppRoutes.TripDetails, typeof(Pages.TripDetailsPage));
+		TryRegisterRoute(AppRoutes.GroupTimeline, typeof(Pages.GroupPage));
+		TryRegisterRoute(AppRoutes.GroupDetails, typeof(Pages.GroupDetailsPage));
 		TryRegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));
 		TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
 		TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
 		TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
-		TryRegisterRoute(AppRoutes.ArchivedTrips, typeof(Pages.ArchivedTripsPage));
+		TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(Pages.ArchivedGroupsPage));
 	}
 
 	// Guard against duplicate registration when the shell is rebuilt for language changes.
