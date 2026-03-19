@@ -11,6 +11,7 @@ public partial class AddExpensePage : ContentPage
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
     private readonly List<EconomicUnitModel> _economicUnits = new();
+    private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
 
     public ObservableCollection<string> PayerNames { get; } = new();
 
@@ -55,13 +56,15 @@ public partial class AddExpensePage : ContentPage
 
         PayerNames.Clear();
         ParticipantOptions.Clear();
+        _payerParticipantIdByLabel.Clear();
 
         foreach (var participant in participants)
         {
             var label = BuildParticipantLabel(participant, participants, units);
             PayerNames.Add(label);
+            _payerParticipantIdByLabel[label] = participant.Id;
             var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
-            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, participant.Name, label, isSelected));
+            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, label, isSelected));
         }
 
         SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal)) is { } selectedPayer
@@ -88,8 +91,10 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            var payer = _participants.FirstOrDefault(participant =>
-                string.Equals(BuildParticipantLabel(participant, _participants, _economicUnits), SelectedPayerName, StringComparison.Ordinal));
+            var payer = SelectedPayerName is not null
+                && _payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId)
+                ? _participants.FirstOrDefault(participant => string.Equals(participant.Id, payerId, StringComparison.Ordinal))
+                : null;
             if (payer is null)
             {
                 StatusText = AppResources.Validation_SelectPayer;
@@ -182,8 +187,6 @@ public partial class AddExpensePage : ContentPage
 
         public string Id { get; }
 
-        public string Name { get; }
-
         public string DisplayName { get; }
 
         public bool IsSelected
@@ -201,10 +204,9 @@ public partial class AddExpensePage : ContentPage
             }
         }
 
-        public ParticipantOptionViewModel(string id, string name, string displayName, bool isSelected)
+        public ParticipantOptionViewModel(string id, string displayName, bool isSelected)
         {
             Id = id;
-            Name = name;
             DisplayName = displayName;
             _isSelected = isSelected;
         }

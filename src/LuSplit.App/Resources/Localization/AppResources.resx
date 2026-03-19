@@ -117,7 +117,7 @@
     <value>People</value>
   </data>
   <data name="GroupDetails_HouseholdHint" xml:space="preserve">
-    <value>Leave blank for independent participants. Use the same responsibility name for people who depend on the same participant.</value>
+    <value>Leave blank for independent participants. Use the same name to group dependents under one responsible participant.</value>
   </data>
   <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
     <value>Each person is independent by default. Shared responsibility does not change who can pay.</value>

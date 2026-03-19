@@ -164,6 +164,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
             if (IsCreateMode)
             {
+                // Seed value; Create mode immediately recalculates relationship text for all draft people.
                 People.Add(new GroupPersonEditorViewModel(
                     NewPersonName.Trim(),
                     string.IsNullOrWhiteSpace(NewHouseholdName) ? null : NewHouseholdName.Trim(),
@@ -423,7 +424,13 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             return;
         }
 
-        var rebuilt = People
+        var peopleSnapshot = People.ToArray();
+        var ownerByResponsibility = peopleSnapshot
+            .Where(person => !string.IsNullOrWhiteSpace(person.HouseholdName))
+            .GroupBy(person => person.HouseholdName!, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+
+        var rebuilt = peopleSnapshot
             .Select(person =>
             {
                 if (string.IsNullOrWhiteSpace(person.HouseholdName))
@@ -431,11 +438,12 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                     return person with { RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent };
                 }
 
-                var owner = People.FirstOrDefault(candidate =>
-                    string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
-                if (owner is null || string.Equals(owner.Name, person.Name, StringComparison.Ordinal))
+                var owner = ownerByResponsibility.TryGetValue(person.HouseholdName, out var responsibilityOwner)
+                    ? responsibilityOwner
+                    : null;
+                if (owner is null || ReferenceEquals(owner, person))
                 {
-                    var dependents = People.Count(candidate =>
+                    var dependents = peopleSnapshot.Count(candidate =>
                         string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
                     return person with
                     {
