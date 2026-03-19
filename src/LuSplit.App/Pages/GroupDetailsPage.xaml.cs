@@ -44,8 +44,8 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     public bool IsArchived => _isArchived;
 
-    /// <summary>True when the group can be edited — i.e. it is not archived.</summary>
-    public bool CanEdit => !IsCreateMode && !_isArchived;
+    /// <summary>True when the group can be edited — create mode is always editable; edit mode requires the group to not be archived.</summary>
+    public bool CanEdit => IsCreateMode || !_isArchived;
 
     public bool CanExport => !IsCreateMode;
 
