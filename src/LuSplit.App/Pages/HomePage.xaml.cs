@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
-using LuSplit.Application.Models;
+
+using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Pages;
 
@@ -51,8 +52,8 @@ public partial class HomePage : ContentPage
                 line.Name,
                 line.AmountText,
                 line.IsPositive
-                    ? (Color)Application.Current!.Resources["PositiveSoftGreen"]
-                    : (Color)Application.Current!.Resources["ErrorSoftRed"]));
+                    ? (Color)MauiApplication.Current!.Resources["PositiveSoftGreen"]
+                    : (Color)MauiApplication.Current!.Resources["ErrorSoftRed"]));
         }
 
         Events.Clear();

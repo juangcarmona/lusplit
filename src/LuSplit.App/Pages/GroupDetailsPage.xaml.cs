@@ -613,9 +613,12 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             .Where(member => !member.IsOwner)
             .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
             .ToDictionary(
-                group => group.Key,
-                group => group.Select(member => member.Name).OrderBy(name => name, StringComparer.OrdinalIgnoreCase).ToArray(),
-                StringComparer.Ordinal);
+                    group => group.Key,
+                    group => (IReadOnlyList<string>)group
+                        .Select(member => member.Name)
+                        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                        .ToList(),
+                    StringComparer.Ordinal);
 
         return members
             .OrderBy(member => member.Name, StringComparer.OrdinalIgnoreCase)

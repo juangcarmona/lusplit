@@ -129,4 +129,8 @@
 			<_Parameter2>$(AdMobBannerId)</_Parameter2>
 		</AssemblyAttribute>
 	</ItemGroup>
+
+	<Target Name="ShowMapsApiKey" BeforeTargets="Build">
+		<Message Text="AndroidManifestPlaceholders='$(AndroidManifestPlaceholders)'" Importance="High" />
+	</Target>
 </Project>

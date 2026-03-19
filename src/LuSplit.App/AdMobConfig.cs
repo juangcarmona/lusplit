@@ -7,7 +7,7 @@ public static class AdMobConfig
     public static string BannerId =>
         typeof(AdMobConfig).Assembly
             .GetCustomAttributes<AssemblyMetadataAttribute>()
-            .FirstOrDefault(a => a.Key == "AdMobBannerId")
+            .FirstOrDefault(x => x.Key == "AdMobBannerId")
             ?.Value
         ?? string.Empty;
 }
