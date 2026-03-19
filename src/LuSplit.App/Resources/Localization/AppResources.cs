@@ -118,6 +118,7 @@ public static class AppResources
     public static string AddEvent_ParticipantHint => Get(nameof(AddEvent_ParticipantHint));
     public static string AddEvent_SplitPreviewTitle => Get(nameof(AddEvent_SplitPreviewTitle));
     public static string AddEvent_SplitPreviewHint => Get(nameof(AddEvent_SplitPreviewHint));
+    public static string AddEvent_AdjustSplit => Get(nameof(AddEvent_AdjustSplit));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
 

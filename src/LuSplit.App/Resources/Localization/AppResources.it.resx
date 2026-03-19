@@ -187,6 +187,9 @@
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
     <value>Tutti inclusi per impostazione predefinita.</value>
   </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Adjust split</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Salva evento</value>
   </data>

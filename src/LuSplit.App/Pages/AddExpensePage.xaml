@@ -35,22 +35,21 @@
                 <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
                 <CollectionView ItemsSource="{Binding ParticipantOptions}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="6" HorizontalItemSpacing="6" />
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{StaticResource ChipBorder}" Margin="0">
-                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                     <CheckBox IsChecked="{Binding IsSelected}" CheckedChanged="OnParticipantCheckedChanged" VerticalOptions="Center" />
-                                    <VerticalStackLayout Grid.Column="1" Spacing="0">
-                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center" />
-                                        <Label Text="{Binding RelationshipHint}" Style="{StaticResource BodyMuted}" IsVisible="{Binding HasRelationshipHint}" />
-                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Name}" VerticalTextAlignment="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
+                <Button Text="{x:Static loc:AppResources.AddEvent_AdjustSplit}" Clicked="OnAdjustSplitClicked" />
 
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
@@ -61,20 +60,22 @@
                     </Border>
                 </Grid>
 
-                <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewTitle}" Style="{StaticResource SectionTitle}" />
-                <CollectionView ItemsSource="{Binding SplitPreview}" SelectionMode="None">
-                    <CollectionView.EmptyView>
-                        <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewHint}" Style="{StaticResource BodyMuted}" />
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="*,Auto" Padding="0,2">
-                                <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
-                                <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <VerticalStackLayout IsVisible="{Binding IsSplitEditorVisible}" Spacing="6">
+                    <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewTitle}" Style="{StaticResource SectionTitle}" />
+                    <CollectionView ItemsSource="{Binding SplitPreview}" SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewHint}" Style="{StaticResource BodyMuted}" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,Auto" Padding="0,2">
+                                    <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
+                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
 
                 <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" />
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />

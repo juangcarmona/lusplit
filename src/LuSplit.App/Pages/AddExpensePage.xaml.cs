@@ -11,7 +11,6 @@ public partial class AddExpensePage : ContentPage
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, ParticipantModel> _participantById = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, string> _ownerByParticipantId = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
     private string _currency = "USD";
 
@@ -25,6 +24,7 @@ public partial class AddExpensePage : ContentPage
     public string? SelectedPayerName { get; set; }
     public string StatusText { get; set; } = "";
     public bool CanSave { get; private set; }
+    public bool IsSplitEditorVisible { get; private set; }
 
     public AddExpensePage(AppDataService dataService)
     {
@@ -52,7 +52,6 @@ public partial class AddExpensePage : ContentPage
         _participants.Clear();
         _participants.AddRange(participants);
         _participantById.Clear();
-        _ownerByParticipantId.Clear();
 
         PayerNames.Clear();
         ParticipantOptions.Clear();
@@ -65,7 +64,6 @@ public partial class AddExpensePage : ContentPage
             var ownerId = unitsById.TryGetValue(participant.EconomicUnitId, out var unit)
                 ? unit.OwnerParticipantId
                 : participant.Id;
-            _ownerByParticipantId[participant.Id] = ownerId;
             PayerNames.Add(participant.Name);
             _payerParticipantIdByLabel[participant.Name] = participant.Id;
             var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
@@ -74,7 +72,6 @@ public partial class AddExpensePage : ContentPage
                 participant.Name,
                 ownerId,
                 string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
-                DescribeRelationshipHint(participant, participants, unitsById),
                 isSelected));
         }
 
@@ -146,21 +143,18 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        if (option.IsOwner && e.Value)
-        {
-            foreach (var dependent in ParticipantOptions.Where(candidate =>
-                         !candidate.IsOwner && string.Equals(candidate.OwnerId, option.Id, StringComparison.Ordinal)))
-            {
-                dependent.IsSelected = true;
-            }
-        }
-
         RecalculateSplitPreview();
     }
 
     private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
     {
         RecalculateSplitPreview();
+    }
+
+    private void OnAdjustSplitClicked(object? sender, EventArgs e)
+    {
+        IsSplitEditorVisible = !IsSplitEditorVisible;
+        OnPropertyChanged(nameof(IsSplitEditorVisible));
     }
 
     private void OnAmountTextChanged(object? sender, TextChangedEventArgs e)
@@ -226,34 +220,6 @@ public partial class AddExpensePage : ContentPage
         return ownerSelected ? string.Create(CultureInfo.CurrentCulture, $" (via {owner.Name})") : string.Empty;
     }
 
-    private static string DescribeRelationshipHint(
-        ParticipantModel participant,
-        IReadOnlyList<ParticipantModel> participants,
-        IReadOnlyDictionary<string, EconomicUnitModel> unitsById)
-    {
-        var unitParticipants = participants
-            .Where(candidate => string.Equals(candidate.EconomicUnitId, participant.EconomicUnitId, StringComparison.Ordinal))
-            .ToArray();
-        var ownerId = unitsById.TryGetValue(participant.EconomicUnitId, out var unit)
-            ? unit.OwnerParticipantId
-            : participant.Id;
-        var owner = ownerId is null
-            ? unitParticipants.FirstOrDefault()
-            : unitParticipants.FirstOrDefault(candidate => string.Equals(candidate.Id, ownerId, StringComparison.Ordinal))
-                ?? unitParticipants.FirstOrDefault();
-        if (owner is null || unitParticipants.Length <= 1)
-        {
-            return AppResources.GroupDetails_ResponsibilityIndependent;
-        }
-
-        if (string.Equals(owner.Id, participant.Id, StringComparison.Ordinal))
-        {
-            return string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, unitParticipants.Length - 1);
-        }
-
-        return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name);
-    }
-
     private static string FormatMinor(long minor, string currency)
     {
         var amount = minor / 100m;
@@ -282,10 +248,6 @@ public partial class AddExpensePage : ContentPage
 
         public bool IsOwner { get; }
 
-        public string RelationshipHint { get; }
-
-        public bool HasRelationshipHint => !string.IsNullOrWhiteSpace(RelationshipHint);
-
         public bool IsSelected
         {
             get => _isSelected;
@@ -306,14 +268,12 @@ public partial class AddExpensePage : ContentPage
             string name,
             string ownerId,
             bool isOwner,
-            string relationshipHint,
             bool isSelected)
         {
             Id = id;
             Name = name;
             OwnerId = ownerId;
             IsOwner = isOwner;
-            RelationshipHint = relationshipHint;
             _isSelected = isSelected;
         }
     }

@@ -307,6 +307,9 @@
   <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
     <value>Enter amount and participants to preview.</value>
   </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Adjust split</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Save event</value>
   </data>
