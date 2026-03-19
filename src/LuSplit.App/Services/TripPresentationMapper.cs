@@ -248,7 +248,16 @@ public static class GroupPresentationMapper
             return unit.Name!;
         }
 
-        return string.Format(AppResources.Mapper_HouseholdOf, ResolveParticipantName(entityId, overview.Participants));
+        // Only use the "X's Household" label when the unit actually has dependents.
+        // A solo participant (no dependents) should appear by their own name.
+        var hasDependents = overview.Participants.Any(p =>
+            string.Equals(p.EconomicUnitId, unit.Id, StringComparison.Ordinal) &&
+            !string.Equals(p.Id, entityId, StringComparison.Ordinal));
+
+        var participantName = ResolveParticipantName(entityId, overview.Participants);
+        return hasDependents
+            ? string.Format(AppResources.Mapper_HouseholdOf, participantName)
+            : participantName;
     }
 
     private static string IconForEvent(string title)
