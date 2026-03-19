@@ -92,8 +92,12 @@ public partial class CreateGroupPage : ContentPage
         }
 
         var options = new[] { AppResources.GroupDetails_DependencyIndependent }
-            .Concat(Participants.Where(p => !string.Equals(p.Name, current.Name, StringComparison.Ordinal))
-                .Select(p => p.Name))
+            .Concat(Participants
+                .Where(p =>
+                    !string.Equals(p.Name, current.Name, StringComparison.Ordinal)
+                    && string.IsNullOrWhiteSpace(p.DependsOn))
+                .Select(p => p.Name)
+                .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
             .ToArray();
         var selection = await DisplayActionSheetAsync(AppResources.GroupDetails_DependsOnLabel, AppResources.Common_Cancel, null, options);
         if (string.IsNullOrWhiteSpace(selection) || string.Equals(selection, AppResources.Common_Cancel, StringComparison.Ordinal))
@@ -107,6 +111,16 @@ public partial class CreateGroupPage : ContentPage
         }
         else
         {
+            var isEligibleResponsible = Participants.Any(p =>
+                string.Equals(p.Name, selection, StringComparison.OrdinalIgnoreCase)
+                && string.IsNullOrWhiteSpace(p.DependsOn));
+            if (!isEligibleResponsible)
+            {
+                StatusText = AppResources.Validation_ResponsiblePersonNotFound;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             if (WouldCreateCycle(current.Name, selection))
             {
                 StatusText = AppResources.Validation_CircularDependency;

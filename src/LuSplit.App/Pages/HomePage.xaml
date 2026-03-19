@@ -9,25 +9,39 @@
         <Grid RowDefinitions="*,Auto,Auto" RowSpacing="0">
             <ScrollView>
                 <VerticalStackLayout Padding="16,16,16,8" Spacing="10">
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                        <Button Grid.Column="0"
-                                Text="{Binding GroupName, StringFormat='{}{0} ▾'}"
-                                Style="{StaticResource SecondaryButton}"
-                                Padding="12,8"
-                                MinimumHeightRequest="36"
-                                CornerRadius="16"
-                                HorizontalOptions="Start"
-                                Clicked="OnOpenGroupSwitcherClicked" />
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="2">
+                        <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Text="{Binding GroupName}"
+                               FontFamily="BrandSemiBold"
+                               FontSize="22"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryNavy}, Dark={StaticResource TextOnDark}}"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1" />
                         <Button Grid.Column="1"
-                                Text="+ New"
+                                Grid.Row="0"
+                                Text="{x:Static loc:AppResources.Groups_NewGroup}"
                                 BackgroundColor="Transparent"
                                 TextColor="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource TextOnDark}}"
                                 FontFamily="BrandMedium"
                                 FontSize="14"
-                                Padding="6,8"
-                                MinimumHeightRequest="36"
+                                Padding="6,2"
+                                MinimumHeightRequest="28"
                                 MinimumWidthRequest="0"
+                                VerticalOptions="Start"
                                 Clicked="OnNewGroupClicked" />
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text="{x:Static loc:AppResources.GroupSwitcher_Title}"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource TextOnDark}}"
+                                FontFamily="BrandMedium"
+                                FontSize="14"
+                                Padding="0,0,0,2"
+                                MinimumHeightRequest="28"
+                                MinimumWidthRequest="0"
+                                HorizontalOptions="Start"
+                                Clicked="OnOpenGroupSwitcherClicked" />
                     </Grid>
                     <VerticalStackLayout Spacing="2">
                         <Label Text="{Binding GroupMetaText}" Style="{StaticResource BodyMuted}" />
