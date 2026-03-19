@@ -54,18 +54,27 @@ public static class AppResources
     public static string GroupDetails_CurrencyLabel => Get(nameof(GroupDetails_CurrencyLabel));
     public static string GroupDetails_PeopleSection => Get(nameof(GroupDetails_PeopleSection));
     public static string GroupDetails_HouseholdHint => Get(nameof(GroupDetails_HouseholdHint));
+    public static string GroupDetails_ResponsibilityHint => Get(nameof(GroupDetails_ResponsibilityHint));
     public static string GroupDetails_NoPeopleTitle => Get(nameof(GroupDetails_NoPeopleTitle));
     public static string GroupDetails_NoPeopleSubtitle => Get(nameof(GroupDetails_NoPeopleSubtitle));
     public static string GroupDetails_AddPersonSection => Get(nameof(GroupDetails_AddPersonSection));
     public static string GroupDetails_PersonNamePlaceholder => Get(nameof(GroupDetails_PersonNamePlaceholder));
+    public static string GroupDetails_PersonNamePrompt => Get(nameof(GroupDetails_PersonNamePrompt));
     public static string GroupDetails_HouseholdNamePlaceholder => Get(nameof(GroupDetails_HouseholdNamePlaceholder));
+    public static string GroupDetails_ResponsibilityNamePlaceholder => Get(nameof(GroupDetails_ResponsibilityNamePlaceholder));
+    public static string GroupDetails_DependsOnLabel => Get(nameof(GroupDetails_DependsOnLabel));
+    public static string GroupDetails_DependsOnPlaceholder => Get(nameof(GroupDetails_DependsOnPlaceholder));
     public static string GroupDetails_AddPersonButton => Get(nameof(GroupDetails_AddPersonButton));
+    public static string GroupDetails_ManagePersonSection => Get(nameof(GroupDetails_ManagePersonSection));
+    public static string GroupDetails_SavePersonChangesButton => Get(nameof(GroupDetails_SavePersonChangesButton));
+    public static string GroupDetails_EditDependencyLockedHint => Get(nameof(GroupDetails_EditDependencyLockedHint));
     public static string GroupDetails_CreateButton => Get(nameof(GroupDetails_CreateButton));
     public static string GroupDetails_SaveButton => Get(nameof(GroupDetails_SaveButton));
     public static string GroupDetails_ExportButton => Get(nameof(GroupDetails_ExportButton));
     public static string GroupDetails_SettlesOnOwn => Get(nameof(GroupDetails_SettlesOnOwn));
     public static string GroupDetails_PersonAdded => Get(nameof(GroupDetails_PersonAdded));
     public static string GroupDetails_PersonAddedNew => Get(nameof(GroupDetails_PersonAddedNew));
+    public static string GroupDetails_PersonUpdated => Get(nameof(GroupDetails_PersonUpdated));
     public static string GroupDetails_Remove => Get(nameof(GroupDetails_Remove));
     public static string GroupDetails_ArchiveButton => Get(nameof(GroupDetails_ArchiveButton));
     public static string GroupDetails_ArchiveConfirmTitle => Get(nameof(GroupDetails_ArchiveConfirmTitle));
@@ -79,6 +88,9 @@ public static class AppResources
     public static string GroupDetails_CustomWeightPlaceholder => Get(nameof(GroupDetails_CustomWeightPlaceholder));
     public static string GroupDetails_PersonIsOwner => Get(nameof(GroupDetails_PersonIsOwner));
     public static string GroupDetails_PersonIsDependent => Get(nameof(GroupDetails_PersonIsDependent));
+    public static string GroupDetails_ResponsibilityIndependent => Get(nameof(GroupDetails_ResponsibilityIndependent));
+    public static string GroupDetails_ResponsibilityDependsOn => Get(nameof(GroupDetails_ResponsibilityDependsOn));
+    public static string GroupDetails_ResponsibilityResponsibleForPeople => Get(nameof(GroupDetails_ResponsibilityResponsibleForPeople));
     public static string GroupDetails_AddPersonHint => Get(nameof(GroupDetails_AddPersonHint));
 
     // --- Add Event ---
@@ -93,6 +105,7 @@ public static class AppResources
     public static string AddEvent_EventLabel => Get(nameof(AddEvent_EventLabel));
     public static string AddEvent_EventPlaceholder => Get(nameof(AddEvent_EventPlaceholder));
     public static string AddEvent_PaidBy => Get(nameof(AddEvent_PaidBy));
+    public static string AddEvent_PayerHint => Get(nameof(AddEvent_PayerHint));
     public static string AddEvent_WhoJoined => Get(nameof(AddEvent_WhoJoined));
     public static string AddEvent_EveryoneDefault => Get(nameof(AddEvent_EveryoneDefault));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
@@ -102,6 +115,8 @@ public static class AppResources
     public static string Settlement_Title => Get(nameof(Settlement_Title));
     public static string Settlement_WhoOwesWhat => Get(nameof(Settlement_WhoOwesWhat));
     public static string Settlement_Subtitle => Get(nameof(Settlement_Subtitle));
+    public static string Settlement_ParticipantFairnessHint => Get(nameof(Settlement_ParticipantFairnessHint));
+    public static string Settlement_ResponsibilitySummaryTitle => Get(nameof(Settlement_ResponsibilitySummaryTitle));
     public static string Settlement_EmptyTitle => Get(nameof(Settlement_EmptyTitle));
     public static string Settlement_EmptySubtitle => Get(nameof(Settlement_EmptySubtitle));
     public static string Settlement_RecordPaymentButton => Get(nameof(Settlement_RecordPaymentButton));
@@ -132,6 +147,7 @@ public static class AppResources
     public static string Validation_SelectPayer => Get(nameof(Validation_SelectPayer));
     public static string Validation_PickAtLeastOnePerson => Get(nameof(Validation_PickAtLeastOnePerson));
     public static string Validation_PersonNameRequired => Get(nameof(Validation_PersonNameRequired));
+    public static string Validation_PersonNameMustBeUnique => Get(nameof(Validation_PersonNameMustBeUnique));
     public static string Validation_GroupNotFound => Get(nameof(Validation_GroupNotFound));
     public static string Validation_GroupNameRequired => Get(nameof(Validation_GroupNameRequired));
     public static string Validation_SelectCurrency => Get(nameof(Validation_SelectCurrency));
@@ -140,6 +156,10 @@ public static class AppResources
     public static string Validation_DifferentPeople => Get(nameof(Validation_DifferentPeople));
     public static string Validation_InvalidCustomWeight => Get(nameof(Validation_InvalidCustomWeight));
     public static string Validation_CustomWeightRequiredForCustomCategory => Get(nameof(Validation_CustomWeightRequiredForCustomCategory));
+    public static string Validation_GroupArchivedReadonly => Get(nameof(Validation_GroupArchivedReadonly));
+    public static string Validation_PersonNotFound => Get(nameof(Validation_PersonNotFound));
+    public static string Validation_ResponsiblePersonNotFound => Get(nameof(Validation_ResponsiblePersonNotFound));
+    public static string Validation_PersonCannotDependOnSelf => Get(nameof(Validation_PersonCannotDependOnSelf));
 
     // --- Archived groups ---
     public static string Archived_Title => Get(nameof(Archived_Title));
@@ -169,6 +189,7 @@ public static class AppResources
     public static string Mapper_SplitCustomAmounts => Get(nameof(Mapper_SplitCustomAmounts));
     public static string Mapper_SplitCustomAmountsOnly => Get(nameof(Mapper_SplitCustomAmountsOnly));
     public static string Mapper_HouseholdOf => Get(nameof(Mapper_HouseholdOf));
+    public static string Mapper_ResponsibilityOf => Get(nameof(Mapper_ResponsibilityOf));
     public static string Mapper_PaymentTitle => Get(nameof(Mapper_PaymentTitle));
     public static string Mapper_PaymentPrimaryText => Get(nameof(Mapper_PaymentPrimaryText));
     public static string Mapper_PaymentSecondaryText => Get(nameof(Mapper_PaymentSecondaryText));

@@ -97,4 +97,61 @@ public sealed class ApplicationFlowParityTests
             },
             ownerSettlement.Transfers);
     }
+
+    [Fact]
+    public async Task ParticipantSettlementKeepsFairnessWhenMultiplePeoplePayInsideSameResponsibility()
+    {
+        var repos = new InMemoryQueryRepositories();
+        var idGenerator = new SequentialIdGenerator();
+
+        var createGroup = new CreateGroupUseCase(repos, idGenerator);
+        var createEconomicUnit = new CreateEconomicUnitUseCase(repos, repos, idGenerator);
+        var createParticipant = new CreateParticipantUseCase(repos, repos, repos, idGenerator);
+        var addExpense = new AddExpenseUseCase(
+            repos,
+            repos,
+            repos,
+            idGenerator,
+            new FixedClock("2026-01-01T00:00:00.000Z"));
+        var getSettlementPlan = new GetSettlementPlanUseCase(repos, repos, repos, repos, repos);
+
+        var group = await createGroup.ExecuteAsync(new CreateGroupInput("USD"));
+        var sharedUnit = await createEconomicUnit.ExecuteAsync(new CreateEconomicUnitInput(group.Id, "id-3", "Shared"));
+
+        var juan = await createParticipant.ExecuteAsync(new CreateParticipantInput(group.Id, sharedUnit.Id, "Juan", ConsumptionCategory.Full));
+        var martina = await createParticipant.ExecuteAsync(new CreateParticipantInput(group.Id, sharedUnit.Id, "Martina", ConsumptionCategory.Half));
+        var lucas = await createParticipant.ExecuteAsync(new CreateParticipantInput(group.Id, sharedUnit.Id, "Lucas", ConsumptionCategory.Half));
+        var independentUnit = await createEconomicUnit.ExecuteAsync(new CreateEconomicUnitInput(group.Id, "id-7", "Independent"));
+        var marta = await createParticipant.ExecuteAsync(new CreateParticipantInput(group.Id, independentUnit.Id, "Marta", ConsumptionCategory.Full));
+
+        await addExpense.ExecuteAsync(new AddExpenseInput(
+            GroupId: group.Id,
+            Title: "Lunch",
+            PaidByParticipantId: marta.Id,
+            AmountMinor: 9000,
+            SplitDefinition: new SplitDefinition(new SplitComponent[]
+            {
+                new RemainderSplitComponent(new[] { juan.Id, martina.Id, lucas.Id, marta.Id }, RemainderMode.Equal)
+            })));
+
+        await addExpense.ExecuteAsync(new AddExpenseInput(
+            GroupId: group.Id,
+            Title: "Snacks",
+            PaidByParticipantId: juan.Id,
+            AmountMinor: 2000,
+            SplitDefinition: new SplitDefinition(new SplitComponent[]
+            {
+                new RemainderSplitComponent(new[] { juan.Id, martina.Id, lucas.Id, marta.Id }, RemainderMode.Equal)
+            })));
+
+        var participantPlan = await getSettlementPlan.ExecuteAsync(group.Id, SettlementMode.Participant);
+        var ownerPlan = await getSettlementPlan.ExecuteAsync(group.Id, SettlementMode.EconomicUnitOwner);
+
+        Assert.Contains(new SettlementTransferModel(lucas.Id, marta.Id, 2750), participantPlan.Transfers);
+        Assert.Contains(new SettlementTransferModel(martina.Id, marta.Id, 2750), participantPlan.Transfers);
+        Assert.Contains(new SettlementTransferModel(juan.Id, marta.Id, 750), participantPlan.Transfers);
+
+        Assert.Single(ownerPlan.Transfers);
+        Assert.Equal(new SettlementTransferModel(juan.Id, marta.Id, 6250), ownerPlan.Transfers[0]);
+    }
 }

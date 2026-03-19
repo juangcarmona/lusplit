@@ -212,6 +212,7 @@ public sealed class AppDataService : IAsyncDisposable
                 member.ConsumptionCategory,
                 member.CustomConsumptionWeight))
             .ToArray();
+        EnsureUniqueMemberNames(memberDrafts.Select(member => member.Name));
 
         if (memberDrafts.Length == 0)
         {
@@ -252,7 +253,69 @@ public sealed class AppDataService : IAsyncDisposable
     {
         var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
         var normalizedHouseholdName = NormalizeOptional(householdName);
+        var participants = (await GetOverviewAsync(groupId)).Participants;
+        if (participants.Any(participant => string.Equals(participant.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
+        }
+
         await AddMembersAsync(groupId, new[] { new GroupDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
+        DataChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public async Task UpdateGroupMemberAsync(string groupId, string participantId, string personName, string? dependsOnParticipantId)
+    {
+        var normalizedParticipantId = NormalizeRequired(participantId, AppResources.Validation_PersonNotFound);
+        var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
+        var normalizedDependsOnParticipantId = NormalizeOptional(dependsOnParticipantId);
+
+        var infra = await GetInfraAsync();
+        var group = await infra.GroupRepository.GetByIdAsync(groupId, CancellationToken.None)
+            ?? throw new InvalidOperationException(AppResources.Validation_GroupNotFound);
+        if (group.Closed)
+        {
+            throw new InvalidOperationException(AppResources.Validation_GroupArchivedReadonly);
+        }
+
+        var participants = await infra.ParticipantRepository.ListParticipantsByGroupIdAsync(groupId, CancellationToken.None);
+        var participant = participants.FirstOrDefault(candidate =>
+            string.Equals(candidate.Id, normalizedParticipantId, StringComparison.Ordinal))
+            ?? throw new InvalidOperationException(AppResources.Validation_PersonNotFound);
+
+        if (participants.Any(candidate =>
+                !string.Equals(candidate.Id, participant.Id, StringComparison.Ordinal)
+                && string.Equals(candidate.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
+        }
+
+        var economicUnits = await infra.EconomicUnitRepository.ListEconomicUnitsByGroupIdAsync(groupId, CancellationToken.None);
+        var currentUnit = economicUnits.FirstOrDefault(unit => string.Equals(unit.Id, participant.EconomicUnitId, StringComparison.Ordinal))
+            ?? throw new InvalidOperationException(AppResources.Validation_PersonNotFound);
+
+        var destinationUnit = currentUnit;
+        if (!string.IsNullOrWhiteSpace(normalizedDependsOnParticipantId))
+        {
+            var responsibleParticipant = participants.FirstOrDefault(candidate =>
+                string.Equals(candidate.Id, normalizedDependsOnParticipantId, StringComparison.Ordinal))
+                ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
+
+            if (string.Equals(responsibleParticipant.Id, participant.Id, StringComparison.Ordinal)
+                && !string.Equals(currentUnit.OwnerParticipantId, participant.Id, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(AppResources.Validation_PersonCannotDependOnSelf);
+            }
+
+            destinationUnit = economicUnits.FirstOrDefault(unit => string.Equals(unit.Id, responsibleParticipant.EconomicUnitId, StringComparison.Ordinal))
+                ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
+        }
+
+        var updatedParticipant = participant with
+        {
+            Name = normalizedName,
+            EconomicUnitId = destinationUnit.Id
+        };
+        await infra.ParticipantRepository.SaveParticipantAsync(updatedParticipant, CancellationToken.None);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -671,6 +734,18 @@ ON CONFLICT(expense_id) DO UPDATE SET
 
     private static string? NormalizeOptional(string? value)
         => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private static void EnsureUniqueMemberNames(IEnumerable<string> names)
+    {
+        var uniqueNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var name in names)
+        {
+            if (!uniqueNames.Add(name))
+            {
+                throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
+            }
+        }
+    }
 
     private sealed class GuidIdGenerator : LuSplit.Application.Ports.IIdGenerator
     {

@@ -18,6 +18,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private const string CreateMode = "create";
     private const string EditMode = "edit";
+    private string? _selectedPersonParticipantId;
 
     public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
 
@@ -34,11 +35,25 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     public string NewPersonName { get; set; } = string.Empty;
 
-    public string NewHouseholdName { get; set; } = string.Empty;
+    public string? SelectedResponsibleParticipantName { get; set; }
+
+    public ObservableCollection<string> ResponsibleParticipantOptions { get; } = new();
 
     public ConsumptionOptionViewModel SelectedConsumption { get; set; }
 
     public string NewCustomWeight { get; set; } = string.Empty;
+
+    public string EditPersonName { get; set; } = string.Empty;
+
+    public string? EditSelectedResponsibleParticipantName { get; set; }
+
+    public ObservableCollection<string> EditResponsibleParticipantOptions { get; } = new();
+
+    public bool CanChangeSelectedPersonDependency { get; set; } = true;
+
+    public string EditPersonDependencyStatusText { get; set; } = string.Empty;
+
+    public bool IsEditPersonDependencyStatusVisible => !string.IsNullOrWhiteSpace(EditPersonDependencyStatusText);
 
     public string StatusText { get; set; } = string.Empty;
 
@@ -46,6 +61,8 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     /// <summary>True when the group can be edited — create mode is always editable; edit mode requires the group to not be archived.</summary>
     public bool CanEdit => IsCreateMode || !_isArchived;
+    
+    public bool CanManagePeople => CanEdit && !IsCreateMode;
 
     public bool CanExport => !IsCreateMode;
 
@@ -124,23 +141,19 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             SelectedCurrency = details.Currency;
 
             People.Clear();
-            foreach (var person in details.Members)
+            foreach (var person in BuildPeopleViewModels(details.Members))
             {
-                People.Add(new GroupPersonEditorViewModel(
-                    person.Name,
-                    person.HouseholdName,
-                    false,
-                    person.IsOwner,
-                    person.ConsumptionCategory,
-                    person.CustomConsumptionWeight));
+                People.Add(person);
             }
         }
 
         NewPersonName = string.Empty;
-        NewHouseholdName = string.Empty;
+        SelectedResponsibleParticipantName = null;
         SelectedConsumption = ConsumptionOptions[0];
         NewCustomWeight = string.Empty;
+        ResetPersonEditor();
         Title = PageTitle;
+        RebuildResponsibleParticipantOptions();
 
         NotifyAllProperties();
     }
@@ -149,18 +162,86 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(NewPersonName))
+            var personName = await DisplayPromptAsync(
+                AppResources.GroupDetails_AddPersonSection,
+                AppResources.GroupDetails_PersonNamePrompt,
+                AppResources.GroupDetails_AddPersonButton,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_PersonNamePlaceholder);
+
+            if (personName is null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(personName))
             {
                 StatusText = AppResources.Validation_PersonNameRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
-            var category = ResolveConsumptionCategory();
+            var newPersonName = personName.Trim();
+            if (People.Any(person => string.Equals(person.Name, newPersonName, StringComparison.OrdinalIgnoreCase)))
+            {
+                StatusText = AppResources.Validation_PersonNameMustBeUnique;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
 
+            var dependsOnSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_DependsOnLabel,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_DependsOnPlaceholder,
+                ResponsibleParticipantOptions.ToArray());
+            if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            SelectedResponsibleParticipantName = string.Equals(dependsOnSelection, AppResources.GroupDetails_DependsOnPlaceholder, StringComparison.Ordinal)
+                ? null
+                : dependsOnSelection;
+
+            var consumptionSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_ConsumptionCategoryLabel,
+                AppResources.Common_Cancel,
+                null,
+                AppResources.GroupDetails_ConsumptionFull,
+                AppResources.GroupDetails_ConsumptionHalf,
+                AppResources.GroupDetails_ConsumptionCustom);
+            if (string.Equals(consumptionSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            var category = consumptionSelection switch
+            {
+                var value when string.Equals(value, AppResources.GroupDetails_ConsumptionHalf, StringComparison.Ordinal)
+                    => ConsumptionCategory.Half,
+                var value when string.Equals(value, AppResources.GroupDetails_ConsumptionCustom, StringComparison.Ordinal)
+                    => ConsumptionCategory.Custom,
+                _ => ConsumptionCategory.Full
+            };
+
+            string? customWeight = null;
             if (category == ConsumptionCategory.Custom)
             {
-                if (string.IsNullOrWhiteSpace(NewCustomWeight) || !decimal.TryParse(NewCustomWeight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
+                var customWeightSelection = await DisplayPromptAsync(
+                    AppResources.GroupDetails_ConsumptionCustom,
+                    AppResources.Validation_InvalidCustomWeight,
+                    AppResources.GroupDetails_AddPersonButton,
+                    AppResources.Common_Cancel,
+                    AppResources.GroupDetails_CustomWeightPlaceholder,
+                    keyboard: Keyboard.Numeric);
+                if (customWeightSelection is null)
+                {
+                    return;
+                }
+
+                customWeight = customWeightSelection.Trim();
+                if (string.IsNullOrWhiteSpace(customWeight)
+                    || !decimal.TryParse(customWeight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
                 {
                     StatusText = AppResources.Validation_InvalidCustomWeight;
                     OnPropertyChanged(nameof(StatusText));
@@ -170,13 +251,19 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
             if (IsCreateMode)
             {
+                // Seed value; Create mode immediately recalculates relationship text for all draft people.
                 People.Add(new GroupPersonEditorViewModel(
-                    NewPersonName.Trim(),
-                    string.IsNullOrWhiteSpace(NewHouseholdName) ? null : NewHouseholdName.Trim(),
+                    null,
+                    newPersonName,
+                    ResolveSelectedHouseholdName(),
                     true,
+                    AppResources.GroupDetails_ResponsibilityIndependent,
                     false,
+                    true,
                     CategoryToString(category),
-                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null));
+                    customWeight));
+                RebuildDraftPeopleRelationships();
+                RebuildResponsibleParticipantOptions();
             }
             else
             {
@@ -189,16 +276,16 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
                 await _dataService.AddGroupMemberAsync(
                     _groupId,
-                    NewPersonName,
-                    NewHouseholdName,
+                    newPersonName,
+                    ResolveSelectedHouseholdName(),
                     category,
-                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null);
+                    customWeight);
                 StatusText = AppResources.GroupDetails_PersonAdded;
                 await LoadAsync();
             }
 
             NewPersonName = string.Empty;
-            NewHouseholdName = string.Empty;
+            SelectedResponsibleParticipantName = null;
             SelectedConsumption = ConsumptionOptions[0];
             NewCustomWeight = string.Empty;
             StatusText = IsCreateMode ? AppResources.GroupDetails_PersonAddedNew : StatusText;
@@ -222,7 +309,121 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         if (item is not null)
         {
             People.Remove(item);
+            RebuildDraftPeopleRelationships();
+            RebuildResponsibleParticipantOptions();
         }
+    }
+
+    private async void OnManagePersonClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (!CanEdit || IsCreateMode || sender is not Button { CommandParameter: string participantId })
+            {
+                return;
+            }
+
+            var person = People.FirstOrDefault(candidate => string.Equals(candidate.ParticipantId, participantId, StringComparison.Ordinal));
+            if (person is null)
+            {
+                return;
+            }
+
+            OpenPersonEditor(person);
+            await ShowManagePersonDialogAsync(person);
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    private async Task SavePersonChangesAsync()
+    {
+        try
+        {
+            var selectedPerson = GetSelectedPersonForEdit();
+            if (selectedPerson is null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(EditPersonName))
+            {
+                StatusText = AppResources.Validation_PersonNameRequired;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            var normalizedName = EditPersonName.Trim();
+            if (People.Any(person =>
+                    !string.Equals(person.ParticipantId, selectedPerson.ParticipantId, StringComparison.Ordinal)
+                    && string.Equals(person.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
+            {
+                StatusText = AppResources.Validation_PersonNameMustBeUnique;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_groupId) || string.IsNullOrWhiteSpace(selectedPerson.ParticipantId))
+            {
+                StatusText = AppResources.Validation_GroupNotFound;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            var dependsOnParticipantId = ResolveEditResponsibleParticipantId(selectedPerson);
+            await _dataService.UpdateGroupMemberAsync(_groupId, selectedPerson.ParticipantId, normalizedName, dependsOnParticipantId);
+            StatusText = AppResources.GroupDetails_PersonUpdated;
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    private async Task ShowManagePersonDialogAsync(GroupPersonEditorViewModel person)
+    {
+        var editedName = await DisplayPromptAsync(
+            AppResources.GroupDetails_ManagePersonSection,
+            AppResources.GroupDetails_PersonNamePrompt,
+            AppResources.GroupDetails_SavePersonChangesButton,
+            AppResources.Common_Cancel,
+            AppResources.GroupDetails_PersonNamePlaceholder,
+            initialValue: person.Name);
+        if (editedName is null)
+        {
+            ResetPersonEditor();
+            NotifyPersonEditorProperties();
+            return;
+        }
+
+        EditPersonName = editedName.Trim();
+
+        if (CanChangeSelectedPersonDependency)
+        {
+            var dependsOnSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_DependsOnLabel,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_DependsOnPlaceholder,
+                EditResponsibleParticipantOptions.ToArray());
+
+            if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                ResetPersonEditor();
+                NotifyPersonEditorProperties();
+                return;
+            }
+
+            EditSelectedResponsibleParticipantName = string.Equals(dependsOnSelection, AppResources.GroupDetails_DependsOnPlaceholder, StringComparison.Ordinal)
+                ? null
+                : dependsOnSelection;
+        }
+
+        await SavePersonChangesAsync();
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -373,53 +574,318 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _ => ConsumptionCategory.Full
         };
 
+    private string? ResolveSelectedHouseholdName()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedResponsibleParticipantName))
+        {
+            return null;
+        }
+
+        if (!IsEligibleResponsibleParticipantName(SelectedResponsibleParticipantName))
+        {
+            return null;
+        }
+
+        var responsible = People.FirstOrDefault(person =>
+            string.Equals(person.Name, SelectedResponsibleParticipantName, StringComparison.OrdinalIgnoreCase));
+        return responsible?.HouseholdName ?? responsible?.Name;
+    }
+
+    private GroupPersonEditorViewModel? GetSelectedPersonForEdit()
+    {
+        return People.FirstOrDefault(person =>
+            string.Equals(person.ParticipantId, _selectedPersonParticipantId, StringComparison.Ordinal));
+    }
+
+    private static IReadOnlyList<GroupPersonEditorViewModel> BuildPeopleViewModels(IReadOnlyList<GroupMemberModel> members)
+    {
+        var memberCountsByResponsibility = members
+            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.Count(), StringComparer.Ordinal);
+
+        var ownerNameByResponsibility = members
+            .Where(member => member.IsOwner)
+            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.First().Name, StringComparer.Ordinal);
+
+        return members
+            .OrderBy(member => member.Name, StringComparer.OrdinalIgnoreCase)
+            .Select(member => new GroupPersonEditorViewModel(
+                member.ParticipantId,
+                member.Name,
+                member.HouseholdName,
+                false,
+                ResolveRelationshipText(member, memberCountsByResponsibility, ownerNameByResponsibility),
+                ResolveIsDependent(member, memberCountsByResponsibility),
+                member.IsOwner,
+                member.ConsumptionCategory,
+                member.CustomConsumptionWeight))
+            .ToArray();
+    }
+
+    private static string ResolveRelationshipText(
+        GroupMemberModel member,
+        IReadOnlyDictionary<string, int> memberCountsByResponsibility,
+        IReadOnlyDictionary<string, string> ownerNameByResponsibility)
+    {
+        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
+        {
+            return AppResources.GroupDetails_ResponsibilityIndependent;
+        }
+
+        if (member.IsOwner)
+        {
+            var dependents = Math.Max(0, peopleInResponsibility - 1);
+            return dependents == 0
+                ? AppResources.GroupDetails_ResponsibilityIndependent
+                : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents);
+        }
+
+        var ownerName = ownerNameByResponsibility.TryGetValue(member.HouseholdName, out var owner)
+            ? owner
+            : member.HouseholdName;
+        return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, ownerName);
+    }
+
+    private static bool ResolveIsDependent(GroupMemberModel member, IReadOnlyDictionary<string, int> memberCountsByResponsibility)
+    {
+        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
+        {
+            return false;
+        }
+
+        return !member.IsOwner && peopleInResponsibility > 1;
+    }
+
+    private void RebuildDraftPeopleRelationships()
+    {
+        if (!IsCreateMode || People.Count == 0)
+        {
+            return;
+        }
+
+        var peopleSnapshot = People.ToArray();
+        var ownerByResponsibility = peopleSnapshot
+            .Where(person => !string.IsNullOrWhiteSpace(person.HouseholdName))
+            .GroupBy(person => person.HouseholdName!, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+
+        var rebuilt = peopleSnapshot
+            .Select(person =>
+            {
+                if (string.IsNullOrWhiteSpace(person.HouseholdName))
+                {
+                    return person with
+                    {
+                        RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent,
+                        IsDependent = false,
+                        IsOwner = true
+                    };
+                }
+
+                var owner = ownerByResponsibility.TryGetValue(person.HouseholdName, out var responsibilityOwner)
+                    ? responsibilityOwner
+                    : null;
+                if (owner is null || ReferenceEquals(owner, person))
+                {
+                    var dependents = peopleSnapshot.Count(candidate =>
+                        string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
+                    return person with
+                    {
+                        RelationshipText = dependents <= 0
+                            ? AppResources.GroupDetails_ResponsibilityIndependent
+                            : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents),
+                        IsDependent = false,
+                        IsOwner = true
+                    };
+                }
+
+                return person with
+                {
+                    RelationshipText = string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name),
+                    IsDependent = true,
+                    IsOwner = false
+                };
+            })
+            .ToArray();
+
+        People.Clear();
+        foreach (var person in rebuilt)
+        {
+            People.Add(person);
+        }
+    }
+
+    private void RebuildResponsibleParticipantOptions()
+    {
+        var previousSelection = SelectedResponsibleParticipantName;
+        ResponsibleParticipantOptions.Clear();
+        var peopleSnapshot = People.ToArray();
+        foreach (var candidate in peopleSnapshot
+                     .Where(person => !person.IsDependent)
+                     .Select(person => person.Name)
+                     .Distinct(StringComparer.OrdinalIgnoreCase)
+                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
+        {
+            ResponsibleParticipantOptions.Add(candidate);
+        }
+
+        SelectedResponsibleParticipantName = previousSelection is not null
+            && IsEligibleResponsibleParticipantName(previousSelection)
+            ? previousSelection
+            : null;
+
+        OnPropertyChanged(nameof(ResponsibleParticipantOptions));
+        OnPropertyChanged(nameof(SelectedResponsibleParticipantName));
+    }
+
+    private bool IsEligibleResponsibleParticipantName(string name)
+        => new HashSet<string>(ResponsibleParticipantOptions, StringComparer.OrdinalIgnoreCase).Contains(name);
+
+    private void OpenPersonEditor(GroupPersonEditorViewModel person)
+    {
+        _selectedPersonParticipantId = person.ParticipantId;
+        EditPersonName = person.Name;
+        RebuildEditResponsibleParticipantOptions(person);
+        EditSelectedResponsibleParticipantName = ResolveCurrentResponsibleName(person);
+        CanChangeSelectedPersonDependency = CanEditDependency(person);
+        EditPersonDependencyStatusText = CanChangeSelectedPersonDependency
+            ? string.Empty
+            : AppResources.GroupDetails_EditDependencyLockedHint;
+        NotifyPersonEditorProperties();
+    }
+
+    private bool CanEditDependency(GroupPersonEditorViewModel person)
+    {
+        if (!person.IsOwner || string.IsNullOrWhiteSpace(person.HouseholdName))
+        {
+            return true;
+        }
+
+        return !People.Any(candidate =>
+            candidate.IsDependent
+            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private string? ResolveCurrentResponsibleName(GroupPersonEditorViewModel person)
+    {
+        if (string.IsNullOrWhiteSpace(person.HouseholdName) || person.IsOwner)
+        {
+            return null;
+        }
+
+        var owner = People.FirstOrDefault(candidate =>
+            candidate.IsOwner
+            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
+        return owner?.Name;
+    }
+
+    private void RebuildEditResponsibleParticipantOptions(GroupPersonEditorViewModel selectedPerson)
+    {
+        EditResponsibleParticipantOptions.Clear();
+        foreach (var option in People
+                     .Where(person => !person.IsDependent
+                                      && !string.Equals(person.ParticipantId, selectedPerson.ParticipantId, StringComparison.Ordinal))
+                     .Select(person => person.Name)
+                     .Distinct(StringComparer.OrdinalIgnoreCase)
+                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
+        {
+            EditResponsibleParticipantOptions.Add(option);
+        }
+    }
+
+    private string? ResolveEditResponsibleParticipantId(GroupPersonEditorViewModel selectedPerson)
+    {
+        if (!CanChangeSelectedPersonDependency)
+        {
+            return ResolveCurrentResponsibleParticipantId(selectedPerson);
+        }
+
+        if (string.IsNullOrWhiteSpace(EditSelectedResponsibleParticipantName))
+        {
+            return null;
+        }
+
+        var responsible = People.FirstOrDefault(person =>
+            !person.IsDependent
+            && !string.Equals(person.ParticipantId, selectedPerson.ParticipantId, StringComparison.Ordinal)
+            && string.Equals(person.Name, EditSelectedResponsibleParticipantName, StringComparison.OrdinalIgnoreCase));
+        return responsible?.ParticipantId;
+    }
+
+    private string? ResolveCurrentResponsibleParticipantId(GroupPersonEditorViewModel selectedPerson)
+    {
+        if (string.IsNullOrWhiteSpace(selectedPerson.HouseholdName))
+        {
+            return null;
+        }
+
+        var owner = People.FirstOrDefault(candidate =>
+            candidate.IsOwner
+            && string.Equals(candidate.HouseholdName, selectedPerson.HouseholdName, StringComparison.OrdinalIgnoreCase));
+        return owner?.ParticipantId;
+    }
+
+    private void ResetPersonEditor()
+    {
+        _selectedPersonParticipantId = null;
+        EditPersonName = string.Empty;
+        EditSelectedResponsibleParticipantName = null;
+        EditResponsibleParticipantOptions.Clear();
+        CanChangeSelectedPersonDependency = true;
+        EditPersonDependencyStatusText = string.Empty;
+    }
+
     private void NotifyAllProperties()
     {
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(SelectedCurrency));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
+        OnPropertyChanged(nameof(CanManagePeople));
         OnPropertyChanged(nameof(CanExport));
         OnPropertyChanged(nameof(CanArchive));
         OnPropertyChanged(nameof(PageTitle));
         OnPropertyChanged(nameof(PageSubtitle));
         OnPropertyChanged(nameof(SaveButtonText));
         NotifyAddPersonProperties();
+        NotifyPersonEditorProperties();
         OnPropertyChanged(nameof(StatusText));
     }
 
     private void NotifyAddPersonProperties()
     {
         OnPropertyChanged(nameof(NewPersonName));
-        OnPropertyChanged(nameof(NewHouseholdName));
+        OnPropertyChanged(nameof(SelectedResponsibleParticipantName));
+        OnPropertyChanged(nameof(ResponsibleParticipantOptions));
         OnPropertyChanged(nameof(SelectedConsumption));
         OnPropertyChanged(nameof(NewCustomWeight));
         OnPropertyChanged(nameof(IsCustomConsumption));
         OnPropertyChanged(nameof(StatusText));
     }
+
+    private void NotifyPersonEditorProperties()
+    {
+        OnPropertyChanged(nameof(EditPersonName));
+        OnPropertyChanged(nameof(EditSelectedResponsibleParticipantName));
+        OnPropertyChanged(nameof(EditResponsibleParticipantOptions));
+        OnPropertyChanged(nameof(CanChangeSelectedPersonDependency));
+        OnPropertyChanged(nameof(EditPersonDependencyStatusText));
+        OnPropertyChanged(nameof(IsEditPersonDependencyStatusVisible));
+    }
 }
 
 public sealed record GroupPersonEditorViewModel(
+    string? ParticipantId,
     string Name,
-    string? HouseholdName,  // null or empty means "settles on own" — avoids localized-string comparison
+    string? HouseholdName,  // null or empty means "independent"
     bool CanRemove,
-    bool IsOwner = false,
+    string RelationshipText,
+    bool IsDependent,
+    bool IsOwner,
     string ConsumptionCategory = "FULL",
     string? CustomConsumptionWeight = null)
 {
-    /// <summary>Shows "Payer" for the economic unit owner, "Dependent" for other members of a shared household.
-    /// Only shown in edit mode (items loaded from the database, not items staged in create mode).</summary>
-    public bool ShowRoleBadge => !CanRemove;
-
-    public string RoleBadge => IsOwner
-        ? AppResources.GroupDetails_PersonIsOwner
-        : AppResources.GroupDetails_PersonIsDependent;
-
-    /// <summary>Display text for the household column. Falls back to the localized "Settles on their own" sentinel when no household name is set.</summary>
-    public string HouseholdText => string.IsNullOrEmpty(HouseholdName)
-        ? AppResources.GroupDetails_SettlesOnOwn
-        : HouseholdName;
-
     public string ConsumptionLabel => ConsumptionCategory switch
     {
         "HALF" => AppResources.GroupDetails_ConsumptionHalf,

@@ -117,7 +117,10 @@
     <value>People</value>
   </data>
   <data name="GroupDetails_HouseholdHint" xml:space="preserve">
-    <value>Leave blank to settle independently. Enter the same household name for family members who should settle together under one payer.</value>
+    <value>Leave blank for independent participants. Use the same name to group dependents under one responsible participant.</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>Each person is independent by default. Shared responsibility does not change who can pay.</value>
   </data>
   <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
     <value>No people yet.</value>
@@ -131,11 +134,32 @@
   <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Alex</value>
   </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>Enter person name</value>
+  </data>
   <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
-    <value>Household or family (optional)</value>
+    <value>Responsibility name (optional)</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>Responsibility name (optional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>Depends on (optional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>Independent (default)</value>
   </data>
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
     <value>Add person</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>Manage person</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>Save person</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>This person is currently responsible for others. Update dependents first to change responsibility.</value>
   </data>
   <data name="GroupDetails_CreateButton" xml:space="preserve">
     <value>Create group</value>
@@ -177,13 +201,22 @@
     <value>e.g. 0.5</value>
   </data>
   <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
-    <value>Payer</value>
+    <value>Responsible</value>
   </data>
   <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
     <value>Dependent</value>
   </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>independent</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>depends on {0}</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>responsible for {0} people</value>
+  </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Add the payer first. Then add family members with the same household name — they will settle under the payer.</value>
+    <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
   </data>
   <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
     <value>Settles on their own</value>
@@ -193,6 +226,9 @@
   </data>
   <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
     <value>Person added to the new group.</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>Person updated.</value>
   </data>
   <data name="GroupDetails_Remove" xml:space="preserve">
     <value>Remove</value>
@@ -232,6 +268,9 @@
   <data name="AddEvent_PaidBy" xml:space="preserve">
     <value>Paid by</value>
   </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>Any participant can be payer, regardless of responsibility.</value>
+  </data>
   <data name="AddEvent_WhoJoined" xml:space="preserve">
     <value>Who joined?</value>
   </data>
@@ -254,6 +293,12 @@
   </data>
   <data name="Settlement_Subtitle" xml:space="preserve">
     <value>Record payments only when money actually changes hands.</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>Settlement is participant-based so reimbursements go to who actually paid.</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>Responsibility summary (readability)</value>
   </data>
   <data name="Settlement_EmptyTitle" xml:space="preserve">
     <value>Everyone is even.</value>
@@ -329,6 +374,9 @@
   <data name="Validation_PersonNameRequired" xml:space="preserve">
     <value>Person name is required.</value>
   </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>Person name must be unique in this group.</value>
+  </data>
   <data name="Validation_GroupNotFound" xml:space="preserve">
     <value>Group not found.</value>
   </data>
@@ -346,6 +394,18 @@
   </data>
   <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
     <value>Custom weight is required when consumption is set to Custom.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>This group is archived and read-only.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>Person not found.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>Responsible person not found.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>A person cannot depend on themselves.</value>
   </data>
 
   <!-- Archived groups -->
@@ -422,7 +482,10 @@
     <value>Custom amounts for {0}</value>
   </data>
   <data name="Mapper_HouseholdOf" xml:space="preserve">
-    <value>{0}'s household</value>
+    <value>{0}'s responsibility</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>{0}'s responsibility</value>
   </data>
   <data name="Mapper_PaymentTitle" xml:space="preserve">
     <value>Payment</value>
