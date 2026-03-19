@@ -96,6 +96,11 @@ public partial class HomePage : ContentPage
     {
         await Shell.Current.GoToAsync(AppRoutes.GroupSwitcher);
     }
+
+    private async void OnNewGroupClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
+    }
 }
 
 public sealed record HomeBalanceRowViewModel(string ParticipantId, string Name, string AmountText, Color AmountColor);

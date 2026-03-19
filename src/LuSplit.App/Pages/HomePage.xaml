@@ -9,10 +9,26 @@
         <Grid RowDefinitions="*,Auto,Auto" RowSpacing="0">
             <ScrollView>
                 <VerticalStackLayout Padding="16,16,16,8" Spacing="10">
-                    <HorizontalStackLayout Spacing="4">
-                        <Button Text="{Binding GroupName}" Style="{StaticResource SecondaryButton}" Clicked="OnOpenGroupSwitcherClicked" />
-                        <Label Text="▾" Style="{StaticResource BodyText}" VerticalTextAlignment="Center" />
-                    </HorizontalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Button Grid.Column="0"
+                                Text="{Binding GroupName, StringFormat='{}{0} ▾'}"
+                                Style="{StaticResource SecondaryButton}"
+                                Padding="12,8"
+                                MinimumHeightRequest="36"
+                                CornerRadius="16"
+                                HorizontalOptions="Start"
+                                Clicked="OnOpenGroupSwitcherClicked" />
+                        <Button Grid.Column="1"
+                                Text="+ New"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource TextOnDark}}"
+                                FontFamily="BrandMedium"
+                                FontSize="14"
+                                Padding="6,8"
+                                MinimumHeightRequest="36"
+                                MinimumWidthRequest="0"
+                                Clicked="OnNewGroupClicked" />
+                    </Grid>
                     <VerticalStackLayout Spacing="2">
                         <Label Text="{Binding GroupMetaText}" Style="{StaticResource BodyMuted}" />
                         <Label Text="{Binding TotalUnsettledText}" Style="{StaticResource BodyText}" />

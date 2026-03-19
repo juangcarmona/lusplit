@@ -586,7 +586,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             return null;
         }
 
-        if (!IsEligibleResponsibleParticipantName(SelectedResponsibleParticipantName))
+        if (!GroupDetailsDependencyService.IsEligibleResponsibleParticipantName(SelectedResponsibleParticipantName, ResponsibleParticipantOptions))
         {
             return null;
         }
@@ -609,56 +609,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             return;
         }
 
-        var peopleSnapshot = People.ToArray();
-        var ownerByResponsibility = peopleSnapshot
-            .Where(person => !string.IsNullOrWhiteSpace(person.HouseholdName))
-            .GroupBy(person => person.HouseholdName!, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
-
-        var rebuilt = peopleSnapshot
-            .Select(person =>
-            {
-                if (string.IsNullOrWhiteSpace(person.HouseholdName))
-                {
-                    return person with
-                    {
-                        RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent,
-                        IsDependent = false,
-                        IsOwner = true
-                    };
-                }
-
-                var owner = ownerByResponsibility.TryGetValue(person.HouseholdName, out var responsibilityOwner)
-                    ? responsibilityOwner
-                    : null;
-                if (owner is null || ReferenceEquals(owner, person))
-                {
-                    var dependentNames = peopleSnapshot
-                        .Where(candidate =>
-                            !ReferenceEquals(candidate, person)
-                            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase))
-                        .Select(candidate => candidate.Name)
-                        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
-                        .ToArray();
-                    var dependents = dependentNames.Length;
-                    return person with
-                    {
-                        RelationshipText = dependents <= 0
-                            ? AppResources.GroupDetails_DependencyIndependent
-                            : string.Format(AppResources.GroupDetails_DependencyResponsibleForFormat, string.Join(", ", dependentNames)),
-                        IsDependent = false,
-                        IsOwner = true
-                    };
-                }
-
-                return person with
-                {
-                    RelationshipText = string.Format(AppResources.GroupDetails_DependencyDependsOnFormat, owner.Name),
-                    IsDependent = true,
-                    IsOwner = false
-                };
-            })
-            .ToArray();
+        var rebuilt = GroupDetailsDependencyService.RebuildDraftPeopleRelationships(People.ToArray());
 
         People.Clear();
         foreach (var person in rebuilt)
@@ -671,27 +622,19 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     {
         var previousSelection = SelectedResponsibleParticipantName;
         ResponsibleParticipantOptions.Clear();
-        var peopleSnapshot = People.ToArray();
-        foreach (var candidate in peopleSnapshot
-                     .Where(person => !person.IsDependent)
-                     .Select(person => person.Name)
-                     .Distinct(StringComparer.OrdinalIgnoreCase)
-                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
+        foreach (var candidate in GroupDetailsDependencyService.BuildResponsibleParticipantOptions(People.ToArray()))
         {
             ResponsibleParticipantOptions.Add(candidate);
         }
 
         SelectedResponsibleParticipantName = previousSelection is not null
-            && IsEligibleResponsibleParticipantName(previousSelection)
+            && GroupDetailsDependencyService.IsEligibleResponsibleParticipantName(previousSelection, ResponsibleParticipantOptions)
             ? previousSelection
             : null;
 
         OnPropertyChanged(nameof(ResponsibleParticipantOptions));
         OnPropertyChanged(nameof(SelectedResponsibleParticipantName));
     }
-
-    private bool IsEligibleResponsibleParticipantName(string name)
-        => new HashSet<string>(ResponsibleParticipantOptions, StringComparer.OrdinalIgnoreCase).Contains(name);
 
     private void OpenPersonEditor(GroupPersonEditorViewModel person)
     {
@@ -707,39 +650,17 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     }
 
     private bool CanEditDependency(GroupPersonEditorViewModel person)
-    {
-        if (!person.IsOwner || string.IsNullOrWhiteSpace(person.HouseholdName))
-        {
-            return true;
-        }
-
-        return !People.Any(candidate =>
-            candidate.IsDependent
-            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
-    }
+        => GroupDetailsDependencyService.CanEditDependency(person, People.ToArray());
 
     private string? ResolveCurrentResponsibleName(GroupPersonEditorViewModel person)
     {
-        if (string.IsNullOrWhiteSpace(person.HouseholdName) || person.IsOwner)
-        {
-            return null;
-        }
-
-        var owner = People.FirstOrDefault(candidate =>
-            candidate.IsOwner
-            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
-        return owner?.Name;
+        return GroupDetailsDependencyService.ResolveCurrentResponsibleName(person, People.ToArray());
     }
 
     private void RebuildEditResponsibleParticipantOptions(GroupPersonEditorViewModel selectedPerson)
     {
         EditResponsibleParticipantOptions.Clear();
-        foreach (var option in People
-                     .Where(person => !person.IsDependent
-                                      && !string.Equals(person.ParticipantId, selectedPerson.ParticipantId, StringComparison.Ordinal))
-                     .Select(person => person.Name)
-                     .Distinct(StringComparer.OrdinalIgnoreCase)
-                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
+        foreach (var option in GroupDetailsDependencyService.BuildEditResponsibleParticipantOptions(selectedPerson, People.ToArray()))
         {
             EditResponsibleParticipantOptions.Add(option);
         }
@@ -747,57 +668,21 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private string? ResolveEditResponsibleParticipantId(GroupPersonEditorViewModel selectedPerson)
     {
-        if (!CanChangeSelectedPersonDependency)
-        {
-            return ResolveCurrentResponsibleParticipantId(selectedPerson);
-        }
-
-        if (string.IsNullOrWhiteSpace(EditSelectedResponsibleParticipantName))
-        {
-            return null;
-        }
-
-        var responsible = People.FirstOrDefault(person =>
-            !person.IsDependent
-            && !string.Equals(person.ParticipantId, selectedPerson.ParticipantId, StringComparison.Ordinal)
-            && string.Equals(person.Name, EditSelectedResponsibleParticipantName, StringComparison.OrdinalIgnoreCase));
-        return responsible?.ParticipantId;
+        return GroupDetailsDependencyService.ResolveEditResponsibleParticipantId(
+            selectedPerson,
+            EditSelectedResponsibleParticipantName,
+            CanChangeSelectedPersonDependency,
+            People.ToArray());
     }
 
     private string? ResolveCurrentResponsibleParticipantId(GroupPersonEditorViewModel selectedPerson)
     {
-        if (string.IsNullOrWhiteSpace(selectedPerson.HouseholdName))
-        {
-            return null;
-        }
-
-        var owner = People.FirstOrDefault(candidate =>
-            candidate.IsOwner
-            && string.Equals(candidate.HouseholdName, selectedPerson.HouseholdName, StringComparison.OrdinalIgnoreCase));
-        return owner?.ParticipantId;
+        return GroupDetailsDependencyService.ResolveCurrentResponsibleParticipantId(selectedPerson, People.ToArray());
     }
 
     private bool IsCircularSelection(GroupPersonEditorViewModel selectedPerson, string selectedResponsibleName)
     {
-        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { selectedPerson.Name };
-        var cursor = selectedResponsibleName;
-        while (!string.IsNullOrWhiteSpace(cursor))
-        {
-            if (!visited.Add(cursor))
-            {
-                return true;
-            }
-
-            var cursorPerson = People.FirstOrDefault(person => string.Equals(person.Name, cursor, StringComparison.OrdinalIgnoreCase));
-            if (cursorPerson is null || string.IsNullOrWhiteSpace(cursorPerson.HouseholdName) || cursorPerson.IsOwner)
-            {
-                break;
-            }
-
-            cursor = ResolveCurrentResponsibleName(cursorPerson);
-        }
-
-        return false;
+        return GroupDetailsDependencyService.IsCircularSelection(selectedPerson, selectedResponsibleName, People.ToArray());
     }
 
     private void ResetPersonEditor()
