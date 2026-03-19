@@ -7,11 +7,11 @@
              Title="{x:Static loc:AppResources.Settlement_Title}">
     <Grid RowDefinitions="*,Auto">
 
-        <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="0">
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
             <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
                 <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{x:Static loc:AppResources.Settlement_Subtitle}" Style="{StaticResource BodyMuted}" />
-                <Label Text="{Binding SettlementModeHint}" Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.Settlement_ParticipantFairnessHint}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
@@ -36,26 +36,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <VerticalStackLayout Grid.Row="2"
-                                 Margin="20,12,20,0"
-                                 Spacing="8"
-                                 IsVisible="{Binding ShowResponsibilitySummary}">
-                <Label Text="{x:Static loc:AppResources.Settlement_ResponsibilitySummaryTitle}" Style="{StaticResource SectionTitle}" />
-                <CollectionView ItemsSource="{Binding ResponsibilitySummary}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource ExpenseItemBorder}">
-                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                    <Label Text="{Binding Text}" Style="{StaticResource BodyMuted}" />
-                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
-
-            <Button Grid.Row="3"
+            <Button Grid.Row="2"
                 Margin="20,12,20,20"
                 Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
                 Clicked="OnRecordPaymentClicked" />

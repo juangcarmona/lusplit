@@ -10,22 +10,21 @@ public partial class AddExpensePage : ContentPage
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
-    private readonly List<EconomicUnitModel> _economicUnits = new();
-    private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, ParticipantModel> _participantById = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> _ownerByParticipantId = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.OrdinalIgnoreCase);
+    private string _currency = "USD";
 
     public ObservableCollection<string> PayerNames { get; } = new();
-
     public ObservableCollection<ParticipantOptionViewModel> ParticipantOptions { get; } = new();
+    public ObservableCollection<SplitPreviewRowViewModel> SplitPreview { get; } = new();
 
     public string ExpenseTitle { get; set; } = string.Empty;
-
     public string AmountText { get; set; } = string.Empty;
-
     public DateTime ExpenseDate { get; set; } = DateTime.Today;
-
     public string? SelectedPayerName { get; set; }
-
     public string StatusText { get; set; } = "";
+    public bool CanSave { get; private set; }
 
     public AddExpensePage(AppDataService dataService)
     {
@@ -47,30 +46,43 @@ public partial class AddExpensePage : ContentPage
     {
         var overview = await _dataService.GetOverviewAsync();
         var participants = overview.Participants;
-        var units = overview.EconomicUnits;
+        var unitsById = overview.EconomicUnits.ToDictionary(unit => unit.Id, StringComparer.Ordinal);
         var defaults = _dataService.GetEventDraftDefaults();
+        _currency = overview.Group.Currency;
         _participants.Clear();
         _participants.AddRange(participants);
-        _economicUnits.Clear();
-        _economicUnits.AddRange(units);
+        _participantById.Clear();
+        _ownerByParticipantId.Clear();
 
         PayerNames.Clear();
         ParticipantOptions.Clear();
+        SplitPreview.Clear();
         _payerParticipantIdByLabel.Clear();
 
         foreach (var participant in participants)
         {
-            var label = BuildParticipantLabel(participant, participants, units);
-            PayerNames.Add(label);
-            _payerParticipantIdByLabel[label] = participant.Id;
+            _participantById[participant.Id] = participant;
+            var ownerId = unitsById.TryGetValue(participant.EconomicUnitId, out var unit)
+                ? unit.OwnerParticipantId
+                : participant.Id;
+            _ownerByParticipantId[participant.Id] = ownerId;
+            PayerNames.Add(participant.Name);
+            _payerParticipantIdByLabel[participant.Name] = participant.Id;
             var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
-            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, label, isSelected));
+            ParticipantOptions.Add(new ParticipantOptionViewModel(
+                participant.Id,
+                participant.Name,
+                ownerId,
+                string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
+                DescribeRelationshipHint(participant, participants, unitsById),
+                isSelected));
         }
 
         SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal)) is { } selectedPayer
-            ? BuildParticipantLabel(selectedPayer, participants, units)
+            ? selectedPayer.Name
             : PayerNames.FirstOrDefault();
         OnPropertyChanged(nameof(SelectedPayerName));
+        RecalculateSplitPreview();
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -112,8 +124,12 @@ public partial class AddExpensePage : ContentPage
 
             await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants, null);
             StatusText = AppResources.AddEvent_Saved;
+            ExpenseTitle = string.Empty;
+            AmountText = string.Empty;
             OnPropertyChanged(nameof(ExpenseTitle));
+            OnPropertyChanged(nameof(AmountText));
             OnPropertyChanged(nameof(StatusText));
+            RecalculateSplitPreview();
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
@@ -123,13 +139,33 @@ public partial class AddExpensePage : ContentPage
         }
     }
 
-    private void OnQuickChoiceClicked(object? sender, EventArgs e)
+    private void OnParticipantCheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
-        if (sender is Button { CommandParameter: string value } && !string.IsNullOrWhiteSpace(value))
+        if (sender is not CheckBox { BindingContext: ParticipantOptionViewModel option })
         {
-            ExpenseTitle = value;
-            OnPropertyChanged(nameof(ExpenseTitle));
+            return;
         }
+
+        if (option.IsOwner && e.Value)
+        {
+            foreach (var dependent in ParticipantOptions.Where(candidate =>
+                         !candidate.IsOwner && string.Equals(candidate.OwnerId, option.Id, StringComparison.Ordinal)))
+            {
+                dependent.IsSelected = true;
+            }
+        }
+
+        RecalculateSplitPreview();
+    }
+
+    private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
+    {
+        RecalculateSplitPreview();
+    }
+
+    private void OnAmountTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        RecalculateSplitPreview();
     }
 
     private static bool TryParseAmount(string text, out long amountMinor)
@@ -146,24 +182,61 @@ public partial class AddExpensePage : ContentPage
         return false;
     }
 
-    private static string BuildParticipantLabel(
-        ParticipantModel participant,
-        IReadOnlyList<ParticipantModel> participants,
-        IReadOnlyList<EconomicUnitModel> units)
+    private void RecalculateSplitPreview()
     {
-        var relationship = DescribeResponsibilityRelationship(participant, participants, units);
-        return $"{participant.Name} ({relationship})";
+        SplitPreview.Clear();
+        StatusText = string.Empty;
+        OnPropertyChanged(nameof(StatusText));
+
+        var selected = ParticipantOptions.Where(option => option.IsSelected).ToArray();
+        if (selected.Length == 0 || !TryParseAmount(AmountText, out var amountMinor))
+        {
+            CanSave = false;
+            OnPropertyChanged(nameof(CanSave));
+            return;
+        }
+
+        var shareMinor = amountMinor / selected.Length;
+        var remainder = (int)(amountMinor % selected.Length);
+
+        for (var index = 0; index < selected.Length; index++)
+        {
+            var option = selected[index];
+            var participant = _participantById[option.Id];
+            var effectiveAmount = shareMinor + (index < remainder ? 1 : 0);
+            var viaText = ResolveViaText(option);
+            SplitPreview.Add(new SplitPreviewRowViewModel(
+                participant.Name + viaText,
+                FormatMinor(effectiveAmount, _currency)));
+        }
+
+        CanSave = !string.IsNullOrWhiteSpace(ExpenseTitle.Trim());
+        OnPropertyChanged(nameof(CanSave));
     }
 
-    private static string DescribeResponsibilityRelationship(
+    private string ResolveViaText(ParticipantOptionViewModel participant)
+    {
+        if (participant.IsOwner || !_participantById.TryGetValue(participant.OwnerId, out var owner))
+        {
+            return string.Empty;
+        }
+
+        var ownerSelected = ParticipantOptions.Any(option =>
+            string.Equals(option.Id, participant.OwnerId, StringComparison.Ordinal) && option.IsSelected);
+        return ownerSelected ? string.Create(CultureInfo.CurrentCulture, $" (via {owner.Name})") : string.Empty;
+    }
+
+    private static string DescribeRelationshipHint(
         ParticipantModel participant,
         IReadOnlyList<ParticipantModel> participants,
-        IReadOnlyList<EconomicUnitModel> units)
+        IReadOnlyDictionary<string, EconomicUnitModel> unitsById)
     {
         var unitParticipants = participants
             .Where(candidate => string.Equals(candidate.EconomicUnitId, participant.EconomicUnitId, StringComparison.Ordinal))
             .ToArray();
-        var ownerId = units.FirstOrDefault(unit => string.Equals(unit.Id, participant.EconomicUnitId, StringComparison.Ordinal))?.OwnerParticipantId;
+        var ownerId = unitsById.TryGetValue(participant.EconomicUnitId, out var unit)
+            ? unit.OwnerParticipantId
+            : participant.Id;
         var owner = ownerId is null
             ? unitParticipants.FirstOrDefault()
             : unitParticipants.FirstOrDefault(candidate => string.Equals(candidate.Id, ownerId, StringComparison.Ordinal))
@@ -181,13 +254,37 @@ public partial class AddExpensePage : ContentPage
         return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name);
     }
 
+    private static string FormatMinor(long minor, string currency)
+    {
+        var amount = minor / 100m;
+        var symbol = currency.ToUpperInvariant() switch
+        {
+            "USD" => "$",
+            "EUR" => "€",
+            "GBP" => "£",
+            _ => string.Empty
+        };
+
+        return string.IsNullOrEmpty(symbol)
+            ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
+            : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
+    }
+
     public sealed class ParticipantOptionViewModel : BindableObject
     {
         private bool _isSelected;
 
         public string Id { get; }
 
-        public string DisplayName { get; }
+        public string Name { get; }
+
+        public string OwnerId { get; }
+
+        public bool IsOwner { get; }
+
+        public string RelationshipHint { get; }
+
+        public bool HasRelationshipHint => !string.IsNullOrWhiteSpace(RelationshipHint);
 
         public bool IsSelected
         {
@@ -204,11 +301,22 @@ public partial class AddExpensePage : ContentPage
             }
         }
 
-        public ParticipantOptionViewModel(string id, string displayName, bool isSelected)
+        public ParticipantOptionViewModel(
+            string id,
+            string name,
+            string ownerId,
+            bool isOwner,
+            string relationshipHint,
+            bool isSelected)
         {
             Id = id;
-            DisplayName = displayName;
+            Name = name;
+            OwnerId = ownerId;
+            IsOwner = isOwner;
+            RelationshipHint = relationshipHint;
             _isSelected = isSelected;
         }
     }
+
+    public sealed record SplitPreviewRowViewModel(string Name, string AmountText);
 }

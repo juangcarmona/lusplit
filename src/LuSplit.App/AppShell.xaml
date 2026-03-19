@@ -9,13 +9,13 @@
 
     <TabBar>
         <ShellContent
-            Title="{x:Static loc:AppResources.Groups_Title}"
+            Title="Home"
             ContentTemplate="{DataTemplate pages:HomePage}"
-            Route="groups" />
+            Route="home" />
         <ShellContent
-            Title="{x:Static loc:AppResources.Activity_Title}"
+            Title="History"
             ContentTemplate="{DataTemplate pages:ActivityPage}"
-            Route="activity" />
+            Route="history" />
         <ShellContent
             Title="{x:Static loc:AppResources.Settings_Title}"
             ContentTemplate="{DataTemplate pages:LanguageSettingsPage}"

@@ -5,6 +5,8 @@ public partial class AppShell : Shell
 	public AppShell()
 	{
 		InitializeComponent();
+		TryRegisterRoute(AppRoutes.Home, typeof(Pages.HomePage));
+		TryRegisterRoute(AppRoutes.History, typeof(Pages.ActivityPage));
 		TryRegisterRoute(AppRoutes.GroupTimeline, typeof(Pages.GroupPage));
 		TryRegisterRoute(AppRoutes.GroupDetails, typeof(Pages.GroupDetailsPage));
 		TryRegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));

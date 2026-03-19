@@ -462,8 +462,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                         StringToCategory(person.ConsumptionCategory),
                         person.CustomConsumptionWeight)).ToArray());
 
-                await Shell.Current.GoToAsync("//groups");
-                await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
+                await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
             }
             else
             {
@@ -500,7 +499,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         try
         {
             await _dataService.ArchiveGroupAsync(_groupId);
-            await Shell.Current.GoToAsync("//groups");
+            await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
         }
         catch (Exception ex)
         {
@@ -892,6 +891,8 @@ public sealed record GroupPersonEditorViewModel(
         "CUSTOM" => $"{AppResources.GroupDetails_ConsumptionCustom}: {CustomConsumptionWeight}",
         _ => AppResources.GroupDetails_ConsumptionFull
     };
+
+    public string DependencyText => RelationshipText;
 }
 
 /// <summary>

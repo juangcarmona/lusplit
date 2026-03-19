@@ -7,40 +7,23 @@
              Title="{x:Static loc:AppResources.AddEvent_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="8,8,8,8" Spacing="4">
+            <VerticalStackLayout Padding="8,8,8,8" Spacing="6">
                 <Label Text="{x:Static loc:AppResources.AddEvent_Title}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{x:Static loc:AppResources.AddEvent_Subtitle}" Style="{StaticResource BodyMuted}" />
-
-                <Label Text="{x:Static loc:AppResources.AddEvent_WhatHappened}" Style="{StaticResource SectionTitle}" />
-                <FlexLayout Wrap="Wrap" Direction="Row">
-                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickDinner}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickDinner}" />
-                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickTaxi}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickTaxi}" />
-                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickGroceries}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickGroceries}" />
-                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickTickets}" Clicked="OnQuickChoiceClicked" CommandParameter="{x:Static loc:AppResources.AddEvent_QuickTickets}" />
-                    <Button Margin="0,0,2,2" Text="{x:Static loc:AppResources.AddEvent_QuickCustom}" Clicked="OnQuickChoiceClicked" CommandParameter="" />
-                </FlexLayout>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="4">
                         <Label Text="{x:Static loc:AppResources.AddEvent_EventLabel}" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding ExpenseTitle}" Placeholder="{x:Static loc:AppResources.AddEvent_EventPlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Entry Text="{Binding ExpenseTitle}" TextChanged="OnExpenseTitleChanged" Placeholder="{x:Static loc:AppResources.AddEvent_EventPlaceholder}" ClearButtonVisibility="WhileEditing" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                    <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
-                        <VerticalStackLayout Spacing="4">
-                            <Label Text="{x:Static loc:AppResources.Common_Amount}" Style="{StaticResource FieldLabel}" />
-                            <Entry Text="{Binding AmountText}" Keyboard="Numeric" Placeholder="12.50" />
-                        </VerticalStackLayout>
-                    </Border>
-                    <Border Grid.Column="1" Style="{StaticResource FormFieldBorder}">
-                        <VerticalStackLayout Spacing="4">
-                            <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
-                            <DatePicker Date="{Binding ExpenseDate}" />
-                        </VerticalStackLayout>
-                    </Border>
-                </Grid>
+                <Border Style="{StaticResource FormFieldBorder}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{x:Static loc:AppResources.Common_Amount}" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding AmountText}" TextChanged="OnAmountTextChanged" Keyboard="Numeric" Placeholder="12.50" FontSize="22" />
+                    </VerticalStackLayout>
+                </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="4">
@@ -51,21 +34,51 @@
                 </Border>
 
                 <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
-                <Label Text="{x:Static loc:AppResources.AddEvent_EveryoneDefault}" Style="{StaticResource BodyMuted}" />
-                <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding ParticipantOptions}">
-                    <BindableLayout.ItemTemplate>
+                <Label Text="Select a person to include. Dependents follow their responsible participant." Style="{StaticResource BodyMuted}" />
+                <CollectionView ItemsSource="{Binding ParticipantOptions}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="6" HorizontalItemSpacing="6" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource ChipBorder}">
-                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                                    <CheckBox IsChecked="{Binding IsSelected}" VerticalOptions="Center" />
-                                    <Label Grid.Column="1" Text="{Binding DisplayName}" VerticalTextAlignment="Center" />
+                            <Border Style="{StaticResource ChipBorder}" Margin="0">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+                                    <CheckBox IsChecked="{Binding IsSelected}" CheckedChanged="OnParticipantCheckedChanged" VerticalOptions="Center" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding RelationshipHint}" Style="{StaticResource BodyMuted}" IsVisible="{Binding HasRelationshipHint}" />
+                                    </VerticalStackLayout>
                                 </Grid>
                             </Border>
                         </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-                <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}" Clicked="OnSaveClicked" />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border Grid.Column="0" Style="{StaticResource FormFieldBorder}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
+                            <DatePicker Date="{Binding ExpenseDate}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Label Text="Split preview" Style="{StaticResource SectionTitle}" />
+                <CollectionView ItemsSource="{Binding SplitPreview}" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="Enter amount and participants to preview." Style="{StaticResource BodyMuted}" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,2">
+                                <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
+                                <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" />
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
         </ScrollView>

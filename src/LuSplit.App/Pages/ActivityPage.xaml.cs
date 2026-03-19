@@ -7,7 +7,8 @@ public partial class ActivityPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<ActivityDayGroupViewModel> ActivityGroups { get; } = new();
+    public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
+    public string Subtitle { get; private set; } = string.Empty;
 
     public ActivityPage(AppDataService dataService)
     {
@@ -29,14 +30,17 @@ public partial class ActivityPage : ContentPage
 
     private async Task LoadAsync()
     {
-        var overview = await _dataService.GetOverviewAsync();
-        var groups = GroupPresentationMapper.BuildActivity(overview);
+        var workspace = await _dataService.GetGroupWorkspaceAsync();
+        var overview = workspace.Overview;
 
-        ActivityGroups.Clear();
-        foreach (var group in groups)
+        Events.Clear();
+        foreach (var item in GroupPresentationMapper.BuildCompactEvents(overview, workspace.ExpenseIcons))
         {
-            ActivityGroups.Add(group);
+            Events.Add(item);
         }
+
+        Subtitle = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
+        OnPropertyChanged(nameof(Subtitle));
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)

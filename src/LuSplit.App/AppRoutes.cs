@@ -2,6 +2,8 @@ namespace LuSplit.App;
 
 public static class AppRoutes
 {
+    public const string Home = "home";
+    public const string History = "history";
     public const string GroupTimeline = "group";
     public const string GroupDetails = "group-details";
     public const string AddEvent = "add-event";

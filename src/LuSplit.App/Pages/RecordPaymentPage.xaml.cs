@@ -6,10 +6,13 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class RecordPaymentPage : ContentPage
+public partial class RecordPaymentPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
+    private string? _prefillPayerId;
+    private string? _prefillReceiverId;
+    private long? _prefillAmountMinor;
 
     public ObservableCollection<string> PersonNames { get; } = new();
 
@@ -22,6 +25,9 @@ public partial class RecordPaymentPage : ContentPage
     public DateTime PaymentDate { get; set; } = DateTime.Today;
 
     public string StatusText { get; set; } = string.Empty;
+    public bool IsQuickMode { get; private set; }
+    public bool IsManualMode => !IsQuickMode;
+    public string QuickSummaryText { get; private set; } = string.Empty;
 
     public RecordPaymentPage(AppDataService dataService)
     {
@@ -39,6 +45,16 @@ public partial class RecordPaymentPage : ContentPage
         await LoadAsync();
     }
 
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        _prefillPayerId = query.TryGetValue("payerId", out var payerId) ? payerId?.ToString() : null;
+        _prefillReceiverId = query.TryGetValue("receiverId", out var receiverId) ? receiverId?.ToString() : null;
+        _prefillAmountMinor = query.TryGetValue("amountMinor", out var amountMinorRaw)
+            && long.TryParse(amountMinorRaw?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var amountMinor)
+            ? amountMinor
+            : null;
+    }
+
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
@@ -52,13 +68,27 @@ public partial class RecordPaymentPage : ContentPage
         }
 
         var suggestion = overview.SettlementByParticipant.Transfers.FirstOrDefault();
-        SelectedFromName = ResolveParticipantName(suggestion?.FromParticipantId) ?? PersonNames.FirstOrDefault();
-        SelectedToName = ResolveParticipantName(suggestion?.ToParticipantId)
+        SelectedFromName = ResolveParticipantName(_prefillPayerId ?? suggestion?.FromParticipantId) ?? PersonNames.FirstOrDefault();
+        SelectedToName = ResolveParticipantName(_prefillReceiverId ?? suggestion?.ToParticipantId)
             ?? PersonNames.Skip(SelectedFromName is null ? 0 : 1).FirstOrDefault()
             ?? PersonNames.FirstOrDefault();
+        AmountText = _prefillAmountMinor is long prefillMinor
+            ? (prefillMinor / 100m).ToString("0.00", CultureInfo.InvariantCulture)
+            : AmountText;
+
+        IsQuickMode = !string.IsNullOrWhiteSpace(_prefillPayerId)
+            && !string.IsNullOrWhiteSpace(_prefillReceiverId)
+            && _prefillAmountMinor is > 0;
+        QuickSummaryText = IsQuickMode
+            ? string.Create(CultureInfo.CurrentCulture, $"{SelectedFromName} → {SelectedToName}")
+            : string.Empty;
 
         OnPropertyChanged(nameof(SelectedFromName));
         OnPropertyChanged(nameof(SelectedToName));
+        OnPropertyChanged(nameof(AmountText));
+        OnPropertyChanged(nameof(IsQuickMode));
+        OnPropertyChanged(nameof(IsManualMode));
+        OnPropertyChanged(nameof(QuickSummaryText));
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)

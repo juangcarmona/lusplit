@@ -42,14 +42,14 @@ public partial class ArchivedGroupsPage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    // Navigate to the group timeline in read-only (archived) mode.
-    // We pass the groupId as a query param so GroupPage loads that specific group
+    // Navigate to group details in read-only (archived) mode.
+    // We pass the groupId as a query param so GroupDetailsPage loads that specific group
     // WITHOUT changing the user's currently selected active group.
     private async void OnViewGroupClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await Shell.Current.GoToAsync($"{AppRoutes.GroupTimeline}?groupId={Uri.EscapeDataString(groupId)}");
+            await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?groupId={Uri.EscapeDataString(groupId)}");
         }
     }
 }
