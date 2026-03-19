@@ -9,7 +9,6 @@ public partial class HomePage : ContentPage
     private readonly AppDataService _dataService;
 
     public ObservableCollection<HomeBalanceRowViewModel> Balances { get; } = new();
-    public ObservableCollection<HomeSettlementRowViewModel> SettlementSuggestions { get; } = new();
     public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
 
     public string GroupName { get; private set; } = string.Empty;
@@ -56,15 +55,6 @@ public partial class HomePage : ContentPage
                     : (Color)Application.Current!.Resources["ErrorSoftRed"]));
         }
 
-        SettlementSuggestions.Clear();
-        foreach (var suggestion in GroupPresentationMapper.BuildSettlementSuggestions(overview))
-        {
-            SettlementSuggestions.Add(new HomeSettlementRowViewModel(
-                suggestion.Text,
-                suggestion.AmountText,
-                $"payerId={Uri.EscapeDataString(suggestion.FromParticipantId)}&receiverId={Uri.EscapeDataString(suggestion.ToParticipantId)}&amountMinor={suggestion.AmountMinor}"));
-        }
-
         Events.Clear();
         foreach (var item in GroupPresentationMapper.BuildCompactEvents(overview, workspace.ExpenseIcons))
         {
@@ -93,7 +83,7 @@ public partial class HomePage : ContentPage
 
     private async void OnPayClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+        await Shell.Current.GoToAsync(AppRoutes.Settlement);
     }
 
     private async void OnViewArchivedClicked(object? sender, EventArgs e)
@@ -101,15 +91,10 @@ public partial class HomePage : ContentPage
         await Shell.Current.GoToAsync(AppRoutes.ArchivedGroups);
     }
 
-    private async void OnPaySuggestionClicked(object? sender, EventArgs e)
+    private async void OnOpenGroupSwitcherClicked(object? sender, EventArgs e)
     {
-        if (sender is Button { CommandParameter: string query } && !string.IsNullOrWhiteSpace(query))
-        {
-            await Shell.Current.GoToAsync($"{AppRoutes.RecordPayment}?{query}");
-        }
+        await Shell.Current.GoToAsync(AppRoutes.GroupSwitcher);
     }
 }
 
 public sealed record HomeBalanceRowViewModel(string ParticipantId, string Name, string AmountText, Color AmountColor);
-
-public sealed record HomeSettlementRowViewModel(string Text, string AmountText, string CommandParameter);

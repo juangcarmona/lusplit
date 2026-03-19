@@ -29,12 +29,10 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="{x:Static loc:AppResources.AddEvent_PaidBy}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName}" />
-                        <Label Text="{x:Static loc:AppResources.AddEvent_PayerHint}" Style="{StaticResource BodyMuted}" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
-                <Label Text="{x:Static loc:AppResources.AddEvent_ParticipantHint}" Style="{StaticResource BodyMuted}" />
                 <CollectionView ItemsSource="{Binding ParticipantOptions}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="6" HorizontalItemSpacing="6" />

@@ -28,6 +28,9 @@
                     <DataTemplate>
                         <Border Style="{StaticResource ExpenseItemBorder}">
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnSuggestionTapped" />
+                                </Grid.GestureRecognizers>
                                 <Label Text="{Binding Text}" Style="{StaticResource CardTitle}" />
                                 <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
                             </Grid>
@@ -35,11 +38,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <Button Grid.Row="2"
-                Margin="20,12,20,20"
-                Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
-                Clicked="OnRecordPaymentClicked" />
         </Grid>
 
         <Border Grid.Row="1"

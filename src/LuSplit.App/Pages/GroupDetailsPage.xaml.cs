@@ -373,6 +373,14 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 return;
             }
 
+            if (!string.IsNullOrWhiteSpace(EditSelectedResponsibleParticipantName)
+                && IsCircularSelection(selectedPerson, EditSelectedResponsibleParticipantName))
+            {
+                StatusText = "Circular dependency is not allowed.";
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             var dependsOnParticipantId = ResolveEditResponsibleParticipantId(selectedPerson);
             await _dataService.UpdateGroupMemberAsync(_groupId, selectedPerson.ParticipantId, normalizedName, dependsOnParticipantId);
             StatusText = AppResources.GroupDetails_PersonUpdated;
@@ -403,25 +411,23 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
         EditPersonName = editedName.Trim();
 
-        if (CanChangeSelectedPersonDependency)
+        var dependencyOptions = new[] { "Independent" }.Concat(EditResponsibleParticipantOptions).ToArray();
+        var dependsOnSelection = await DisplayActionSheetAsync(
+            AppResources.GroupDetails_DependsOnLabel,
+            AppResources.Common_Cancel,
+            null,
+            dependencyOptions);
+
+        if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
         {
-            var dependsOnSelection = await DisplayActionSheetAsync(
-                AppResources.GroupDetails_DependsOnLabel,
-                AppResources.Common_Cancel,
-                AppResources.GroupDetails_DependsOnPlaceholder,
-                EditResponsibleParticipantOptions.ToArray());
-
-            if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
-            {
-                ResetPersonEditor();
-                NotifyPersonEditorProperties();
-                return;
-            }
-
-            EditSelectedResponsibleParticipantName = string.Equals(dependsOnSelection, AppResources.GroupDetails_DependsOnPlaceholder, StringComparison.Ordinal)
-                ? null
-                : dependsOnSelection;
+            ResetPersonEditor();
+            NotifyPersonEditorProperties();
+            return;
         }
+
+        EditSelectedResponsibleParticipantName = string.Equals(dependsOnSelection, "Independent", StringComparison.Ordinal)
+            ? null
+            : dependsOnSelection;
 
         await SavePersonChangesAsync();
     }
@@ -598,14 +604,18 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private static IReadOnlyList<GroupPersonEditorViewModel> BuildPeopleViewModels(IReadOnlyList<GroupMemberModel> members)
     {
-        var memberCountsByResponsibility = members
-            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
-            .ToDictionary(group => group.Key, group => group.Count(), StringComparer.Ordinal);
-
         var ownerNameByResponsibility = members
             .Where(member => member.IsOwner)
             .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
             .ToDictionary(group => group.Key, group => group.First().Name, StringComparer.Ordinal);
+
+        var dependentNamesByResponsibility = members
+            .Where(member => !member.IsOwner)
+            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(member => member.Name).OrderBy(name => name, StringComparer.OrdinalIgnoreCase).ToArray(),
+                StringComparer.Ordinal);
 
         return members
             .OrderBy(member => member.Name, StringComparer.OrdinalIgnoreCase)
@@ -614,8 +624,8 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 member.Name,
                 member.HouseholdName,
                 false,
-                ResolveRelationshipText(member, memberCountsByResponsibility, ownerNameByResponsibility),
-                ResolveIsDependent(member, memberCountsByResponsibility),
+                ResolveRelationshipText(member, ownerNameByResponsibility, dependentNamesByResponsibility),
+                ResolveIsDependent(member, dependentNamesByResponsibility),
                 member.IsOwner,
                 member.ConsumptionCategory,
                 member.CustomConsumptionWeight))
@@ -624,36 +634,38 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private static string ResolveRelationshipText(
         GroupMemberModel member,
-        IReadOnlyDictionary<string, int> memberCountsByResponsibility,
-        IReadOnlyDictionary<string, string> ownerNameByResponsibility)
+        IReadOnlyDictionary<string, string> ownerNameByResponsibility,
+        IReadOnlyDictionary<string, IReadOnlyList<string>> dependentNamesByResponsibility)
     {
-        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
-        {
-            return AppResources.GroupDetails_ResponsibilityIndependent;
-        }
-
         if (member.IsOwner)
         {
-            var dependents = Math.Max(0, peopleInResponsibility - 1);
-            return dependents == 0
-                ? AppResources.GroupDetails_ResponsibilityIndependent
-                : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents);
+            if (!dependentNamesByResponsibility.TryGetValue(member.HouseholdName, out var dependents) || dependents.Count == 0)
+            {
+                return "Independent";
+            }
+
+            return $"Responsible for: {string.Join(", ", dependents)}";
         }
 
-        var ownerName = ownerNameByResponsibility.TryGetValue(member.HouseholdName, out var owner)
-            ? owner
-            : member.HouseholdName;
-        return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, ownerName);
+        if (!ownerNameByResponsibility.TryGetValue(member.HouseholdName, out var ownerName))
+        {
+            return "Independent";
+        }
+
+        return $"Depends on: {ownerName}";
     }
 
-    private static bool ResolveIsDependent(GroupMemberModel member, IReadOnlyDictionary<string, int> memberCountsByResponsibility)
+    private static bool ResolveIsDependent(
+        GroupMemberModel member,
+        IReadOnlyDictionary<string, IReadOnlyList<string>> dependentNamesByResponsibility)
     {
-        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
+        if (member.IsOwner)
         {
             return false;
         }
 
-        return !member.IsOwner && peopleInResponsibility > 1;
+        return dependentNamesByResponsibility.TryGetValue(member.HouseholdName, out var dependents)
+            && dependents.Contains(member.Name, StringComparer.OrdinalIgnoreCase);
     }
 
     private void RebuildDraftPeopleRelationships()
@@ -687,13 +699,20 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                     : null;
                 if (owner is null || ReferenceEquals(owner, person))
                 {
+                    var dependentNames = peopleSnapshot
+                        .Where(candidate =>
+                            !ReferenceEquals(candidate, person)
+                            && string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase))
+                        .Select(candidate => candidate.Name)
+                        .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                        .ToArray();
                     var dependents = peopleSnapshot.Count(candidate =>
                         string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
                     return person with
                     {
                         RelationshipText = dependents <= 0
-                            ? AppResources.GroupDetails_ResponsibilityIndependent
-                            : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents),
+                            ? "Independent"
+                            : $"Responsible for: {string.Join(", ", dependentNames)}",
                         IsDependent = false,
                         IsOwner = true
                     };
@@ -701,7 +720,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
                 return person with
                 {
-                    RelationshipText = string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name),
+                    RelationshipText = $"Depends on: {owner.Name}",
                     IsDependent = true,
                     IsOwner = false
                 };
@@ -825,6 +844,18 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         return owner?.ParticipantId;
     }
 
+    private bool IsCircularSelection(GroupPersonEditorViewModel selectedPerson, string selectedResponsibleName)
+    {
+        var responsible = People.FirstOrDefault(person =>
+            string.Equals(person.Name, selectedResponsibleName, StringComparison.OrdinalIgnoreCase));
+        if (responsible is null)
+        {
+            return false;
+        }
+
+        return responsible.RelationshipText.Contains(selectedPerson.Name, StringComparison.OrdinalIgnoreCase);
+    }
+
     private void ResetPersonEditor()
     {
         _selectedPersonParticipantId = null;
@@ -892,7 +923,20 @@ public sealed record GroupPersonEditorViewModel(
         _ => AppResources.GroupDetails_ConsumptionFull
     };
 
-    public string DependencyText => RelationshipText;
+    public string DependencyText => RelationshipText switch
+    {
+        var rel when rel.StartsWith(AppResources.GroupDetails_ResponsibilityDependsOn.Split('{')[0], StringComparison.Ordinal)
+            => rel,
+        var rel when rel.StartsWith(AppResources.GroupDetails_ResponsibilityResponsibleForPeople.Split('{')[0], StringComparison.Ordinal)
+            => $"Responsible for: {ExtractCount(rel)}",
+        _ => "Independent"
+    };
+
+    private static string ExtractCount(string relationshipText)
+    {
+        var digits = new string(relationshipText.Where(char.IsDigit).ToArray());
+        return string.IsNullOrWhiteSpace(digits) ? "0" : digits;
+    }
 }
 
 /// <summary>

@@ -54,7 +54,6 @@
                                     <VerticalStackLayout Spacing="4">
                                         <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
                                         <Label Text="{Binding DependencyText}" Style="{StaticResource BodyMuted}" />
-                                        <Label Text="{Binding ConsumptionLabel}" Style="{StaticResource BodyMuted}" />
                                     </VerticalStackLayout>
                                     <VerticalStackLayout Grid.Column="1" Spacing="8">
                                         <Button IsVisible="{Binding Source={x:Reference PageRoot}, Path=BindingContext.CanManagePeople}"

@@ -9,7 +9,7 @@ public partial class SettlementPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
-    public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
+    public ObservableCollection<SettlementSuggestionRowViewModel> WhoOwesWho { get; } = new();
 
     public SettlementPage(AppDataService dataService)
     {
@@ -34,15 +34,26 @@ public partial class SettlementPage : ContentPage
         var overview = await _dataService.GetOverviewAsync();
 
         WhoOwesWho.Clear();
-        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, SettlementMode.Participant))
+        foreach (var suggestion in GroupPresentationMapper.BuildSettlementSuggestions(overview))
         {
-            WhoOwesWho.Add(line);
+            WhoOwesWho.Add(new SettlementSuggestionRowViewModel(
+                suggestion.FromParticipantId,
+                suggestion.ToParticipantId,
+                suggestion.AmountMinor,
+                suggestion.Text,
+                suggestion.AmountText));
         }
     }
 
-    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    private async void OnSuggestionTapped(object? sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+        if (sender is not Grid { BindingContext: SettlementSuggestionRowViewModel row })
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync(
+            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}");
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -50,3 +61,10 @@ public partial class SettlementPage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 }
+
+public sealed record SettlementSuggestionRowViewModel(
+    string PayerId,
+    string ReceiverId,
+    long AmountMinor,
+    string Text,
+    string AmountText);

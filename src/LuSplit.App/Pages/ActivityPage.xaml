@@ -7,19 +7,23 @@
              Title="{x:Static loc:AppResources.Activity_Title}">
     <Grid RowDefinitions="*,Auto">
         <Grid RowDefinitions="Auto,*" RowSpacing="0">
-            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
-                <Label Text="{x:Static loc:AppResources.Activity_Title}" Style="{StaticResource SectionTitle}" />
+            <VerticalStackLayout Padding="16,12,16,8" Spacing="2">
                 <Label Text="{Binding Subtitle}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
                             Margin="16,0,16,0"
-                            IsGrouped="False"
-                            ItemsSource="{Binding Events}"
+                            IsGrouped="True"
+                            ItemsSource="{Binding ActivityGroups}"
                             SelectionMode="None">
                 <CollectionView.EmptyView>
                     <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource BodyMuted}" />
                 </CollectionView.EmptyView>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label Margin="0,8,0,4" Text="{Binding Title}" Style="{StaticResource BodyMuted}" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
