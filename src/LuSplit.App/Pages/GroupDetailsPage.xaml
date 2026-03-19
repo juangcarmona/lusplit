@@ -72,7 +72,10 @@
                         <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
                         <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
                         <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.GroupDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
-                        <Entry Text="{Binding NewHouseholdName}" Placeholder="{x:Static loc:AppResources.GroupDetails_ResponsibilityNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_DependsOnLabel}" Style="{StaticResource FieldLabel}" />
+                        <Picker ItemsSource="{Binding ResponsibleParticipantOptions}"
+                                SelectedItem="{Binding SelectedResponsibleParticipantName}"
+                                Title="{x:Static loc:AppResources.GroupDetails_DependsOnPlaceholder}" />
                         <Label Text="{x:Static loc:AppResources.GroupDetails_ConsumptionCategoryLabel}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding ConsumptionOptions}"
                                 SelectedItem="{Binding SelectedConsumption}"
