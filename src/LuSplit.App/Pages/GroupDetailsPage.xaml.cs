@@ -153,6 +153,14 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 return;
             }
 
+            var newPersonName = NewPersonName.Trim();
+            if (People.Any(person => string.Equals(person.Name, newPersonName, StringComparison.OrdinalIgnoreCase)))
+            {
+                StatusText = AppResources.Validation_PersonNameMustBeUnique;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             var category = ResolveConsumptionCategory();
 
             if (category == ConsumptionCategory.Custom)
@@ -169,10 +177,11 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             {
                 // Seed value; Create mode immediately recalculates relationship text for all draft people.
                 People.Add(new GroupPersonEditorViewModel(
-                    NewPersonName.Trim(),
-                    ResolveSelectedResponsibilityName(),
+                    newPersonName,
+                    ResolveSelectedHouseholdName(),
                     true,
                     AppResources.GroupDetails_ResponsibilityIndependent,
+                    false,
                     CategoryToString(category),
                     category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null));
                 RebuildDraftPeopleRelationships();
@@ -189,8 +198,8 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
                 await _dataService.AddGroupMemberAsync(
                     _groupId,
-                    NewPersonName,
-                    ResolveSelectedResponsibilityName(),
+                    newPersonName,
+                    ResolveSelectedHouseholdName(),
                     category,
                     category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null);
                 StatusText = AppResources.GroupDetails_PersonAdded;
@@ -375,16 +384,21 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _ => ConsumptionCategory.Full
         };
 
-    private string? ResolveSelectedResponsibilityName()
+    private string? ResolveSelectedHouseholdName()
     {
         if (string.IsNullOrWhiteSpace(SelectedResponsibleParticipantName))
         {
             return null;
         }
 
+        if (!IsEligibleResponsibleParticipantName(SelectedResponsibleParticipantName))
+        {
+            return null;
+        }
+
         var responsible = People.FirstOrDefault(person =>
             string.Equals(person.Name, SelectedResponsibleParticipantName, StringComparison.OrdinalIgnoreCase));
-        return responsible?.ResponsibilityName ?? responsible?.Name;
+        return responsible?.HouseholdName ?? responsible?.Name;
     }
 
     private static IReadOnlyList<GroupPersonEditorViewModel> BuildPeopleViewModels(IReadOnlyList<GroupMemberModel> members)
@@ -402,9 +416,10 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             .OrderBy(member => member.Name, StringComparer.OrdinalIgnoreCase)
             .Select(member => new GroupPersonEditorViewModel(
                 member.Name,
-                member.ResponsibilityName,
+                member.HouseholdName,
                 false,
                 ResolveRelationshipText(member, memberCountsByResponsibility, ownerNameByResponsibility),
+                ResolveIsDependent(member, memberCountsByResponsibility),
                 member.ConsumptionCategory,
                 member.CustomConsumptionWeight))
             .ToArray();
@@ -415,7 +430,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         IReadOnlyDictionary<string, int> memberCountsByResponsibility,
         IReadOnlyDictionary<string, string> ownerNameByResponsibility)
     {
-        if (!memberCountsByResponsibility.TryGetValue(member.ResponsibilityName, out var peopleInResponsibility))
+        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
         {
             return AppResources.GroupDetails_ResponsibilityIndependent;
         }
@@ -428,10 +443,20 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents);
         }
 
-        var ownerName = ownerNameByResponsibility.TryGetValue(member.ResponsibilityName, out var owner)
+        var ownerName = ownerNameByResponsibility.TryGetValue(member.HouseholdName, out var owner)
             ? owner
-            : member.ResponsibilityName;
+            : member.HouseholdName;
         return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, ownerName);
+    }
+
+    private static bool ResolveIsDependent(GroupMemberModel member, IReadOnlyDictionary<string, int> memberCountsByResponsibility)
+    {
+        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
+        {
+            return false;
+        }
+
+        return !member.IsOwner && peopleInResponsibility > 1;
     }
 
     private void RebuildDraftPeopleRelationships()
@@ -443,34 +468,43 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
         var peopleSnapshot = People.ToArray();
         var ownerByResponsibility = peopleSnapshot
-            .Where(person => !string.IsNullOrWhiteSpace(person.ResponsibilityName))
-            .GroupBy(person => person.ResponsibilityName!, StringComparer.OrdinalIgnoreCase)
+            .Where(person => !string.IsNullOrWhiteSpace(person.HouseholdName))
+            .GroupBy(person => person.HouseholdName!, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
 
         var rebuilt = peopleSnapshot
             .Select(person =>
             {
-                if (string.IsNullOrWhiteSpace(person.ResponsibilityName))
+                if (string.IsNullOrWhiteSpace(person.HouseholdName))
                 {
-                    return person with { RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent };
+                    return person with
+                    {
+                        RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent,
+                        IsDependent = false
+                    };
                 }
 
-                var owner = ownerByResponsibility.TryGetValue(person.ResponsibilityName, out var responsibilityOwner)
+                var owner = ownerByResponsibility.TryGetValue(person.HouseholdName, out var responsibilityOwner)
                     ? responsibilityOwner
                     : null;
                 if (owner is null || ReferenceEquals(owner, person))
                 {
                     var dependents = peopleSnapshot.Count(candidate =>
-                        string.Equals(candidate.ResponsibilityName, person.ResponsibilityName, StringComparison.OrdinalIgnoreCase)) - 1;
+                        string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
                     return person with
                     {
                         RelationshipText = dependents <= 0
                             ? AppResources.GroupDetails_ResponsibilityIndependent
-                            : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents)
+                            : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents),
+                        IsDependent = false
                     };
                 }
 
-                return person with { RelationshipText = string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name) };
+                return person with
+                {
+                    RelationshipText = string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name),
+                    IsDependent = true
+                };
             })
             .ToArray();
 
@@ -483,10 +517,11 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private void RebuildResponsibleParticipantOptions()
     {
+        var previousSelection = SelectedResponsibleParticipantName;
         ResponsibleParticipantOptions.Clear();
-        foreach (var candidate in People
-                     .Where(person => !string.IsNullOrWhiteSpace(person.ResponsibilityName)
-                                      && person.RelationshipText.StartsWith(AppResources.GroupDetails_ResponsibilityResponsibleForPrefix, StringComparison.Ordinal))
+        var peopleSnapshot = People.ToArray();
+        foreach (var candidate in peopleSnapshot
+                     .Where(person => !person.IsDependent)
                      .Select(person => person.Name)
                      .Distinct(StringComparer.OrdinalIgnoreCase)
                      .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
@@ -494,9 +529,17 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             ResponsibleParticipantOptions.Add(candidate);
         }
 
+        SelectedResponsibleParticipantName = previousSelection is not null
+            && IsEligibleResponsibleParticipantName(previousSelection)
+            ? previousSelection
+            : null;
+
         OnPropertyChanged(nameof(ResponsibleParticipantOptions));
         OnPropertyChanged(nameof(SelectedResponsibleParticipantName));
     }
+
+    private bool IsEligibleResponsibleParticipantName(string name)
+        => new HashSet<string>(ResponsibleParticipantOptions, StringComparer.OrdinalIgnoreCase).Contains(name);
 
     private void NotifyAllProperties()
     {
@@ -527,9 +570,10 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
 public sealed record GroupPersonEditorViewModel(
     string Name,
-    string? ResponsibilityName,  // null or empty means "independent"
+    string? HouseholdName,  // null or empty means "independent"
     bool CanRemove,
     string RelationshipText,
+    bool IsDependent,
     string ConsumptionCategory = "FULL",
     string? CustomConsumptionWeight = null)
 {

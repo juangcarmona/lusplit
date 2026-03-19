@@ -61,6 +61,8 @@ public static class AppResources
     public static string GroupDetails_PersonNamePlaceholder => Get(nameof(GroupDetails_PersonNamePlaceholder));
     public static string GroupDetails_HouseholdNamePlaceholder => Get(nameof(GroupDetails_HouseholdNamePlaceholder));
     public static string GroupDetails_ResponsibilityNamePlaceholder => Get(nameof(GroupDetails_ResponsibilityNamePlaceholder));
+    public static string GroupDetails_DependsOnLabel => Get(nameof(GroupDetails_DependsOnLabel));
+    public static string GroupDetails_DependsOnPlaceholder => Get(nameof(GroupDetails_DependsOnPlaceholder));
     public static string GroupDetails_AddPersonButton => Get(nameof(GroupDetails_AddPersonButton));
     public static string GroupDetails_CreateButton => Get(nameof(GroupDetails_CreateButton));
     public static string GroupDetails_SaveButton => Get(nameof(GroupDetails_SaveButton));
@@ -140,6 +142,7 @@ public static class AppResources
     public static string Validation_SelectPayer => Get(nameof(Validation_SelectPayer));
     public static string Validation_PickAtLeastOnePerson => Get(nameof(Validation_PickAtLeastOnePerson));
     public static string Validation_PersonNameRequired => Get(nameof(Validation_PersonNameRequired));
+    public static string Validation_PersonNameMustBeUnique => Get(nameof(Validation_PersonNameMustBeUnique));
     public static string Validation_GroupNotFound => Get(nameof(Validation_GroupNotFound));
     public static string Validation_GroupNameRequired => Get(nameof(Validation_GroupNameRequired));
     public static string Validation_SelectCurrency => Get(nameof(Validation_SelectCurrency));

@@ -140,6 +140,12 @@
   <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
     <value>Responsibility name (optional)</value>
   </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>Depends on (optional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>Independent (default)</value>
+  </data>
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
     <value>Add person</value>
   </data>
@@ -352,6 +358,9 @@
   </data>
   <data name="Validation_PersonNameRequired" xml:space="preserve">
     <value>Person name is required.</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>Person name must be unique in this group.</value>
   </data>
   <data name="Validation_GroupNotFound" xml:space="preserve">
     <value>Group not found.</value>

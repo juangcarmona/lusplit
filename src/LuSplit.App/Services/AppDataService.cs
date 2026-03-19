@@ -212,6 +212,7 @@ public sealed class AppDataService : IAsyncDisposable
                 member.ConsumptionCategory,
                 member.CustomConsumptionWeight))
             .ToArray();
+        EnsureUniqueMemberNames(memberDrafts.Select(member => member.Name));
 
         if (memberDrafts.Length == 0)
         {
@@ -252,6 +253,12 @@ public sealed class AppDataService : IAsyncDisposable
     {
         var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
         var normalizedHouseholdName = NormalizeOptional(householdName);
+        var participants = (await GetOverviewAsync(groupId)).Participants;
+        if (participants.Any(participant => string.Equals(participant.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
+        }
+
         await AddMembersAsync(groupId, new[] { new GroupDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -671,6 +678,18 @@ ON CONFLICT(expense_id) DO UPDATE SET
 
     private static string? NormalizeOptional(string? value)
         => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    private static void EnsureUniqueMemberNames(IEnumerable<string> names)
+    {
+        var uniqueNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var name in names)
+        {
+            if (!uniqueNames.Add(name))
+            {
+                throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
+            }
+        }
+    }
 
     private sealed class GuidIdGenerator : LuSplit.Application.Ports.IIdGenerator
     {
