@@ -48,7 +48,7 @@ const intros: Record<Lang, string> = {
 };
 
 const screenshotCaptions: Record<string, Record<Lang, string>> = {
-  home_en: {
+  home: {
     en: 'Home — your groups at a glance',
     es: 'Inicio — tus grupos de un vistazo',
     fr: 'Accueil — vos groupes en un coup d\'œil',
@@ -56,7 +56,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Início — os seus grupos num relance',
     it: 'Home — i tuoi gruppi a colpo d\'occhio',
   },
-  trip_details_en: {
+  group_details: {
     en: 'Trip details — all expenses in one place',
     es: 'Detalles del viaje — todos los gastos en un lugar',
     fr: 'Détails du voyage — toutes les dépenses au même endroit',
@@ -64,7 +64,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Detalhes da viagem — todas as despesas num só lugar',
     it: 'Dettagli viaggio — tutte le spese in un unico posto',
   },
-  trip_details_bottom_en: {
+  group_details_bottom: {
     en: 'Balances — who owes what at a glance',
     es: 'Saldos — quién debe qué de un vistazo',
     fr: 'Soldes — qui doit quoi en un coup d\'œil',
@@ -72,7 +72,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Saldos — quem deve o quê num relance',
     it: 'Saldi — chi deve cosa a colpo d\'occhio',
   },
-  activity_en: {
+  activity: {
     en: 'Activity — recent transactions and changes',
     es: 'Actividad — transacciones y cambios recientes',
     fr: 'Activité — transactions et modifications récentes',
@@ -80,7 +80,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Atividade — transações e alterações recentes',
     it: 'Attività — transazioni e modifiche recenti',
   },
-  add_event_en: {
+  add_event: {
     en: 'Add expense — record what was paid and by whom',
     es: 'Añadir gasto — registra qué se pagó y por quién',
     fr: 'Ajouter une dépense — enregistrez ce qui a été payé et par qui',
@@ -88,7 +88,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Adicionar despesa — registe o que foi pago e por quem',
     it: 'Aggiungi spesa — registra cosa è stato pagato e da chi',
   },
-  record_paument_en: {
+  record_payment: {
     en: 'Record payment — log a direct payment between members',
     es: 'Registrar pago — anota un pago directo entre miembros',
     fr: 'Enregistrer un paiement — consignez un paiement direct entre membres',
@@ -96,7 +96,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Registar pagamento — registar um pagamento direto entre membros',
     it: 'Registra pagamento — registra un pagamento diretto tra membri',
   },
-  settle_up_en: {
+  settle_up: {
     en: 'Settle up — minimal transfer plan to zero all balances',
     es: 'Liquidar — plan mínimo de transferencias para saldar todo',
     fr: 'Régler — plan de virements minimal pour solder tous les comptes',
@@ -104,7 +104,7 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
     pt: 'Liquidar — plano mínimo de transferências para zerar todos os saldos',
     it: 'Pareggia i conti — piano minimo di bonifici per azzerare tutti i saldi',
   },
-  settings_en: {
+  settings: {
     en: 'Settings — manage your preferences',
     es: 'Ajustes — gestiona tus preferencias',
     fr: 'Paramètres — gérez vos préférences',
@@ -115,14 +115,14 @@ const screenshotCaptions: Record<string, Record<Lang, string>> = {
 };
 
 const screenshots = [
-  'home_en',
-  'trip_details_en',
-  'trip_details_bottom_en',
-  'activity_en',
-  'add_event_en',
-  'record_paument_en',
-  'settle_up_en',
-  'settings_en',
+  'home',
+  'group_details',
+  'group_details_bottom',
+  'activity',
+  'add_event',
+  'record_payment',
+  'settle_up',
+  'settings',
 ];
 
 const pageTitle = pageTitles[lang];
@@ -144,7 +144,7 @@ const intro = intros[lang];
           <figure class="screenshot-card">
             <div class="screenshot-img-wrap">
               <img
-                src={`/screenshots/${name}.png`}
+                src={`/screenshots/${lang}/${name}.png`}
                 alt={screenshotCaptions[name][lang]}
                 loading="lazy"
                 class="screenshot-img"
