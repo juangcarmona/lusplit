@@ -4,7 +4,7 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class GroupSwitcherPage : ContentPage
+public partial class GroupSwitcherPage : LoadOnAppearingPage
 {
     private readonly AppDataService _dataService;
 
@@ -22,13 +22,7 @@ public partial class GroupSwitcherPage : ContentPage
 #endif
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadAsync();
-    }
-
-    private async Task LoadAsync()
+    protected override async Task LoadAsync()
     {
         var groups = await _dataService.GetGroupsAsync();
         var archived = await _dataService.GetArchivedGroupsAsync();

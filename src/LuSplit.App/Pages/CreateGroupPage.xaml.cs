@@ -107,7 +107,10 @@ public partial class CreateGroupPage : ContentPage
         }
         else
         {
-            if (WouldCreateCycle(current.Name, selection))
+            if (DependencyCycleGuard.WouldCreateCycle(
+                    current.Name,
+                    selection,
+                    name => Participants.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase))?.DependsOn))
             {
                 StatusText = AppResources.Validation_CircularDependency;
                 OnPropertyChanged(nameof(StatusText));
@@ -154,27 +157,6 @@ public partial class CreateGroupPage : ContentPage
         }
     }
 
-    private bool WouldCreateCycle(string participantName, string? selectedResponsible)
-    {
-        if (string.IsNullOrWhiteSpace(selectedResponsible))
-        {
-            return false;
-        }
-
-        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { participantName };
-        var cursor = selectedResponsible;
-        while (!string.IsNullOrWhiteSpace(cursor))
-        {
-            if (!visited.Add(cursor))
-            {
-                return true;
-            }
-
-            cursor = Participants.FirstOrDefault(p => string.Equals(p.Name, cursor, StringComparison.OrdinalIgnoreCase))?.DependsOn;
-        }
-
-        return false;
-    }
 }
 
 public sealed class CreateParticipantViewModel : BindableObject

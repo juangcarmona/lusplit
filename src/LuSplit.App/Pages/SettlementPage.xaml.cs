@@ -5,7 +5,7 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class SettlementPage : ContentPage
+public partial class SettlementPage : LoadOnAppearingPage
 {
     private readonly AppDataService _dataService;
 
@@ -23,13 +23,7 @@ public partial class SettlementPage : ContentPage
 #endif
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadAsync();
-    }
-
-    private async Task LoadAsync()
+    protected override async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
 

@@ -6,7 +6,7 @@ using LuSplit.Domain.Entities;
 
 namespace LuSplit.App.Pages;
 
-public partial class GroupDetailsPage : ContentPage, IQueryAttributable
+public partial class GroupDetailsPage : LoadOnAppearingPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     private string _mode = EditMode;
@@ -110,13 +110,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             : null;
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadAsync();
-    }
-
-    private async Task LoadAsync()
+    protected override async Task LoadAsync()
     {
         StatusText = string.Empty;
         _isArchived = false;
@@ -374,7 +368,16 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             }
 
             if (!string.IsNullOrWhiteSpace(EditSelectedResponsibleParticipantName)
-                && IsCircularSelection(selectedPerson, EditSelectedResponsibleParticipantName))
+                && DependencyCycleGuard.WouldCreateCycle(
+                    selectedPerson.Name,
+                    EditSelectedResponsibleParticipantName,
+                    cursorName =>
+                    {
+                        var cursorPerson = People.FirstOrDefault(person => string.Equals(person.Name, cursorName, StringComparison.OrdinalIgnoreCase));
+                        return cursorPerson is null || string.IsNullOrWhiteSpace(cursorPerson.HouseholdName) || cursorPerson.IsOwner
+                            ? null
+                            : ResolveCurrentResponsibleName(cursorPerson);
+                    }))
             {
                 StatusText = AppResources.Validation_CircularDependency;
                 OnPropertyChanged(nameof(StatusText));
@@ -845,29 +848,6 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             candidate.IsOwner
             && string.Equals(candidate.HouseholdName, selectedPerson.HouseholdName, StringComparison.OrdinalIgnoreCase));
         return owner?.ParticipantId;
-    }
-
-    private bool IsCircularSelection(GroupPersonEditorViewModel selectedPerson, string selectedResponsibleName)
-    {
-        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { selectedPerson.Name };
-        var cursor = selectedResponsibleName;
-        while (!string.IsNullOrWhiteSpace(cursor))
-        {
-            if (!visited.Add(cursor))
-            {
-                return true;
-            }
-
-            var cursorPerson = People.FirstOrDefault(person => string.Equals(person.Name, cursor, StringComparison.OrdinalIgnoreCase));
-            if (cursorPerson is null || string.IsNullOrWhiteSpace(cursorPerson.HouseholdName) || cursorPerson.IsOwner)
-            {
-                break;
-            }
-
-            cursor = ResolveCurrentResponsibleName(cursorPerson);
-        }
-
-        return false;
     }
 
     private void ResetPersonEditor()

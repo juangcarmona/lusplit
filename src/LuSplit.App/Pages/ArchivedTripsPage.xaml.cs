@@ -3,7 +3,7 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class ArchivedGroupsPage : ContentPage
+public partial class ArchivedGroupsPage : LoadOnAppearingPage
 {
     private readonly AppDataService _dataService;
 
@@ -22,13 +22,7 @@ public partial class ArchivedGroupsPage : ContentPage
 #endif
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await LoadAsync();
-    }
-
-    private async Task LoadAsync()
+    protected override async Task LoadAsync()
     {
         var groups = await _dataService.GetArchivedGroupsAsync();
 
