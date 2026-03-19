@@ -149,6 +149,15 @@
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
     <value>Add person</value>
   </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>Manage person</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>Save person</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>This person is currently responsible for others. Update dependents first to change responsibility.</value>
+  </data>
   <data name="GroupDetails_CreateButton" xml:space="preserve">
     <value>Create group</value>
   </data>
@@ -214,6 +223,9 @@
   </data>
   <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
     <value>Person added to the new group.</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>Person updated.</value>
   </data>
   <data name="GroupDetails_Remove" xml:space="preserve">
     <value>Remove</value>
@@ -379,6 +391,18 @@
   </data>
   <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
     <value>Custom weight is required when consumption is set to Custom.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>This group is archived and read-only.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>Person not found.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>Responsible person not found.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>A person cannot depend on themselves.</value>
   </data>
 
   <!-- Archived groups -->

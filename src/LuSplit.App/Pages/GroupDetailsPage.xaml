@@ -39,7 +39,9 @@
                 <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
                 <Label Text="{x:Static loc:AppResources.GroupDetails_ResponsibilityHint}" Style="{StaticResource BodyMuted}" />
 
-                <CollectionView ItemsSource="{Binding People}" SelectionMode="None">
+                <CollectionView ItemsSource="{Binding People}"
+                                SelectionMode="Single"
+                                SelectionChanged="OnPersonSelected">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,8,0,0" Spacing="8">
                             <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
@@ -65,6 +67,29 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
+                <!-- Manage person section -->
+                <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding IsPersonEditorVisible}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_ManagePersonSection}" Style="{StaticResource SectionTitle}" />
+                        <Entry Text="{Binding EditPersonName}" Placeholder="{x:Static loc:AppResources.GroupDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_DependsOnLabel}" Style="{StaticResource FieldLabel}" />
+                        <Picker ItemsSource="{Binding EditResponsibleParticipantOptions}"
+                                SelectedItem="{Binding EditSelectedResponsibleParticipantName}"
+                                Title="{x:Static loc:AppResources.GroupDetails_DependsOnPlaceholder}"
+                                IsEnabled="{Binding CanChangeSelectedPersonDependency}" />
+                        <Label Text="{Binding EditPersonDependencyStatusText}"
+                               IsVisible="{Binding IsEditPersonDependencyStatusVisible}"
+                               Style="{StaticResource BodyMuted}" />
+                        <HorizontalStackLayout Spacing="8">
+                            <Button Text="{x:Static loc:AppResources.GroupDetails_SavePersonChangesButton}"
+                                    Clicked="OnSavePersonChangesClicked" />
+                            <Button Text="{x:Static loc:AppResources.Common_Cancel}"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Clicked="OnCancelPersonEditClicked" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
 
                 <!-- Add person section (hidden for archived groups) -->
                 <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding CanEdit}">

@@ -64,12 +64,16 @@ public static class AppResources
     public static string GroupDetails_DependsOnLabel => Get(nameof(GroupDetails_DependsOnLabel));
     public static string GroupDetails_DependsOnPlaceholder => Get(nameof(GroupDetails_DependsOnPlaceholder));
     public static string GroupDetails_AddPersonButton => Get(nameof(GroupDetails_AddPersonButton));
+    public static string GroupDetails_ManagePersonSection => Get(nameof(GroupDetails_ManagePersonSection));
+    public static string GroupDetails_SavePersonChangesButton => Get(nameof(GroupDetails_SavePersonChangesButton));
+    public static string GroupDetails_EditDependencyLockedHint => Get(nameof(GroupDetails_EditDependencyLockedHint));
     public static string GroupDetails_CreateButton => Get(nameof(GroupDetails_CreateButton));
     public static string GroupDetails_SaveButton => Get(nameof(GroupDetails_SaveButton));
     public static string GroupDetails_ExportButton => Get(nameof(GroupDetails_ExportButton));
     public static string GroupDetails_SettlesOnOwn => Get(nameof(GroupDetails_SettlesOnOwn));
     public static string GroupDetails_PersonAdded => Get(nameof(GroupDetails_PersonAdded));
     public static string GroupDetails_PersonAddedNew => Get(nameof(GroupDetails_PersonAddedNew));
+    public static string GroupDetails_PersonUpdated => Get(nameof(GroupDetails_PersonUpdated));
     public static string GroupDetails_Remove => Get(nameof(GroupDetails_Remove));
     public static string GroupDetails_ArchiveButton => Get(nameof(GroupDetails_ArchiveButton));
     public static string GroupDetails_ArchiveConfirmTitle => Get(nameof(GroupDetails_ArchiveConfirmTitle));
@@ -151,6 +155,10 @@ public static class AppResources
     public static string Validation_DifferentPeople => Get(nameof(Validation_DifferentPeople));
     public static string Validation_InvalidCustomWeight => Get(nameof(Validation_InvalidCustomWeight));
     public static string Validation_CustomWeightRequiredForCustomCategory => Get(nameof(Validation_CustomWeightRequiredForCustomCategory));
+    public static string Validation_GroupArchivedReadonly => Get(nameof(Validation_GroupArchivedReadonly));
+    public static string Validation_PersonNotFound => Get(nameof(Validation_PersonNotFound));
+    public static string Validation_ResponsiblePersonNotFound => Get(nameof(Validation_ResponsiblePersonNotFound));
+    public static string Validation_PersonCannotDependOnSelf => Get(nameof(Validation_PersonCannotDependOnSelf));
 
     // --- Archived groups ---
     public static string Archived_Title => Get(nameof(Archived_Title));
