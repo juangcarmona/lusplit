@@ -121,4 +121,55 @@ public sealed class BalanceParityTests
                 Participants,
                 wrongGroupUnits));
     }
+
+    [Fact]
+    public void AggregatesDependentChildrenDebtUnderResponsibleOwner()
+    {
+        const string grand = "grand";
+        const string juan = "juan";
+        const string juanito = "juanito";
+        const string julia = "julia";
+
+        var participants = new[]
+        {
+            new Participant(grand, GroupId, "u-grand", "Grand", ConsumptionCategory.Full),
+            new Participant(juan, GroupId, "u-juan", "Juan", ConsumptionCategory.Full),
+            new Participant(juanito, GroupId, "u-juan", "Juanito", ConsumptionCategory.Full),
+            new Participant(julia, GroupId, "u-juan", "Julia", ConsumptionCategory.Full)
+        };
+
+        var units = new[]
+        {
+            new EconomicUnit("u-grand", GroupId, grand, "Grand"),
+            new EconomicUnit("u-juan", GroupId, juan, "Juan Family")
+        };
+
+        var expenses = new[]
+        {
+            new Expense(
+                "e-children-sweets",
+                GroupId,
+                "Sweets for kids",
+                grand,
+                900,
+                "2026-01-03",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { juanito, julia }, RemainderMode.Equal)
+                }))
+        };
+
+        var balances = BalanceCalculator.CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
+
+        Assert.Equal(900, balances[grand]);
+        Assert.Equal(0, balances[juan]);
+        Assert.Equal(-450, balances[juanito]);
+        Assert.Equal(-450, balances[julia]);
+
+        var aggregated = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(balances, participants, units);
+
+        Assert.Equal(2, aggregated.Count);
+        Assert.Equal(900, aggregated[grand]);
+        Assert.Equal(-900, aggregated[juan]);
+    }
 }

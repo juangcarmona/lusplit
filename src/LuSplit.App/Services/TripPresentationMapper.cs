@@ -145,11 +145,18 @@ public static class GroupPresentationMapper
 
     public static IReadOnlyList<SettlementSuggestionViewModel> BuildSettlementSuggestions(GroupOverviewModel overview)
     {
-        return overview.SettlementByParticipant.Transfers
+        var mode = ResolveSettlementMode(overview);
+        var transfers = mode == SettlementMode.Participant
+            ? overview.SettlementByParticipant.Transfers
+            : overview.SettlementByEconomicUnitOwner.Transfers;
+
+        return transfers
             .Select(transfer => new SettlementSuggestionViewModel(
                 transfer.FromParticipantId,
                 transfer.ToParticipantId,
-                string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(transfer.FromParticipantId, overview)} → {ResolveParticipantName(transfer.ToParticipantId, overview)}"),
+                string.Create(
+                    CultureInfo.CurrentCulture,
+                    $"{ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode)} → {ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)}"),
                 FormatMinor(transfer.AmountMinor, overview.Group.Currency),
                 transfer.AmountMinor))
             .ToArray();
@@ -207,7 +214,7 @@ public static class GroupPresentationMapper
 
     public static IReadOnlyList<string> BuildBalancePreview(GroupOverviewModel overview, int maxItems)
     {
-        var lines = BuildWhoOwesWho(overview, SettlementMode.Participant)
+        var lines = BuildWhoOwesWho(overview, ResolveSettlementMode(overview))
             .Take(maxItems)
             .Select(line => $"{line.Text} {line.AmountText}")
             .ToArray();
