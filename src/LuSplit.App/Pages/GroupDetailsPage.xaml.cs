@@ -712,8 +712,7 @@ public partial class GroupDetailsPage : LoadOnAppearingPage, IQueryAttributable
                         .Select(candidate => candidate.Name)
                         .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
                         .ToArray();
-                    var dependents = peopleSnapshot.Count(candidate =>
-                        string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
+                    var dependents = dependentNames.Length;
                     return person with
                     {
                         RelationshipText = dependents <= 0
