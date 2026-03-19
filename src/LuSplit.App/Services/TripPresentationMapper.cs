@@ -134,8 +134,8 @@ public static class GroupPresentationMapper
     /// Picks the settlement mode that best reflects the group's participant structure.
     /// When all participants have their own economic unit (no dependents), participant-level
     /// and owner-level settlement are identical — either works. When some participants are
-    /// dependents (share an economic unit with another payer), owner mode aggregates their
-    /// balances under the payer, which is the natural family / household view.
+    /// dependents (share an economic unit with another participant), owner mode aggregates their
+    /// balances under the responsible participant.
     /// </summary>
     public static SettlementMode ResolveSettlementMode(GroupOverviewModel overview)
     {
@@ -147,7 +147,7 @@ public static class GroupPresentationMapper
         }
 
         // At least one economic unit has multiple participants (dependents exist).
-        // Use owner mode so the household payer surfaces as the settlement entity.
+        // Use owner mode so the responsible participant surfaces as the settlement entity.
         return SettlementMode.EconomicUnitOwner;
     }
 
@@ -256,7 +256,7 @@ public static class GroupPresentationMapper
 
         var participantName = ResolveParticipantName(entityId, overview.Participants);
         return hasDependents
-            ? string.Format(AppResources.Mapper_HouseholdOf, participantName)
+            ? string.Format(AppResources.Mapper_ResponsibilityOf, participantName)
             : participantName;
     }
 

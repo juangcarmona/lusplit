@@ -124,15 +124,9 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             SelectedCurrency = details.Currency;
 
             People.Clear();
-            foreach (var person in details.Members)
+            foreach (var person in BuildPeopleViewModels(details.Members))
             {
-                People.Add(new GroupPersonEditorViewModel(
-                    person.Name,
-                    person.HouseholdName,
-                    false,
-                    person.IsOwner,
-                    person.ConsumptionCategory,
-                    person.CustomConsumptionWeight));
+                People.Add(person);
             }
         }
 
@@ -174,9 +168,10 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                     NewPersonName.Trim(),
                     string.IsNullOrWhiteSpace(NewHouseholdName) ? null : NewHouseholdName.Trim(),
                     true,
-                    false,
+                    AppResources.GroupDetails_ResponsibilityIndependent,
                     CategoryToString(category),
                     category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null));
+                RebuildDraftPeopleRelationships();
             }
             else
             {
@@ -222,6 +217,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         if (item is not null)
         {
             People.Remove(item);
+            RebuildDraftPeopleRelationships();
         }
     }
 
@@ -373,6 +369,93 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _ => ConsumptionCategory.Full
         };
 
+    private static IReadOnlyList<GroupPersonEditorViewModel> BuildPeopleViewModels(IReadOnlyList<GroupMemberModel> members)
+    {
+        var memberCountsByResponsibility = members
+            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.Count(), StringComparer.Ordinal);
+
+        var ownerNameByResponsibility = members
+            .Where(member => member.IsOwner)
+            .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.First().Name, StringComparer.Ordinal);
+
+        return members
+            .OrderBy(member => member.Name, StringComparer.OrdinalIgnoreCase)
+            .Select(member => new GroupPersonEditorViewModel(
+                member.Name,
+                member.HouseholdName,
+                false,
+                ResolveRelationshipText(member, memberCountsByResponsibility, ownerNameByResponsibility),
+                member.ConsumptionCategory,
+                member.CustomConsumptionWeight))
+            .ToArray();
+    }
+
+    private static string ResolveRelationshipText(
+        GroupMemberModel member,
+        IReadOnlyDictionary<string, int> memberCountsByResponsibility,
+        IReadOnlyDictionary<string, string> ownerNameByResponsibility)
+    {
+        if (!memberCountsByResponsibility.TryGetValue(member.HouseholdName, out var peopleInResponsibility))
+        {
+            return AppResources.GroupDetails_ResponsibilityIndependent;
+        }
+
+        if (member.IsOwner)
+        {
+            var dependents = Math.Max(0, peopleInResponsibility - 1);
+            return dependents == 0
+                ? AppResources.GroupDetails_ResponsibilityIndependent
+                : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents);
+        }
+
+        var ownerName = ownerNameByResponsibility.TryGetValue(member.HouseholdName, out var owner)
+            ? owner
+            : member.HouseholdName;
+        return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, ownerName);
+    }
+
+    private void RebuildDraftPeopleRelationships()
+    {
+        if (!IsCreateMode || People.Count == 0)
+        {
+            return;
+        }
+
+        var rebuilt = People
+            .Select(person =>
+            {
+                if (string.IsNullOrWhiteSpace(person.HouseholdName))
+                {
+                    return person with { RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent };
+                }
+
+                var owner = People.FirstOrDefault(candidate =>
+                    string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase));
+                if (owner is null || string.Equals(owner.Name, person.Name, StringComparison.Ordinal))
+                {
+                    var dependents = People.Count(candidate =>
+                        string.Equals(candidate.HouseholdName, person.HouseholdName, StringComparison.OrdinalIgnoreCase)) - 1;
+                    return person with
+                    {
+                        RelationshipText = dependents <= 0
+                            ? AppResources.GroupDetails_ResponsibilityIndependent
+                            : string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, dependents)
+                    };
+                }
+
+                return person with { RelationshipText = string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name) };
+            })
+            .ToArray();
+
+        People.Clear();
+        foreach (var person in rebuilt)
+        {
+            People.Add(person);
+        }
+    }
+
     private void NotifyAllProperties()
     {
         OnPropertyChanged(nameof(GroupName));
@@ -403,23 +486,10 @@ public sealed record GroupPersonEditorViewModel(
     string Name,
     string? HouseholdName,  // null or empty means "settles on own" — avoids localized-string comparison
     bool CanRemove,
-    bool IsOwner = false,
+    string RelationshipText,
     string ConsumptionCategory = "FULL",
     string? CustomConsumptionWeight = null)
 {
-    /// <summary>Shows "Payer" for the economic unit owner, "Dependent" for other members of a shared household.
-    /// Only shown in edit mode (items loaded from the database, not items staged in create mode).</summary>
-    public bool ShowRoleBadge => !CanRemove;
-
-    public string RoleBadge => IsOwner
-        ? AppResources.GroupDetails_PersonIsOwner
-        : AppResources.GroupDetails_PersonIsDependent;
-
-    /// <summary>Display text for the household column. Falls back to the localized "Settles on their own" sentinel when no household name is set.</summary>
-    public string HouseholdText => string.IsNullOrEmpty(HouseholdName)
-        ? AppResources.GroupDetails_SettlesOnOwn
-        : HouseholdName;
-
     public string ConsumptionLabel => ConsumptionCategory switch
     {
         "HALF" => AppResources.GroupDetails_ConsumptionHalf,

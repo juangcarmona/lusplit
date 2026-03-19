@@ -54,11 +54,13 @@ public static class AppResources
     public static string GroupDetails_CurrencyLabel => Get(nameof(GroupDetails_CurrencyLabel));
     public static string GroupDetails_PeopleSection => Get(nameof(GroupDetails_PeopleSection));
     public static string GroupDetails_HouseholdHint => Get(nameof(GroupDetails_HouseholdHint));
+    public static string GroupDetails_ResponsibilityHint => Get(nameof(GroupDetails_ResponsibilityHint));
     public static string GroupDetails_NoPeopleTitle => Get(nameof(GroupDetails_NoPeopleTitle));
     public static string GroupDetails_NoPeopleSubtitle => Get(nameof(GroupDetails_NoPeopleSubtitle));
     public static string GroupDetails_AddPersonSection => Get(nameof(GroupDetails_AddPersonSection));
     public static string GroupDetails_PersonNamePlaceholder => Get(nameof(GroupDetails_PersonNamePlaceholder));
     public static string GroupDetails_HouseholdNamePlaceholder => Get(nameof(GroupDetails_HouseholdNamePlaceholder));
+    public static string GroupDetails_ResponsibilityNamePlaceholder => Get(nameof(GroupDetails_ResponsibilityNamePlaceholder));
     public static string GroupDetails_AddPersonButton => Get(nameof(GroupDetails_AddPersonButton));
     public static string GroupDetails_CreateButton => Get(nameof(GroupDetails_CreateButton));
     public static string GroupDetails_SaveButton => Get(nameof(GroupDetails_SaveButton));
@@ -79,6 +81,9 @@ public static class AppResources
     public static string GroupDetails_CustomWeightPlaceholder => Get(nameof(GroupDetails_CustomWeightPlaceholder));
     public static string GroupDetails_PersonIsOwner => Get(nameof(GroupDetails_PersonIsOwner));
     public static string GroupDetails_PersonIsDependent => Get(nameof(GroupDetails_PersonIsDependent));
+    public static string GroupDetails_ResponsibilityIndependent => Get(nameof(GroupDetails_ResponsibilityIndependent));
+    public static string GroupDetails_ResponsibilityDependsOn => Get(nameof(GroupDetails_ResponsibilityDependsOn));
+    public static string GroupDetails_ResponsibilityResponsibleForPeople => Get(nameof(GroupDetails_ResponsibilityResponsibleForPeople));
     public static string GroupDetails_AddPersonHint => Get(nameof(GroupDetails_AddPersonHint));
 
     // --- Add Event ---
@@ -93,6 +98,7 @@ public static class AppResources
     public static string AddEvent_EventLabel => Get(nameof(AddEvent_EventLabel));
     public static string AddEvent_EventPlaceholder => Get(nameof(AddEvent_EventPlaceholder));
     public static string AddEvent_PaidBy => Get(nameof(AddEvent_PaidBy));
+    public static string AddEvent_PayerHint => Get(nameof(AddEvent_PayerHint));
     public static string AddEvent_WhoJoined => Get(nameof(AddEvent_WhoJoined));
     public static string AddEvent_EveryoneDefault => Get(nameof(AddEvent_EveryoneDefault));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
@@ -102,6 +108,8 @@ public static class AppResources
     public static string Settlement_Title => Get(nameof(Settlement_Title));
     public static string Settlement_WhoOwesWhat => Get(nameof(Settlement_WhoOwesWhat));
     public static string Settlement_Subtitle => Get(nameof(Settlement_Subtitle));
+    public static string Settlement_ParticipantFairnessHint => Get(nameof(Settlement_ParticipantFairnessHint));
+    public static string Settlement_ResponsibilitySummaryTitle => Get(nameof(Settlement_ResponsibilitySummaryTitle));
     public static string Settlement_EmptyTitle => Get(nameof(Settlement_EmptyTitle));
     public static string Settlement_EmptySubtitle => Get(nameof(Settlement_EmptySubtitle));
     public static string Settlement_RecordPaymentButton => Get(nameof(Settlement_RecordPaymentButton));
@@ -169,6 +177,7 @@ public static class AppResources
     public static string Mapper_SplitCustomAmounts => Get(nameof(Mapper_SplitCustomAmounts));
     public static string Mapper_SplitCustomAmountsOnly => Get(nameof(Mapper_SplitCustomAmountsOnly));
     public static string Mapper_HouseholdOf => Get(nameof(Mapper_HouseholdOf));
+    public static string Mapper_ResponsibilityOf => Get(nameof(Mapper_ResponsibilityOf));
     public static string Mapper_PaymentTitle => Get(nameof(Mapper_PaymentTitle));
     public static string Mapper_PaymentPrimaryText => Get(nameof(Mapper_PaymentPrimaryText));
     public static string Mapper_PaymentSecondaryText => Get(nameof(Mapper_PaymentSecondaryText));

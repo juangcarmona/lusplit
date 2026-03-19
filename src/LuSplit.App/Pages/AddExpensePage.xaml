@@ -46,6 +46,7 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="{x:Static loc:AppResources.AddEvent_PaidBy}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName}" />
+                        <Label Text="{x:Static loc:AppResources.AddEvent_PayerHint}" Style="{StaticResource BodyMuted}" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -57,7 +58,7 @@
                             <Border Style="{StaticResource ChipBorder}">
                                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                     <CheckBox IsChecked="{Binding IsSelected}" VerticalOptions="Center" />
-                                    <Label Grid.Column="1" Text="{Binding Name}" VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="1" Text="{Binding DisplayName}" VerticalTextAlignment="Center" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

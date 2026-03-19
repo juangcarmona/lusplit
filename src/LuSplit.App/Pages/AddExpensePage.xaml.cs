@@ -10,6 +10,7 @@ public partial class AddExpensePage : ContentPage
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
+    private readonly List<EconomicUnitModel> _economicUnits = new();
 
     public ObservableCollection<string> PayerNames { get; } = new();
 
@@ -43,23 +44,29 @@ public partial class AddExpensePage : ContentPage
 
     private async Task LoadParticipantsAsync()
     {
-        var participants = await _dataService.GetParticipantsAsync();
+        var overview = await _dataService.GetOverviewAsync();
+        var participants = overview.Participants;
+        var units = overview.EconomicUnits;
         var defaults = _dataService.GetEventDraftDefaults();
         _participants.Clear();
         _participants.AddRange(participants);
+        _economicUnits.Clear();
+        _economicUnits.AddRange(units);
 
         PayerNames.Clear();
         ParticipantOptions.Clear();
 
         foreach (var participant in participants)
         {
-            PayerNames.Add(participant.Name);
+            var label = BuildParticipantLabel(participant, participants, units);
+            PayerNames.Add(label);
             var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
-            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, participant.Name, isSelected));
+            ParticipantOptions.Add(new ParticipantOptionViewModel(participant.Id, participant.Name, label, isSelected));
         }
 
-        SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal))?.Name
-            ?? PayerNames.FirstOrDefault();
+        SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal)) is { } selectedPayer
+            ? BuildParticipantLabel(selectedPayer, participants, units)
+            : PayerNames.FirstOrDefault();
         OnPropertyChanged(nameof(SelectedPayerName));
     }
 
@@ -81,7 +88,8 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            var payer = _participants.FirstOrDefault(p => p.Name == SelectedPayerName);
+            var payer = _participants.FirstOrDefault(participant =>
+                string.Equals(BuildParticipantLabel(participant, _participants, _economicUnits), SelectedPayerName, StringComparison.Ordinal));
             if (payer is null)
             {
                 StatusText = AppResources.Validation_SelectPayer;
@@ -133,6 +141,41 @@ public partial class AddExpensePage : ContentPage
         return false;
     }
 
+    private static string BuildParticipantLabel(
+        ParticipantModel participant,
+        IReadOnlyList<ParticipantModel> participants,
+        IReadOnlyList<EconomicUnitModel> units)
+    {
+        var relationship = DescribeResponsibilityRelationship(participant, participants, units);
+        return $"{participant.Name} ({relationship})";
+    }
+
+    private static string DescribeResponsibilityRelationship(
+        ParticipantModel participant,
+        IReadOnlyList<ParticipantModel> participants,
+        IReadOnlyList<EconomicUnitModel> units)
+    {
+        var unitParticipants = participants
+            .Where(candidate => string.Equals(candidate.EconomicUnitId, participant.EconomicUnitId, StringComparison.Ordinal))
+            .ToArray();
+        var ownerId = units.FirstOrDefault(unit => string.Equals(unit.Id, participant.EconomicUnitId, StringComparison.Ordinal))?.OwnerParticipantId;
+        var owner = ownerId is null
+            ? unitParticipants.FirstOrDefault()
+            : unitParticipants.FirstOrDefault(candidate => string.Equals(candidate.Id, ownerId, StringComparison.Ordinal))
+                ?? unitParticipants.FirstOrDefault();
+        if (owner is null || unitParticipants.Length <= 1)
+        {
+            return AppResources.GroupDetails_ResponsibilityIndependent;
+        }
+
+        if (string.Equals(owner.Id, participant.Id, StringComparison.Ordinal))
+        {
+            return string.Format(AppResources.GroupDetails_ResponsibilityResponsibleForPeople, unitParticipants.Length - 1);
+        }
+
+        return string.Format(AppResources.GroupDetails_ResponsibilityDependsOn, owner.Name);
+    }
+
     public sealed class ParticipantOptionViewModel : BindableObject
     {
         private bool _isSelected;
@@ -140,6 +183,8 @@ public partial class AddExpensePage : ContentPage
         public string Id { get; }
 
         public string Name { get; }
+
+        public string DisplayName { get; }
 
         public bool IsSelected
         {
@@ -156,10 +201,11 @@ public partial class AddExpensePage : ContentPage
             }
         }
 
-        public ParticipantOptionViewModel(string id, string name, bool isSelected)
+        public ParticipantOptionViewModel(string id, string name, string displayName, bool isSelected)
         {
             Id = id;
             Name = name;
+            DisplayName = displayName;
             _isSelected = isSelected;
         }
     }
