@@ -134,6 +134,9 @@
   <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Alex</value>
   </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>Enter person name</value>
+  </data>
   <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
     <value>Responsibility name (optional)</value>
   </data>

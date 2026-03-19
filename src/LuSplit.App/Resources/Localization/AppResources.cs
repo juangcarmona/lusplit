@@ -59,6 +59,7 @@ public static class AppResources
     public static string GroupDetails_NoPeopleSubtitle => Get(nameof(GroupDetails_NoPeopleSubtitle));
     public static string GroupDetails_AddPersonSection => Get(nameof(GroupDetails_AddPersonSection));
     public static string GroupDetails_PersonNamePlaceholder => Get(nameof(GroupDetails_PersonNamePlaceholder));
+    public static string GroupDetails_PersonNamePrompt => Get(nameof(GroupDetails_PersonNamePrompt));
     public static string GroupDetails_HouseholdNamePlaceholder => Get(nameof(GroupDetails_HouseholdNamePlaceholder));
     public static string GroupDetails_ResponsibilityNamePlaceholder => Get(nameof(GroupDetails_ResponsibilityNamePlaceholder));
     public static string GroupDetails_DependsOnLabel => Get(nameof(GroupDetails_DependsOnLabel));

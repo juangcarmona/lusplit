@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.GroupDetailsPage"
+             x:Name="PageRoot"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              Title="{x:Static loc:AppResources.GroupDetails_Title}">
@@ -39,9 +40,7 @@
                 <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
                 <Label Text="{x:Static loc:AppResources.GroupDetails_ResponsibilityHint}" Style="{StaticResource BodyMuted}" />
 
-                <CollectionView ItemsSource="{Binding People}"
-                                SelectionMode="Single"
-                                SelectionChanged="OnPersonSelected">
+                <CollectionView ItemsSource="{Binding People}" SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="0,8,0,0" Spacing="8">
                             <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
@@ -57,59 +56,27 @@
                                         <Label Text="{Binding RelationshipText}" Style="{StaticResource BodyMuted}" />
                                         <Label Text="{Binding ConsumptionLabel}" Style="{StaticResource BodyMuted}" />
                                     </VerticalStackLayout>
-                                    <Button Grid.Column="1"
-                                        IsVisible="{Binding CanRemove}"
-                                        Text="{x:Static loc:AppResources.GroupDetails_Remove}"
-                                        Clicked="OnRemovePersonClicked"
-                                        CommandParameter="{Binding Name}" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                        <Button IsVisible="{Binding Source={x:Reference PageRoot}, Path=BindingContext.CanManagePeople}"
+                                                Text="{x:Static loc:AppResources.GroupDetails_ManagePersonSection}"
+                                                Clicked="OnManagePersonClicked"
+                                                CommandParameter="{Binding ParticipantId}" />
+                                        <Button IsVisible="{Binding CanRemove}"
+                                                Text="{x:Static loc:AppResources.GroupDetails_Remove}"
+                                                Clicked="OnRemovePersonClicked"
+                                                CommandParameter="{Binding Name}" />
+                                    </VerticalStackLayout>
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <!-- Manage person section -->
-                <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding IsPersonEditorVisible}">
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_ManagePersonSection}" Style="{StaticResource SectionTitle}" />
-                        <Entry Text="{Binding EditPersonName}" Placeholder="{x:Static loc:AppResources.GroupDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_DependsOnLabel}" Style="{StaticResource FieldLabel}" />
-                        <Picker ItemsSource="{Binding EditResponsibleParticipantOptions}"
-                                SelectedItem="{Binding EditSelectedResponsibleParticipantName}"
-                                Title="{x:Static loc:AppResources.GroupDetails_DependsOnPlaceholder}"
-                                IsEnabled="{Binding CanChangeSelectedPersonDependency}" />
-                        <Label Text="{Binding EditPersonDependencyStatusText}"
-                               IsVisible="{Binding IsEditPersonDependencyStatusVisible}"
-                               Style="{StaticResource BodyMuted}" />
-                        <HorizontalStackLayout Spacing="8">
-                            <Button Text="{x:Static loc:AppResources.GroupDetails_SavePersonChangesButton}"
-                                    Clicked="OnSavePersonChangesClicked" />
-                            <Button Text="{x:Static loc:AppResources.Common_Cancel}"
-                                    Style="{StaticResource SecondaryButton}"
-                                    Clicked="OnCancelPersonEditClicked" />
-                        </HorizontalStackLayout>
-                    </VerticalStackLayout>
-                </Border>
-
                 <!-- Add person section (hidden for archived groups) -->
                 <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding CanEdit}">
                     <VerticalStackLayout Spacing="12">
                         <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
                         <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
-                        <Entry Text="{Binding NewPersonName}" Placeholder="{x:Static loc:AppResources.GroupDetails_PersonNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_DependsOnLabel}" Style="{StaticResource FieldLabel}" />
-                        <Picker ItemsSource="{Binding ResponsibleParticipantOptions}"
-                                SelectedItem="{Binding SelectedResponsibleParticipantName}"
-                                Title="{x:Static loc:AppResources.GroupDetails_DependsOnPlaceholder}" />
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_ConsumptionCategoryLabel}" Style="{StaticResource FieldLabel}" />
-                        <Picker ItemsSource="{Binding ConsumptionOptions}"
-                                SelectedItem="{Binding SelectedConsumption}"
-                                ItemDisplayBinding="{Binding Label}" />
-                        <Entry Text="{Binding NewCustomWeight}"
-                               Placeholder="{x:Static loc:AppResources.GroupDetails_CustomWeightPlaceholder}"
-                               Keyboard="Numeric"
-                               IsVisible="{Binding IsCustomConsumption}"
-                               ClearButtonVisibility="WhileEditing" />
                         <Button Text="{x:Static loc:AppResources.GroupDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
                     </VerticalStackLayout>
                 </Border>

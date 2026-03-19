@@ -43,8 +43,6 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     public string NewCustomWeight { get; set; } = string.Empty;
 
-    public bool IsPersonEditorVisible { get; set; }
-
     public string EditPersonName { get; set; } = string.Empty;
 
     public string? EditSelectedResponsibleParticipantName { get; set; }
@@ -63,6 +61,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     /// <summary>True when the group can be edited — create mode is always editable; edit mode requires the group to not be archived.</summary>
     public bool CanEdit => IsCreateMode || !_isArchived;
+    public bool CanManagePeople => CanEdit && !IsCreateMode;
 
     public bool CanExport => !IsCreateMode;
 
@@ -162,14 +161,26 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(NewPersonName))
+            var personName = await DisplayPromptAsync(
+                AppResources.GroupDetails_AddPersonSection,
+                AppResources.GroupDetails_PersonNamePrompt,
+                AppResources.GroupDetails_AddPersonButton,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_PersonNamePlaceholder);
+
+            if (personName is null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(personName))
             {
                 StatusText = AppResources.Validation_PersonNameRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
-            var newPersonName = NewPersonName.Trim();
+            var newPersonName = personName.Trim();
             if (People.Any(person => string.Equals(person.Name, newPersonName, StringComparison.OrdinalIgnoreCase)))
             {
                 StatusText = AppResources.Validation_PersonNameMustBeUnique;
@@ -177,11 +188,59 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 return;
             }
 
-            var category = ResolveConsumptionCategory();
+            var dependsOnSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_DependsOnLabel,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_DependsOnPlaceholder,
+                ResponsibleParticipantOptions.ToArray());
+            if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                return;
+            }
 
+            SelectedResponsibleParticipantName = string.Equals(dependsOnSelection, AppResources.GroupDetails_DependsOnPlaceholder, StringComparison.Ordinal)
+                ? null
+                : dependsOnSelection;
+
+            var consumptionSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_ConsumptionCategoryLabel,
+                AppResources.Common_Cancel,
+                null,
+                AppResources.GroupDetails_ConsumptionFull,
+                AppResources.GroupDetails_ConsumptionHalf,
+                AppResources.GroupDetails_ConsumptionCustom);
+            if (string.Equals(consumptionSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            var category = consumptionSelection switch
+            {
+                var value when string.Equals(value, AppResources.GroupDetails_ConsumptionHalf, StringComparison.Ordinal)
+                    => ConsumptionCategory.Half,
+                var value when string.Equals(value, AppResources.GroupDetails_ConsumptionCustom, StringComparison.Ordinal)
+                    => ConsumptionCategory.Custom,
+                _ => ConsumptionCategory.Full
+            };
+
+            string? customWeight = null;
             if (category == ConsumptionCategory.Custom)
             {
-                if (string.IsNullOrWhiteSpace(NewCustomWeight) || !decimal.TryParse(NewCustomWeight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
+                var customWeightSelection = await DisplayPromptAsync(
+                    AppResources.GroupDetails_ConsumptionCustom,
+                    AppResources.Validation_InvalidCustomWeight,
+                    AppResources.GroupDetails_AddPersonButton,
+                    AppResources.Common_Cancel,
+                    AppResources.GroupDetails_CustomWeightPlaceholder,
+                    keyboard: Keyboard.Numeric);
+                if (customWeightSelection is null)
+                {
+                    return;
+                }
+
+                customWeight = customWeightSelection.Trim();
+                if (string.IsNullOrWhiteSpace(customWeight)
+                    || !decimal.TryParse(customWeight, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
                 {
                     StatusText = AppResources.Validation_InvalidCustomWeight;
                     OnPropertyChanged(nameof(StatusText));
@@ -201,7 +260,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                     false,
                     true,
                     CategoryToString(category),
-                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null));
+                    customWeight));
                 RebuildDraftPeopleRelationships();
                 RebuildResponsibleParticipantOptions();
             }
@@ -219,7 +278,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                     newPersonName,
                     ResolveSelectedHouseholdName(),
                     category,
-                    category == ConsumptionCategory.Custom ? NewCustomWeight.Trim() : null);
+                    customWeight);
                 StatusText = AppResources.GroupDetails_PersonAdded;
                 await LoadAsync();
             }
@@ -254,21 +313,32 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnPersonSelected(object? sender, SelectionChangedEventArgs e)
+    private async void OnManagePersonClicked(object? sender, EventArgs e)
     {
-        if (!CanEdit || IsCreateMode || e.CurrentSelection.FirstOrDefault() is not GroupPersonEditorViewModel selectedPerson)
+        try
         {
-            return;
-        }
+            if (!CanEdit || IsCreateMode || sender is not Button { CommandParameter: string participantId })
+            {
+                return;
+            }
 
-        OpenPersonEditor(selectedPerson);
-        if (sender is CollectionView collectionView)
+            var person = People.FirstOrDefault(candidate => string.Equals(candidate.ParticipantId, participantId, StringComparison.Ordinal));
+            if (person is null)
+            {
+                return;
+            }
+
+            OpenPersonEditor(person);
+            await ShowManagePersonDialogAsync(person);
+        }
+        catch (Exception ex)
         {
-            collectionView.SelectedItem = null;
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
         }
     }
 
-    private async void OnSavePersonChangesClicked(object? sender, EventArgs e)
+    private async Task SavePersonChangesAsync()
     {
         try
         {
@@ -314,10 +384,45 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnCancelPersonEditClicked(object? sender, EventArgs e)
+    private async Task ShowManagePersonDialogAsync(GroupPersonEditorViewModel person)
     {
-        ResetPersonEditor();
-        NotifyPersonEditorProperties();
+        var editedName = await DisplayPromptAsync(
+            AppResources.GroupDetails_ManagePersonSection,
+            AppResources.GroupDetails_PersonNamePrompt,
+            AppResources.GroupDetails_SavePersonChangesButton,
+            AppResources.Common_Cancel,
+            AppResources.GroupDetails_PersonNamePlaceholder,
+            initialValue: person.Name);
+        if (editedName is null)
+        {
+            ResetPersonEditor();
+            NotifyPersonEditorProperties();
+            return;
+        }
+
+        EditPersonName = editedName.Trim();
+
+        if (CanChangeSelectedPersonDependency)
+        {
+            var dependsOnSelection = await DisplayActionSheetAsync(
+                AppResources.GroupDetails_DependsOnLabel,
+                AppResources.Common_Cancel,
+                AppResources.GroupDetails_DependsOnPlaceholder,
+                EditResponsibleParticipantOptions.ToArray());
+
+            if (string.Equals(dependsOnSelection, AppResources.Common_Cancel, StringComparison.Ordinal))
+            {
+                ResetPersonEditor();
+                NotifyPersonEditorProperties();
+                return;
+            }
+
+            EditSelectedResponsibleParticipantName = string.Equals(dependsOnSelection, AppResources.GroupDetails_DependsOnPlaceholder, StringComparison.Ordinal)
+                ? null
+                : dependsOnSelection;
+        }
+
+        await SavePersonChangesAsync();
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -639,7 +744,6 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     private void OpenPersonEditor(GroupPersonEditorViewModel person)
     {
         _selectedPersonParticipantId = person.ParticipantId;
-        IsPersonEditorVisible = true;
         EditPersonName = person.Name;
         RebuildEditResponsibleParticipantOptions(person);
         EditSelectedResponsibleParticipantName = ResolveCurrentResponsibleName(person);
@@ -723,7 +827,6 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private void ResetPersonEditor()
     {
-        IsPersonEditorVisible = false;
         _selectedPersonParticipantId = null;
         EditPersonName = string.Empty;
         EditSelectedResponsibleParticipantName = null;
@@ -738,6 +841,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         OnPropertyChanged(nameof(SelectedCurrency));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
+        OnPropertyChanged(nameof(CanManagePeople));
         OnPropertyChanged(nameof(CanExport));
         OnPropertyChanged(nameof(CanArchive));
         OnPropertyChanged(nameof(PageTitle));
@@ -761,7 +865,6 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private void NotifyPersonEditorProperties()
     {
-        OnPropertyChanged(nameof(IsPersonEditorVisible));
         OnPropertyChanged(nameof(EditPersonName));
         OnPropertyChanged(nameof(EditSelectedResponsibleParticipantName));
         OnPropertyChanged(nameof(EditResponsibleParticipantOptions));
