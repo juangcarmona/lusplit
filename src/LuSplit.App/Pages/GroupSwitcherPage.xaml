@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.GroupSwitcherPage"
-             Title="Switch group">
+             Title="{x:Static loc:AppResources.GroupSwitcher_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
-                <Label Text="Switch group" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.GroupSwitcher_Title}" Style="{StaticResource SectionTitle}" />
 
                 <CollectionView ItemsSource="{Binding ActiveGroups}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
@@ -15,7 +16,7 @@
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" Padding="0,4">
                                 <Label Text="{Binding DisplayName}" Style="{StaticResource BodyText}" />
                                 <Button Grid.Column="1"
-                                        Text="Select"
+                                        Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
                                         Clicked="OnSelectGroupClicked"
                                         CommandParameter="{Binding GroupId}"
                                         IsEnabled="{Binding CanSelect}" />
@@ -24,21 +25,21 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="Archived groups" Style="{StaticResource SecondaryButton}" Clicked="OnToggleArchivedClicked" />
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_ArchivedToggle}" Style="{StaticResource SecondaryButton}" Clicked="OnToggleArchivedClicked" />
                 <CollectionView ItemsSource="{Binding ArchivedGroups}" SelectionMode="None" IsVisible="{Binding ShowArchived}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" Padding="0,4">
                                 <Label Text="{Binding Name}" Style="{StaticResource BodyMuted}" />
                                 <Button Grid.Column="1"
-                                        Text="Select"
+                                        Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
                                         Clicked="OnSelectGroupClicked"
                                         CommandParameter="{Binding GroupId}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Text="+ New group" Clicked="OnNewGroupClicked" />
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_NewGroup}" Clicked="OnNewGroupClicked" />
             </VerticalStackLayout>
         </ScrollView>
 

@@ -47,7 +47,7 @@ public partial class SettlementPage : ContentPage
 
     private async void OnSuggestionTapped(object? sender, TappedEventArgs e)
     {
-        if (sender is not Grid { BindingContext: SettlementSuggestionRowViewModel row })
+        if (sender is not TapGestureRecognizer { BindingContext: SettlementSuggestionRowViewModel row })
         {
             return;
         }

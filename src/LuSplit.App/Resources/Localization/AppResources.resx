@@ -40,6 +40,9 @@
   <data name="Home_AllSettled" xml:space="preserve">
     <value>All settled</value>
   </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>Pay</value>
+  </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
   </data>
@@ -223,6 +226,15 @@
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
     <value>responsible for {0} people</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Independent</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>Depends on: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>Responsible for: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
     <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
@@ -430,6 +442,48 @@
   </data>
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>A person cannot depend on themselves.</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>Circular dependency is not allowed.</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>Switch group</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(Current)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>Archived groups</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ New group</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>Create group</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>Group name</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>Participant name</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>Create</value>
   </data>
 
   <!-- Archived groups -->

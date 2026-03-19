@@ -61,7 +61,7 @@
                     Text="{x:Static loc:AppResources.Group_AddExpense}"
                     Clicked="OnAddExpenseClicked" />
             <Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8" Margin="16,0,16,8">
-                <Button Grid.Column="0" Text="Pay" Style="{StaticResource SecondaryButton}" Clicked="OnPayClicked" />
+                <Button Grid.Column="0" Text="{x:Static loc:AppResources.Home_PayButton}" Style="{StaticResource SecondaryButton}" Clicked="OnPayClicked" />
                 <Button Grid.Column="1" Text="{x:Static loc:AppResources.Groups_Details}" Style="{StaticResource SecondaryButton}" Clicked="OnEditGroupClicked" />
                 <Button Grid.Column="2" Text="{x:Static loc:AppResources.Groups_ViewArchived}" Style="{StaticResource SecondaryButton}" Clicked="OnViewArchivedClicked" />
             </Grid>

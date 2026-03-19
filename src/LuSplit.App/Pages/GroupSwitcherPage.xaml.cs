@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
@@ -70,5 +71,5 @@ public partial class GroupSwitcherPage : ContentPage
 public sealed record GroupSwitcherItemViewModel(string GroupId, string Name, bool IsCurrent)
 {
     public bool CanSelect => !IsCurrent;
-    public string DisplayName => IsCurrent ? $"{Name} (Current)" : Name;
+    public string DisplayName => IsCurrent ? $"{Name} {AppResources.GroupSwitcher_CurrentSuffix}" : Name;
 }

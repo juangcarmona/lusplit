@@ -24,6 +24,7 @@ public static class AppResources
     public static string Home_Title => Get(nameof(Home_Title));
     public static string Home_NoBalancesYet => Get(nameof(Home_NoBalancesYet));
     public static string Home_AllSettled => Get(nameof(Home_AllSettled));
+    public static string Home_PayButton => Get(nameof(Home_PayButton));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -94,6 +95,9 @@ public static class AppResources
     public static string GroupDetails_ResponsibilityIndependent => Get(nameof(GroupDetails_ResponsibilityIndependent));
     public static string GroupDetails_ResponsibilityDependsOn => Get(nameof(GroupDetails_ResponsibilityDependsOn));
     public static string GroupDetails_ResponsibilityResponsibleForPeople => Get(nameof(GroupDetails_ResponsibilityResponsibleForPeople));
+    public static string GroupDetails_DependencyIndependent => Get(nameof(GroupDetails_DependencyIndependent));
+    public static string GroupDetails_DependencyDependsOnFormat => Get(nameof(GroupDetails_DependencyDependsOnFormat));
+    public static string GroupDetails_DependencyResponsibleForFormat => Get(nameof(GroupDetails_DependencyResponsibleForFormat));
     public static string GroupDetails_AddPersonHint => Get(nameof(GroupDetails_AddPersonHint));
 
     // --- Add Event ---
@@ -168,6 +172,24 @@ public static class AppResources
     public static string Validation_PersonNotFound => Get(nameof(Validation_PersonNotFound));
     public static string Validation_ResponsiblePersonNotFound => Get(nameof(Validation_ResponsiblePersonNotFound));
     public static string Validation_PersonCannotDependOnSelf => Get(nameof(Validation_PersonCannotDependOnSelf));
+    public static string Validation_CircularDependency => Get(nameof(Validation_CircularDependency));
+
+    // --- Group switcher ---
+    public static string GroupSwitcher_Title => Get(nameof(GroupSwitcher_Title));
+    public static string GroupSwitcher_CurrentSuffix => Get(nameof(GroupSwitcher_CurrentSuffix));
+    public static string GroupSwitcher_Select => Get(nameof(GroupSwitcher_Select));
+    public static string GroupSwitcher_ArchivedToggle => Get(nameof(GroupSwitcher_ArchivedToggle));
+    public static string GroupSwitcher_NewGroup => Get(nameof(GroupSwitcher_NewGroup));
+
+    // --- Create group ---
+    public static string CreateGroup_Title => Get(nameof(CreateGroup_Title));
+    public static string CreateGroup_GroupName => Get(nameof(CreateGroup_GroupName));
+    public static string CreateGroup_GroupNamePlaceholder => Get(nameof(CreateGroup_GroupNamePlaceholder));
+    public static string CreateGroup_Currency => Get(nameof(CreateGroup_Currency));
+    public static string CreateGroup_Continue => Get(nameof(CreateGroup_Continue));
+    public static string CreateGroup_ParticipantPlaceholder => Get(nameof(CreateGroup_ParticipantPlaceholder));
+    public static string CreateGroup_AddParticipant => Get(nameof(CreateGroup_AddParticipant));
+    public static string CreateGroup_Create => Get(nameof(CreateGroup_Create));
 
     // --- Archived groups ---
     public static string Archived_Title => Get(nameof(Archived_Title));

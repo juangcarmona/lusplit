@@ -91,27 +91,25 @@ public partial class CreateGroupPage : ContentPage
             return;
         }
 
-        var options = new[] { "Independent" }
+        var options = new[] { AppResources.GroupDetails_DependencyIndependent }
             .Concat(Participants.Where(p => !string.Equals(p.Name, current.Name, StringComparison.Ordinal))
                 .Select(p => p.Name))
             .ToArray();
-        var selection = await DisplayActionSheetAsync("Depends on", AppResources.Common_Cancel, null, options);
+        var selection = await DisplayActionSheetAsync(AppResources.GroupDetails_DependsOnLabel, AppResources.Common_Cancel, null, options);
         if (string.IsNullOrWhiteSpace(selection) || string.Equals(selection, AppResources.Common_Cancel, StringComparison.Ordinal))
         {
             return;
         }
 
-        if (string.Equals(selection, "Independent", StringComparison.Ordinal))
+        if (string.Equals(selection, AppResources.GroupDetails_DependencyIndependent, StringComparison.Ordinal))
         {
             current.DependsOn = null;
         }
         else
         {
-            // one-parent max, no simple cycle (A->B and B->A).
-            var dependent = Participants.FirstOrDefault(p => string.Equals(p.Name, selection, StringComparison.Ordinal));
-            if (dependent is not null && string.Equals(dependent.DependsOn, current.Name, StringComparison.Ordinal))
+            if (WouldCreateCycle(current.Name, selection))
             {
-                StatusText = "Circular dependency is not allowed.";
+                StatusText = AppResources.Validation_CircularDependency;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -135,9 +133,14 @@ public partial class CreateGroupPage : ContentPage
 
         try
         {
-            var drafts = Participants.Select(person => new GroupDraftMember(
+            var orderedParticipants = Participants
+                .OrderBy(person => string.IsNullOrWhiteSpace(person.DependsOn) ? 0 : 1)
+                .ThenBy(person => person.Name, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            var drafts = orderedParticipants.Select(person => new GroupDraftMember(
                 person.Name,
-                string.IsNullOrWhiteSpace(person.DependsOn) ? null : person.DependsOn,
+                string.IsNullOrWhiteSpace(person.DependsOn) ? person.Name : person.DependsOn,
                 ConsumptionCategory.Full,
                 null)).ToArray();
 
@@ -150,13 +153,37 @@ public partial class CreateGroupPage : ContentPage
             OnPropertyChanged(nameof(StatusText));
         }
     }
+
+    private bool WouldCreateCycle(string participantName, string? selectedResponsible)
+    {
+        if (string.IsNullOrWhiteSpace(selectedResponsible))
+        {
+            return false;
+        }
+
+        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { participantName };
+        var cursor = selectedResponsible;
+        while (!string.IsNullOrWhiteSpace(cursor))
+        {
+            if (!visited.Add(cursor))
+            {
+                return true;
+            }
+
+            cursor = Participants.FirstOrDefault(p => string.Equals(p.Name, cursor, StringComparison.OrdinalIgnoreCase))?.DependsOn;
+        }
+
+        return false;
+    }
 }
 
 public sealed class CreateParticipantViewModel : BindableObject
 {
     public string Name { get; }
     public string? DependsOn { get; set; }
-    public string DependsOnLabel => string.IsNullOrWhiteSpace(DependsOn) ? "Independent" : $"Depends on: {DependsOn}";
+    public string DependsOnLabel => string.IsNullOrWhiteSpace(DependsOn)
+        ? AppResources.GroupDetails_DependencyIndependent
+        : string.Format(AppResources.GroupDetails_DependencyDependsOnFormat, DependsOn);
 
     public CreateParticipantViewModel(string name)
     {

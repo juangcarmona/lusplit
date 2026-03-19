@@ -2,35 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.CreateGroupPage"
-             Title="Create group">
+             Title="{x:Static loc:AppResources.CreateGroup_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
-                <Label Text="Create group" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.CreateGroup_Title}" Style="{StaticResource SectionTitle}" />
 
                 <VerticalStackLayout IsVisible="{Binding IsStep1}" Spacing="8">
                     <Border Style="{StaticResource FormFieldBorder}">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="Group name" Style="{StaticResource FieldLabel}" />
-                            <Entry Text="{Binding GroupName}" Placeholder="Ski trip" />
+                            <Label Text="{x:Static loc:AppResources.CreateGroup_GroupName}" Style="{StaticResource FieldLabel}" />
+                            <Entry Text="{Binding GroupName}" Placeholder="{x:Static loc:AppResources.CreateGroup_GroupNamePlaceholder}" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Style="{StaticResource FormFieldBorder}">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="Currency" Style="{StaticResource FieldLabel}" />
+                            <Label Text="{x:Static loc:AppResources.CreateGroup_Currency}" Style="{StaticResource FieldLabel}" />
                             <Picker ItemsSource="{Binding CurrencyOptions}" SelectedItem="{Binding SelectedCurrency}" />
                         </VerticalStackLayout>
                     </Border>
-                    <Button Text="Continue" Clicked="OnContinueClicked" />
+                    <Button Text="{x:Static loc:AppResources.CreateGroup_Continue}" Clicked="OnContinueClicked" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding IsStep2}" Spacing="8">
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                         <Border Style="{StaticResource FormFieldBorder}">
-                            <Entry Text="{Binding NewParticipantName}" Placeholder="Participant name" />
+                            <Entry Text="{Binding NewParticipantName}" Placeholder="{x:Static loc:AppResources.CreateGroup_ParticipantPlaceholder}" />
                         </Border>
-                        <Button Grid.Column="1" Text="Add" Clicked="OnAddParticipantClicked" />
+                        <Button Grid.Column="1" Text="{x:Static loc:AppResources.CreateGroup_AddParticipant}" Clicked="OnAddParticipantClicked" />
                     </Grid>
                     <CollectionView ItemsSource="{Binding Participants}" SelectionMode="None">
                         <CollectionView.ItemTemplate>
@@ -46,7 +47,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    <Button Text="Create" Clicked="OnCreateClicked" />
+                    <Button Text="{x:Static loc:AppResources.CreateGroup_Create}" Clicked="OnCreateClicked" />
                 </VerticalStackLayout>
 
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
