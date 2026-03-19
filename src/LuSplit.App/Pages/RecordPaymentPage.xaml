@@ -12,12 +12,12 @@
                 <Label Text="{x:Static loc:AppResources.RecordPayment_Subtitle}" Style="{StaticResource BodyMuted}" />
 
                 <VerticalStackLayout IsVisible="{Binding IsQuickMode}" Spacing="8">
-                    <Label Text="Suggestion" Style="{StaticResource SectionTitle}" />
+                    <Label Text="{x:Static loc:AppResources.RecordPayment_SuggestionTitle}" Style="{StaticResource SectionTitle}" />
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                         <Label Text="{Binding QuickSummaryText}" Style="{StaticResource BodyText}" />
                         <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" />
                     </Grid>
-                    <Button Text="Confirm payment" Clicked="OnSaveClicked" />
+                    <Button Text="{x:Static loc:AppResources.RecordPayment_ConfirmButton}" Clicked="OnSaveClicked" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding IsManualMode}" Spacing="12">

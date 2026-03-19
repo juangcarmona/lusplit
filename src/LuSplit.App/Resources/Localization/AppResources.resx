@@ -31,6 +31,15 @@
   <data name="Groups_Title" xml:space="preserve">
     <value>Groups</value>
   </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>No balances yet</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>All settled</value>
+  </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
   </data>
@@ -277,6 +286,15 @@
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
     <value>Everyone is included by default.</value>
   </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>Select a person to include. Dependents follow their responsible participant.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>Split preview</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>Enter amount and participants to preview.</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Save event</value>
   </data>
@@ -325,6 +343,12 @@
   </data>
   <data name="RecordPayment_SaveButton" xml:space="preserve">
     <value>Save payment</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>Suggestion</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>Confirm payment</value>
   </data>
 
   <!-- Common -->

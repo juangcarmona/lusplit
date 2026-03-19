@@ -34,7 +34,7 @@
                 </Border>
 
                 <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
-                <Label Text="Select a person to include. Dependents follow their responsible participant." Style="{StaticResource BodyMuted}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_ParticipantHint}" Style="{StaticResource BodyMuted}" />
                 <CollectionView ItemsSource="{Binding ParticipantOptions}" SelectionMode="None">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="6" HorizontalItemSpacing="6" />
@@ -63,10 +63,10 @@
                     </Border>
                 </Grid>
 
-                <Label Text="Split preview" Style="{StaticResource SectionTitle}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewTitle}" Style="{StaticResource SectionTitle}" />
                 <CollectionView ItemsSource="{Binding SplitPreview}" SelectionMode="None">
                     <CollectionView.EmptyView>
-                        <Label Text="Enter amount and participants to preview." Style="{StaticResource BodyMuted}" />
+                        <Label Text="{x:Static loc:AppResources.AddEvent_SplitPreviewHint}" Style="{StaticResource BodyMuted}" />
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

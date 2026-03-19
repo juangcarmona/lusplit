@@ -12,7 +12,7 @@ public partial class AddExpensePage : ContentPage
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, ParticipantModel> _participantById = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _ownerByParticipantId = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
     private string _currency = "USD";
 
     public ObservableCollection<string> PayerNames { get; } = new();

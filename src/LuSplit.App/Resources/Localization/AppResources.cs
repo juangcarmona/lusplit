@@ -21,6 +21,9 @@ public static class AppResources
     public static string Activity_EmptySubtitle => Get(nameof(Activity_EmptySubtitle));
 
     // --- Groups (Home) ---
+    public static string Home_Title => Get(nameof(Home_Title));
+    public static string Home_NoBalancesYet => Get(nameof(Home_NoBalancesYet));
+    public static string Home_AllSettled => Get(nameof(Home_AllSettled));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -108,6 +111,9 @@ public static class AppResources
     public static string AddEvent_PayerHint => Get(nameof(AddEvent_PayerHint));
     public static string AddEvent_WhoJoined => Get(nameof(AddEvent_WhoJoined));
     public static string AddEvent_EveryoneDefault => Get(nameof(AddEvent_EveryoneDefault));
+    public static string AddEvent_ParticipantHint => Get(nameof(AddEvent_ParticipantHint));
+    public static string AddEvent_SplitPreviewTitle => Get(nameof(AddEvent_SplitPreviewTitle));
+    public static string AddEvent_SplitPreviewHint => Get(nameof(AddEvent_SplitPreviewHint));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
 
@@ -127,6 +133,8 @@ public static class AppResources
     public static string RecordPayment_WhoPaid => Get(nameof(RecordPayment_WhoPaid));
     public static string RecordPayment_WhoReceived => Get(nameof(RecordPayment_WhoReceived));
     public static string RecordPayment_SaveButton => Get(nameof(RecordPayment_SaveButton));
+    public static string RecordPayment_SuggestionTitle => Get(nameof(RecordPayment_SuggestionTitle));
+    public static string RecordPayment_ConfirmButton => Get(nameof(RecordPayment_ConfirmButton));
 
     // --- Common ---
     public static string Common_Amount => Get(nameof(Common_Amount));

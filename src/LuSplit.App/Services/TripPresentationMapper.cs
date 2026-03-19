@@ -122,6 +122,9 @@ public static class GroupPresentationMapper
 
     public static IReadOnlyList<NetBalanceViewModel> BuildNetBalances(GroupOverviewModel overview)
     {
+        var amountByParticipantId = overview.BalancesByParticipant
+            .ToDictionary(balance => balance.EntityId, balance => balance.AmountMinor, StringComparer.Ordinal);
+
         return overview.BalancesByParticipant
             .Select(balance =>
             {
@@ -135,7 +138,7 @@ public static class GroupPresentationMapper
                     $"{sign}{FormatMinor(absAmountMinor, overview.Group.Currency)}",
                     isPositive);
             })
-            .OrderByDescending(line => overview.BalancesByParticipant.First(b => string.Equals(b.EntityId, line.ParticipantId, StringComparison.Ordinal)).AmountMinor)
+            .OrderByDescending(line => amountByParticipantId.TryGetValue(line.ParticipantId, out var amount) ? amount : 0L)
             .ThenBy(line => line.Name, StringComparer.OrdinalIgnoreCase)
             .ToArray();
     }
