@@ -61,6 +61,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     /// <summary>True when the group can be edited — create mode is always editable; edit mode requires the group to not be archived.</summary>
     public bool CanEdit => IsCreateMode || !_isArchived;
+    
     public bool CanManagePeople => CanEdit && !IsCreateMode;
 
     public bool CanExport => !IsCreateMode;
