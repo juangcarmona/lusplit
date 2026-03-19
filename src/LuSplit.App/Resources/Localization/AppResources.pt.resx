@@ -188,7 +188,7 @@
     <value>Todos incluídos por padrão.</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>Ajustar divisão</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Guardar evento</value>

@@ -188,7 +188,7 @@
     <value>Tout le monde est inclus par défaut.</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>Ajuster la répartition</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Enregistrer</value>

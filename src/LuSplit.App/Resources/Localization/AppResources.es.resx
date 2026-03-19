@@ -188,7 +188,7 @@
     <value>Todos incluidos por defecto.</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>Ajustar reparto</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Guardar evento</value>
