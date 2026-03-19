@@ -3,7 +3,7 @@ using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
-public partial class ActivityPage : LoadOnAppearingPage
+public partial class ActivityPage : ContentPage
 {
     private readonly AppDataService _dataService;
 
@@ -22,7 +22,13 @@ public partial class ActivityPage : LoadOnAppearingPage
 #endif
     }
 
-    protected override async Task LoadAsync()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
     {
         var workspace = await _dataService.GetGroupWorkspaceAsync();
         var overview = workspace.Overview;

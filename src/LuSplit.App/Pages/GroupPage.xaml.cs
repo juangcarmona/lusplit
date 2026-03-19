@@ -4,7 +4,7 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class GroupPage : LoadOnAppearingPage, IQueryAttributable
+public partial class GroupPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     // Set when navigating to this page for a specific (e.g. archived) group,
@@ -43,7 +43,13 @@ public partial class GroupPage : LoadOnAppearingPage, IQueryAttributable
             : null;
     }
 
-    protected override async Task LoadAsync()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
     {
         var workspace = _overrideGroupId is not null
             ? await _dataService.GetGroupWorkspaceAsync(_overrideGroupId)

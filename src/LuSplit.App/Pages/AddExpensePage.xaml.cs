@@ -6,7 +6,7 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class AddExpensePage : LoadOnAppearingPage
+public partial class AddExpensePage : ContentPage
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
@@ -36,8 +36,11 @@ public partial class AddExpensePage : LoadOnAppearingPage
 #endif
     }
 
-    protected override Task LoadAsync()
-        => LoadParticipantsAsync();
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadParticipantsAsync();
+    }
 
     private async Task LoadParticipantsAsync()
     {

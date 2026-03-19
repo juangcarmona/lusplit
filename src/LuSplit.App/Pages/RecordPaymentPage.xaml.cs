@@ -6,7 +6,7 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class RecordPaymentPage : LoadOnAppearingPage, IQueryAttributable
+public partial class RecordPaymentPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
@@ -49,7 +49,13 @@ public partial class RecordPaymentPage : LoadOnAppearingPage, IQueryAttributable
             : null;
     }
 
-    protected override async Task LoadAsync()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
         _participants.Clear();

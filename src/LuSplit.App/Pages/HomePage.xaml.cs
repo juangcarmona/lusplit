@@ -5,7 +5,7 @@ using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Pages;
 
-public partial class HomePage : LoadOnAppearingPage
+public partial class HomePage : ContentPage
 {
     private readonly AppDataService _dataService;
 
@@ -29,7 +29,13 @@ public partial class HomePage : LoadOnAppearingPage
 #endif
     }
 
-    protected override async Task LoadAsync()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
     {
         var workspace = await _dataService.GetGroupWorkspaceAsync();
         var overview = workspace.Overview;
