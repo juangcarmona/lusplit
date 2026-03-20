@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
@@ -19,6 +20,8 @@ public partial class AddExpensePage : ContentPage
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
+    private const string AttachmentIconLabel = "attachment";
+    private const string PhotoIconLabel = "photo";
     private string _currency = "USD";
     private string? _attachmentLabel;
 
@@ -267,9 +270,15 @@ public partial class AddExpensePage : ContentPage
                 row.AmountMinor = amount;
             }
         }
-        catch
+        catch (FormatException)
         {
-            // Avoid edit-time crashes from malformed user input.
+            Debug.WriteLine("AddExpense row edit ignored invalid number format.");
+            // Keep editing resilient for malformed keyboard input.
+        }
+        catch (OverflowException)
+        {
+            Debug.WriteLine("AddExpense row edit ignored numeric overflow.");
+            // Keep editing resilient for out-of-range keyboard input.
         }
 
         RecalculateAll();
@@ -279,7 +288,7 @@ public partial class AddExpensePage : ContentPage
 
     private async void OnAttachMediaClicked(object? sender, EventArgs e)
     {
-        _attachmentLabel = "attachment";
+        _attachmentLabel = AttachmentIconLabel;
         StatusText = "Attachment will be linked after save.";
         OnPropertyChanged(nameof(StatusText));
         await Task.CompletedTask;
@@ -287,7 +296,7 @@ public partial class AddExpensePage : ContentPage
 
     private async void OnTakePhotoClicked(object? sender, EventArgs e)
     {
-        _attachmentLabel = "photo";
+        _attachmentLabel = PhotoIconLabel;
         StatusText = "Photo will be linked after save.";
         OnPropertyChanged(nameof(StatusText));
         await Task.CompletedTask;
