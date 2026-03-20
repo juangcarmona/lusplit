@@ -125,7 +125,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         {
             _groupId = null;
             GroupName = string.Empty;
-            SelectedCurrency = SelectedCurrency is null ? "USD" : SelectedCurrency;
+            SelectedCurrency = SelectedCurrency is null ? AppPreferences.GetPreferredCurrency() : SelectedCurrency;
             People.Clear();
         }
         else

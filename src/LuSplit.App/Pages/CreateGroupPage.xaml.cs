@@ -14,7 +14,7 @@ public partial class CreateGroupPage : ContentPage
     public ObservableCollection<CreateParticipantViewModel> Participants { get; } = new();
 
     public string GroupName { get; set; } = string.Empty;
-    public string? SelectedCurrency { get; set; } = "USD";
+    public string? SelectedCurrency { get; set; } = AppPreferences.GetPreferredCurrency();
     public string NewParticipantName { get; set; } = string.Empty;
     public string StatusText { get; set; } = string.Empty;
 

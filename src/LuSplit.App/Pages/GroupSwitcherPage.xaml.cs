@@ -53,7 +53,7 @@ public partial class GroupSwitcherPage : ContentPage
         }
 
         await _dataService.SelectGroupAsync(groupId);
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
     }
 
     private async void OnBackClicked(object? sender, EventArgs e)

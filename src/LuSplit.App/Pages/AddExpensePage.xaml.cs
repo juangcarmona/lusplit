@@ -3,6 +3,7 @@ using System.Globalization;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
+using LuSplit.Domain.Split;
 
 namespace LuSplit.App.Pages;
 
@@ -13,18 +14,18 @@ public partial class AddExpensePage : ContentPage
     private readonly Dictionary<string, ParticipantModel> _participantById = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
     private string _currency = "USD";
+    private bool _isCustomSplit;
 
     public ObservableCollection<string> PayerNames { get; } = new();
-    public ObservableCollection<ParticipantOptionViewModel> ParticipantOptions { get; } = new();
-    public ObservableCollection<SplitPreviewRowViewModel> SplitPreview { get; } = new();
+    public ObservableCollection<ParticipantSplitRowViewModel> ParticipantRows { get; } = new();
+    public ObservableCollection<ImpactRowViewModel> ImpactRows { get; } = new();
 
     public string ExpenseTitle { get; set; } = string.Empty;
     public string AmountText { get; set; } = string.Empty;
     public DateTime ExpenseDate { get; set; } = DateTime.Today;
     public string? SelectedPayerName { get; set; }
-    public string StatusText { get; set; } = "";
+    public string StatusText { get; set; } = string.Empty;
     public bool CanSave { get; private set; }
-    public bool IsSplitEditorVisible { get; private set; }
 
     public AddExpensePage(AppDataService dataService)
     {
@@ -40,52 +41,58 @@ public partial class AddExpensePage : ContentPage
     {
         base.OnAppearing();
         await LoadParticipantsAsync();
+        MainThread.BeginInvokeOnMainThread(() => AmountEntry.Focus());
     }
 
     private async Task LoadParticipantsAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
-        var participants = overview.Participants;
-        var unitsById = overview.EconomicUnits.ToDictionary(unit => unit.Id, StringComparer.Ordinal);
         var defaults = _dataService.GetEventDraftDefaults();
         _currency = overview.Group.Currency;
-        _participants.Clear();
-        _participants.AddRange(participants);
-        _participantById.Clear();
 
-        PayerNames.Clear();
-        ParticipantOptions.Clear();
-        SplitPreview.Clear();
+        _participants.Clear();
+        _participants.AddRange(overview.Participants);
+        _participantById.Clear();
         _payerParticipantIdByLabel.Clear();
 
-        foreach (var participant in participants)
+        PayerNames.Clear();
+        ParticipantRows.Clear();
+        ImpactRows.Clear();
+
+        foreach (var participant in _participants)
         {
             _participantById[participant.Id] = participant;
-            var ownerId = unitsById.TryGetValue(participant.EconomicUnitId, out var unit)
-                ? unit.OwnerParticipantId
-                : participant.Id;
             PayerNames.Add(participant.Name);
             _payerParticipantIdByLabel[participant.Name] = participant.Id;
-            var isSelected = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
-            ParticipantOptions.Add(new ParticipantOptionViewModel(
-                participant.Id,
-                participant.Name,
-                ownerId,
-                string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
-                isSelected));
+            var isIncluded = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
+            ParticipantRows.Add(new ParticipantSplitRowViewModel(participant.Id, participant.Name, isIncluded));
         }
 
-        SelectedPayerName = participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal)) is { } selectedPayer
-            ? selectedPayer.Name
-            : PayerNames.FirstOrDefault();
+        SelectedPayerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal))?.Name
+            ?? _participants.FirstOrDefault(participant => string.Equals(participant.Name, UserProfilePreferences.GetPreferredName(), StringComparison.OrdinalIgnoreCase))?.Name
+            ?? PayerNames.FirstOrDefault();
         OnPropertyChanged(nameof(SelectedPayerName));
-        RecalculateSplitPreview();
+
+        _isCustomSplit = false;
+        RecalculateSplits();
+    }
+
+    private async void OnBackClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
     {
         try
         {
+            if (!TryParseAmount(AmountText, out var totalMinor))
+            {
+                StatusText = AppResources.Validation_InvalidAmount;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(ExpenseTitle))
             {
                 StatusText = AppResources.Validation_TitleRequired;
@@ -93,40 +100,39 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            if (!TryParseAmount(AmountText, out var amountMinor))
-            {
-                StatusText = AppResources.Validation_InvalidAmount;
-                OnPropertyChanged(nameof(StatusText));
-                return;
-            }
-
-            var payer = SelectedPayerName is not null
-                && _payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId)
-                ? _participants.FirstOrDefault(participant => string.Equals(participant.Id, payerId, StringComparison.Ordinal))
-                : null;
-            if (payer is null)
+            if (SelectedPayerName is null || !_payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId))
             {
                 StatusText = AppResources.Validation_SelectPayer;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
-            var selectedParticipants = ParticipantOptions.Where(option => option.IsSelected).Select(option => option.Id).ToArray();
-            if (selectedParticipants.Length == 0)
+            var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
+            if (included.Length < 2)
             {
                 StatusText = AppResources.Validation_PickAtLeastOnePerson;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
 
-            await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), amountMinor, payer.Id, ExpenseDate, selectedParticipants, null);
-            StatusText = AppResources.AddEvent_Saved;
-            ExpenseTitle = string.Empty;
-            AmountText = string.Empty;
-            OnPropertyChanged(nameof(ExpenseTitle));
-            OnPropertyChanged(nameof(AmountText));
-            OnPropertyChanged(nameof(StatusText));
-            RecalculateSplitPreview();
+            SplitDefinition splitDefinition;
+            if (_isCustomSplit)
+            {
+                var shares = included.ToDictionary(row => row.Id, row => row.AmountMinor, StringComparer.Ordinal);
+                splitDefinition = new SplitDefinition(new SplitComponent[]
+                {
+                    new FixedSplitComponent(shares)
+                });
+            }
+            else
+            {
+                splitDefinition = new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(included.Select(row => row.Id).ToArray(), RemainderMode.Equal)
+                });
+            }
+
+            await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), totalMinor, payerId, ExpenseDate, included.Select(row => row.Id).ToArray(), null, splitDefinition);
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
@@ -136,30 +142,236 @@ public partial class AddExpensePage : ContentPage
         }
     }
 
-    private void OnParticipantCheckedChanged(object? sender, CheckedChangedEventArgs e)
-    {
-        if (sender is not CheckBox { BindingContext: ParticipantOptionViewModel option })
-        {
-            return;
-        }
-
-        RecalculateSplitPreview();
-    }
-
     private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
     {
-        RecalculateSplitPreview();
-    }
-
-    private void OnAdjustSplitClicked(object? sender, EventArgs e)
-    {
-        IsSplitEditorVisible = !IsSplitEditorVisible;
-        OnPropertyChanged(nameof(IsSplitEditorVisible));
+        RecalculateSaveState();
     }
 
     private void OnAmountTextChanged(object? sender, TextChangedEventArgs e)
     {
-        RecalculateSplitPreview();
+        _isCustomSplit = false;
+        RecalculateSplits();
+    }
+
+    private void OnPayerChanged(object? sender, EventArgs e)
+    {
+        RecalculateImpact();
+        RecalculateSaveState();
+    }
+
+    private void OnParticipantRowTapped(object? sender, TappedEventArgs e)
+    {
+        if (e.Parameter is not string participantId)
+        {
+            return;
+        }
+
+        var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
+        if (row is null)
+        {
+            return;
+        }
+
+        row.IsIncluded = !row.IsIncluded;
+        if (!row.IsIncluded)
+        {
+            row.AmountMinor = 0;
+        }
+
+        _isCustomSplit = false;
+        RecalculateSplits();
+    }
+
+    private void OnDecreaseParticipantAmountClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button { CommandParameter: string participantId })
+        {
+            return;
+        }
+
+        var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
+        if (row is null || !row.IsIncluded)
+        {
+            return;
+        }
+
+        _isCustomSplit = true;
+        row.AmountMinor = Math.Max(0, row.AmountMinor - 100);
+        NormalizeCustomSplitToTotal();
+        RecalculateSplits();
+    }
+
+    private void OnIncreaseParticipantAmountClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button { CommandParameter: string participantId })
+        {
+            return;
+        }
+
+        var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
+        if (row is null || !row.IsIncluded)
+        {
+            return;
+        }
+
+        _isCustomSplit = true;
+        row.AmountMinor += 100;
+        NormalizeCustomSplitToTotal();
+        RecalculateSplits();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        _ = Shell.Current.GoToAsync("..");
+        return true;
+    }
+
+    private void RecalculateSplits()
+    {
+        StatusText = string.Empty;
+        OnPropertyChanged(nameof(StatusText));
+
+        var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
+        foreach (var row in ParticipantRows.Where(candidate => !candidate.IsIncluded))
+        {
+            row.AmountMinor = 0;
+            row.AmountText = FormatMinor(0, _currency);
+            row.Notify();
+        }
+
+        if (!TryParseAmount(AmountText, out var totalMinor) || included.Length == 0)
+        {
+            foreach (var row in included)
+            {
+                row.AmountMinor = 0;
+                row.AmountText = FormatMinor(0, _currency);
+                row.Notify();
+            }
+
+            RecalculateImpact();
+            RecalculateSaveState();
+            return;
+        }
+
+        if (_isCustomSplit)
+        {
+            NormalizeCustomSplitToTotal();
+        }
+        else
+        {
+            var baseShare = totalMinor / included.Length;
+            var remainder = (int)(totalMinor % included.Length);
+            for (var index = 0; index < included.Length; index++)
+            {
+                included[index].AmountMinor = baseShare + (index < remainder ? 1 : 0);
+                included[index].AmountText = FormatMinor(included[index].AmountMinor, _currency);
+                included[index].Notify();
+            }
+        }
+
+        foreach (var row in included)
+        {
+            row.AmountText = FormatMinor(row.AmountMinor, _currency);
+            row.Notify();
+        }
+
+        RecalculateImpact();
+        RecalculateSaveState();
+    }
+
+    private void NormalizeCustomSplitToTotal()
+    {
+        if (!TryParseAmount(AmountText, out var totalMinor))
+        {
+            return;
+        }
+
+        var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
+        if (included.Length == 0)
+        {
+            return;
+        }
+
+        var sum = included.Sum(row => row.AmountMinor);
+        if (sum == totalMinor)
+        {
+            return;
+        }
+
+        if (sum <= 0)
+        {
+            included[0].AmountMinor = totalMinor;
+            for (var index = 1; index < included.Length; index++)
+            {
+                included[index].AmountMinor = 0;
+            }
+
+            return;
+        }
+
+        var delta = totalMinor - sum;
+        if (delta > 0)
+        {
+            included[^1].AmountMinor += delta;
+            return;
+        }
+
+        var remainingToReduce = -delta;
+        for (var index = included.Length - 1; index >= 0 && remainingToReduce > 0; index--)
+        {
+            var reducible = Math.Min(included[index].AmountMinor, remainingToReduce);
+            included[index].AmountMinor -= reducible;
+            remainingToReduce -= reducible;
+        }
+
+        if (remainingToReduce > 0)
+        {
+            included[0].AmountMinor += remainingToReduce;
+        }
+    }
+
+    private void RecalculateImpact()
+    {
+        ImpactRows.Clear();
+
+        if (!TryParseAmount(AmountText, out var totalMinor)
+            || SelectedPayerName is null
+            || !_payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId))
+        {
+            return;
+        }
+
+        var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
+        if (included.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var row in included.Where(row => !string.Equals(row.Id, payerId, StringComparison.Ordinal)))
+        {
+            if (row.AmountMinor <= 0)
+            {
+                continue;
+            }
+
+            ImpactRows.Add(new ImpactRowViewModel(
+                $"{row.Name} → {SelectedPayerName} {FormatMinor(row.AmountMinor, _currency)}"));
+            if (ImpactRows.Count >= 4)
+            {
+                break;
+            }
+        }
+    }
+
+    private void RecalculateSaveState()
+    {
+        var hasAmount = TryParseAmount(AmountText, out _);
+        var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
+        var hasPayer = SelectedPayerName is not null && _payerParticipantIdByLabel.ContainsKey(SelectedPayerName);
+        var includedCount = ParticipantRows.Count(row => row.IsIncluded);
+
+        CanSave = hasAmount && hasTitle && hasPayer && includedCount >= 2;
+        OnPropertyChanged(nameof(CanSave));
     }
 
     private static bool TryParseAmount(string text, out long amountMinor)
@@ -174,50 +386,6 @@ public partial class AddExpensePage : ContentPage
 
         amountMinor = 0;
         return false;
-    }
-
-    private void RecalculateSplitPreview()
-    {
-        SplitPreview.Clear();
-        StatusText = string.Empty;
-        OnPropertyChanged(nameof(StatusText));
-
-        var selected = ParticipantOptions.Where(option => option.IsSelected).ToArray();
-        if (selected.Length == 0 || !TryParseAmount(AmountText, out var amountMinor))
-        {
-            CanSave = false;
-            OnPropertyChanged(nameof(CanSave));
-            return;
-        }
-
-        var shareMinor = amountMinor / selected.Length;
-        var remainder = (int)(amountMinor % selected.Length);
-
-        for (var index = 0; index < selected.Length; index++)
-        {
-            var option = selected[index];
-            var participant = _participantById[option.Id];
-            var effectiveAmount = shareMinor + (index < remainder ? 1 : 0);
-            var viaText = ResolveViaText(option);
-            SplitPreview.Add(new SplitPreviewRowViewModel(
-                participant.Name + viaText,
-                FormatMinor(effectiveAmount, _currency)));
-        }
-
-        CanSave = !string.IsNullOrWhiteSpace(ExpenseTitle.Trim());
-        OnPropertyChanged(nameof(CanSave));
-    }
-
-    private string ResolveViaText(ParticipantOptionViewModel participant)
-    {
-        if (participant.IsOwner || !_participantById.TryGetValue(participant.OwnerId, out var owner))
-        {
-            return string.Empty;
-        }
-
-        var ownerSelected = ParticipantOptions.Any(option =>
-            string.Equals(option.Id, participant.OwnerId, StringComparison.Ordinal) && option.IsSelected);
-        return ownerSelected ? string.Create(CultureInfo.CurrentCulture, $" (via {owner.Name})") : string.Empty;
     }
 
     private static string FormatMinor(long minor, string currency)
@@ -236,47 +404,75 @@ public partial class AddExpensePage : ContentPage
             : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
 
-    public sealed class ParticipantOptionViewModel : BindableObject
+    public sealed class ParticipantSplitRowViewModel : BindableObject
     {
-        private bool _isSelected;
+        private bool _isIncluded;
+        private long _amountMinor;
+        private string _amountText = "0.00";
 
         public string Id { get; }
-
         public string Name { get; }
 
-        public string OwnerId { get; }
-
-        public bool IsOwner { get; }
-
-        public bool IsSelected
+        public bool IsIncluded
         {
-            get => _isSelected;
+            get => _isIncluded;
             set
             {
-                if (_isSelected == value)
+                if (_isIncluded == value)
                 {
                     return;
                 }
 
-                _isSelected = value;
+                _isIncluded = value;
                 OnPropertyChanged();
             }
         }
 
-        public ParticipantOptionViewModel(
-            string id,
-            string name,
-            string ownerId,
-            bool isOwner,
-            bool isSelected)
+        public long AmountMinor
+        {
+            get => _amountMinor;
+            set
+            {
+                if (_amountMinor == value)
+                {
+                    return;
+                }
+
+                _amountMinor = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AmountText));
+            }
+        }
+
+        public string AmountText
+        {
+            get => _amountText;
+            set
+            {
+                if (string.Equals(_amountText, value, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _amountText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ParticipantSplitRowViewModel(string id, string name, bool isIncluded)
         {
             Id = id;
             Name = name;
-            OwnerId = ownerId;
-            IsOwner = isOwner;
-            _isSelected = isSelected;
+            _isIncluded = isIncluded;
+            _amountMinor = 0;
+        }
+
+        public void Notify()
+        {
+            OnPropertyChanged(nameof(IsIncluded));
+            OnPropertyChanged(nameof(AmountText));
         }
     }
 
-    public sealed record SplitPreviewRowViewModel(string Name, string AmountText);
+    public sealed record ImpactRowViewModel(string Text);
 }

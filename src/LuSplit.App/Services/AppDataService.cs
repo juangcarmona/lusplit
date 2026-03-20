@@ -319,13 +319,20 @@ public sealed class AppDataService : IAsyncDisposable
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task AddExpenseAsync(string title, long amountMinor, string paidByParticipantId, DateTime date, IReadOnlyList<string> participantIds, string? icon)
+    public async Task AddExpenseAsync(
+        string title,
+        long amountMinor,
+        string paidByParticipantId,
+        DateTime date,
+        IReadOnlyList<string> participantIds,
+        string? icon,
+        SplitDefinition? splitDefinition = null)
     {
         var infra = await GetInfraAsync();
         var selectedGroupId = await GetSelectedGroupIdAsync();
         var expenseIdGenerator = new GuidIdGenerator();
 
-        var split = new SplitDefinition(new SplitComponent[]
+        var split = splitDefinition ?? new SplitDefinition(new SplitComponent[]
         {
             new RemainderSplitComponent(participantIds, RemainderMode.Equal)
         });

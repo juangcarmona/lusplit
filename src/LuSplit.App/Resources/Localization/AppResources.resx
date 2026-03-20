@@ -332,7 +332,13 @@
     <value>Adjust split</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
-    <value>Save event</value>
+    <value>Save</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>After this</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>Who owes whom will appear here.</value>
   </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Event saved.</value>
