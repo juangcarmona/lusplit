@@ -5,6 +5,9 @@ using LuSplit.App.Services;
 using LuSplit.Application.Models;
 using LuSplit.Domain.Split;
 
+using MauiApplication = Microsoft.Maui.Controls.Application;
+
+
 namespace LuSplit.App.Pages;
 
 public partial class AddExpensePage : ContentPage
@@ -501,7 +504,7 @@ public partial class AddExpensePage : ContentPage
 
     private void ApplySplitModeVisualState()
     {
-        var unselected = (Style)Application.Current!.Resources["SecondaryButton"];
+        var unselected = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
         EqualModeButton.Style = _splitMode == SplitMode.Equal ? null : unselected;
         ExactModeButton.Style = _splitMode == SplitMode.Exact ? null : unselected;
         PercentModeButton.Style = _splitMode == SplitMode.Percent ? null : unselected;
