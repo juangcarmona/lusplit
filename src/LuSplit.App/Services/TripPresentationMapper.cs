@@ -479,6 +479,7 @@ public static class GroupPresentationMapper
             ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
             : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
-}
+
     private static string AnnotateIfCurrentUser(string name)
         => UserProfilePreferences.AnnotateIfCurrentUser(name);
+}
