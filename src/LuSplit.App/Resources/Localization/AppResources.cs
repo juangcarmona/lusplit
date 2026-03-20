@@ -24,6 +24,7 @@ public static class AppResources
     public static string Home_Title => Get(nameof(Home_Title));
     public static string Home_NoBalancesYet => Get(nameof(Home_NoBalancesYet));
     public static string Home_AllSettled => Get(nameof(Home_AllSettled));
+    public static string Home_UnsettledFormat => Get(nameof(Home_UnsettledFormat));
     public static string Home_PayButton => Get(nameof(Home_PayButton));
     public static string Home_RecentExpenses => Get(nameof(Home_RecentExpenses));
     public static string Groups_Title => Get(nameof(Groups_Title));

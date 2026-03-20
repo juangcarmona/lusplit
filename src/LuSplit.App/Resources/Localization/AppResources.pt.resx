@@ -211,6 +211,9 @@
   <data name="Group_TabBalances" xml:space="preserve">
     <value>Saldos</value>
   </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>Em aberto: {0}</value>
+  </data>
   <data name="Settlement_Title" xml:space="preserve">
     <value>Acertar</value>
   </data>

@@ -45,7 +45,9 @@ public partial class HomePage : ContentPage
 
         GroupName = workspace.GroupName;
         GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
-        TotalUnsettledText = $"Unsettled: {GroupPresentationMapper.FormatTotalUnsettled(overview)}";
+        TotalUnsettledText = string.Format(
+            AppResources.Home_UnsettledFormat,
+            GroupPresentationMapper.FormatTotalUnsettled(overview));
 
         Balances.Clear();
         foreach (var line in GroupPresentationMapper.BuildNetBalances(overview))
@@ -100,7 +102,7 @@ public partial class HomePage : ContentPage
         var archive = AppResources.GroupDetails_ArchiveButton;
         var cancel = AppResources.Common_Cancel;
 
-        var selected = await DisplayActionSheet("⋯", cancel, null, editGroup, settleUp, export, archive);
+        var selected = await DisplayActionSheet(AppResources.Group_OverflowLabel, cancel, null, editGroup, settleUp, export, archive);
         if (string.Equals(selected, editGroup, StringComparison.Ordinal))
         {
             await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
