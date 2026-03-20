@@ -9,9 +9,9 @@
     FlyoutBehavior="Flyout">
 
     <ShellContent
+        Title="{x:Static loc:AppResources.Home_Title}"
         Route="home"
-        ContentTemplate="{DataTemplate pages:HomePage}"
-        FlyoutItemIsVisible="False" />
+        ContentTemplate="{DataTemplate pages:HomePage}" />
 
     <FlyoutItem Title="{x:Static loc:AppResources.Groups_Title}" Route="groups">
         <ShellContent
