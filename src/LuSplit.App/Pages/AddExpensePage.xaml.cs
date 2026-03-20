@@ -10,7 +10,7 @@ namespace LuSplit.App.Pages;
 
 public partial class AddExpensePage : ContentPage
 {
-    private enum RowSplitMode
+    public enum RowSplitMode
     {
         Auto,
         Exact,
