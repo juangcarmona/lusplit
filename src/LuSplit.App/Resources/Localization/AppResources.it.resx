@@ -55,6 +55,9 @@
   <data name="Group_DetailsButton" xml:space="preserve">
     <value>Dettagli</value>
   </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Modifica gruppo</value>
+  </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
     <value>Chi deve cosa</value>
   </data>

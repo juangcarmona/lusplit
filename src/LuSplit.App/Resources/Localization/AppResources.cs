@@ -40,6 +40,7 @@ public static class AppResources
     // --- Group timeline ---
     public static string Group_Title => Get(nameof(Group_Title));
     public static string Group_DetailsButton => Get(nameof(Group_DetailsButton));
+    public static string Group_EditGroup => Get(nameof(Group_EditGroup));
     public static string Group_WhoOwesWhat => Get(nameof(Group_WhoOwesWhat));
     public static string Group_EveryoneEven => Get(nameof(Group_EveryoneEven));
     public static string Group_SettleUp => Get(nameof(Group_SettleUp));

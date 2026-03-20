@@ -9,7 +9,15 @@ namespace LuSplit.App.Pages;
 
 public partial class HomePage : ContentPage
 {
+    private enum WorkspaceTab
+    {
+        Overview,
+        Expenses,
+        Balances
+    }
+
     private readonly AppDataService _dataService;
+    private WorkspaceTab _selectedTab = WorkspaceTab.Overview;
 
     public ObservableCollection<HomeBalanceRowViewModel> Balances { get; } = new();
     public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
@@ -18,6 +26,9 @@ public partial class HomePage : ContentPage
     public string GroupName { get; private set; } = string.Empty;
     public string GroupMetaText { get; private set; } = string.Empty;
     public string TotalUnsettledText { get; private set; } = string.Empty;
+    public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
+    public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
+    public bool ShowBalances => _selectedTab == WorkspaceTab.Balances;
 
     public HomePage(AppDataService dataService)
     {
@@ -77,6 +88,7 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
+        ApplyTabVisualState();
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -96,7 +108,7 @@ public partial class HomePage : ContentPage
 
     private async void OnOverflowClicked(object? sender, EventArgs e)
     {
-        var editGroup = AppResources.Group_DetailsButton;
+        var editGroup = AppResources.Group_EditGroup;
         var settleUp = AppResources.Group_SettleUp;
         var export = AppResources.GroupDetails_ExportButton;
         var archive = AppResources.GroupDetails_ArchiveButton;
@@ -117,20 +129,49 @@ public partial class HomePage : ContentPage
         }
     }
 
-    private async void OnExpensesTabClicked(object? sender, EventArgs e)
+    private void OnExpensesTabClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
+        SetSelectedTab(WorkspaceTab.Expenses);
     }
 
-    private async void OnBalancesTabClicked(object? sender, EventArgs e)
+    private void OnBalancesTabClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.Settlement);
+        SetSelectedTab(WorkspaceTab.Balances);
     }
 
     private void OnOverviewTabClicked(object? sender, EventArgs e)
     {
+        SetSelectedTab(WorkspaceTab.Overview);
     }
 
+    private async void OnSettleUpClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.Settlement);
+    }
+
+    private void SetSelectedTab(WorkspaceTab tab)
+    {
+        if (_selectedTab == tab)
+        {
+            return;
+        }
+
+        _selectedTab = tab;
+        ApplyTabVisualState();
+    }
+
+    private void ApplyTabVisualState()
+    {
+        OnPropertyChanged(nameof(ShowOverview));
+        OnPropertyChanged(nameof(ShowExpenses));
+        OnPropertyChanged(nameof(ShowBalances));
+
+        var unselectedStyle = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
+
+        OverviewTabButton.Style = _selectedTab == WorkspaceTab.Overview ? null : unselectedStyle;
+        ExpensesTabButton.Style = _selectedTab == WorkspaceTab.Expenses ? null : unselectedStyle;
+        BalancesTabButton.Style = _selectedTab == WorkspaceTab.Balances ? null : unselectedStyle;
+    }
 }
 
 public sealed record HomeBalanceRowViewModel(string ParticipantId, string Name, string AmountText, Color AmountColor);

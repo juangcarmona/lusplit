@@ -81,6 +81,9 @@
   <data name="Group_DetailsButton" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Edit group</value>
+  </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
     <value>Who owes what</value>
   </data>
