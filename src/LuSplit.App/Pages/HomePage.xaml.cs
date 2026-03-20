@@ -57,9 +57,12 @@ public partial class HomePage : ContentPage
         GroupName = workspace.GroupName;
         GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
         var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
-        TotalUnsettledText = string.Format(
-            AppResources.Home_UnsettledFormat,
-            GroupPresentationMapper.FormatTotalUnsettled(overview));
+        var whoOwesWho = GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode);
+        TotalUnsettledText = whoOwesWho.Count == 0
+            ? AppResources.Group_EveryoneEven
+            : string.Format(
+                AppResources.Home_UnsettledFormat,
+                GroupPresentationMapper.FormatTotalUnsettled(overview));
 
         Balances.Clear();
         foreach (var line in GroupPresentationMapper.BuildNetBalances(overview, settlementMode))
@@ -80,7 +83,7 @@ public partial class HomePage : ContentPage
         }
 
         WhoOwesWho.Clear();
-        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
+        foreach (var line in whoOwesWho)
         {
             WhoOwesWho.Add(line);
         }

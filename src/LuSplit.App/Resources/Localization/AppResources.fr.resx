@@ -236,7 +236,7 @@
     <value>Soldes</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
-    <value>À régler : {0}</value>
+    <value>Avancé pour les autres : {0}</value>
   </data>
   <data name="Settlement_Title" xml:space="preserve">
     <value>Solder</value>
