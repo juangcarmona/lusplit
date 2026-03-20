@@ -453,7 +453,7 @@ public partial class AddExpensePage : ContentPage
             return true;
         }
 
-        var trailingDecimal = normalized.EndsWith('.', StringComparison.Ordinal);
+        var trailingDecimal = normalized.EndsWith(".", StringComparison.Ordinal);
         if (normalized == ".")
         {
             return true;
@@ -491,7 +491,7 @@ public partial class AddExpensePage : ContentPage
             return false;
         }
 
-        if (normalized == "." || normalized.EndsWith('.', StringComparison.Ordinal))
+        if (normalized == "." || normalized.EndsWith(".", StringComparison.Ordinal))
         {
             return false;
         }
