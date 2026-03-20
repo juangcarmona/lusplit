@@ -364,6 +364,9 @@
   <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
     <value>Photo will be linked after save.</value>
   </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>Camera capture is not supported on this device.</value>
+  </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
     <value>Note</value>
   </data>

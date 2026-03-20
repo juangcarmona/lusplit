@@ -303,7 +303,7 @@ public partial class AddExpensePage : ContentPage
         {
             if (!MediaPicker.Default.IsCaptureSupported)
             {
-                StatusText = AppResources.Validation_InvalidAmount;
+                StatusText = AppResources.AddEvent_CameraNotSupported;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }

@@ -135,6 +135,7 @@ public static class AppResources
     public static string AddEvent_ImpactHint => Get(nameof(AddEvent_ImpactHint));
     public static string AddEvent_AttachMedia => Get(nameof(AddEvent_AttachMedia));
     public static string AddEvent_TakePhoto => Get(nameof(AddEvent_TakePhoto));
+    public static string AddEvent_CameraNotSupported => Get(nameof(AddEvent_CameraNotSupported));
     public static string AddEvent_AttachMediaQueued => Get(nameof(AddEvent_AttachMediaQueued));
     public static string AddEvent_TakePhotoQueued => Get(nameof(AddEvent_TakePhotoQueued));
     public static string AddEvent_NoteLabel => Get(nameof(AddEvent_NoteLabel));

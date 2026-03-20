@@ -208,6 +208,9 @@
   <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
     <value>La foto se vinculará después de guardar.</value>
   </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>La captura de cámara no es compatible en este dispositivo.</value>
+  </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
     <value>Nota</value>
   </data>
