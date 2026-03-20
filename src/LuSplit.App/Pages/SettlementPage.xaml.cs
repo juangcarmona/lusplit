@@ -47,9 +47,9 @@ public partial class SettlementPage : ContentPage
         }
     }
 
-    private async void OnSuggestionTapped(object? sender, TappedEventArgs e)
+    private async void OnSuggestionButtonClicked(object? sender, EventArgs e)
     {
-        if (sender is not TapGestureRecognizer { BindingContext: SettlementSuggestionRowViewModel row })
+        if (sender is not Button { BindingContext: SettlementSuggestionRowViewModel row })
         {
             return;
         }
@@ -61,6 +61,11 @@ public partial class SettlementPage : ContentPage
     private async void OnDataChanged(object? sender, EventArgs e)
     {
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
+    }
+
+    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
     }
 
 }
