@@ -400,7 +400,7 @@
     <value>Record a payment only when money actually changes hands.</value>
   </data>
   <data name="Settlement_RecordPaymentButton" xml:space="preserve">
-    <value>Record payment</value>
+    <value>Record custom payment</value>
   </data>
 
   <!-- Record Payment -->

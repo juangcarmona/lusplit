@@ -14,6 +14,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
     private string? _prefillReceiverId;
     private long? _prefillAmountMinor;
     private string? _prefillCurrency;
+    private string? _origin;
 
     public ObservableCollection<string> PersonNames { get; } = new();
 
@@ -27,7 +28,6 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
 
     public string StatusText { get; set; } = string.Empty;
     public bool IsQuickMode { get; private set; }
-    public bool IsManualMode => !IsQuickMode;
     public string QuickSummaryText { get; private set; } = string.Empty;
 
     public RecordPaymentPage(AppDataService dataService)
@@ -49,6 +49,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
             ? amountMinor
             : null;
         _prefillCurrency = query.TryGetValue("currency", out var currency) ? currency?.ToString() : null;
+        _origin = query.TryGetValue("origin", out var origin) ? origin?.ToString() : null;
     }
 
     protected override async void OnAppearing()
@@ -89,7 +90,6 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
         OnPropertyChanged(nameof(SelectedToName));
         OnPropertyChanged(nameof(AmountText));
         OnPropertyChanged(nameof(IsQuickMode));
-        OnPropertyChanged(nameof(IsManualMode));
         OnPropertyChanged(nameof(QuickSummaryText));
     }
 
@@ -122,7 +122,14 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
             }
 
             await _dataService.AddPaymentAsync(from.Id, to.Id, amountMinor, PaymentDate);
-            await Shell.Current.GoToAsync("..");
+            if (string.Equals(_origin, "settlement", StringComparison.OrdinalIgnoreCase))
+            {
+                await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("..");
+            }
         }
         catch (Exception ex)
         {

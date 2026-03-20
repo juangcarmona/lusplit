@@ -55,7 +55,7 @@ public partial class SettlementPage : ContentPage
         }
 
         await Shell.Current.GoToAsync(
-            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}&currency={Uri.EscapeDataString(_currency)}");
+            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}&currency={Uri.EscapeDataString(_currency)}&origin=settlement");
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -65,7 +65,7 @@ public partial class SettlementPage : ContentPage
 
     private async void OnRecordPaymentClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+        await Shell.Current.GoToAsync($"{AppRoutes.RecordPayment}?origin=settlement");
     }
 
 }
