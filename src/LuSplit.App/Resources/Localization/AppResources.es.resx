@@ -196,6 +196,21 @@
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Evento guardado.</value>
   </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Gastos recientes</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>Más</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Gastos</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Saldos</value>
+  </data>
   <data name="Settlement_Title" xml:space="preserve">
     <value>Saldar</value>
   </data>

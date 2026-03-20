@@ -25,6 +25,7 @@ public static class AppResources
     public static string Home_NoBalancesYet => Get(nameof(Home_NoBalancesYet));
     public static string Home_AllSettled => Get(nameof(Home_AllSettled));
     public static string Home_PayButton => Get(nameof(Home_PayButton));
+    public static string Home_RecentExpenses => Get(nameof(Home_RecentExpenses));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -46,6 +47,10 @@ public static class AppResources
     public static string Group_EmptySubtitle => Get(nameof(Group_EmptySubtitle));
     public static string Group_AddExpense => Get(nameof(Group_AddExpense));
     public static string Group_RecordPayment => Get(nameof(Group_RecordPayment));
+    public static string Group_OverflowLabel => Get(nameof(Group_OverflowLabel));
+    public static string Group_TabOverview => Get(nameof(Group_TabOverview));
+    public static string Group_TabExpenses => Get(nameof(Group_TabExpenses));
+    public static string Group_TabBalances => Get(nameof(Group_TabBalances));
 
     // --- Group Details ---
     public static string GroupDetails_Title => Get(nameof(GroupDetails_Title));

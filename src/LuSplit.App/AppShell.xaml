@@ -5,21 +5,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:LuSplit.App.Pages"
     xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-    Title="LuSplit">
+    Title="LuSplit"
+    FlyoutBehavior="Flyout">
 
-    <TabBar>
+    <ShellContent
+        Route="home"
+        ContentTemplate="{DataTemplate pages:HomePage}"
+        FlyoutItemIsVisible="False" />
+
+    <FlyoutItem Title="{x:Static loc:AppResources.Groups_Title}" Route="groups">
         <ShellContent
-            Title="{x:Static loc:AppResources.Home_Title}"
-            ContentTemplate="{DataTemplate pages:HomePage}"
-            Route="home" />
+            ContentTemplate="{DataTemplate pages:GroupSwitcherPage}"
+            Route="group-switcher" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static loc:AppResources.Groups_ViewArchived}" Route="archived-groups-menu">
         <ShellContent
-            Title="{x:Static loc:AppResources.Activity_Title}"
+            ContentTemplate="{DataTemplate pages:ArchivedGroupsPage}"
+            Route="archived-groups" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static loc:AppResources.Activity_Title}" Route="history">
+        <ShellContent
             ContentTemplate="{DataTemplate pages:ActivityPage}"
-            Route="history" />
+            Route="activity" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="{x:Static loc:AppResources.Settings_Title}" Route="settings">
         <ShellContent
-            Title="{x:Static loc:AppResources.Settings_Title}"
             ContentTemplate="{DataTemplate pages:LanguageSettingsPage}"
-            Route="settings" />
-    </TabBar>
+            Route="language-settings" />
+    </FlyoutItem>
 
 </Shell>

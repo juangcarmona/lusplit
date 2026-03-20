@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
+using LuSplit.App.Resources.Localization;
+using LuSplit.Application.Models;
 
 using MauiApplication = Microsoft.Maui.Controls.Application;
 
@@ -11,6 +13,7 @@ public partial class HomePage : ContentPage
 
     public ObservableCollection<HomeBalanceRowViewModel> Balances { get; } = new();
     public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
+    public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
 
     public string GroupName { get; private set; } = string.Empty;
     public string GroupMetaText { get; private set; } = string.Empty;
@@ -62,6 +65,13 @@ public partial class HomePage : ContentPage
             Events.Add(item);
         }
 
+        WhoOwesWho.Clear();
+        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
+        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
+        {
+            WhoOwesWho.Add(line);
+        }
+
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
@@ -77,30 +87,48 @@ public partial class HomePage : ContentPage
         await Shell.Current.GoToAsync(AppRoutes.AddEvent);
     }
 
-    private async void OnEditGroupClicked(object? sender, EventArgs e)
+    private void OnOpenDrawerClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
+        Shell.Current.FlyoutIsPresented = true;
     }
 
-    private async void OnPayClicked(object? sender, EventArgs e)
+    private async void OnOverflowClicked(object? sender, EventArgs e)
+    {
+        var editGroup = AppResources.Group_DetailsButton;
+        var settleUp = AppResources.Group_SettleUp;
+        var export = AppResources.GroupDetails_ExportButton;
+        var archive = AppResources.GroupDetails_ArchiveButton;
+        var cancel = AppResources.Common_Cancel;
+
+        var selected = await DisplayActionSheet("⋯", cancel, null, editGroup, settleUp, export, archive);
+        if (string.Equals(selected, editGroup, StringComparison.Ordinal))
+        {
+            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
+        }
+        else if (string.Equals(selected, settleUp, StringComparison.Ordinal))
+        {
+            await Shell.Current.GoToAsync(AppRoutes.Settlement);
+        }
+        else if (string.Equals(selected, export, StringComparison.Ordinal) || string.Equals(selected, archive, StringComparison.Ordinal))
+        {
+            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
+        }
+    }
+
+    private async void OnExpensesTabClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
+    }
+
+    private async void OnBalancesTabClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.Settlement);
     }
 
-    private async void OnViewArchivedClicked(object? sender, EventArgs e)
+    private void OnOverviewTabClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.ArchivedGroups);
     }
 
-    private async void OnOpenGroupSwitcherClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.GroupSwitcher);
-    }
-
-    private async void OnNewGroupClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
-    }
 }
 
 public sealed record HomeBalanceRowViewModel(string ParticipantId, string Name, string AmountText, Color AmountColor);

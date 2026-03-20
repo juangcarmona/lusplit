@@ -43,6 +43,9 @@
   <data name="Home_PayButton" xml:space="preserve">
     <value>Pay</value>
   </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Recent expenses</value>
+  </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
   </data>
@@ -98,6 +101,18 @@
   </data>
   <data name="Group_RecordPayment" xml:space="preserve">
     <value>Record payment</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Balances</value>
   </data>
 
   <!-- Group Details -->
