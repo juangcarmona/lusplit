@@ -120,12 +120,17 @@ public static class GroupPresentationMapper
             .ToArray();
     }
 
-    public static IReadOnlyList<NetBalanceViewModel> BuildNetBalances(GroupOverviewModel overview)
+    public static IReadOnlyList<NetBalanceViewModel> BuildNetBalances(GroupOverviewModel overview, SettlementMode mode)
     {
-        var amountByParticipantId = overview.BalancesByParticipant
+        var balances = mode == SettlementMode.Participant
+            ? overview.BalancesByParticipant
+            : overview.BalancesByEconomicUnitOwner;
+
+        var amountByParticipantId = balances
             .ToDictionary(balance => balance.EntityId, balance => balance.AmountMinor, StringComparer.Ordinal);
 
-        return overview.BalancesByParticipant
+        return balances
+            .Where(balance => balance.AmountMinor != 0)
             .Select(balance =>
             {
                 var amountMinor = balance.AmountMinor;

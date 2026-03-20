@@ -41,7 +41,7 @@
     <value>All settled</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
-    <value>Unsettled: {0}</value>
+    <value>Fronted for others: {0}</value>
   </data>
   <data name="Home_PayButton" xml:space="preserve">
     <value>Pay</value>
@@ -246,7 +246,7 @@
     <value>depends on {0}</value>
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
-    <value>responsible for {0} people</value>
+    <value>pays for {0} people</value>
   </data>
   <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
     <value>Independent</value>
@@ -255,7 +255,7 @@
     <value>Depends on: {0}</value>
   </data>
   <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
-    <value>Responsible for: {0}</value>
+    <value>Pays for: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
     <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>

@@ -56,12 +56,13 @@ public partial class HomePage : ContentPage
 
         GroupName = workspace.GroupName;
         GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
+        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
         TotalUnsettledText = string.Format(
             AppResources.Home_UnsettledFormat,
             GroupPresentationMapper.FormatTotalUnsettled(overview));
 
         Balances.Clear();
-        foreach (var line in GroupPresentationMapper.BuildNetBalances(overview))
+        foreach (var line in GroupPresentationMapper.BuildNetBalances(overview, settlementMode))
         {
             Balances.Add(new HomeBalanceRowViewModel(
                 line.ParticipantId,
@@ -79,7 +80,6 @@ public partial class HomePage : ContentPage
         }
 
         WhoOwesWho.Clear();
-        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
         foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
         {
             WhoOwesWho.Add(line);
