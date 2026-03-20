@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
@@ -10,13 +9,6 @@ namespace LuSplit.App.Pages;
 
 public partial class AddExpensePage : ContentPage
 {
-    public enum RowSplitMode
-    {
-        Auto,
-        Exact,
-        Percent
-    }
-
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
@@ -24,6 +16,8 @@ public partial class AddExpensePage : ContentPage
     private const string PhotoIconLabel = "photo";
     private string _currency = "USD";
     private string? _attachmentLabel;
+    private bool _isRecalculating;
+    private bool _isCalculationValid;
 
     public ObservableCollection<string> PayerNames { get; } = new();
     public ObservableCollection<ParticipantSplitRowViewModel> ParticipantRows { get; } = new();
@@ -35,6 +29,20 @@ public partial class AddExpensePage : ContentPage
     public string? SelectedPayerName { get; set; }
     public string StatusText { get; set; } = string.Empty;
     public bool CanSave { get; private set; }
+    public bool IsCalculationValid
+    {
+        get => _isCalculationValid;
+        private set
+        {
+            if (_isCalculationValid == value)
+            {
+                return;
+            }
+
+            _isCalculationValid = value;
+            OnPropertyChanged(nameof(IsCalculationValid));
+        }
+    }
 
     public AddExpensePage(AppDataService dataService)
     {
@@ -86,7 +94,7 @@ public partial class AddExpensePage : ContentPage
     {
         try
         {
-            if (!CanSave || !TryParseAmount(AmountText, out var totalMinor))
+            if (!CanSave || !TryParseAmountLenient(AmountText, out var totalMinor))
             {
                 return;
             }
@@ -97,33 +105,13 @@ public partial class AddExpensePage : ContentPage
             }
 
             var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
-            var exactRows = included.Where(row => row.Mode == RowSplitMode.Exact).ToArray();
-            var percentRows = included.Where(row => row.Mode == RowSplitMode.Percent).ToArray();
-            var autoRows = included.Where(row => row.Mode == RowSplitMode.Auto).ToArray();
-
-            var components = new List<SplitComponent>();
-            if (exactRows.Length > 0)
+            var fixedAmounts = included.ToDictionary(row => row.Id, row => row.CommittedAmountMinor, StringComparer.Ordinal);
+            var splitDefinition = new SplitDefinition(new SplitComponent[]
             {
-                components.Add(new FixedSplitComponent(exactRows.ToDictionary(row => row.Id, row => row.AmountMinor, StringComparer.Ordinal)));
-            }
+                new FixedSplitComponent(fixedAmounts)
+            });
 
-            if (percentRows.Length > 0)
-            {
-                components.Add(new RemainderSplitComponent(
-                    percentRows.Select(row => row.Id).ToArray(),
-                    RemainderMode.Percent,
-                    null,
-                    percentRows.ToDictionary(row => row.Id, row => row.PercentValue, StringComparer.Ordinal)));
-            }
-
-            if (autoRows.Length > 0)
-            {
-                components.Add(new RemainderSplitComponent(autoRows.Select(row => row.Id).ToArray(), RemainderMode.Equal));
-            }
-
-            var splitDefinition = new SplitDefinition(components.ToArray());
             var title = string.IsNullOrWhiteSpace(ExpenseTitle) ? AppResources.AddEvent_QuickCustom : ExpenseTitle.Trim();
-
             await _dataService.AddExpenseAsync(
                 title,
                 totalMinor,
@@ -132,6 +120,7 @@ public partial class AddExpensePage : ContentPage
                 included.Select(row => row.Id).ToArray(),
                 _attachmentLabel,
                 splitDefinition);
+
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
@@ -166,19 +155,39 @@ public partial class AddExpensePage : ContentPage
         row.IsIncluded = !row.IsIncluded;
         if (!row.IsIncluded)
         {
-            row.Mode = RowSplitMode.Auto;
-            row.AmountMinor = 0;
-            row.PercentValue = 0;
+            row.IsEditing = false;
+            row.ValidationError = string.Empty;
+            row.HasTransientInvalidInput = false;
+            row.RawInput = string.Empty;
+            row.CommittedAmountMinor = 0;
+            row.IsCustomAmount = false;
+        }
+        else
+        {
+            row.IsEditing = false;
+            row.ValidationError = string.Empty;
+            row.HasTransientInvalidInput = false;
+            row.RawInput = string.Empty;
+            row.IsCustomAmount = false;
         }
 
         RecalculateAll();
     }
 
-    private void OnCycleModeClicked(object? sender, EventArgs e)
+    private async void OnParticipantEditStartClicked(object? sender, EventArgs e)
     {
         if (sender is not Button { CommandParameter: string participantId })
         {
             return;
+        }
+
+        foreach (var item in ParticipantRows)
+        {
+            if (!string.Equals(item.Id, participantId, StringComparison.Ordinal))
+            {
+                item.IsEditing = false;
+                item.ValidationError = string.Empty;
+            }
         }
 
         var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
@@ -187,109 +196,83 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        row.Mode = row.Mode switch
-        {
-            RowSplitMode.Auto => RowSplitMode.Exact,
-            RowSplitMode.Exact => RowSplitMode.Percent,
-            _ => RowSplitMode.Auto
-        };
-
-        RecalculateAll();
+        row.IsEditing = true;
+        row.RawInput = (row.CommittedAmountMinor / 100m).ToString("0.##", CultureInfo.CurrentCulture);
+        row.ValidationError = string.Empty;
+        row.HasTransientInvalidInput = false;
+        RefreshRowsDisplay();
+        await Task.CompletedTask;
     }
 
-    private void OnDecreaseParticipantAmountClicked(object? sender, EventArgs e)
+    private void OnParticipantEditConfirmClicked(object? sender, EventArgs e)
     {
-        if (sender is not Button { CommandParameter: string participantId })
+        ParticipantSplitRowViewModel? row = null;
+
+        if (sender is Entry { BindingContext: ParticipantSplitRowViewModel fromEntry })
+        {
+            row = fromEntry;
+        }
+        else if (sender is Button { CommandParameter: string participantId })
+        {
+            row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
+        }
+
+        if (row is null || !row.IsIncluded || !row.IsEditing)
         {
             return;
         }
 
-        var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
-        if (row is null || !row.IsValueEditable)
+        if (TryParseAmountLenient(row.RawInput, out var parsedMinor))
         {
-            return;
-        }
-
-        if (row.Mode == RowSplitMode.Percent)
-        {
-            row.PercentValue = Math.Max(0, row.PercentValue - 1);
+            row.CommittedAmountMinor = parsedMinor;
+            row.IsCustomAmount = true;
+            row.IsEditing = false;
+            row.ValidationError = string.Empty;
+            row.HasTransientInvalidInput = false;
         }
         else
         {
-            row.AmountMinor = Math.Max(0, row.AmountMinor - 100);
+            row.ValidationError = AppResources.Validation_InvalidAmount;
+            row.HasTransientInvalidInput = true;
         }
 
         RecalculateAll();
     }
 
-    private void OnIncreaseParticipantAmountClicked(object? sender, EventArgs e)
+    private void OnParticipantRawInputChanged(object? sender, TextChangedEventArgs e)
     {
-        if (sender is not Button { CommandParameter: string participantId })
+        if (_isRecalculating)
         {
             return;
         }
 
-        var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
-        if (row is null || !row.IsValueEditable)
+        if (sender is not Entry { BindingContext: ParticipantSplitRowViewModel row } || !row.IsIncluded || !row.IsEditing)
         {
             return;
         }
 
-        if (row.Mode == RowSplitMode.Percent)
+        row.RawInput = e.NewTextValue ?? string.Empty;
+
+        if (IsTransientInputAcceptable(row.RawInput, out var parsedMinor))
         {
-            row.PercentValue += 1;
+            row.ValidationError = string.Empty;
+            row.HasTransientInvalidInput = false;
+            row.LiveParsedAmountMinor = parsedMinor;
         }
         else
         {
-            row.AmountMinor += 100;
+            row.ValidationError = AppResources.Validation_InvalidAmount;
+            row.HasTransientInvalidInput = true;
+            row.LiveParsedAmountMinor = null;
         }
 
         RecalculateAll();
     }
-
-    private void OnParticipantAmountEdited(object? sender, TextChangedEventArgs e)
-    {
-        if (sender is not Entry { BindingContext: ParticipantSplitRowViewModel row } || !row.IsValueEditable)
-        {
-            return;
-        }
-
-        try
-        {
-            var normalized = NormalizeEditableInput(e.NewTextValue);
-            if (row.Mode == RowSplitMode.Percent)
-            {
-                if (int.TryParse(normalized, NumberStyles.Integer, CultureInfo.CurrentCulture, out var pct)
-                    || int.TryParse(normalized, NumberStyles.Integer, CultureInfo.InvariantCulture, out pct))
-                {
-                    row.PercentValue = Math.Max(0, pct);
-                }
-            }
-            else if (TryParseAmount(normalized, out var amount))
-            {
-                row.AmountMinor = amount;
-            }
-        }
-        catch (FormatException)
-        {
-            Debug.WriteLine("AddExpense row edit ignored invalid number format.");
-            // Keep editing resilient for malformed keyboard input.
-        }
-        catch (OverflowException)
-        {
-            Debug.WriteLine("AddExpense row edit ignored numeric overflow.");
-            // Keep editing resilient for out-of-range keyboard input.
-        }
-
-        RecalculateAll();
-    }
-
-    private void OnParticipantAmountEditCompleted(object? sender, EventArgs e) => RecalculateAll();
 
     private async void OnAttachMediaClicked(object? sender, EventArgs e)
     {
         _attachmentLabel = AttachmentIconLabel;
-        StatusText = "Attachment will be linked after save.";
+        StatusText = AppResources.AddEvent_AttachMediaQueued;
         OnPropertyChanged(nameof(StatusText));
         await Task.CompletedTask;
     }
@@ -297,58 +280,66 @@ public partial class AddExpensePage : ContentPage
     private async void OnTakePhotoClicked(object? sender, EventArgs e)
     {
         _attachmentLabel = PhotoIconLabel;
-        StatusText = "Photo will be linked after save.";
+        StatusText = AppResources.AddEvent_TakePhotoQueued;
         OnPropertyChanged(nameof(StatusText));
         await Task.CompletedTask;
     }
 
     private void RecalculateAll()
     {
-        var validationMessage = ValidateAndComputeRows();
-        StatusText = validationMessage;
-        OnPropertyChanged(nameof(StatusText));
-        RecalculateImpact();
-        RecalculateSaveState();
-        RefreshRowsDisplay();
+        _isRecalculating = true;
+        try
+        {
+            var validationMessage = ValidateAndComputeRows();
+            StatusText = validationMessage;
+            OnPropertyChanged(nameof(StatusText));
+            IsCalculationValid = string.IsNullOrEmpty(validationMessage);
+
+            if (IsCalculationValid)
+            {
+                RecalculateImpact();
+            }
+            else
+            {
+                ImpactRows.Clear();
+            }
+
+            RecalculateSaveState();
+            RefreshRowsDisplay();
+        }
+        finally
+        {
+            _isRecalculating = false;
+        }
     }
 
     private string ValidateAndComputeRows()
     {
-        if (!TryParseAmount(AmountText, out var totalMinor))
+        if (!TryParseAmountLenient(AmountText, out var totalMinor))
         {
-            ResetAllShares();
+            ResetAllCommittedShares();
             return AppResources.Validation_InvalidAmount;
         }
 
         var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
         if (included.Length < 2)
         {
-            ResetAllShares();
+            ResetAllCommittedShares();
             return AppResources.Validation_PickAtLeastOnePerson;
         }
 
-        var exactRows = included.Where(row => row.Mode == RowSplitMode.Exact).ToArray();
-        var percentRows = included.Where(row => row.Mode == RowSplitMode.Percent).ToArray();
-        var autoRows = included.Where(row => row.Mode == RowSplitMode.Auto).ToArray();
-
-        var exactTotal = exactRows.Sum(row => row.AmountMinor);
-        var totalPercent = percentRows.Sum(row => row.PercentValue);
-        if (totalPercent > 100)
+        if (included.Any(row => row.HasTransientInvalidInput))
         {
-            ResetAutoRows(autoRows);
             return AppResources.Validation_InvalidAmount;
         }
 
-        long percentMinor = 0;
-        foreach (var row in percentRows)
-        {
-            percentMinor += (long)Math.Round(totalMinor * (row.PercentValue / 100m), MidpointRounding.AwayFromZero);
-        }
+        var customRows = included.Where(row => row.IsCustomAmount).ToArray();
+        var autoRows = included.Where(row => !row.IsCustomAmount).ToArray();
 
-        var remaining = totalMinor - exactTotal - percentMinor;
+        var customSum = customRows.Sum(row => row.CommittedAmountMinor);
+        var remaining = totalMinor - customSum;
         if (remaining < 0)
         {
-            ResetAutoRows(autoRows);
             return AppResources.Validation_InvalidAmount;
         }
 
@@ -365,36 +356,25 @@ public partial class AddExpensePage : ContentPage
             var remainder = (int)(remaining % autoRows.Length);
             for (var index = 0; index < autoRows.Length; index++)
             {
-                autoRows[index].AmountMinor = baseShare + (index < remainder ? 1 : 0);
+                autoRows[index].CommittedAmountMinor = baseShare + (index < remainder ? 1 : 0);
             }
         }
 
         foreach (var row in ParticipantRows.Where(row => !row.IsIncluded))
         {
-            row.AmountMinor = 0;
-            row.PercentValue = 0;
+            row.CommittedAmountMinor = 0;
+            row.LiveParsedAmountMinor = null;
         }
 
         return string.Empty;
     }
 
-    private void ResetAllShares()
+    private void ResetAllCommittedShares()
     {
         foreach (var row in ParticipantRows)
         {
-            row.AmountMinor = 0;
-            if (!row.IsIncluded || row.Mode != RowSplitMode.Percent)
-            {
-                row.PercentValue = 0;
-            }
-        }
-    }
-
-    private static void ResetAutoRows(IEnumerable<ParticipantSplitRowViewModel> rows)
-    {
-        foreach (var row in rows)
-        {
-            row.AmountMinor = 0;
+            row.CommittedAmountMinor = 0;
+            row.LiveParsedAmountMinor = null;
         }
     }
 
@@ -408,12 +388,12 @@ public partial class AddExpensePage : ContentPage
 
         foreach (var row in ParticipantRows.Where(row => row.IsIncluded && !string.Equals(row.Id, payerId, StringComparison.Ordinal)))
         {
-            if (row.AmountMinor <= 0)
+            if (row.CommittedAmountMinor <= 0)
             {
                 continue;
             }
 
-            ImpactRows.Add(new ImpactRowViewModel($"{row.Name} → {SelectedPayerName} {FormatMinor(row.AmountMinor, _currency)}"));
+            ImpactRows.Add(new ImpactRowViewModel($"{row.Name} → {SelectedPayerName} {FormatMinor(row.CommittedAmountMinor, _currency)}"));
             if (ImpactRows.Count >= 4)
             {
                 break;
@@ -423,10 +403,17 @@ public partial class AddExpensePage : ContentPage
 
     private void RecalculateSaveState()
     {
-        var hasAmount = TryParseAmount(AmountText, out _);
+        var hasAmount = TryParseAmountLenient(AmountText, out _);
         var hasPayer = SelectedPayerName is not null && _payerParticipantIdByLabel.ContainsKey(SelectedPayerName);
         var includedCount = ParticipantRows.Count(row => row.IsIncluded);
-        CanSave = hasAmount && hasPayer && includedCount >= 2 && string.IsNullOrEmpty(StatusText);
+        var hasRowInputError = ParticipantRows.Any(row => row.HasTransientInvalidInput);
+
+        CanSave = hasAmount
+            && hasPayer
+            && includedCount >= 2
+            && !hasRowInputError
+            && IsCalculationValid
+            && string.IsNullOrEmpty(StatusText);
         OnPropertyChanged(nameof(CanSave));
     }
 
@@ -436,38 +423,121 @@ public partial class AddExpensePage : ContentPage
         {
             if (!row.IsIncluded)
             {
-                row.EditableValue = "—";
+                row.DisplayValue = "—";
                 continue;
             }
 
-            row.EditableValue = row.Mode switch
+            if (row.IsEditing)
             {
-                RowSplitMode.Percent => $"{row.PercentValue}%",
-                _ => FormatMinor(row.AmountMinor, _currency)
-            };
+                if (string.IsNullOrWhiteSpace(row.RawInput))
+                {
+                    row.RawInput = (row.CommittedAmountMinor / 100m).ToString("0.##", CultureInfo.CurrentCulture);
+                }
+
+                row.DisplayValue = string.Empty;
+            }
+            else
+            {
+                row.DisplayValue = FormatMinor(row.CommittedAmountMinor, _currency);
+            }
         }
     }
 
-    private static string NormalizeEditableInput(string? text)
-        => (text ?? string.Empty)
+    private static bool IsTransientInputAcceptable(string? input, out long? parsedMinor)
+    {
+        parsedMinor = null;
+        var normalized = NormalizeNumberInput(input);
+
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return true;
+        }
+
+        var trailingDecimal = normalized.EndsWith('.', StringComparison.Ordinal);
+        if (normalized == ".")
+        {
+            return true;
+        }
+
+        if (trailingDecimal)
+        {
+            normalized = normalized.TrimEnd('.');
+            if (string.IsNullOrWhiteSpace(normalized))
+            {
+                return true;
+            }
+        }
+
+        if (decimal.TryParse(normalized, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out var value))
+        {
+            if (value < 0)
+            {
+                return false;
+            }
+
+            parsedMinor = (long)Math.Round(value * 100m, MidpointRounding.AwayFromZero);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool TryParseAmountLenient(string? text, out long amountMinor)
+    {
+        amountMinor = 0;
+        var normalized = NormalizeNumberInput(text);
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return false;
+        }
+
+        if (normalized == "." || normalized.EndsWith('.', StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        if (decimal.TryParse(
+                normalized,
+                NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite,
+                CultureInfo.InvariantCulture,
+                out var parsed))
+        {
+            amountMinor = (long)Math.Round(parsed * 100m, MidpointRounding.AwayFromZero);
+            return amountMinor > 0;
+        }
+
+        return false;
+    }
+
+    private static string NormalizeNumberInput(string? text)
+    {
+        var value = (text ?? string.Empty)
             .Replace("€", string.Empty, StringComparison.Ordinal)
             .Replace("$", string.Empty, StringComparison.Ordinal)
             .Replace("£", string.Empty, StringComparison.Ordinal)
             .Replace("%", string.Empty, StringComparison.Ordinal)
             .Trim();
 
-    private static bool TryParseAmount(string text, out long amountMinor)
-    {
-        var styles = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
-        if (decimal.TryParse(text, styles, CultureInfo.InvariantCulture, out var invariant)
-            || decimal.TryParse(text, styles, CultureInfo.CurrentCulture, out invariant))
+        if (value.Contains(',') && value.Contains('.'))
         {
-            amountMinor = (long)Math.Round(invariant * 100m, MidpointRounding.AwayFromZero);
-            return amountMinor > 0;
+            // Keep the last separator as decimal separator and strip the other separator.
+            var lastComma = value.LastIndexOf(',');
+            var lastDot = value.LastIndexOf('.');
+            if (lastComma > lastDot)
+            {
+                value = value.Replace(".", string.Empty, StringComparison.Ordinal).Replace(',', '.');
+            }
+            else
+            {
+                value = value.Replace(",", string.Empty, StringComparison.Ordinal);
+            }
+        }
+        else if (value.Contains(','))
+        {
+            value = value.Replace(',', '.');
         }
 
-        amountMinor = 0;
-        return false;
+        return value;
     }
 
     private static string FormatMinor(long minor, string currency)
@@ -489,10 +559,14 @@ public partial class AddExpensePage : ContentPage
     public sealed class ParticipantSplitRowViewModel : BindableObject
     {
         private bool _isIncluded;
-        private RowSplitMode _mode = RowSplitMode.Auto;
-        private long _amountMinor;
-        private int _percentValue;
-        private string _editableValue = "—";
+        private bool _isEditing;
+        private bool _isCustomAmount;
+        private string _rawInput = string.Empty;
+        private long _committedAmountMinor;
+        private long? _liveParsedAmountMinor;
+        private string _validationError = string.Empty;
+        private bool _hasTransientInvalidInput;
+        private string _displayValue = "—";
 
         public string Id { get; }
         public string Name { get; }
@@ -510,84 +584,139 @@ public partial class AddExpensePage : ContentPage
                 _isIncluded = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsIncludedMark));
-                OnPropertyChanged(nameof(IsValueEditable));
+                OnPropertyChanged(nameof(CanShowEditButton));
+                OnPropertyChanged(nameof(IsViewing));
+            }
+        }
+
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set
+            {
+                if (_isEditing == value)
+                {
+                    return;
+                }
+
+                _isEditing = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanShowEditButton));
+                OnPropertyChanged(nameof(IsViewing));
+            }
+        }
+
+        public bool IsCustomAmount
+        {
+            get => _isCustomAmount;
+            set
+            {
+                if (_isCustomAmount == value)
+                {
+                    return;
+                }
+
+                _isCustomAmount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string RawInput
+        {
+            get => _rawInput;
+            set
+            {
+                if (string.Equals(_rawInput, value, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _rawInput = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public long CommittedAmountMinor
+        {
+            get => _committedAmountMinor;
+            set
+            {
+                var normalized = Math.Max(0, value);
+                if (_committedAmountMinor == normalized)
+                {
+                    return;
+                }
+
+                _committedAmountMinor = normalized;
+                OnPropertyChanged();
+            }
+        }
+
+        public long? LiveParsedAmountMinor
+        {
+            get => _liveParsedAmountMinor;
+            set
+            {
+                if (_liveParsedAmountMinor == value)
+                {
+                    return;
+                }
+
+                _liveParsedAmountMinor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ValidationError
+        {
+            get => _validationError;
+            set
+            {
+                if (string.Equals(_validationError, value, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _validationError = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasValidationError));
+            }
+        }
+
+        public bool HasTransientInvalidInput
+        {
+            get => _hasTransientInvalidInput;
+            set
+            {
+                if (_hasTransientInvalidInput == value)
+                {
+                    return;
+                }
+
+                _hasTransientInvalidInput = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string DisplayValue
+        {
+            get => _displayValue;
+            set
+            {
+                if (string.Equals(_displayValue, value, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _displayValue = value;
+                OnPropertyChanged();
             }
         }
 
         public string IsIncludedMark => _isIncluded ? "✓" : " ";
-
-        public RowSplitMode Mode
-        {
-            get => _mode;
-            set
-            {
-                if (_mode == value)
-                {
-                    return;
-                }
-
-                _mode = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(ModeChipText));
-                OnPropertyChanged(nameof(IsValueEditable));
-            }
-        }
-
-        public string ModeChipText => _mode switch
-        {
-            RowSplitMode.Auto => "=",
-            RowSplitMode.Exact => "€",
-            _ => "%"
-        };
-
-        public bool IsValueEditable => _isIncluded && _mode != RowSplitMode.Auto;
-
-        public long AmountMinor
-        {
-            get => _amountMinor;
-            set
-            {
-                var normalized = Math.Max(0, value);
-                if (_amountMinor == normalized)
-                {
-                    return;
-                }
-
-                _amountMinor = normalized;
-                OnPropertyChanged();
-            }
-        }
-
-        public int PercentValue
-        {
-            get => _percentValue;
-            set
-            {
-                var normalized = Math.Max(0, value);
-                if (_percentValue == normalized)
-                {
-                    return;
-                }
-
-                _percentValue = normalized;
-                OnPropertyChanged();
-            }
-        }
-
-        public string EditableValue
-        {
-            get => _editableValue;
-            set
-            {
-                if (string.Equals(_editableValue, value, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                _editableValue = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool CanShowEditButton => _isIncluded && !_isEditing;
+        public bool IsViewing => !_isEditing;
+        public bool HasValidationError => !string.IsNullOrWhiteSpace(_validationError);
 
         public ParticipantSplitRowViewModel(string id, string name, bool isIncluded)
         {

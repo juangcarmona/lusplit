@@ -196,6 +196,18 @@
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Ereignis speichern</value>
   </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Medien anhängen</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Foto aufnehmen</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>Anhang wird nach dem Speichern verknüpft.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>Foto wird nach dem Speichern verknüpft.</value>
+  </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
     <value>Notiz</value>
   </data>

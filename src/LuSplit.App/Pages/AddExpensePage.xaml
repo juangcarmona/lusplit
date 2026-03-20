@@ -27,74 +27,89 @@
                 <CollectionView ItemsSource="{Binding ParticipantRows}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto" ColumnSpacing="6" Padding="0,4">
-                                <Label Text="{Binding IsIncludedMark}"
-                                       VerticalTextAlignment="Center"
-                                       TextColor="{StaticResource PositiveSoftGreen}" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding Name}"
-                                       VerticalTextAlignment="Center">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnParticipantRowTapped" CommandParameter="{Binding Id}" />
-                                    </Label.GestureRecognizers>
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label" Binding="{Binding IsIncluded}" Value="False">
-                                            <Setter Property="Opacity" Value="0.45" />
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
+                            <Grid RowDefinitions="Auto,Auto" RowSpacing="2" Padding="0,4">
+                                <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="6">
+                                    <Label Text="{Binding IsIncludedMark}"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="{StaticResource PositiveSoftGreen}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnParticipantRowTapped" CommandParameter="{Binding Id}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
 
-                                <Entry Grid.Column="2"
-                                       Text="{Binding EditableValue}"
-                                       Keyboard="Numeric"
-                                       HorizontalTextAlignment="End"
-                                       TextChanged="OnParticipantAmountEdited"
-                                       Completed="OnParticipantAmountEditCompleted"
-                                       IsEnabled="{Binding IsValueEditable}">
-                                    <Entry.Triggers>
-                                        <DataTrigger TargetType="Entry" Binding="{Binding IsValueEditable}" Value="False">
-                                            <Setter Property="Opacity" Value="0.45" />
-                                        </DataTrigger>
-                                    </Entry.Triggers>
-                                </Entry>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Name}"
+                                           VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnParticipantRowTapped" CommandParameter="{Binding Id}" />
+                                        </Label.GestureRecognizers>
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsIncluded}" Value="False">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
 
-                                <Button Grid.Column="3"
-                                        Text="{Binding ModeChipText}"
-                                        Clicked="OnCycleModeClicked"
-                                        CommandParameter="{Binding Id}"
-                                        Style="{StaticResource SecondaryButton}"
-                                        IsEnabled="{Binding IsIncluded}"
-                                        Padding="6,0"
-                                        FontSize="12"
-                                        MinimumWidthRequest="28"
-                                        MinimumHeightRequest="28" />
-                                <Button Grid.Column="4"
-                                        Text="-"
-                                        Clicked="OnDecreaseParticipantAmountClicked"
-                                        CommandParameter="{Binding Id}"
-                                        Style="{StaticResource SecondaryButton}"
-                                        IsEnabled="{Binding IsValueEditable}"
-                                        Padding="6,0"
-                                        FontSize="12"
-                                        MinimumWidthRequest="28"
-                                        MinimumHeightRequest="28" />
-                                <Button Grid.Column="5"
-                                        Text="+"
-                                        Clicked="OnIncreaseParticipantAmountClicked"
-                                        CommandParameter="{Binding Id}"
-                                        Style="{StaticResource SecondaryButton}"
-                                        IsEnabled="{Binding IsValueEditable}"
-                                        Padding="6,0"
-                                        FontSize="12"
-                                        MinimumWidthRequest="28"
-                                        MinimumHeightRequest="28" />
+                                    <Label Grid.Column="2"
+                                           Text="{Binding DisplayValue}"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="End"
+                                           IsVisible="{Binding IsViewing}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsIncluded}" Value="False">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Entry Grid.Column="2"
+                                           Text="{Binding RawInput}"
+                                           Keyboard="Numeric"
+                                           HorizontalTextAlignment="End"
+                                           TextChanged="OnParticipantRawInputChanged"
+                                           Completed="OnParticipantEditConfirmClicked"
+                                           IsVisible="{Binding IsEditing}" />
+
+                                    <Button Grid.Column="3"
+                                            Text="✎"
+                                            Clicked="OnParticipantEditStartClicked"
+                                            CommandParameter="{Binding Id}"
+                                            Style="{StaticResource SecondaryButton}"
+                                            IsVisible="{Binding CanShowEditButton}"
+                                            Padding="6,0"
+                                            FontSize="12"
+                                            MinimumWidthRequest="28"
+                                            MinimumHeightRequest="28" />
+
+                                    <Button Grid.Column="3"
+                                            Text="✓"
+                                            Clicked="OnParticipantEditConfirmClicked"
+                                            CommandParameter="{Binding Id}"
+                                            Style="{StaticResource SecondaryButton}"
+                                            IsVisible="{Binding IsEditing}"
+                                            Padding="6,0"
+                                            FontSize="12"
+                                            MinimumWidthRequest="28"
+                                            MinimumHeightRequest="28" />
+                                </Grid>
+
+                                <Label Grid.Row="1"
+                                       Text="{Binding ValidationError}"
+                                       Style="{StaticResource BodyMuted}"
+                                       TextColor="{StaticResource ErrorSoftRed}"
+                                       IsVisible="{Binding HasValidationError}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Label Text="{x:Static loc:AppResources.AddEvent_ImpactTitle}" Style="{StaticResource SectionTitle}" />
-                <CollectionView ItemsSource="{Binding ImpactRows}" SelectionMode="None" HeightRequest="96">
+                <Label Text="{x:Static loc:AppResources.AddEvent_ImpactTitle}"
+                       Style="{StaticResource SectionTitle}"
+                       IsVisible="{Binding IsCalculationValid}" />
+                <CollectionView ItemsSource="{Binding ImpactRows}"
+                                SelectionMode="None"
+                                HeightRequest="96"
+                                IsVisible="{Binding IsCalculationValid}">
                     <CollectionView.EmptyView>
                         <Label Text="{x:Static loc:AppResources.AddEvent_ImpactHint}" Style="{StaticResource BodyMuted}" />
                     </CollectionView.EmptyView>
@@ -112,11 +127,11 @@
 
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                     <Button Grid.Column="0"
-                            Text="Attach media"
+                            Text="{x:Static loc:AppResources.AddEvent_AttachMedia}"
                             Style="{StaticResource SecondaryButton}"
                             Clicked="OnAttachMediaClicked" />
                     <Button Grid.Column="1"
-                            Text="Take photo"
+                            Text="{x:Static loc:AppResources.AddEvent_TakePhoto}"
                             Style="{StaticResource SecondaryButton}"
                             Clicked="OnTakePhotoClicked" />
                 </Grid>

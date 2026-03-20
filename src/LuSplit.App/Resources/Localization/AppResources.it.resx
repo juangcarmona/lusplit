@@ -196,6 +196,18 @@
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Salva evento</value>
   </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Allega media</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Scatta foto</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>L’allegato verrà collegato dopo il salvataggio.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>La foto verrà collegata dopo il salvataggio.</value>
+  </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
     <value>Nota</value>
   </data>

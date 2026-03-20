@@ -133,6 +133,10 @@ public static class AppResources
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
     public static string AddEvent_ImpactTitle => Get(nameof(AddEvent_ImpactTitle));
     public static string AddEvent_ImpactHint => Get(nameof(AddEvent_ImpactHint));
+    public static string AddEvent_AttachMedia => Get(nameof(AddEvent_AttachMedia));
+    public static string AddEvent_TakePhoto => Get(nameof(AddEvent_TakePhoto));
+    public static string AddEvent_AttachMediaQueued => Get(nameof(AddEvent_AttachMediaQueued));
+    public static string AddEvent_TakePhotoQueued => Get(nameof(AddEvent_TakePhotoQueued));
     public static string AddEvent_NoteLabel => Get(nameof(AddEvent_NoteLabel));
     public static string AddEvent_NotePlaceholder => Get(nameof(AddEvent_NotePlaceholder));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
