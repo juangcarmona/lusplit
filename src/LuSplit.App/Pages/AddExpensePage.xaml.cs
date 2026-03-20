@@ -271,18 +271,60 @@ public partial class AddExpensePage : ContentPage
 
     private async void OnAttachMediaClicked(object? sender, EventArgs e)
     {
-        _attachmentLabel = AttachmentIconLabel;
-        StatusText = AppResources.AddEvent_AttachMediaQueued;
-        OnPropertyChanged(nameof(StatusText));
-        await Task.CompletedTask;
+        try
+        {
+            var pickOptions = new PickOptions
+            {
+                PickerTitle = AppResources.AddEvent_AttachMedia
+            };
+
+            var file = await FilePicker.Default.PickAsync(pickOptions);
+            if (file is null)
+            {
+                StatusText = AppResources.Common_Cancel;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            _attachmentLabel = AttachmentIconLabel;
+            StatusText = AppResources.AddEvent_AttachMediaQueued;
+            OnPropertyChanged(nameof(StatusText));
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
     }
 
     private async void OnTakePhotoClicked(object? sender, EventArgs e)
     {
-        _attachmentLabel = PhotoIconLabel;
-        StatusText = AppResources.AddEvent_TakePhotoQueued;
-        OnPropertyChanged(nameof(StatusText));
-        await Task.CompletedTask;
+        try
+        {
+            if (!MediaPicker.Default.IsCaptureSupported)
+            {
+                StatusText = AppResources.Validation_InvalidAmount;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            var photo = await MediaPicker.Default.CapturePhotoAsync();
+            if (photo is null)
+            {
+                StatusText = AppResources.Common_Cancel;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
+            _attachmentLabel = PhotoIconLabel;
+            StatusText = AppResources.AddEvent_TakePhotoQueued;
+            OnPropertyChanged(nameof(StatusText));
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
     }
 
     private void RecalculateAll()
