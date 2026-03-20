@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
+using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Pages;
 
@@ -104,7 +105,7 @@ public partial class LanguageSettingsPage : ContentPage
         OnPropertyChanged(nameof(ShowProfileTab));
         OnPropertyChanged(nameof(ShowLanguageTab));
 
-        var unselectedStyle = (Style)Application.Current!.Resources["SecondaryButton"];
+        var unselectedStyle = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
         ProfileTabButton.Style = _selectedTab == SettingsTab.Profile ? null : unselectedStyle;
         LanguageTabButton.Style = _selectedTab == SettingsTab.Language ? null : unselectedStyle;
     }

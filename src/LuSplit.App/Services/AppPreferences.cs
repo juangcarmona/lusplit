@@ -1,4 +1,4 @@
-using Microsoft.Maui.Storage;
+using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Services;
 
@@ -22,6 +22,6 @@ public static class AppPreferences
     public static void SetDarkThemeEnabled(bool enabled)
     {
         Preferences.Default.Set(DarkThemeEnabledKey, enabled);
-        Application.Current!.UserAppTheme = enabled ? AppTheme.Dark : AppTheme.Light;
+        MauiApplication.Current!.UserAppTheme = enabled ? AppTheme.Dark : AppTheme.Light;
     }
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls;
-using LuSplit.App.Services;
+﻿using LuSplit.App.Services;
+
+using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App;
 
@@ -21,7 +21,7 @@ public partial class App : Microsoft.Maui.Controls.Application
 		_services = services;
 		Services = services;
 		InitializeComponent();
-		Application.Current!.UserAppTheme = AppPreferences.IsDarkThemeEnabled() ? AppTheme.Dark : AppTheme.Light;
+		MauiApplication.Current!.UserAppTheme = AppPreferences.IsDarkThemeEnabled() ? AppTheme.Dark : AppTheme.Light;
 	}
 
 	protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
