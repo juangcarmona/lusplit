@@ -322,6 +322,24 @@
   <data name="Settings_LanguageSaved" xml:space="preserve">
     <value>Langue mise à jour.</value>
   </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Définissez votre nom pour vous afficher comme (moi) dans les groupes.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>Mon nom</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Saisissez votre nom</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Enregistrer le profil</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profil mis à jour.</value>
+  </data>
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>Système</value>
   </data>
@@ -458,6 +476,9 @@
   </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Aujourd'hui</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>moi</value>
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
     <value>Hier</value>

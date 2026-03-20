@@ -56,6 +56,11 @@ public partial class GroupSwitcherPage : ContentPage
         await Shell.Current.GoToAsync("..");
     }
 
+    private async void OnBackClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
+    }
+
     private void OnToggleArchivedClicked(object? sender, EventArgs e)
     {
         ShowArchived = !ShowArchived;

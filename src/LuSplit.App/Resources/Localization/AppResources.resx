@@ -546,6 +546,24 @@
   <data name="Settings_LanguageSaved" xml:space="preserve">
     <value>Language updated.</value>
   </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Set your name to mark yourself as (me) across groups.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>My name</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Enter your name</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Save profile</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profile updated.</value>
+  </data>
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>System Default</value>
   </data>
@@ -624,6 +642,9 @@
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>me</value>
   </data>
 
   <!-- Group status labels -->

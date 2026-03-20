@@ -7,9 +7,30 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
+            <Button Text="←"
+                    Style="{StaticResource SecondaryButton}"
+                    HorizontalOptions="Start"
+                    Clicked="OnBackClicked" />
 
             <Label Text="{x:Static loc:AppResources.Settings_Title}"
                    Style="{StaticResource DisplayTitle}" />
+
+            <Label Text="{x:Static loc:AppResources.Settings_ProfileSection}"
+                   Style="{StaticResource SectionTitle}"
+                   Margin="0,8,0,0" />
+
+            <Label Text="{x:Static loc:AppResources.Settings_ProfileHint}"
+                   Style="{StaticResource BodyMuted}" />
+
+            <Border Style="{StaticResource FormFieldBorder}">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{x:Static loc:AppResources.Settings_MyNameLabel}" Style="{StaticResource FieldLabel}" />
+                    <Entry Text="{Binding PreferredName}" Placeholder="{x:Static loc:AppResources.Settings_MyNamePlaceholder}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="{x:Static loc:AppResources.Settings_SaveProfileButton}"
+                    Clicked="OnSaveProfileClicked" />
 
             <Label Text="{x:Static loc:AppResources.Settings_LanguageSection}"
                    Style="{StaticResource SectionTitle}"

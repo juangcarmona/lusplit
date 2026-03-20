@@ -195,6 +195,7 @@ public partial class CreateGroupPage : ContentPage
 public sealed class CreateParticipantViewModel : BindableObject
 {
     public string Name { get; }
+    public string DisplayName => UserProfilePreferences.AnnotateIfCurrentUser(Name);
     public string? DependsOn { get; set; }
     public string DependsOnLabel => string.IsNullOrWhiteSpace(DependsOn)
         ? AppResources.GroupDetails_DependencyIndependent
@@ -207,6 +208,7 @@ public sealed class CreateParticipantViewModel : BindableObject
 
     public void Notify()
     {
+        OnPropertyChanged(nameof(DisplayName));
         OnPropertyChanged(nameof(DependsOn));
         OnPropertyChanged(nameof(DependsOnLabel));
     }

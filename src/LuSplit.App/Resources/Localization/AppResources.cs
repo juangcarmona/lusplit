@@ -208,6 +208,12 @@ public static class AppResources
 
     // --- Settings ---
     public static string Settings_Title => Get(nameof(Settings_Title));
+    public static string Settings_ProfileSection => Get(nameof(Settings_ProfileSection));
+    public static string Settings_ProfileHint => Get(nameof(Settings_ProfileHint));
+    public static string Settings_MyNameLabel => Get(nameof(Settings_MyNameLabel));
+    public static string Settings_MyNamePlaceholder => Get(nameof(Settings_MyNamePlaceholder));
+    public static string Settings_SaveProfileButton => Get(nameof(Settings_SaveProfileButton));
+    public static string Settings_ProfileSaved => Get(nameof(Settings_ProfileSaved));
     public static string Settings_LanguageSection => Get(nameof(Settings_LanguageSection));
     public static string Settings_LanguageHint => Get(nameof(Settings_LanguageHint));
     public static string Settings_LanguageSaved => Get(nameof(Settings_LanguageSaved));
@@ -240,6 +246,7 @@ public static class AppResources
     public static string Mapper_SummaryEvents => Get(nameof(Mapper_SummaryEvents));
     public static string Mapper_Today => Get(nameof(Mapper_Today));
     public static string Mapper_Yesterday => Get(nameof(Mapper_Yesterday));
+    public static string Mapper_Me => Get(nameof(Mapper_Me));
 
     // --- Group status labels ---
     public static string Status_CurrentGroup => Get(nameof(Status_CurrentGroup));

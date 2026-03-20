@@ -22,6 +22,7 @@ public sealed record GroupPersonEditorViewModel(
     };
 
     public string DependencyText => RelationshipText;
+    public string DisplayName => Services.UserProfilePreferences.AnnotateIfCurrentUser(Name);
 }
 
 public sealed record ConsumptionOptionViewModel(ConsumptionCategory Category, string Label);

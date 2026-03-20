@@ -7,12 +7,27 @@ namespace LuSplit.App.Pages;
 public partial class LanguageSettingsPage : ContentPage
 {
     public ObservableCollection<LanguageOptionViewModel> Languages { get; } = new();
+    public string PreferredName { get; set; } = string.Empty;
 
     public LanguageSettingsPage()
     {
         InitializeComponent();
         BindingContext = this;
+        PreferredName = UserProfilePreferences.GetPreferredName();
         BuildLanguageList();
+    }
+
+    private async void OnBackClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
+    }
+
+    private async void OnSaveProfileClicked(object? sender, EventArgs e)
+    {
+        UserProfilePreferences.SetPreferredName(PreferredName);
+        PreferredName = UserProfilePreferences.GetPreferredName();
+        OnPropertyChanged(nameof(PreferredName));
+        await DisplayAlert(AppResources.Settings_Title, AppResources.Settings_ProfileSaved, AppResources.Common_Cancel);
     }
 
     private void BuildLanguageList()

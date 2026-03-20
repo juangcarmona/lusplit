@@ -25,12 +25,6 @@
             Route="archived-groups" />
     </FlyoutItem>
 
-    <FlyoutItem Title="{x:Static loc:AppResources.Activity_Title}" Route="history">
-        <ShellContent
-            ContentTemplate="{DataTemplate pages:ActivityPage}"
-            Route="activity" />
-    </FlyoutItem>
-
     <FlyoutItem Title="{x:Static loc:AppResources.Settings_Title}" Route="settings">
         <ShellContent
             ContentTemplate="{DataTemplate pages:LanguageSettingsPage}"

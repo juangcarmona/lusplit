@@ -8,6 +8,10 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
+                <Button Text="←"
+                        Style="{StaticResource SecondaryButton}"
+                        HorizontalOptions="Start"
+                        Clicked="OnBackClicked" />
                 <Label Text="{x:Static loc:AppResources.GroupSwitcher_Title}" Style="{StaticResource SectionTitle}" />
 
                 <CollectionView ItemsSource="{Binding ActiveGroups}" SelectionMode="None">

@@ -415,10 +415,10 @@ public static class GroupPresentationMapper
         => ResolveParticipantName(participantId, overview.Participants);
 
     private static string ResolveParticipantName(string participantId, IReadOnlyList<ParticipantModel> participants)
-        => participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? AppResources.Mapper_Person;
+        => AnnotateIfCurrentUser(participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? AppResources.Mapper_Person);
 
     private static string ResolveParticipantName(string participantId, IReadOnlyDictionary<string, string> participantsById)
-        => participantsById.TryGetValue(participantId, out var name) ? name : AppResources.Mapper_Person;
+        => AnnotateIfCurrentUser(participantsById.TryGetValue(participantId, out var name) ? name : AppResources.Mapper_Person);
 
     public static string DescribeDay(DateTimeOffset date)
     {
@@ -480,3 +480,5 @@ public static class GroupPresentationMapper
             : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
 }
+    private static string AnnotateIfCurrentUser(string name)
+        => UserProfilePreferences.AnnotateIfCurrentUser(name);

@@ -11,7 +11,7 @@ public static class GroupDetailsPeopleService
         var ownerNameByResponsibility = members
             .Where(member => member.IsOwner)
             .GroupBy(member => member.HouseholdName, StringComparer.Ordinal)
-            .ToDictionary(group => group.Key, group => group.First().Name, StringComparer.Ordinal);
+            .ToDictionary(group => group.Key, group => UserProfilePreferences.AnnotateIfCurrentUser(group.First().Name), StringComparer.Ordinal);
 
         var dependentNamesByResponsibility = members
             .Where(member => !member.IsOwner)
@@ -19,7 +19,7 @@ public static class GroupDetailsPeopleService
             .ToDictionary(
                 group => group.Key,
                 group => (IReadOnlyList<string>)group
-                    .Select(member => member.Name)
+                    .Select(member => UserProfilePreferences.AnnotateIfCurrentUser(member.Name))
                     .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
                     .ToList(),
                 StringComparer.Ordinal);

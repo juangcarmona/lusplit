@@ -52,7 +52,7 @@
                             <Border Style="{StaticResource ExpenseItemBorder}">
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                     <VerticalStackLayout Spacing="4">
-                                        <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
+                                        <Label Text="{Binding DisplayName}" Style="{StaticResource CardTitle}" />
                                         <Label Text="{Binding DependencyText}" Style="{StaticResource BodyMuted}" />
                                     </VerticalStackLayout>
                                     <VerticalStackLayout Grid.Column="1" Spacing="8">

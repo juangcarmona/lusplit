@@ -37,7 +37,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid ColumnDefinitions="*,Auto" Padding="0,4">
-                                    <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
+                                    <Label Text="{Binding DisplayName}" Style="{StaticResource BodyText}" />
                                     <Button Grid.Column="1"
                                             Text="{Binding DependsOnLabel}"
                                             Style="{StaticResource SecondaryButton}"
