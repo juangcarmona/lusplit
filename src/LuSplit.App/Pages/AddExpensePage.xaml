@@ -23,19 +23,14 @@
 
                 <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource StrokeLight}, Dark={StaticResource StrokeDark}}" />
 
-                <Grid ColumnDefinitions="Auto,*,*,*" ColumnSpacing="8">
-                    <Label Text="{x:Static loc:AppResources.AddEvent_SplitLabel}" Style="{StaticResource FieldLabel}" VerticalTextAlignment="Center" />
-                    <Button Grid.Column="1" x:Name="EqualModeButton" Text="{x:Static loc:AppResources.AddEvent_SplitEqual}" Clicked="OnEqualModeClicked" />
-                    <Button Grid.Column="2" x:Name="ExactModeButton" Text="{x:Static loc:AppResources.AddEvent_SplitExact}" Style="{StaticResource SecondaryButton}" Clicked="OnExactModeClicked" />
-                    <Button Grid.Column="3" x:Name="PercentModeButton" Text="{x:Static loc:AppResources.AddEvent_SplitPercent}" Style="{StaticResource SecondaryButton}" Clicked="OnPercentModeClicked" />
-                </Grid>
-
                 <Label Text="{x:Static loc:AppResources.AddEvent_WhoJoined}" Style="{StaticResource SectionTitle}" />
                 <CollectionView ItemsSource="{Binding ParticipantRows}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="8" Padding="0,4">
-                                <Label Text="{Binding IsIncludedMark}" VerticalTextAlignment="Center" />
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto" ColumnSpacing="6" Padding="0,4">
+                                <Label Text="{Binding IsIncludedMark}"
+                                       VerticalTextAlignment="Center"
+                                       TextColor="{StaticResource PositiveSoftGreen}" />
                                 <Label Grid.Column="1"
                                        Text="{Binding Name}"
                                        VerticalTextAlignment="Center">
@@ -54,30 +49,45 @@
                                        Keyboard="Numeric"
                                        HorizontalTextAlignment="End"
                                        TextChanged="OnParticipantAmountEdited"
-                                       Completed="OnParticipantAmountEditCompleted">
+                                       Completed="OnParticipantAmountEditCompleted"
+                                       IsEnabled="{Binding IsValueEditable}">
                                     <Entry.Triggers>
-                                        <DataTrigger TargetType="Entry" Binding="{Binding IsIncluded}" Value="False">
+                                        <DataTrigger TargetType="Entry" Binding="{Binding IsValueEditable}" Value="False">
                                             <Setter Property="Opacity" Value="0.45" />
                                         </DataTrigger>
                                     </Entry.Triggers>
                                 </Entry>
 
                                 <Button Grid.Column="3"
+                                        Text="{Binding ModeChipText}"
+                                        Clicked="OnCycleModeClicked"
+                                        CommandParameter="{Binding Id}"
+                                        Style="{StaticResource SecondaryButton}"
+                                        IsEnabled="{Binding IsIncluded}"
+                                        Padding="6,0"
+                                        FontSize="12"
+                                        MinimumWidthRequest="28"
+                                        MinimumHeightRequest="28" />
+                                <Button Grid.Column="4"
                                         Text="-"
                                         Clicked="OnDecreaseParticipantAmountClicked"
                                         CommandParameter="{Binding Id}"
                                         Style="{StaticResource SecondaryButton}"
-                                        Padding="8,2"
-                                        MinimumWidthRequest="34"
-                                        MinimumHeightRequest="34" />
-                                <Button Grid.Column="4"
+                                        IsEnabled="{Binding IsValueEditable}"
+                                        Padding="6,0"
+                                        FontSize="12"
+                                        MinimumWidthRequest="28"
+                                        MinimumHeightRequest="28" />
+                                <Button Grid.Column="5"
                                         Text="+"
                                         Clicked="OnIncreaseParticipantAmountClicked"
                                         CommandParameter="{Binding Id}"
                                         Style="{StaticResource SecondaryButton}"
-                                        Padding="8,2"
-                                        MinimumWidthRequest="34"
-                                        MinimumHeightRequest="34" />
+                                        IsEnabled="{Binding IsValueEditable}"
+                                        Padding="6,0"
+                                        FontSize="12"
+                                        MinimumWidthRequest="28"
+                                        MinimumHeightRequest="28" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -95,10 +105,21 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Label Text="{x:Static loc:AppResources.AddEvent_NoteLabel}" Style="{StaticResource FieldLabel}" />
+                <Label Text="{x:Static loc:AppResources.AddEvent_EventLabel}" Style="{StaticResource FieldLabel}" />
                 <Entry Text="{Binding ExpenseTitle}"
                        TextChanged="OnExpenseTitleChanged"
-                       Placeholder="{x:Static loc:AppResources.AddEvent_NotePlaceholder}" />
+                       Placeholder="{x:Static loc:AppResources.AddEvent_EventPlaceholder}" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                    <Button Grid.Column="0"
+                            Text="Attach media"
+                            Style="{StaticResource SecondaryButton}"
+                            Clicked="OnAttachMediaClicked" />
+                    <Button Grid.Column="1"
+                            Text="Take photo"
+                            Style="{StaticResource SecondaryButton}"
+                            Clicked="OnTakePhotoClicked" />
+                </Grid>
 
                 <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
                 <DatePicker Date="{Binding ExpenseDate}" />

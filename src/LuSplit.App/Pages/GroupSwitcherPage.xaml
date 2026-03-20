@@ -4,7 +4,8 @@
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.GroupSwitcherPage"
-             Title="{x:Static loc:AppResources.GroupSwitcher_Title}">
+             Title="{x:Static loc:AppResources.GroupSwitcher_Title}"
+             Shell.NavBarIsVisible="True">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
