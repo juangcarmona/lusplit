@@ -13,6 +13,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
     private string? _prefillPayerId;
     private string? _prefillReceiverId;
     private long? _prefillAmountMinor;
+    private string? _prefillCurrency;
 
     public ObservableCollection<string> PersonNames { get; } = new();
 
@@ -47,6 +48,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
             && long.TryParse(amountMinorRaw?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var amountMinor)
             ? amountMinor
             : null;
+        _prefillCurrency = query.TryGetValue("currency", out var currency) ? currency?.ToString() : null;
     }
 
     protected override async void OnAppearing()
@@ -80,7 +82,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
             && !string.IsNullOrWhiteSpace(_prefillReceiverId)
             && _prefillAmountMinor is > 0;
         QuickSummaryText = IsQuickMode
-            ? string.Create(CultureInfo.CurrentCulture, $"{SelectedFromName} → {SelectedToName}")
+            ? string.Create(CultureInfo.CurrentCulture, $"{SelectedFromName} → {SelectedToName}{(string.IsNullOrWhiteSpace(_prefillCurrency) ? string.Empty : $" ({_prefillCurrency})")}")
             : string.Empty;
 
         OnPropertyChanged(nameof(SelectedFromName));

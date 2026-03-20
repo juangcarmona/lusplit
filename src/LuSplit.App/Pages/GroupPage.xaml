@@ -96,7 +96,7 @@
                 <!-- Quick actions (hidden for archived groups) -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0"
                       IsVisible="{Binding CanEdit}">
-                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Group_AddExpense}" Clicked="OnAddEventClicked" />
+                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Group_AddExpense}" Clicked="OnAddExpenseClicked" />
                     <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.Group_RecordPayment}"
                             Style="{StaticResource SecondaryButton}"

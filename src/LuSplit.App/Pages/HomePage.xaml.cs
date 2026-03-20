@@ -98,7 +98,7 @@ public partial class HomePage : ContentPage
 
     private async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
+        await Shell.Current.GoToAsync(AppRoutes.AddExpense);
     }
 
     private void OnOpenDrawerClicked(object? sender, EventArgs e)

@@ -301,6 +301,19 @@ public partial class AddExpensePage : ContentPage
     {
         try
         {
+            var cameraPermission = await Permissions.CheckStatusAsync<Permissions.Camera>();
+            if (cameraPermission != PermissionStatus.Granted)
+            {
+                cameraPermission = await Permissions.RequestAsync<Permissions.Camera>();
+            }
+
+            if (cameraPermission != PermissionStatus.Granted)
+            {
+                StatusText = AppResources.Common_Cancel;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             if (!MediaPicker.Default.IsCaptureSupported)
             {
                 StatusText = AppResources.AddEvent_CameraNotSupported;

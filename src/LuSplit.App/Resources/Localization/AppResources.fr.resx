@@ -152,7 +152,7 @@
     <value>Supprimer</value>
   </data>
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Ajouter un événement</value>
+    <value>Ajouter une dépense</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
     <value>Enregistrez ce qui vient de se passer.</value>

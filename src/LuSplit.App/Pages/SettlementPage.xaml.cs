@@ -8,6 +8,7 @@ namespace LuSplit.App.Pages;
 public partial class SettlementPage : ContentPage
 {
     private readonly AppDataService _dataService;
+    private string _currency = "USD";
 
     public ObservableCollection<SettlementSuggestionRowViewModel> WhoOwesWho { get; } = new();
 
@@ -32,6 +33,7 @@ public partial class SettlementPage : ContentPage
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
+        _currency = overview.Group.Currency;
 
         WhoOwesWho.Clear();
         foreach (var suggestion in GroupPresentationMapper.BuildSettlementSuggestions(overview))
@@ -53,7 +55,7 @@ public partial class SettlementPage : ContentPage
         }
 
         await Shell.Current.GoToAsync(
-            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}");
+            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}&currency={Uri.EscapeDataString(_currency)}");
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -61,10 +63,6 @@ public partial class SettlementPage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
-    }
 }
 
 public sealed record SettlementSuggestionRowViewModel(

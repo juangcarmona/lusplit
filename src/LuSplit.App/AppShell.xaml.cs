@@ -10,7 +10,7 @@ public partial class AppShell : Shell
 		TryRegisterRoute(AppRoutes.CreateGroup, typeof(Pages.CreateGroupPage));
 		TryRegisterRoute(AppRoutes.GroupTimeline, typeof(Pages.GroupPage));
 		TryRegisterRoute(AppRoutes.GroupDetails, typeof(Pages.GroupDetailsPage));
-		TryRegisterRoute(AppRoutes.AddEvent, typeof(Pages.AddExpensePage));
+		TryRegisterRoute(AppRoutes.AddExpense, typeof(Pages.AddExpensePage));
 		TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
 		TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
 		TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
