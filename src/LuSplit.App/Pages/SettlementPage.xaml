@@ -5,17 +5,14 @@
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              Title="{x:Static loc:AppResources.Settlement_Title}">
-    <Grid RowDefinitions="*,Auto">
-
-        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
-            <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource DisplayTitle}" />
-                <Label Text="{x:Static loc:AppResources.Settlement_Subtitle}" Style="{StaticResource BodyMuted}" />
-                <Label Text="{x:Static loc:AppResources.Settlement_ParticipantFairnessHint}" Style="{StaticResource BodyMuted}" />
+    <Grid RowDefinitions="*,Auto,Auto">
+        <Grid RowDefinitions="Auto,*" RowSpacing="0">
+            <VerticalStackLayout Padding="16,12,16,8" Spacing="6">
+                <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource SectionTitle}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
-                        Margin="20,0,20,0"
+                        Margin="16,0,16,0"
                         ItemsSource="{Binding WhoOwesWho}"
                         SelectionMode="None">
                 <CollectionView.EmptyView>
@@ -41,6 +38,14 @@
         </Grid>
 
         <Border Grid.Row="1"
+                Padding="12,8"
+                BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSnow}, Dark={StaticResource BackgroundDark}}"
+                StrokeThickness="0">
+            <Button Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
+                    Clicked="OnRecordPaymentClicked" />
+        </Border>
+
+        <Border Grid.Row="2"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
                 HeightRequest="56"

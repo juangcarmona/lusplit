@@ -3,27 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.LanguageSettingsPage"
-             Title="{x:Static loc:AppResources.Settings_Title}"
-             Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
-        <Border Padding="10,8"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
-                StrokeThickness="0">
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                <Button Text="←"
-                        Style="{StaticResource SecondaryButton}"
-                        HorizontalOptions="Start"
-                        Clicked="OnBackClicked" />
-                <Label Grid.Column="1"
-                       Text="{x:Static loc:AppResources.Settings_Title}"
-                       FontFamily="BrandMedium"
-                       FontSize="20"
-                       VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Start" />
-            </Grid>
-        </Border>
-
-        <ScrollView Grid.Row="1">
+             Title="{x:Static loc:AppResources.Settings_Title}">
+    <Grid RowDefinitions="*,Auto" RowSpacing="0">
+        <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                     <Button x:Name="ProfileTabButton"
@@ -92,6 +74,12 @@
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
+
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                StrokeThickness="0"
+                HeightRequest="56"
+                Padding="0,4" />
     </Grid>
 
 </ContentPage>

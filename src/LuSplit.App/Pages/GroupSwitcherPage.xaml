@@ -4,27 +4,9 @@
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.GroupSwitcherPage"
-             Title="{x:Static loc:AppResources.GroupSwitcher_Title}"
-             Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
-        <Border Padding="10,8"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
-                StrokeThickness="0">
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                <Button Text="←"
-                        Style="{StaticResource SecondaryButton}"
-                        HorizontalOptions="Start"
-                        Clicked="OnBackClicked" />
-                <Label Grid.Column="1"
-                       Text="{x:Static loc:AppResources.GroupSwitcher_Title}"
-                       FontFamily="BrandMedium"
-                       FontSize="20"
-                       VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Start" />
-            </Grid>
-        </Border>
-
-        <ScrollView Grid.Row="1">
+             Title="{x:Static loc:AppResources.GroupSwitcher_Title}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
                 <CollectionView ItemsSource="{Binding ActiveGroups}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
@@ -59,7 +41,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <Border Grid.Row="2"
+        <Border Grid.Row="1"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
                 HeightRequest="56"

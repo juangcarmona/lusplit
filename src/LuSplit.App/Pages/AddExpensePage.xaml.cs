@@ -9,12 +9,18 @@ namespace LuSplit.App.Pages;
 
 public partial class AddExpensePage : ContentPage
 {
+    private enum SplitMode
+    {
+        Equal,
+        Exact,
+        Percent
+    }
+
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
-    private readonly Dictionary<string, ParticipantModel> _participantById = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
+    private SplitMode _splitMode = SplitMode.Equal;
     private string _currency = "USD";
-    private bool _isCustomSplit;
 
     public ObservableCollection<string> PayerNames { get; } = new();
     public ObservableCollection<ParticipantSplitRowViewModel> ParticipantRows { get; } = new();
@@ -52,16 +58,13 @@ public partial class AddExpensePage : ContentPage
 
         _participants.Clear();
         _participants.AddRange(overview.Participants);
-        _participantById.Clear();
-        _payerParticipantIdByLabel.Clear();
-
         PayerNames.Clear();
         ParticipantRows.Clear();
         ImpactRows.Clear();
+        _payerParticipantIdByLabel.Clear();
 
         foreach (var participant in _participants)
         {
-            _participantById[participant.Id] = participant;
             PayerNames.Add(participant.Name);
             _payerParticipantIdByLabel[participant.Name] = participant.Id;
             var isIncluded = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
@@ -73,13 +76,29 @@ public partial class AddExpensePage : ContentPage
             ?? PayerNames.FirstOrDefault();
         OnPropertyChanged(nameof(SelectedPayerName));
 
-        _isCustomSplit = false;
-        RecalculateSplits();
+        RecalculateAll();
+        ApplySplitModeVisualState();
     }
 
-    private async void OnBackClicked(object? sender, EventArgs e)
+    private void OnEqualModeClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        _splitMode = SplitMode.Equal;
+        RecalculateAll();
+        ApplySplitModeVisualState();
+    }
+
+    private void OnExactModeClicked(object? sender, EventArgs e)
+    {
+        _splitMode = SplitMode.Exact;
+        RecalculateAll();
+        ApplySplitModeVisualState();
+    }
+
+    private void OnPercentModeClicked(object? sender, EventArgs e)
+    {
+        _splitMode = SplitMode.Percent;
+        RecalculateAll();
+        ApplySplitModeVisualState();
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -89,13 +108,6 @@ public partial class AddExpensePage : ContentPage
             if (!TryParseAmount(AmountText, out var totalMinor))
             {
                 StatusText = AppResources.Validation_InvalidAmount;
-                OnPropertyChanged(nameof(StatusText));
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(ExpenseTitle))
-            {
-                StatusText = AppResources.Validation_TitleRequired;
                 OnPropertyChanged(nameof(StatusText));
                 return;
             }
@@ -115,24 +127,36 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            SplitDefinition splitDefinition;
-            if (_isCustomSplit)
+            SplitDefinition splitDefinition = _splitMode switch
             {
-                var shares = included.ToDictionary(row => row.Id, row => row.AmountMinor, StringComparer.Ordinal);
-                splitDefinition = new SplitDefinition(new SplitComponent[]
-                {
-                    new FixedSplitComponent(shares)
-                });
-            }
-            else
-            {
-                splitDefinition = new SplitDefinition(new SplitComponent[]
+                SplitMode.Equal => new SplitDefinition(new SplitComponent[]
                 {
                     new RemainderSplitComponent(included.Select(row => row.Id).ToArray(), RemainderMode.Equal)
-                });
-            }
+                }),
+                SplitMode.Percent => new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(
+                        included.Select(row => row.Id).ToArray(),
+                        RemainderMode.Percent,
+                        null,
+                        included.ToDictionary(row => row.Id, row => row.PercentValue, StringComparer.Ordinal))
+                }),
+                _ => new SplitDefinition(new SplitComponent[]
+                {
+                    new FixedSplitComponent(included.ToDictionary(row => row.Id, row => row.AmountMinor, StringComparer.Ordinal))
+                })
+            };
 
-            await _dataService.AddExpenseAsync(ExpenseTitle.Trim(), totalMinor, payerId, ExpenseDate, included.Select(row => row.Id).ToArray(), null, splitDefinition);
+            var title = string.IsNullOrWhiteSpace(ExpenseTitle) ? AppResources.AddEvent_QuickCustom : ExpenseTitle.Trim();
+
+            await _dataService.AddExpenseAsync(
+                title,
+                totalMinor,
+                payerId,
+                ExpenseDate,
+                included.Select(row => row.Id).ToArray(),
+                null,
+                splitDefinition);
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
@@ -142,15 +166,14 @@ public partial class AddExpensePage : ContentPage
         }
     }
 
+    private void OnAmountTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        RecalculateAll();
+    }
+
     private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
     {
         RecalculateSaveState();
-    }
-
-    private void OnAmountTextChanged(object? sender, TextChangedEventArgs e)
-    {
-        _isCustomSplit = false;
-        RecalculateSplits();
     }
 
     private void OnPayerChanged(object? sender, EventArgs e)
@@ -176,10 +199,10 @@ public partial class AddExpensePage : ContentPage
         if (!row.IsIncluded)
         {
             row.AmountMinor = 0;
+            row.PercentValue = 0;
         }
 
-        _isCustomSplit = false;
-        RecalculateSplits();
+        RecalculateAll();
     }
 
     private void OnDecreaseParticipantAmountClicked(object? sender, EventArgs e)
@@ -195,10 +218,17 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        _isCustomSplit = true;
-        row.AmountMinor = Math.Max(0, row.AmountMinor - 100);
-        NormalizeCustomSplitToTotal();
-        RecalculateSplits();
+        switch (_splitMode)
+        {
+            case SplitMode.Percent:
+                row.PercentValue = Math.Max(0, row.PercentValue - 1);
+                break;
+            default:
+                row.AmountMinor = Math.Max(0, row.AmountMinor - 100);
+                break;
+        }
+
+        RecalculateAll();
     }
 
     private void OnIncreaseParticipantAmountClicked(object? sender, EventArgs e)
@@ -214,75 +244,110 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        _isCustomSplit = true;
-        row.AmountMinor += 100;
-        NormalizeCustomSplitToTotal();
-        RecalculateSplits();
+        switch (_splitMode)
+        {
+            case SplitMode.Percent:
+                row.PercentValue += 1;
+                break;
+            default:
+                row.AmountMinor += 100;
+                break;
+        }
+
+        RecalculateAll();
     }
 
-    protected override bool OnBackButtonPressed()
+    private void OnParticipantAmountEdited(object? sender, TextChangedEventArgs e)
     {
-        _ = Shell.Current.GoToAsync("..");
-        return true;
+        if (sender is not Entry { BindingContext: ParticipantSplitRowViewModel row } || !row.IsIncluded)
+        {
+            return;
+        }
+
+        switch (_splitMode)
+        {
+            case SplitMode.Percent:
+                var percentText = NormalizeEditableInput(e.NewTextValue);
+                if (int.TryParse(percentText, NumberStyles.Integer, CultureInfo.CurrentCulture, out var pct)
+                    || int.TryParse(percentText, NumberStyles.Integer, CultureInfo.InvariantCulture, out pct))
+                {
+                    row.PercentValue = Math.Max(0, pct);
+                }
+                break;
+            default:
+                var amountText = NormalizeEditableInput(e.NewTextValue);
+                if (TryParseAmount(amountText, out var amount))
+                {
+                    row.AmountMinor = amount;
+                }
+                break;
+        }
+
+        RecalculateAll();
     }
 
-    private void RecalculateSplits()
+    private void OnParticipantAmountEditCompleted(object? sender, EventArgs e)
+    {
+        RecalculateAll();
+    }
+
+    private void RecalculateAll()
     {
         StatusText = string.Empty;
         OnPropertyChanged(nameof(StatusText));
 
-        var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
-        foreach (var row in ParticipantRows.Where(candidate => !candidate.IsIncluded))
+        switch (_splitMode)
         {
-            row.AmountMinor = 0;
-            row.AmountText = FormatMinor(0, _currency);
-            row.Notify();
-        }
-
-        if (!TryParseAmount(AmountText, out var totalMinor) || included.Length == 0)
-        {
-            foreach (var row in included)
-            {
-                row.AmountMinor = 0;
-                row.AmountText = FormatMinor(0, _currency);
-                row.Notify();
-            }
-
-            RecalculateImpact();
-            RecalculateSaveState();
-            return;
-        }
-
-        if (_isCustomSplit)
-        {
-            NormalizeCustomSplitToTotal();
-        }
-        else
-        {
-            var baseShare = totalMinor / included.Length;
-            var remainder = (int)(totalMinor % included.Length);
-            for (var index = 0; index < included.Length; index++)
-            {
-                included[index].AmountMinor = baseShare + (index < remainder ? 1 : 0);
-                included[index].AmountText = FormatMinor(included[index].AmountMinor, _currency);
-                included[index].Notify();
-            }
-        }
-
-        foreach (var row in included)
-        {
-            row.AmountText = FormatMinor(row.AmountMinor, _currency);
-            row.Notify();
+            case SplitMode.Equal:
+                RecalculateEqual();
+                break;
+            case SplitMode.Exact:
+                RecalculateExact();
+                break;
+            case SplitMode.Percent:
+                RecalculatePercent();
+                break;
         }
 
         RecalculateImpact();
         RecalculateSaveState();
+        RefreshEditableValues();
     }
 
-    private void NormalizeCustomSplitToTotal()
+    private void RecalculateEqual()
     {
         if (!TryParseAmount(AmountText, out var totalMinor))
         {
+            SetAllIncludedToZero();
+            return;
+        }
+
+        var included = ParticipantRows.Where(row => row.IsIncluded).ToArray();
+        if (included.Length == 0)
+        {
+            return;
+        }
+
+        var baseShare = totalMinor / included.Length;
+        var remainder = (int)(totalMinor % included.Length);
+
+        for (var index = 0; index < included.Length; index++)
+        {
+            included[index].AmountMinor = baseShare + (index < remainder ? 1 : 0);
+        }
+
+        foreach (var row in ParticipantRows.Where(row => !row.IsIncluded))
+        {
+            row.AmountMinor = 0;
+            row.PercentValue = 0;
+        }
+    }
+
+    private void RecalculateExact()
+    {
+        if (!TryParseAmount(AmountText, out var totalMinor))
+        {
+            SetAllIncludedToZero();
             return;
         }
 
@@ -305,7 +370,6 @@ public partial class AddExpensePage : ContentPage
             {
                 included[index].AmountMinor = 0;
             }
-
             return;
         }
 
@@ -330,14 +394,11 @@ public partial class AddExpensePage : ContentPage
         }
     }
 
-    private void RecalculateImpact()
+    private void RecalculatePercent()
     {
-        ImpactRows.Clear();
-
-        if (!TryParseAmount(AmountText, out var totalMinor)
-            || SelectedPayerName is null
-            || !_payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId))
+        if (!TryParseAmount(AmountText, out var totalMinor))
         {
+            SetAllIncludedToZero();
             return;
         }
 
@@ -347,15 +408,81 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        foreach (var row in included.Where(row => !string.Equals(row.Id, payerId, StringComparison.Ordinal)))
+        var totalPercent = included.Sum(row => row.PercentValue);
+        if (totalPercent <= 0)
+        {
+            var equal = 100 / included.Length;
+            var remainder = 100 % included.Length;
+            for (var index = 0; index < included.Length; index++)
+            {
+                included[index].PercentValue = equal + (index < remainder ? 1 : 0);
+            }
+        }
+
+        var normalizedTotalPercent = included.Sum(row => row.PercentValue);
+        if (normalizedTotalPercent != 100)
+        {
+            var delta = 100 - normalizedTotalPercent;
+            if (delta > 0)
+            {
+                included[^1].PercentValue += delta;
+            }
+            else
+            {
+                var remainingToReduce = -delta;
+                for (var index = included.Length - 1; index >= 0 && remainingToReduce > 0; index--)
+                {
+                    var reducible = Math.Min(included[index].PercentValue, remainingToReduce);
+                    included[index].PercentValue -= reducible;
+                    remainingToReduce -= reducible;
+                }
+            }
+        }
+
+        long assigned = 0;
+        for (var index = 0; index < included.Length; index++)
+        {
+            if (index == included.Length - 1)
+            {
+                included[index].AmountMinor = totalMinor - assigned;
+                continue;
+            }
+
+            var share = (long)Math.Round(totalMinor * (included[index].PercentValue / 100m), MidpointRounding.AwayFromZero);
+            included[index].AmountMinor = Math.Max(0, share);
+            assigned += included[index].AmountMinor;
+        }
+    }
+
+    private void SetAllIncludedToZero()
+    {
+        foreach (var row in ParticipantRows)
+        {
+            row.AmountMinor = 0;
+            if (!row.IsIncluded)
+            {
+                row.PercentValue = 0;
+            }
+        }
+    }
+
+    private void RecalculateImpact()
+    {
+        ImpactRows.Clear();
+
+        if (SelectedPayerName is null || !_payerParticipantIdByLabel.TryGetValue(SelectedPayerName, out var payerId))
+        {
+            return;
+        }
+
+        foreach (var row in ParticipantRows.Where(row => row.IsIncluded && !string.Equals(row.Id, payerId, StringComparison.Ordinal)))
         {
             if (row.AmountMinor <= 0)
             {
                 continue;
             }
 
-            ImpactRows.Add(new ImpactRowViewModel(
-                $"{row.Name} → {SelectedPayerName} {FormatMinor(row.AmountMinor, _currency)}"));
+            ImpactRows.Add(new ImpactRowViewModel($"{row.Name} → {SelectedPayerName} {FormatMinor(row.AmountMinor, _currency)}"));
             if (ImpactRows.Count >= 4)
             {
                 break;
@@ -366,13 +493,39 @@ public partial class AddExpensePage : ContentPage
     private void RecalculateSaveState()
     {
         var hasAmount = TryParseAmount(AmountText, out _);
-        var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
         var hasPayer = SelectedPayerName is not null && _payerParticipantIdByLabel.ContainsKey(SelectedPayerName);
         var includedCount = ParticipantRows.Count(row => row.IsIncluded);
-
-        CanSave = hasAmount && hasTitle && hasPayer && includedCount >= 2;
+        CanSave = hasAmount && hasPayer && includedCount >= 2;
         OnPropertyChanged(nameof(CanSave));
     }
+
+    private void ApplySplitModeVisualState()
+    {
+        var unselected = (Style)Application.Current!.Resources["SecondaryButton"];
+        EqualModeButton.Style = _splitMode == SplitMode.Equal ? null : unselected;
+        ExactModeButton.Style = _splitMode == SplitMode.Exact ? null : unselected;
+        PercentModeButton.Style = _splitMode == SplitMode.Percent ? null : unselected;
+    }
+
+    private void RefreshEditableValues()
+    {
+        foreach (var row in ParticipantRows)
+        {
+            row.UpdateEditableValue(_splitMode switch
+            {
+                SplitMode.Percent => $"{row.PercentValue}%",
+                _ => FormatMinor(row.AmountMinor, _currency)
+            });
+        }
+    }
+
+    private static string NormalizeEditableInput(string? text)
+        => (text ?? string.Empty)
+            .Replace("€", string.Empty, StringComparison.Ordinal)
+            .Replace("$", string.Empty, StringComparison.Ordinal)
+            .Replace("£", string.Empty, StringComparison.Ordinal)
+            .Replace("%", string.Empty, StringComparison.Ordinal)
+            .Trim();
 
     private static bool TryParseAmount(string text, out long amountMinor)
     {
@@ -400,15 +553,16 @@ public partial class AddExpensePage : ContentPage
         };
 
         return string.IsNullOrEmpty(symbol)
-            ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
-            : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
+            ? $"{amount:0.00} {currency.ToUpperInvariant()}"
+            : $"{symbol}{amount:0.00}";
     }
 
     public sealed class ParticipantSplitRowViewModel : BindableObject
     {
         private bool _isIncluded;
         private long _amountMinor;
-        private string _amountText = "0.00";
+        private int _percentValue;
+        private string _editableValue = "0";
 
         public string Id { get; }
         public string Name { get; }
@@ -425,8 +579,11 @@ public partial class AddExpensePage : ContentPage
 
                 _isIncluded = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsIncludedMark));
             }
         }
+
+        public string IsIncludedMark => _isIncluded ? "✓" : " ";
 
         public long AmountMinor
         {
@@ -438,23 +595,37 @@ public partial class AddExpensePage : ContentPage
                     return;
                 }
 
-                _amountMinor = value;
+                _amountMinor = Math.Max(0, value);
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(AmountText));
             }
         }
 
-        public string AmountText
+        public int PercentValue
         {
-            get => _amountText;
+            get => _percentValue;
             set
             {
-                if (string.Equals(_amountText, value, StringComparison.Ordinal))
+                if (_percentValue == value)
                 {
                     return;
                 }
 
-                _amountText = value;
+                _percentValue = Math.Max(0, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public string EditableValue
+        {
+            get => _editableValue;
+            set
+            {
+                if (string.Equals(_editableValue, value, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                _editableValue = value;
                 OnPropertyChanged();
             }
         }
@@ -464,13 +635,11 @@ public partial class AddExpensePage : ContentPage
             Id = id;
             Name = name;
             _isIncluded = isIncluded;
-            _amountMinor = 0;
         }
 
-        public void Notify()
+        public void UpdateEditableValue(string value)
         {
-            OnPropertyChanged(nameof(IsIncluded));
-            OnPropertyChanged(nameof(AmountText));
+            EditableValue = value;
         }
     }
 

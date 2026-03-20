@@ -60,6 +60,11 @@ public partial class SettlementPage : ContentPage
     {
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
+
+    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+    }
 }
 
 public sealed record SettlementSuggestionRowViewModel(

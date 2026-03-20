@@ -331,6 +331,18 @@
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
     <value>Adjust split</value>
   </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>Split:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>Equal</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>Exact</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Save</value>
   </data>

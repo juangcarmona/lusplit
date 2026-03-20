@@ -126,6 +126,10 @@ public static class AppResources
     public static string AddEvent_SplitPreviewTitle => Get(nameof(AddEvent_SplitPreviewTitle));
     public static string AddEvent_SplitPreviewHint => Get(nameof(AddEvent_SplitPreviewHint));
     public static string AddEvent_AdjustSplit => Get(nameof(AddEvent_AdjustSplit));
+    public static string AddEvent_SplitLabel => Get(nameof(AddEvent_SplitLabel));
+    public static string AddEvent_SplitEqual => Get(nameof(AddEvent_SplitEqual));
+    public static string AddEvent_SplitExact => Get(nameof(AddEvent_SplitExact));
+    public static string AddEvent_SplitPercent => Get(nameof(AddEvent_SplitPercent));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
     public static string AddEvent_ImpactTitle => Get(nameof(AddEvent_ImpactTitle));
     public static string AddEvent_ImpactHint => Get(nameof(AddEvent_ImpactHint));
