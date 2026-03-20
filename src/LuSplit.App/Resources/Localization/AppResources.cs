@@ -129,6 +129,8 @@ public static class AppResources
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
     public static string AddEvent_ImpactTitle => Get(nameof(AddEvent_ImpactTitle));
     public static string AddEvent_ImpactHint => Get(nameof(AddEvent_ImpactHint));
+    public static string AddEvent_NoteLabel => Get(nameof(AddEvent_NoteLabel));
+    public static string AddEvent_NotePlaceholder => Get(nameof(AddEvent_NotePlaceholder));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
 
     // --- Settlement ---
@@ -215,6 +217,7 @@ public static class AppResources
     public static string Settings_MyNameLabel => Get(nameof(Settings_MyNameLabel));
     public static string Settings_MyNamePlaceholder => Get(nameof(Settings_MyNamePlaceholder));
     public static string Settings_SaveProfileButton => Get(nameof(Settings_SaveProfileButton));
+    public static string Settings_ThemeLabel => Get(nameof(Settings_ThemeLabel));
     public static string Settings_ProfileSaved => Get(nameof(Settings_ProfileSaved));
     public static string Settings_LanguageSection => Get(nameof(Settings_LanguageSection));
     public static string Settings_LanguageHint => Get(nameof(Settings_LanguageHint));

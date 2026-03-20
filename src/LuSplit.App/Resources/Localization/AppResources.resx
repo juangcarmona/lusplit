@@ -340,6 +340,12 @@
   <data name="AddEvent_ImpactHint" xml:space="preserve">
     <value>Who owes whom will appear here.</value>
   </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Optional</value>
+  </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Event saved.</value>
   </data>
@@ -566,6 +572,9 @@
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
     <value>Save profile</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Dark theme</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
     <value>Profile updated.</value>

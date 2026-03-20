@@ -24,7 +24,7 @@ public static class GroupDetailsDependencyService
                 {
                     return person with
                     {
-                        RelationshipText = AppResources.GroupDetails_ResponsibilityIndependent,
+                        RelationshipText = AppResources.GroupDetails_DependencyIndependent,
                         IsDependent = false,
                         IsOwner = true
                     };

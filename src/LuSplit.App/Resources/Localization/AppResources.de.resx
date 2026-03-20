@@ -196,6 +196,12 @@
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Ereignis speichern</value>
   </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Notiz</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Optional</value>
+  </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Ereignis gespeichert.</value>
   </data>
@@ -336,6 +342,9 @@
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
     <value>Profil speichern</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Dunkles Design</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
     <value>Profil aktualisiert.</value>

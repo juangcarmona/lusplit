@@ -54,7 +54,7 @@
 
                     <Border Style="{StaticResource FormFieldBorder}">
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                            <Label Text="Dark theme" Style="{StaticResource BodyText}" VerticalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.Settings_ThemeLabel}" Style="{StaticResource BodyText}" VerticalTextAlignment="Center" />
                             <Switch Grid.Column="1"
                                     IsToggled="{Binding IsDarkThemeEnabled}" />
                         </Grid>

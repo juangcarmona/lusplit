@@ -108,10 +108,10 @@
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="Note" Style="{StaticResource FieldLabel}" />
+                        <Label Text="{x:Static loc:AppResources.AddEvent_NoteLabel}" Style="{StaticResource FieldLabel}" />
                         <Entry Text="{Binding ExpenseTitle}"
                                TextChanged="OnExpenseTitleChanged"
-                               Placeholder="Optional" />
+                               Placeholder="{x:Static loc:AppResources.AddEvent_NotePlaceholder}" />
                     </VerticalStackLayout>
                 </Border>
 

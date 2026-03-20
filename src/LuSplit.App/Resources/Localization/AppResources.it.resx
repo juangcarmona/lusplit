@@ -196,6 +196,12 @@
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Salva evento</value>
   </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Opzionale</value>
+  </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Evento salvato.</value>
   </data>
@@ -336,6 +342,9 @@
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
     <value>Salva profilo</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Tema scuro</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
     <value>Profilo aggiornato.</value>
