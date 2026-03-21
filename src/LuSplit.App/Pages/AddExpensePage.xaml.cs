@@ -12,23 +12,38 @@ public partial class AddExpensePage : ContentPage
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
-    private const string AttachmentIconLabel = "attachment";
-    private const string PhotoIconLabel = "photo";
     private string _currency = "USD";
-    private string? _attachmentLabel;
     private bool _isRecalculating;
     private bool _isCalculationValid;
+    private EventIconOptionViewModel _selectedEventIconOption = GroupPresentationMapper.GetEventIconOptions()[0];
 
     public ObservableCollection<string> PayerNames { get; } = new();
     public ObservableCollection<ParticipantSplitRowViewModel> ParticipantRows { get; } = new();
     public ObservableCollection<ImpactRowViewModel> ImpactRows { get; } = new();
+    public ObservableCollection<EventIconOptionViewModel> EventIconOptions { get; } = new();
 
     public string ExpenseTitle { get; set; } = string.Empty;
     public string AmountText { get; set; } = string.Empty;
     public DateTime ExpenseDate { get; set; } = DateTime.Today;
+    public TimeSpan ExpenseTime { get; set; } = DateTime.Now.TimeOfDay;
     public string? SelectedPayerName { get; set; }
     public string StatusText { get; set; } = string.Empty;
     public bool CanSave { get; private set; }
+    public bool IsTitleInvalid => string.IsNullOrWhiteSpace(ExpenseTitle);
+    public EventIconOptionViewModel SelectedEventIconOption
+    {
+        get => _selectedEventIconOption;
+        set
+        {
+            if (_selectedEventIconOption == value)
+            {
+                return;
+            }
+
+            _selectedEventIconOption = value;
+            OnPropertyChanged();
+        }
+    }
     public bool IsCalculationValid
     {
         get => _isCalculationValid;
@@ -73,6 +88,13 @@ public partial class AddExpensePage : ContentPage
         ParticipantRows.Clear();
         ImpactRows.Clear();
         _payerParticipantIdByLabel.Clear();
+        EventIconOptions.Clear();
+        foreach (var option in GroupPresentationMapper.GetEventIconOptions())
+        {
+            EventIconOptions.Add(option);
+        }
+        SelectedEventIconOption = GroupPresentationMapper.ResolveEventIconOption(null);
+        OnPropertyChanged(nameof(SelectedEventIconOption));
 
         foreach (var participant in _participants)
         {
@@ -119,13 +141,14 @@ public partial class AddExpensePage : ContentPage
             });
 
             var title = ExpenseTitle.Trim();
+            var expenseDateTime = ExpenseDate.Date.Add(ExpenseTime);
             await _dataService.AddExpenseAsync(
                 title,
                 totalMinor,
                 payerId,
-                ExpenseDate,
+                expenseDateTime,
                 included.Select(row => row.Id).ToArray(),
-                _attachmentLabel,
+                SelectedEventIconOption.Icon,
                 splitDefinition);
 
             await Shell.Current.GoToAsync("..");
@@ -138,7 +161,11 @@ public partial class AddExpensePage : ContentPage
     }
 
     private void OnAmountTextChanged(object? sender, TextChangedEventArgs e) => RecalculateAll();
-    private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e) => RecalculateSaveState();
+    private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(IsTitleInvalid));
+        RecalculateSaveState();
+    }
 
     private void OnPayerChanged(object? sender, EventArgs e)
     {
@@ -293,7 +320,6 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            _attachmentLabel = AttachmentIconLabel;
             StatusText = AppResources.AddEvent_AttachMediaQueued;
             OnPropertyChanged(nameof(StatusText));
         }
@@ -336,7 +362,6 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            _attachmentLabel = PhotoIconLabel;
             StatusText = AppResources.AddEvent_TakePhotoQueued;
             OnPropertyChanged(nameof(StatusText));
         }

@@ -27,6 +27,10 @@ public static class AppResources
     public static string Home_UnsettledFormat => Get(nameof(Home_UnsettledFormat));
     public static string Home_PayButton => Get(nameof(Home_PayButton));
     public static string Home_RecentExpenses => Get(nameof(Home_RecentExpenses));
+    public static string Home_OverviewNoActivityCount => Get(nameof(Home_OverviewNoActivityCount));
+    public static string Home_OverviewNoActivityText => Get(nameof(Home_OverviewNoActivityText));
+    public static string Home_ExpensesEmpty => Get(nameof(Home_ExpensesEmpty));
+    public static string Home_BalancesEmpty => Get(nameof(Home_BalancesEmpty));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -118,6 +122,8 @@ public static class AppResources
     public static string AddEvent_QuickCustom => Get(nameof(AddEvent_QuickCustom));
     public static string AddEvent_EventLabel => Get(nameof(AddEvent_EventLabel));
     public static string AddEvent_EventPlaceholder => Get(nameof(AddEvent_EventPlaceholder));
+    public static string AddEvent_IconLabel => Get(nameof(AddEvent_IconLabel));
+    public static string AddEvent_OnDate => Get(nameof(AddEvent_OnDate));
     public static string AddEvent_PaidBy => Get(nameof(AddEvent_PaidBy));
     public static string AddEvent_PayerHint => Get(nameof(AddEvent_PayerHint));
     public static string AddEvent_WhoJoined => Get(nameof(AddEvent_WhoJoined));

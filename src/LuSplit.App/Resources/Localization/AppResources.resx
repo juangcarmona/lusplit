@@ -47,7 +47,19 @@
     <value>Pay</value>
   </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
-    <value>Recent expenses</value>
+    <value>Recent activity</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 events</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>No activity yet</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>No expenses or payments yet</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Everyone is even</value>
   </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
@@ -302,10 +314,16 @@
     <value>Custom</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
-    <value>Event</value>
+    <value>Title</value>
   </data>
   <data name="AddEvent_EventPlaceholder" xml:space="preserve">
-    <value>Dinner, groceries, ride...</value>
+    <value>Dinner, groceries, taxi...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>on</value>
   </data>
   <data name="AddEvent_PaidBy" xml:space="preserve">
     <value>Paid by</value>

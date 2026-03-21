@@ -48,6 +48,7 @@ public partial class CreateGroupPage : ContentPage
         }
 
         _step = 2;
+        EnsureCurrentUserParticipant();
         OnPropertyChanged(nameof(IsStep1));
         OnPropertyChanged(nameof(IsStep2));
         StatusText = string.Empty;
@@ -147,10 +148,8 @@ public partial class CreateGroupPage : ContentPage
 
         try
         {
-            var orderedParticipants = Participants
-                .OrderBy(person => string.IsNullOrWhiteSpace(person.DependsOn) ? 0 : 1)
-                .ThenBy(person => person.Name, StringComparer.OrdinalIgnoreCase)
-                .ToArray();
+            EnsureCurrentUserParticipant();
+            var orderedParticipants = Participants.ToArray();
 
             var drafts = orderedParticipants.Select(person => new GroupDraftMember(
                 person.Name,
@@ -165,6 +164,30 @@ public partial class CreateGroupPage : ContentPage
         {
             StatusText = ex.Message;
             OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    private void EnsureCurrentUserParticipant()
+    {
+        var preferredName = UserProfilePreferences.GetPreferredName();
+        var participantName = string.IsNullOrWhiteSpace(preferredName) ? "Me" : preferredName;
+
+        var existingIndex = Participants
+            .Select((participant, index) => new { participant, index })
+            .FirstOrDefault(item => string.Equals(item.participant.Name, participantName, StringComparison.OrdinalIgnoreCase))
+            ?.index;
+
+        if (existingIndex is null)
+        {
+            Participants.Insert(0, new CreateParticipantViewModel(participantName));
+            return;
+        }
+
+        if (existingIndex.Value > 0)
+        {
+            var participant = Participants[existingIndex.Value];
+            Participants.RemoveAt(existingIndex.Value);
+            Participants.Insert(0, participant);
         }
     }
 

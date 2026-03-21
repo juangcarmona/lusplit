@@ -29,8 +29,12 @@ public partial class HomePage : ContentPage
     public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
     public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
     public bool ShowBalances => _selectedTab == WorkspaceTab.Balances;
+    public bool HasEvents => Events.Count > 0;
     public bool ShowWhoOwesWhatSection => WhoOwesWho.Count > 0;
     public bool ShowBalancesSection => Balances.Count > 0;
+    public bool ShowOverviewEmptyState => ShowOverview && !HasEvents;
+    public bool ShowExpensesEmptyState => ShowExpenses && !HasEvents;
+    public bool ShowBalancesEmptyState => ShowBalances && !ShowWhoOwesWhatSection && !ShowBalancesSection;
 
     public HomePage(AppDataService dataService)
     {
@@ -93,8 +97,12 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
+        OnPropertyChanged(nameof(HasEvents));
         OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
         OnPropertyChanged(nameof(ShowBalancesSection));
+        OnPropertyChanged(nameof(ShowOverviewEmptyState));
+        OnPropertyChanged(nameof(ShowExpensesEmptyState));
+        OnPropertyChanged(nameof(ShowBalancesEmptyState));
         ApplyTabVisualState();
     }
 
@@ -191,6 +199,9 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(ShowOverview));
         OnPropertyChanged(nameof(ShowExpenses));
         OnPropertyChanged(nameof(ShowBalances));
+        OnPropertyChanged(nameof(ShowOverviewEmptyState));
+        OnPropertyChanged(nameof(ShowExpensesEmptyState));
+        OnPropertyChanged(nameof(ShowBalancesEmptyState));
 
         var unselectedStyle = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
 

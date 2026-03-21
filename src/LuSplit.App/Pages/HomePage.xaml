@@ -59,6 +59,11 @@
                             <Label Text="{Binding TotalUnsettledText}" Style="{StaticResource BodyText}" />
                         </VerticalStackLayout>
 
+                        <VerticalStackLayout IsVisible="{Binding ShowOverviewEmptyState}" Spacing="2">
+                            <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityCount}" Style="{StaticResource BodyMuted}" />
+                            <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityText}" Style="{StaticResource BodyMuted}" />
+                        </VerticalStackLayout>
+
                         <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowWhoOwesWhatSection}" />
                         <CollectionView ItemsSource="{Binding WhoOwesWho}" SelectionMode="None" IsVisible="{Binding ShowWhoOwesWhatSection}">
                             <CollectionView.ItemTemplate>
@@ -90,11 +95,8 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <Label Text="{x:Static loc:AppResources.Home_RecentExpenses}" Style="{StaticResource SectionTitle}" />
-                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,6,0,0" SelectionChanged="OnEventSelectionChanged">
-                            <CollectionView.EmptyView>
-                                <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource BodyMuted}" />
-                            </CollectionView.EmptyView>
+                        <Label Text="{x:Static loc:AppResources.Home_RecentExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
+                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,6,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
@@ -111,11 +113,8 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout IsVisible="{Binding ShowExpenses}" Spacing="10">
-                        <Label Text="{x:Static loc:AppResources.Group_TabExpenses}" Style="{StaticResource SectionTitle}" />
-                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,2,0,0" SelectionChanged="OnEventSelectionChanged">
-                            <CollectionView.EmptyView>
-                                <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource BodyMuted}" />
-                            </CollectionView.EmptyView>
+                        <Label Text="{x:Static loc:AppResources.Group_TabExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
+                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,2,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
@@ -129,6 +128,9 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+                        <Label Text="{x:Static loc:AppResources.Home_ExpensesEmpty}"
+                               Style="{StaticResource BodyMuted}"
+                               IsVisible="{Binding ShowExpensesEmptyState}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout IsVisible="{Binding ShowBalances}" Spacing="10">
@@ -167,6 +169,9 @@
                                 Style="{StaticResource SecondaryButton}"
                                 HorizontalOptions="Start"
                                 Clicked="OnSettleUpClicked" />
+                        <Label Text="{x:Static loc:AppResources.Home_BalancesEmpty}"
+                               Style="{StaticResource BodyMuted}"
+                               IsVisible="{Binding ShowBalancesEmptyState}" />
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
