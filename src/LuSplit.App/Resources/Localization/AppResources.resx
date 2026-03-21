@@ -571,6 +571,18 @@
   <data name="Validation_DifferentPeople" xml:space="preserve">
     <value>Payment needs two different people.</value>
   </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>Total must match amount</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>Delete expense</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete this expense?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 
   <!-- Settings -->
   <data name="Settings_Title" xml:space="preserve">

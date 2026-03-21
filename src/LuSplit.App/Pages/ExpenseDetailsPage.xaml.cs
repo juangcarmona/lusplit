@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 using LuSplit.Domain.Split;
@@ -155,7 +156,11 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
 
     private async void OnDeleteClicked(object? sender, EventArgs e)
     {
-        var confirm = await DisplayAlert("Delete expense", "Are you sure you want to delete this expense?", "Delete", "Cancel");
+        var confirm = await DisplayAlert(
+            AppResources.ExpenseDetails_DeleteTitle,
+            AppResources.ExpenseDetails_DeleteMessage,
+            AppResources.ExpenseDetails_DeleteAction,
+            AppResources.Common_Cancel);
         if (!confirm)
         {
             return;
@@ -256,7 +261,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         var total = shares.Values.Sum();
         if (total != _fixedTotalMinor)
         {
-            StatusText = "Total must match amount";
+            StatusText = AppResources.Validation_TotalMustMatchAmount;
             OnPropertyChanged(nameof(StatusText));
             return;
         }
@@ -289,7 +294,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
         var totalMatches = totalMinor == _fixedTotalMinor;
         StatusText = _isEditMode && !totalMatches
-            ? "Total must match amount"
+            ? AppResources.Validation_TotalMustMatchAmount
             : string.Empty;
         OnPropertyChanged(nameof(StatusText));
         CanSave = _isEditMode && hasTitle && hasIncluded && hasPayer && totalMinor > 0 && totalMatches;

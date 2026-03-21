@@ -187,6 +187,7 @@ public static class AppResources
     public static string Validation_AddAtLeastOnePerson => Get(nameof(Validation_AddAtLeastOnePerson));
     public static string Validation_ChooseBothPeople => Get(nameof(Validation_ChooseBothPeople));
     public static string Validation_DifferentPeople => Get(nameof(Validation_DifferentPeople));
+    public static string Validation_TotalMustMatchAmount => Get(nameof(Validation_TotalMustMatchAmount));
     public static string Validation_InvalidCustomWeight => Get(nameof(Validation_InvalidCustomWeight));
     public static string Validation_CustomWeightRequiredForCustomCategory => Get(nameof(Validation_CustomWeightRequiredForCustomCategory));
     public static string Validation_GroupArchivedReadonly => Get(nameof(Validation_GroupArchivedReadonly));
@@ -271,4 +272,7 @@ public static class AppResources
     public static string Status_Settled => Get(nameof(Status_Settled));
     public static string Status_DefaultGroupName => Get(nameof(Status_DefaultGroupName));
     public static string Status_Household => Get(nameof(Status_Household));
+    public static string ExpenseDetails_DeleteTitle => Get(nameof(ExpenseDetails_DeleteTitle));
+    public static string ExpenseDetails_DeleteMessage => Get(nameof(ExpenseDetails_DeleteMessage));
+    public static string ExpenseDetails_DeleteAction => Get(nameof(ExpenseDetails_DeleteAction));
 }
