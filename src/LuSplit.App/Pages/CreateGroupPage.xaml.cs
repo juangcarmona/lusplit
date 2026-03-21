@@ -170,7 +170,13 @@ public partial class CreateGroupPage : ContentPage
     private void EnsureCurrentUserParticipant()
     {
         var preferredName = UserProfilePreferences.GetPreferredName();
-        var participantName = string.IsNullOrWhiteSpace(preferredName) ? "Me" : preferredName;
+        var localizedMe = AppResources.Mapper_Me;
+        var fallbackCurrentUserName = string.IsNullOrWhiteSpace(localizedMe)
+            ? "Me"
+            : localizedMe.Length == 1
+                ? char.ToUpperInvariant(localizedMe[0]).ToString()
+                : char.ToUpperInvariant(localizedMe[0]) + localizedMe[1..];
+        var participantName = string.IsNullOrWhiteSpace(preferredName) ? fallbackCurrentUserName : preferredName;
 
         var existingIndex = Participants
             .Select((participant, index) => new { participant, index })
