@@ -4,74 +4,184 @@
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.HomePage"
-             Title="{x:Static loc:AppResources.Groups_Title}">
+             Title="{x:Static loc:AppResources.Home_Title}"
+             Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="*,Auto">
-
-        <!-- Main content: scrollable group list + New group button -->
-        <Grid RowDefinitions="*,Auto,Auto" RowSpacing="0">
+        <Grid RowDefinitions="*,Auto" RowSpacing="0">
             <ScrollView>
-                <VerticalStackLayout Padding="20,24,20,12" Spacing="16">
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="{x:Static loc:AppResources.Groups_Title}" Style="{StaticResource DisplayTitle}" />
-                        <Label Text="{x:Static loc:AppResources.Groups_Subtitle}" Style="{StaticResource BodyMuted}" />
+                <VerticalStackLayout Padding="16,16,16,8" Spacing="10">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                        <Button Grid.Column="0"
+                                Text="☰"
+                                Clicked="OnOpenDrawerClicked"
+                                Style="{StaticResource SecondaryButton}"
+                                Padding="10,6"
+                                MinimumWidthRequest="42"
+                                MinimumHeightRequest="36" />
+                        <Label Grid.Column="1"
+                               Text="{Binding GroupName}"
+                               FontFamily="BrandSemiBold"
+                               FontSize="24"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryNavy}, Dark={StaticResource TextOnDark}}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1" />
+                        <Button Grid.Column="2"
+                                Text="⋯"
+                                Clicked="OnOverflowClicked"
+                                Style="{StaticResource SecondaryButton}"
+                                Padding="10,6"
+                                MinimumWidthRequest="42"
+                                MinimumHeightRequest="36" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <Button x:Name="OverviewTabButton"
+                                Grid.Column="0"
+                                Text="{x:Static loc:AppResources.Group_TabOverview}"
+                                Clicked="OnOverviewTabClicked" />
+                        <Button x:Name="ExpensesTabButton"
+                                Grid.Column="1"
+                                Text="{x:Static loc:AppResources.Group_TabExpenses}"
+                                Style="{StaticResource SecondaryButton}"
+                                Clicked="OnExpensesTabClicked" />
+                        <Button x:Name="BalancesTabButton"
+                                Grid.Column="2"
+                                Text="{x:Static loc:AppResources.Group_TabBalances}"
+                                Style="{StaticResource SecondaryButton}"
+                                Clicked="OnBalancesTabClicked" />
+                    </Grid>
+
+                    <VerticalStackLayout IsVisible="{Binding ShowOverview}" Spacing="10">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding GroupMetaText}" Style="{StaticResource BodyMuted}" />
+                            <Label Text="{Binding TotalUnsettledText}" Style="{StaticResource BodyText}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout IsVisible="{Binding ShowOverviewEmptyState}" Spacing="2">
+                            <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityCount}" Style="{StaticResource BodyMuted}" />
+                            <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityText}" Style="{StaticResource BodyMuted}" />
+                        </VerticalStackLayout>
+
+                        <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowWhoOwesWhatSection}" />
+                        <CollectionView ItemsSource="{Binding WhoOwesWho}" SelectionMode="None" IsVisible="{Binding ShowWhoOwesWhatSection}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Padding="0,3">
+                                        <Label Text="{Binding Text}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource BodyText}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Label Text="{x:Static loc:AppResources.Group_TabBalances}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowBalancesSection}" />
+                        <CollectionView ItemsSource="{Binding Balances}" SelectionMode="None" IsVisible="{Binding ShowBalancesSection}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Padding="0,3">
+                                        <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource BodyText}"
+                                               TextColor="{Binding AmountColor}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Label Text="{x:Static loc:AppResources.Home_RecentExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
+                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,6,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
+                                        <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Start" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                            <Label Text="{Binding Line1}" Style="{StaticResource BodyText}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                            <Label Text="{Binding Line2}" Style="{StaticResource BodyMuted}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="›" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </VerticalStackLayout>
 
-                    <CollectionView ItemsSource="{Binding Groups}" SelectionMode="None">
-                        <CollectionView.EmptyView>
-                            <VerticalStackLayout Padding="0,24,0,0" Spacing="8">
-                                <Label Text="{x:Static loc:AppResources.Groups_EmptyTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                                <Label Text="{x:Static loc:AppResources.Groups_EmptySubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
-                            </VerticalStackLayout>
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border Style="{StaticResource ExpenseItemBorder}">
-                                    <VerticalStackLayout Spacing="10">
-                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                            <VerticalStackLayout Spacing="4">
-                                                <Label Text="{Binding Name}" Style="{StaticResource CardTitle}" />
-                                                <Label Text="{Binding SummaryText}" Style="{StaticResource BodyText}" />
-                                                <Label Text="{Binding BalancePreviewText}" Style="{StaticResource BodyMuted}" />
-                                            </VerticalStackLayout>
-                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Start">
-                                                <Label Text="{Binding Currency}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
-                                                <Border Style="{StaticResource PillBorder}" IsVisible="{Binding IsCurrent}">
-                                                    <Label Text="{x:Static loc:AppResources.Groups_Active}" Style="{StaticResource PillLabel}" TextColor="{StaticResource PanelLeftTeal}" />
-                                                </Border>
-                                            </VerticalStackLayout>
-                                        </Grid>
-                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                            <Button Grid.Column="0"
-                                                Text="{x:Static loc:AppResources.Groups_Open}"
-                                                Clicked="OnOpenGroupClicked"
-                                                CommandParameter="{Binding GroupId}" />
-                                            <Button Grid.Column="1"
-                                                Text="{x:Static loc:AppResources.Groups_Details}"
-                                                Style="{StaticResource SecondaryButton}"
-                                                Clicked="OnEditGroupClicked"
-                                                CommandParameter="{Binding GroupId}"
-                                                WidthRequest="100" />
-                                        </Grid>
-                                    </VerticalStackLayout>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                    <VerticalStackLayout IsVisible="{Binding ShowExpenses}" Spacing="10">
+                        <Label Text="{x:Static loc:AppResources.Group_TabExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
+                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,2,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
+                                        <Label Text="{Binding Icon}" FontSize="18" VerticalTextAlignment="Start" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                            <Label Text="{Binding Line1}" Style="{StaticResource BodyText}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                            <Label Text="{Binding Line2}" Style="{StaticResource BodyMuted}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="›" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Label Text="{x:Static loc:AppResources.Home_ExpensesEmpty}"
+                               Style="{StaticResource BodyMuted}"
+                               IsVisible="{Binding ShowExpensesEmptyState}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout IsVisible="{Binding ShowBalances}" Spacing="10">
+                        <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowWhoOwesWhatSection}" />
+                        <CollectionView ItemsSource="{Binding WhoOwesWho}" SelectionMode="None" IsVisible="{Binding ShowWhoOwesWhatSection}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Padding="0,3">
+                                        <Label Text="{Binding Text}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource BodyText}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Label Text="{x:Static loc:AppResources.Group_TabBalances}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowBalancesSection}" />
+                        <CollectionView ItemsSource="{Binding Balances}" SelectionMode="None" IsVisible="{Binding ShowBalancesSection}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Padding="0,3">
+                                        <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource BodyText}"
+                                               TextColor="{Binding AmountColor}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Button Text="{x:Static loc:AppResources.Group_SettleUp}"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalOptions="Start"
+                                Clicked="OnSettleUpClicked" />
+                        <Label Text="{x:Static loc:AppResources.Home_BalancesEmpty}"
+                               Style="{StaticResource BodyMuted}"
+                               IsVisible="{Binding ShowBalancesEmptyState}" />
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
 
             <Button Grid.Row="1"
-                Margin="20,12,20,4"
-                Text="{x:Static loc:AppResources.Groups_NewGroup}"
-                Clicked="OnNewGroupClicked" />
-            <Button Grid.Row="2"
-                Margin="20,0,20,20"
-                Text="{x:Static loc:AppResources.Groups_ViewArchived}"
-                Style="{StaticResource SecondaryButton}"
-                Clicked="OnViewArchivedClicked" />
+                    Margin="16,8,16,8"
+                    Text="{x:Static loc:AppResources.Group_AddExpense}"
+                    Clicked="OnAddExpenseClicked" />
         </Grid>
 
-        <!-- Ad banner -->
         <Border Grid.Row="1"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"

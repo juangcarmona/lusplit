@@ -6,10 +6,15 @@ using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
-public partial class RecordPaymentPage : ContentPage
+public partial class RecordPaymentPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
     private readonly List<ParticipantModel> _participants = new();
+    private string? _prefillPayerId;
+    private string? _prefillReceiverId;
+    private long? _prefillAmountMinor;
+    private string? _prefillCurrency;
+    private string? _origin;
 
     public ObservableCollection<string> PersonNames { get; } = new();
 
@@ -20,8 +25,11 @@ public partial class RecordPaymentPage : ContentPage
     public string AmountText { get; set; } = string.Empty;
 
     public DateTime PaymentDate { get; set; } = DateTime.Today;
+    public TimeSpan PaymentTime { get; set; } = DateTime.Now.TimeOfDay;
 
     public string StatusText { get; set; } = string.Empty;
+    public bool IsQuickMode { get; private set; }
+    public string QuickSummaryText { get; private set; } = string.Empty;
 
     public RecordPaymentPage(AppDataService dataService)
     {
@@ -31,6 +39,18 @@ public partial class RecordPaymentPage : ContentPage
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        _prefillPayerId = query.TryGetValue("payerId", out var payerId) ? payerId?.ToString() : null;
+        _prefillReceiverId = query.TryGetValue("receiverId", out var receiverId) ? receiverId?.ToString() : null;
+        _prefillAmountMinor = query.TryGetValue("amountMinor", out var amountMinorRaw)
+            && long.TryParse(amountMinorRaw?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var amountMinor)
+            ? amountMinor
+            : null;
+        _prefillCurrency = query.TryGetValue("currency", out var currency) ? currency?.ToString() : null;
+        _origin = query.TryGetValue("origin", out var origin) ? origin?.ToString() : null;
     }
 
     protected override async void OnAppearing()
@@ -52,13 +72,26 @@ public partial class RecordPaymentPage : ContentPage
         }
 
         var suggestion = overview.SettlementByParticipant.Transfers.FirstOrDefault();
-        SelectedFromName = ResolveParticipantName(suggestion?.FromParticipantId) ?? PersonNames.FirstOrDefault();
-        SelectedToName = ResolveParticipantName(suggestion?.ToParticipantId)
+        SelectedFromName = ResolveParticipantName(_prefillPayerId ?? suggestion?.FromParticipantId) ?? PersonNames.FirstOrDefault();
+        SelectedToName = ResolveParticipantName(_prefillReceiverId ?? suggestion?.ToParticipantId)
             ?? PersonNames.Skip(SelectedFromName is null ? 0 : 1).FirstOrDefault()
             ?? PersonNames.FirstOrDefault();
+        AmountText = _prefillAmountMinor is long prefillMinor
+            ? (prefillMinor / 100m).ToString("0.00", CultureInfo.InvariantCulture)
+            : AmountText;
+
+        IsQuickMode = !string.IsNullOrWhiteSpace(_prefillPayerId)
+            && !string.IsNullOrWhiteSpace(_prefillReceiverId)
+            && _prefillAmountMinor is > 0;
+        QuickSummaryText = IsQuickMode
+            ? string.Create(CultureInfo.CurrentCulture, $"{SelectedFromName} → {SelectedToName}{(string.IsNullOrWhiteSpace(_prefillCurrency) ? string.Empty : $" ({_prefillCurrency})")}")
+            : string.Empty;
 
         OnPropertyChanged(nameof(SelectedFromName));
         OnPropertyChanged(nameof(SelectedToName));
+        OnPropertyChanged(nameof(AmountText));
+        OnPropertyChanged(nameof(IsQuickMode));
+        OnPropertyChanged(nameof(QuickSummaryText));
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -89,8 +122,16 @@ public partial class RecordPaymentPage : ContentPage
                 return;
             }
 
-            await _dataService.AddPaymentAsync(from.Id, to.Id, amountMinor, PaymentDate);
-            await Shell.Current.GoToAsync("..");
+            var paymentDateTime = PaymentDate.Date.Add(PaymentTime);
+            await _dataService.AddPaymentAsync(from.Id, to.Id, amountMinor, paymentDateTime);
+            if (string.Equals(_origin, "settlement", StringComparison.OrdinalIgnoreCase))
+            {
+                await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("..");
+            }
         }
         catch (Exception ex)
         {

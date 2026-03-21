@@ -8,14 +8,9 @@ namespace LuSplit.App.Pages;
 public partial class SettlementPage : ContentPage
 {
     private readonly AppDataService _dataService;
-    private bool _showResponsibilitySummary;
+    private string _currency = "USD";
 
-    public string SettlementModeHint { get; private set; } = string.Empty;
-
-    public bool ShowResponsibilitySummary => _showResponsibilitySummary;
-
-    public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
-    public ObservableCollection<BalanceLineViewModel> ResponsibilitySummary { get; } = new();
+    public ObservableCollection<SettlementSuggestionRowViewModel> WhoOwesWho { get; } = new();
 
     public SettlementPage(AppDataService dataService)
     {
@@ -38,34 +33,46 @@ public partial class SettlementPage : ContentPage
     private async Task LoadAsync()
     {
         var overview = await _dataService.GetOverviewAsync();
-        var settlementMode = SettlementMode.Participant;
-        var responsibilityMode = GroupPresentationMapper.ResolveSettlementMode(overview);
-        SettlementModeHint = AppResources.Settlement_ParticipantFairnessHint;
-        _showResponsibilitySummary = responsibilityMode == SettlementMode.EconomicUnitOwner;
+        _currency = overview.Group.Currency;
 
         WhoOwesWho.Clear();
-        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode))
+        foreach (var suggestion in GroupPresentationMapper.BuildSettlementSuggestions(overview))
         {
-            WhoOwesWho.Add(line);
+            WhoOwesWho.Add(new SettlementSuggestionRowViewModel(
+                suggestion.FromParticipantId,
+                suggestion.ToParticipantId,
+                suggestion.AmountMinor,
+                suggestion.Text,
+                suggestion.AmountText));
         }
-
-        ResponsibilitySummary.Clear();
-        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(overview, responsibilityMode))
-        {
-            ResponsibilitySummary.Add(line);
-        }
-
-        OnPropertyChanged(nameof(SettlementModeHint));
-        OnPropertyChanged(nameof(ShowResponsibilitySummary));
     }
 
-    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    private async void OnSuggestionButtonClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+        if (sender is not Button { BindingContext: SettlementSuggestionRowViewModel row })
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync(
+            $"{AppRoutes.RecordPayment}?payerId={Uri.EscapeDataString(row.PayerId)}&receiverId={Uri.EscapeDataString(row.ReceiverId)}&amountMinor={row.AmountMinor}&currency={Uri.EscapeDataString(_currency)}&origin=settlement");
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
     {
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
+
+    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"{AppRoutes.RecordPayment}?origin=settlement");
+    }
+
 }
+
+public sealed record SettlementSuggestionRowViewModel(
+    string PayerId,
+    string ReceiverId,
+    long AmountMinor,
+    string Text,
+    string AmountText);

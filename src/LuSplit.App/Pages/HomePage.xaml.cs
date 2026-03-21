@@ -1,13 +1,40 @@
 using System.Collections.ObjectModel;
 using LuSplit.App.Services;
+using LuSplit.App.Resources.Localization;
+using LuSplit.Application.Models;
+
+using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Pages;
 
 public partial class HomePage : ContentPage
 {
-    private readonly AppDataService _dataService;
+    private enum WorkspaceTab
+    {
+        Overview,
+        Expenses,
+        Balances
+    }
 
-    public ObservableCollection<GroupListItemModel> Groups { get; } = new();
+    private readonly AppDataService _dataService;
+    private WorkspaceTab _selectedTab = WorkspaceTab.Overview;
+
+    public ObservableCollection<HomeBalanceRowViewModel> Balances { get; } = new();
+    public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
+    public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
+
+    public string GroupName { get; private set; } = string.Empty;
+    public string GroupMetaText { get; private set; } = string.Empty;
+    public string TotalUnsettledText { get; private set; } = string.Empty;
+    public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
+    public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
+    public bool ShowBalances => _selectedTab == WorkspaceTab.Balances;
+    public bool HasEvents => Events.Count > 0;
+    public bool ShowWhoOwesWhatSection => WhoOwesWho.Count > 0;
+    public bool ShowBalancesSection => Balances.Count > 0;
+    public bool ShowOverviewEmptyState => ShowOverview && !HasEvents;
+    public bool ShowExpensesEmptyState => ShowExpenses && !HasEvents;
+    public bool ShowBalancesEmptyState => ShowBalances && !ShowWhoOwesWhatSection && !ShowBalancesSection;
 
     public HomePage(AppDataService dataService)
     {
@@ -30,11 +57,53 @@ public partial class HomePage : ContentPage
 
     private async Task LoadAsync()
     {
-        var groups = await _dataService.GetGroupsAsync();
+        var workspace = await _dataService.GetGroupWorkspaceAsync();
+        var overview = workspace.Overview;
 
-        Groups.Clear();
-        foreach (var group in groups)
-            Groups.Add(group);
+        GroupName = workspace.GroupName;
+        GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
+        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
+        var whoOwesWho = GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode);
+        TotalUnsettledText = whoOwesWho.Count == 0
+            ? AppResources.Home_AllSettled
+            : string.Format(
+                AppResources.Home_UnsettledFormat,
+                GroupPresentationMapper.FormatTotalUnsettled(overview));
+
+        Balances.Clear();
+        foreach (var line in GroupPresentationMapper.BuildNetBalances(overview, settlementMode))
+        {
+            Balances.Add(new HomeBalanceRowViewModel(
+                line.ParticipantId,
+                line.Name,
+                line.AmountText,
+                line.IsPositive
+                    ? (Color)MauiApplication.Current!.Resources["PositiveSoftGreen"]
+                    : (Color)MauiApplication.Current!.Resources["ErrorSoftRed"]));
+        }
+
+        Events.Clear();
+        foreach (var item in GroupPresentationMapper.BuildCompactEvents(overview, workspace.ExpenseIcons))
+        {
+            Events.Add(item);
+        }
+
+        WhoOwesWho.Clear();
+        foreach (var line in whoOwesWho)
+        {
+            WhoOwesWho.Add(line);
+        }
+
+        OnPropertyChanged(nameof(GroupName));
+        OnPropertyChanged(nameof(GroupMetaText));
+        OnPropertyChanged(nameof(TotalUnsettledText));
+        OnPropertyChanged(nameof(HasEvents));
+        OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
+        OnPropertyChanged(nameof(ShowBalancesSection));
+        OnPropertyChanged(nameof(ShowOverviewEmptyState));
+        OnPropertyChanged(nameof(ShowExpensesEmptyState));
+        OnPropertyChanged(nameof(ShowBalancesEmptyState));
+        ApplyTabVisualState();
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -42,31 +111,104 @@ public partial class HomePage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    private async void OnOpenGroupClicked(object? sender, EventArgs e)
+    private async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
-        if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
-        {
-            await _dataService.SelectGroupAsync(groupId);
-            await Shell.Current.GoToAsync(AppRoutes.GroupTimeline);
-        }
+        await Shell.Current.GoToAsync(AppRoutes.AddExpense);
     }
 
-    private async void OnEditGroupClicked(object? sender, EventArgs e)
+    private void OnOpenDrawerClicked(object? sender, EventArgs e)
     {
-        if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
+        Shell.Current.FlyoutIsPresented = true;
+    }
+
+    private async void OnOverflowClicked(object? sender, EventArgs e)
+    {
+        var editGroup = AppResources.Group_EditGroup;
+        var settleUp = AppResources.Group_SettleUp;
+        var export = AppResources.GroupDetails_ExportButton;
+        var archive = AppResources.GroupDetails_ArchiveButton;
+        var cancel = AppResources.Common_Cancel;
+
+        var selected = await DisplayActionSheet(AppResources.Group_OverflowLabel, cancel, null, editGroup, settleUp, export, archive);
+        if (string.Equals(selected, editGroup, StringComparison.Ordinal))
         {
-            await _dataService.SelectGroupAsync(groupId);
+            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
+        }
+        else if (string.Equals(selected, settleUp, StringComparison.Ordinal))
+        {
+            await Shell.Current.GoToAsync(AppRoutes.Settlement);
+        }
+        else if (string.Equals(selected, export, StringComparison.Ordinal) || string.Equals(selected, archive, StringComparison.Ordinal))
+        {
             await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
         }
     }
 
-    private async void OnNewGroupClicked(object? sender, EventArgs e)
+    private void OnExpensesTabClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?mode=create");
+        SetSelectedTab(WorkspaceTab.Expenses);
     }
 
-    private async void OnViewArchivedClicked(object? sender, EventArgs e)
+    private void OnBalancesTabClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.ArchivedGroups);
+        SetSelectedTab(WorkspaceTab.Balances);
+    }
+
+    private void OnOverviewTabClicked(object? sender, EventArgs e)
+    {
+        SetSelectedTab(WorkspaceTab.Overview);
+    }
+
+    private async void OnSettleUpClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.Settlement);
+    }
+
+    private async void OnEventSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (sender is not CollectionView collectionView)
+        {
+            return;
+        }
+
+        if (e.CurrentSelection.FirstOrDefault() is not CompactEventEntryViewModel selected
+            || !selected.IsExpense
+            || string.IsNullOrWhiteSpace(selected.SourceId))
+        {
+            collectionView.SelectedItem = null;
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{AppRoutes.ExpenseDetails}?expenseId={Uri.EscapeDataString(selected.SourceId)}");
+        collectionView.SelectedItem = null;
+    }
+
+    private void SetSelectedTab(WorkspaceTab tab)
+    {
+        if (_selectedTab == tab)
+        {
+            return;
+        }
+
+        _selectedTab = tab;
+        ApplyTabVisualState();
+    }
+
+    private void ApplyTabVisualState()
+    {
+        OnPropertyChanged(nameof(ShowOverview));
+        OnPropertyChanged(nameof(ShowExpenses));
+        OnPropertyChanged(nameof(ShowBalances));
+        OnPropertyChanged(nameof(ShowOverviewEmptyState));
+        OnPropertyChanged(nameof(ShowExpensesEmptyState));
+        OnPropertyChanged(nameof(ShowBalancesEmptyState));
+
+        var unselectedStyle = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
+
+        OverviewTabButton.Style = _selectedTab == WorkspaceTab.Overview ? null : unselectedStyle;
+        ExpensesTabButton.Style = _selectedTab == WorkspaceTab.Expenses ? null : unselectedStyle;
+        BalancesTabButton.Style = _selectedTab == WorkspaceTab.Balances ? null : unselectedStyle;
     }
 }
+
+public sealed record HomeBalanceRowViewModel(string ParticipantId, string Name, string AmountText, Color AmountColor);

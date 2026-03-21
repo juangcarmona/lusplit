@@ -5,17 +5,14 @@
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              Title="{x:Static loc:AppResources.Settlement_Title}">
-    <Grid RowDefinitions="*,Auto">
-
-        <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="0">
-            <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource DisplayTitle}" />
-                <Label Text="{x:Static loc:AppResources.Settlement_Subtitle}" Style="{StaticResource BodyMuted}" />
-                <Label Text="{Binding SettlementModeHint}" Style="{StaticResource BodyMuted}" />
+    <Grid RowDefinitions="*,Auto,Auto">
+        <Grid RowDefinitions="Auto,*" RowSpacing="0">
+            <VerticalStackLayout Padding="16,12,16,8" Spacing="6">
+                <Label Text="{x:Static loc:AppResources.Settlement_WhoOwesWhat}" Style="{StaticResource SectionTitle}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
-                        Margin="20,0,20,0"
+                        Margin="16,0,16,0"
                         ItemsSource="{Binding WhoOwesWho}"
                         SelectionMode="None">
                 <CollectionView.EmptyView>
@@ -27,41 +24,31 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource ExpenseItemBorder}">
-                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
                                 <Label Text="{Binding Text}" Style="{StaticResource CardTitle}" />
                                 <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
+                                <Label Grid.Column="2" Text=">" Style="{StaticResource CardTitle}" />
+                                <Button Grid.ColumnSpan="3"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Transparent"
+                                        BorderWidth="0"
+                                        Clicked="OnSuggestionButtonClicked" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <VerticalStackLayout Grid.Row="2"
-                                 Margin="20,12,20,0"
-                                 Spacing="8"
-                                 IsVisible="{Binding ShowResponsibilitySummary}">
-                <Label Text="{x:Static loc:AppResources.Settlement_ResponsibilitySummaryTitle}" Style="{StaticResource SectionTitle}" />
-                <CollectionView ItemsSource="{Binding ResponsibilitySummary}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource ExpenseItemBorder}">
-                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                    <Label Text="{Binding Text}" Style="{StaticResource BodyMuted}" />
-                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
-
-            <Button Grid.Row="3"
-                Margin="20,12,20,20"
-                Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
-                Clicked="OnRecordPaymentClicked" />
         </Grid>
 
         <Border Grid.Row="1"
+                Padding="12,8"
+                BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSnow}, Dark={StaticResource BackgroundDark}}"
+                StrokeThickness="0">
+            <Button Text="{x:Static loc:AppResources.Settlement_RecordPaymentButton}"
+                    Clicked="OnRecordPaymentClicked" />
+        </Border>
+
+        <Border Grid.Row="2"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                 StrokeThickness="0"
                 HeightRequest="56"

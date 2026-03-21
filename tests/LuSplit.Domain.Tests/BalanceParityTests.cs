@@ -121,4 +121,186 @@ public sealed class BalanceParityTests
                 Participants,
                 wrongGroupUnits));
     }
+
+    [Fact]
+    public void AggregatesDependentChildrenDebtUnderResponsibleOwner()
+    {
+        const string grand = "grand";
+        const string juan = "juan";
+        const string juanito = "juanito";
+        const string julia = "julia";
+
+        var participants = new[]
+        {
+            new Participant(grand, GroupId, "u-grand", "Grand", ConsumptionCategory.Full),
+            new Participant(juan, GroupId, "u-juan", "Juan", ConsumptionCategory.Full),
+            new Participant(juanito, GroupId, "u-juan", "Juanito", ConsumptionCategory.Full),
+            new Participant(julia, GroupId, "u-juan", "Julia", ConsumptionCategory.Full)
+        };
+
+        var units = new[]
+        {
+            new EconomicUnit("u-grand", GroupId, grand, "Grand"),
+            new EconomicUnit("u-juan", GroupId, juan, "Juan Family")
+        };
+
+        var expenses = new[]
+        {
+            new Expense(
+                "e-children-sweets",
+                GroupId,
+                "Sweets for kids",
+                grand,
+                900,
+                "2026-01-03",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { juanito, julia }, RemainderMode.Equal)
+                }))
+        };
+
+        var balances = BalanceCalculator.CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
+
+        Assert.Equal(900, balances[grand]);
+        Assert.Equal(0, balances[juan]);
+        Assert.Equal(-450, balances[juanito]);
+        Assert.Equal(-450, balances[julia]);
+
+        var aggregated = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(balances, participants, units);
+
+        Assert.Equal(2, aggregated.Count);
+        Assert.Equal(900, aggregated[grand]);
+        Assert.Equal(-900, aggregated[juan]);
+    }
+
+    [Fact]
+    public void WeekendScenario_S1_ChildrenDebtIsAssumedByResponsibleOwners()
+    {
+        var participants = CreateWeekendParticipants(childrenAreHalf: false);
+        var units = CreateWeekendUnits();
+
+        var expenses = new[]
+        {
+            new Expense(
+                "e-s1",
+                GroupId,
+                "Dinner",
+                "juan",
+                12_000,
+                "2026-01-03",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { "juan", "elena", "gema", "manuela", "juanito", "julia" }, RemainderMode.Equal)
+                }))
+        };
+
+        var balances = BalanceCalculator.CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
+        var aggregated = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(balances, participants, units);
+
+        Assert.Equal(10_000, balances["juan"]);
+        Assert.Equal(-2_000, balances["elena"]);
+        Assert.Equal(-2_000, balances["gema"]);
+        Assert.Equal(-2_000, balances["manuela"]);
+        Assert.Equal(-2_000, balances["juanito"]);
+        Assert.Equal(-2_000, balances["julia"]);
+
+        Assert.Equal(8_000, aggregated["juan"]);
+        Assert.Equal(-4_000, aggregated["elena"]);
+        Assert.Equal(-4_000, aggregated["gema"]);
+    }
+
+    [Fact]
+    public void WeekendScenario_S2_ManualTransferRepresentsSplitPayment()
+    {
+        var participants = CreateWeekendParticipants(childrenAreHalf: false);
+        var units = CreateWeekendUnits();
+
+        var expenses = new[]
+        {
+            new Expense(
+                "e-s2",
+                GroupId,
+                "Dinner",
+                "juan",
+                12_000,
+                "2026-01-03",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(new[] { "juan", "elena", "gema", "manuela", "juanito", "julia" }, RemainderMode.Equal)
+                }))
+        };
+
+        var transfers = new[]
+        {
+            new Transfer("t-s2", GroupId, "gema", "juan", 6_000, "2026-01-03", TransferType.Manual)
+        };
+
+        var balances = BalanceCalculator.CalculateParticipantBalances(expenses, transfers, participants);
+        var aggregated = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(balances, participants, units);
+
+        Assert.Equal(4_000, balances["juan"]);
+        Assert.Equal(4_000, balances["gema"]);
+        Assert.Equal(-2_000, balances["elena"]);
+
+        Assert.Equal(2_000, aggregated["juan"]);
+        Assert.Equal(-4_000, aggregated["elena"]);
+        Assert.Equal(2_000, aggregated["gema"]);
+    }
+
+    [Fact]
+    public void WeekendScenario_S3_WeightedChildrenAtHalfShareKeepsOwnerResponsibility()
+    {
+        var participants = CreateWeekendParticipants(childrenAreHalf: true);
+        var units = CreateWeekendUnits();
+
+        var expenses = new[]
+        {
+            new Expense(
+                "e-s3",
+                GroupId,
+                "Dinner",
+                "juan",
+                12_000,
+                "2026-01-03",
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(
+                        new[] { "juan", "elena", "gema", "manuela", "juanito", "julia" },
+                        RemainderMode.Weight)
+                }))
+        };
+
+        var balances = BalanceCalculator.CalculateParticipantBalances(expenses, Array.Empty<Transfer>(), participants);
+        var aggregated = BalanceCalculator.AggregateBalancesByEconomicUnitOwner(balances, participants, units);
+
+        Assert.Equal(9_333, balances["juan"]);
+        Assert.Equal(-2_667, balances["elena"]);
+        Assert.Equal(-2_667, balances["gema"]);
+        Assert.Equal(-1_333, balances["manuela"]);
+        Assert.Equal(-1_333, balances["juanito"]);
+        Assert.Equal(-1_333, balances["julia"]);
+
+        Assert.Equal(8_000, aggregated["juan"]);
+        Assert.Equal(-4_000, aggregated["elena"]);
+        Assert.Equal(-4_000, aggregated["gema"]);
+    }
+
+    private static Participant[] CreateWeekendParticipants(bool childrenAreHalf)
+        => new[]
+        {
+            new Participant("juan", GroupId, "u-juan", "Juan", ConsumptionCategory.Full),
+            new Participant("elena", GroupId, "u-elena", "Elena", ConsumptionCategory.Full),
+            new Participant("gema", GroupId, "u-gema", "Gema", ConsumptionCategory.Full),
+            new Participant("manuela", GroupId, "u-elena", "Manuela", childrenAreHalf ? ConsumptionCategory.Half : ConsumptionCategory.Full),
+            new Participant("juanito", GroupId, "u-juan", "Juanito", childrenAreHalf ? ConsumptionCategory.Half : ConsumptionCategory.Full),
+            new Participant("julia", GroupId, "u-gema", "Julia", childrenAreHalf ? ConsumptionCategory.Half : ConsumptionCategory.Full)
+        };
+
+    private static EconomicUnit[] CreateWeekendUnits()
+        => new[]
+        {
+            new EconomicUnit("u-juan", GroupId, "juan", "Juan family"),
+            new EconomicUnit("u-elena", GroupId, "elena", "Elena family"),
+            new EconomicUnit("u-gema", GroupId, "gema", "Gema family")
+        };
 }

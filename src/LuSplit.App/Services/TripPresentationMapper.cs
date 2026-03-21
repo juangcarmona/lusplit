@@ -29,6 +29,16 @@ public sealed class ActivityDayGroupViewModel : ObservableCollection<ActivityEnt
 }
 
 public sealed record BalanceLineViewModel(string Text, string AmountText);
+public sealed record NetBalanceViewModel(string ParticipantId, string Name, string AmountText, bool IsPositive);
+public sealed record SettlementSuggestionViewModel(string FromParticipantId, string ToParticipantId, string Text, string AmountText, long AmountMinor);
+public sealed record CompactEventEntryViewModel(
+    string SourceId,
+    bool IsExpense,
+    string Icon,
+    string Line1,
+    string Line2,
+    string SortTieBreaker,
+    DateTimeOffset SortDate);
 public sealed record EventIconOptionViewModel(string Icon, string Label)
 {
     public string DisplayText => $"{Icon} {Label}";
@@ -112,9 +122,111 @@ public static class GroupPresentationMapper
             .ToArray();
     }
 
+    public static IReadOnlyList<NetBalanceViewModel> BuildNetBalances(GroupOverviewModel overview, SettlementMode mode)
+    {
+        var balances = mode == SettlementMode.Participant
+            ? overview.BalancesByParticipant
+            : overview.BalancesByEconomicUnitOwner;
+
+        var amountByParticipantId = balances
+            .ToDictionary(balance => balance.EntityId, balance => balance.AmountMinor, StringComparer.Ordinal);
+
+        return balances
+            .Where(balance => balance.AmountMinor != 0)
+            .Select(balance =>
+            {
+                var amountMinor = balance.AmountMinor;
+                var isPositive = amountMinor > 0;
+                var absAmountMinor = Math.Abs(amountMinor);
+                var sign = isPositive ? "+" : amountMinor < 0 ? "-" : string.Empty;
+                return new NetBalanceViewModel(
+                    balance.EntityId,
+                    ResolveParticipantName(balance.EntityId, overview),
+                    $"{sign}{FormatMinor(absAmountMinor, overview.Group.Currency)}",
+                    isPositive);
+            })
+            .OrderByDescending(line => amountByParticipantId.TryGetValue(line.ParticipantId, out var amount) ? amount : 0L)
+            .ThenBy(line => line.Name, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    public static IReadOnlyList<SettlementSuggestionViewModel> BuildSettlementSuggestions(GroupOverviewModel overview)
+    {
+        var mode = ResolveSettlementMode(overview);
+        var transfers = mode == SettlementMode.Participant
+            ? overview.SettlementByParticipant.Transfers
+            : overview.SettlementByEconomicUnitOwner.Transfers;
+
+        return transfers
+            .Select(transfer => new SettlementSuggestionViewModel(
+                transfer.FromParticipantId,
+                transfer.ToParticipantId,
+                string.Create(
+                    CultureInfo.CurrentCulture,
+                    $"{ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode)} → {ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)}"),
+                FormatMinor(transfer.AmountMinor, overview.Group.Currency),
+                transfer.AmountMinor))
+            .ToArray();
+    }
+
+    public static IReadOnlyList<CompactEventEntryViewModel> BuildCompactEvents(
+        GroupOverviewModel overview,
+        IReadOnlyDictionary<string, string>? expenseIcons = null)
+    {
+        var participantsById = overview.Participants.ToDictionary(participant => participant.Id, participant => participant.Name, StringComparer.Ordinal);
+        var currency = overview.Group.Currency;
+
+        return overview.Expenses
+            .Select(expense =>
+            {
+                var participantIds = expense.SplitDefinition.Components
+                    .SelectMany(component => component switch
+                    {
+                        FixedSplitComponent fixedComponent => fixedComponent.Shares.Keys,
+                        RemainderSplitComponent remainderComponent => remainderComponent.Participants,
+                        _ => Array.Empty<string>()
+                    })
+                    .Distinct(StringComparer.Ordinal)
+                    .Select(participantId => ResolveParticipantName(participantId, participantsById))
+                    .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+
+                return new CompactEventEntryViewModel(
+                    expense.Id,
+                    true,
+                    ResolveExpenseIcon(expense, expenseIcons),
+                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} — {FormatMinor(expense.AmountMinor, currency)}"),
+                    string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {participantIds.Length} people"),
+                    expense.Id,
+                    ParseDate(expense.Date));
+            })
+            .Concat(overview.Transfers.Select(transfer => new CompactEventEntryViewModel(
+                transfer.Id,
+                false,
+                "💸",
+                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} — {FormatMinor(transfer.AmountMinor, currency)}"),
+                string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} → {ResolveParticipantName(transfer.ToParticipantId, participantsById)}"),
+                transfer.Id,
+                ParseDate(transfer.Date))))
+            .OrderByDescending(item => item.SortDate)
+            .ThenByDescending(item => item.SortTieBreaker, StringComparer.Ordinal)
+            .ToArray();
+    }
+
+    public static string FormatCompactPeopleAndEvents(GroupOverviewModel overview)
+        => string.Create(CultureInfo.CurrentCulture, $"{overview.Summary.ParticipantCount} people · {overview.Summary.ExpenseCount + overview.Summary.TransferCount} events");
+
+    public static string FormatTotalUnsettled(GroupOverviewModel overview)
+    {
+        var totalUnsettledMinor = overview.BalancesByParticipant
+            .Where(balance => balance.AmountMinor > 0)
+            .Sum(balance => balance.AmountMinor);
+        return FormatMinor(totalUnsettledMinor, overview.Group.Currency);
+    }
+
     public static IReadOnlyList<string> BuildBalancePreview(GroupOverviewModel overview, int maxItems)
     {
-        var lines = BuildWhoOwesWho(overview, SettlementMode.Participant)
+        var lines = BuildWhoOwesWho(overview, ResolveSettlementMode(overview))
             .Take(maxItems)
             .Select(line => $"{line.Text} {line.AmountText}")
             .ToArray();
@@ -315,10 +427,10 @@ public static class GroupPresentationMapper
         => ResolveParticipantName(participantId, overview.Participants);
 
     private static string ResolveParticipantName(string participantId, IReadOnlyList<ParticipantModel> participants)
-        => participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? AppResources.Mapper_Person;
+        => AnnotateIfCurrentUser(participants.FirstOrDefault(participant => string.Equals(participant.Id, participantId, StringComparison.Ordinal))?.Name ?? AppResources.Mapper_Person);
 
     private static string ResolveParticipantName(string participantId, IReadOnlyDictionary<string, string> participantsById)
-        => participantsById.TryGetValue(participantId, out var name) ? name : AppResources.Mapper_Person;
+        => AnnotateIfCurrentUser(participantsById.TryGetValue(participantId, out var name) ? name : AppResources.Mapper_Person);
 
     public static string DescribeDay(DateTimeOffset date)
     {
@@ -379,4 +491,7 @@ public static class GroupPresentationMapper
             ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
             : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
+
+    private static string AnnotateIfCurrentUser(string name)
+        => UserProfilePreferences.AnnotateIfCurrentUser(name);
 }

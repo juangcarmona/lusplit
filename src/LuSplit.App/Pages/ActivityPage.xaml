@@ -6,46 +6,40 @@
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              Title="{x:Static loc:AppResources.Activity_Title}">
     <Grid RowDefinitions="*,Auto">
-
         <Grid RowDefinitions="Auto,*" RowSpacing="0">
-            <VerticalStackLayout Padding="20,24,20,12" Spacing="6">
-                <Label Text="{x:Static loc:AppResources.Activity_Title}" Style="{StaticResource DisplayTitle}" />
-                <Label Text="{x:Static loc:AppResources.Activity_Subtitle}" Style="{StaticResource BodyMuted}" />
+            <VerticalStackLayout Padding="16,12,16,8" Spacing="2">
+                <Label Text="{Binding Subtitle}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1"
-                        Margin="20,0,20,0"
-                        IsGrouped="True"
-                        ItemsSource="{Binding ActivityGroups}"
-                        SelectionMode="None">
+                            Margin="16,0,16,0"
+                            IsGrouped="True"
+                            ItemsSource="{Binding ActivityGroups}"
+                            SelectionMode="None">
                 <CollectionView.EmptyView>
-                    <VerticalStackLayout Padding="0,40,0,0" Spacing="8">
-                        <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                        <Label Text="{x:Static loc:AppResources.Activity_EmptySubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
-                    </VerticalStackLayout>
+                    <Label Text="{x:Static loc:AppResources.Activity_EmptyTitle}" Style="{StaticResource BodyMuted}" />
                 </CollectionView.EmptyView>
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <Label Margin="0,12,0,8" Text="{Binding Title}" Style="{StaticResource SectionTitle}" />
+                        <Label Margin="0,8,0,4" Text="{Binding Title}" Style="{StaticResource BodyMuted}" />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource ExpenseItemBorder}">
-                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto">
-                                <Label Grid.RowSpan="2"
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
+                            <Label Grid.RowSpan="2"
                                    Text="{Binding Icon}"
-                                   FontSize="24"
-                                   VerticalTextAlignment="Center" />
-                                <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource CardTitle}" />
-                                <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
-                                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Detail}" Style="{StaticResource BodyMuted}" />
-                            </Grid>
-                        </Border>
+                                   FontSize="18"
+                                   VerticalTextAlignment="Start" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                <Label Text="{Binding Line1}" Style="{StaticResource BodyText}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                <Label Text="{Binding Line2}" Style="{StaticResource BodyMuted}" LineBreakMode="TailTruncation" MaxLines="1" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="›" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
         </Grid>
 
         <Border Grid.Row="1"

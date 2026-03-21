@@ -101,9 +101,9 @@ public partial class GroupPage : ContentPage, IQueryAttributable
         await Shell.Current.GoToAsync(AppRoutes.Settlement);
     }
 
-    private async void OnAddEventClicked(object? sender, EventArgs e)
+    private async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(AppRoutes.AddEvent);
+        await Shell.Current.GoToAsync(AppRoutes.AddExpense);
     }
 
     private async void OnRecordPaymentClicked(object? sender, EventArgs e)

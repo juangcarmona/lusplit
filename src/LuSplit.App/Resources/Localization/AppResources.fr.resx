@@ -55,6 +55,9 @@
   <data name="Group_DetailsButton" xml:space="preserve">
     <value>Détails</value>
   </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Modifier le groupe</value>
+  </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
     <value>Qui doit quoi</value>
   </data>
@@ -149,7 +152,7 @@
     <value>Supprimer</value>
   </data>
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Ajouter un événement</value>
+    <value>Ajouter une dépense</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
     <value>Enregistrez ce qui vient de se passer.</value>
@@ -187,11 +190,53 @@
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
     <value>Tout le monde est inclus par défaut.</value>
   </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Ajuster la répartition</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
     <value>Enregistrer</value>
   </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Joindre un média</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Prendre une photo</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>La pièce jointe sera liée après l’enregistrement.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>La photo sera liée après l’enregistrement.</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>La capture photo n’est pas prise en charge sur cet appareil.</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Optionnel</value>
+  </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Événement enregistré.</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Dépenses récentes</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>Plus</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Vue d'ensemble</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Dépenses</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Soldes</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>Avancé pour les autres : {0}</value>
   </data>
   <data name="Settlement_Title" xml:space="preserve">
     <value>Solder</value>
@@ -297,6 +342,27 @@
   </data>
   <data name="Settings_LanguageSaved" xml:space="preserve">
     <value>Langue mise à jour.</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Définissez votre nom pour vous afficher comme (moi) dans les groupes.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>Mon nom</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Saisissez votre nom</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Enregistrer le profil</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Thème sombre</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profil mis à jour.</value>
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>Système</value>
@@ -434,6 +500,9 @@
   </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Aujourd'hui</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>moi</value>
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
     <value>Hier</value>

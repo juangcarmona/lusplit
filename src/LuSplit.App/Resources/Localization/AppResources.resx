@@ -31,6 +31,36 @@
   <data name="Groups_Title" xml:space="preserve">
     <value>Groups</value>
   </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>No balances yet</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>All balances settled</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>Fronted for others: {0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Recent activity</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 events</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>No activity yet</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>No expenses or payments yet</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Everyone is even</value>
+  </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
   </data>
@@ -63,6 +93,9 @@
   <data name="Group_DetailsButton" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Edit group</value>
+  </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
     <value>Who owes what</value>
   </data>
@@ -86,6 +119,18 @@
   </data>
   <data name="Group_RecordPayment" xml:space="preserve">
     <value>Record payment</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Balances</value>
   </data>
 
   <!-- Group Details -->
@@ -213,7 +258,16 @@
     <value>depends on {0}</value>
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
-    <value>responsible for {0} people</value>
+    <value>pays for {0} people</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Independent</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>Depends on: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>Pays for: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
     <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
@@ -236,7 +290,7 @@
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Add event</value>
+    <value>Add expense</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
     <value>Record what just happened.</value>
@@ -260,10 +314,16 @@
     <value>Custom</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
-    <value>Event</value>
+    <value>Title</value>
   </data>
   <data name="AddEvent_EventPlaceholder" xml:space="preserve">
-    <value>Dinner, groceries, ride...</value>
+    <value>Dinner, groceries, taxi...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>on</value>
   </data>
   <data name="AddEvent_PaidBy" xml:space="preserve">
     <value>Paid by</value>
@@ -277,8 +337,59 @@
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
     <value>Everyone is included by default.</value>
   </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>Select a person to include. Dependents follow their responsible participant.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>Split preview</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>Enter amount and participants to preview.</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Adjust split</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>Split:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>Equal</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>Exact</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
-    <value>Save event</value>
+    <value>Save</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>After this</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>Who owes whom will appear here.</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Attach media</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Take photo</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>Attachment will be linked after save.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>Photo will be linked after save.</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>Camera capture is not supported on this device.</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Optional</value>
   </data>
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Event saved.</value>
@@ -307,7 +418,7 @@
     <value>Record a payment only when money actually changes hands.</value>
   </data>
   <data name="Settlement_RecordPaymentButton" xml:space="preserve">
-    <value>Record payment</value>
+    <value>Record custom payment</value>
   </data>
 
   <!-- Record Payment -->
@@ -325,6 +436,12 @@
   </data>
   <data name="RecordPayment_SaveButton" xml:space="preserve">
     <value>Save payment</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>Suggestion</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>Confirm payment</value>
   </data>
 
   <!-- Common -->
@@ -407,6 +524,48 @@
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>A person cannot depend on themselves.</value>
   </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>Circular dependency is not allowed.</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>Switch group</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(Current)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>Archived groups</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ New group</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>Create group</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>Group name</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>Participant name</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
 
   <!-- Archived groups -->
   <data name="Archived_Title" xml:space="preserve">
@@ -430,6 +589,18 @@
   <data name="Validation_DifferentPeople" xml:space="preserve">
     <value>Payment needs two different people.</value>
   </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>Total must match amount</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>Delete expense</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete this expense?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 
   <!-- Settings -->
   <data name="Settings_Title" xml:space="preserve">
@@ -443,6 +614,27 @@
   </data>
   <data name="Settings_LanguageSaved" xml:space="preserve">
     <value>Language updated.</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Set your name to mark yourself as (me) across groups.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>My name</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Enter your name</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Save profile</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Dark theme</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profile updated.</value>
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>System Default</value>
@@ -522,6 +714,9 @@
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>me</value>
   </data>
 
   <!-- Group status labels -->

@@ -21,6 +21,16 @@ public static class AppResources
     public static string Activity_EmptySubtitle => Get(nameof(Activity_EmptySubtitle));
 
     // --- Groups (Home) ---
+    public static string Home_Title => Get(nameof(Home_Title));
+    public static string Home_NoBalancesYet => Get(nameof(Home_NoBalancesYet));
+    public static string Home_AllSettled => Get(nameof(Home_AllSettled));
+    public static string Home_UnsettledFormat => Get(nameof(Home_UnsettledFormat));
+    public static string Home_PayButton => Get(nameof(Home_PayButton));
+    public static string Home_RecentExpenses => Get(nameof(Home_RecentExpenses));
+    public static string Home_OverviewNoActivityCount => Get(nameof(Home_OverviewNoActivityCount));
+    public static string Home_OverviewNoActivityText => Get(nameof(Home_OverviewNoActivityText));
+    public static string Home_ExpensesEmpty => Get(nameof(Home_ExpensesEmpty));
+    public static string Home_BalancesEmpty => Get(nameof(Home_BalancesEmpty));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -34,6 +44,7 @@ public static class AppResources
     // --- Group timeline ---
     public static string Group_Title => Get(nameof(Group_Title));
     public static string Group_DetailsButton => Get(nameof(Group_DetailsButton));
+    public static string Group_EditGroup => Get(nameof(Group_EditGroup));
     public static string Group_WhoOwesWhat => Get(nameof(Group_WhoOwesWhat));
     public static string Group_EveryoneEven => Get(nameof(Group_EveryoneEven));
     public static string Group_SettleUp => Get(nameof(Group_SettleUp));
@@ -42,6 +53,10 @@ public static class AppResources
     public static string Group_EmptySubtitle => Get(nameof(Group_EmptySubtitle));
     public static string Group_AddExpense => Get(nameof(Group_AddExpense));
     public static string Group_RecordPayment => Get(nameof(Group_RecordPayment));
+    public static string Group_OverflowLabel => Get(nameof(Group_OverflowLabel));
+    public static string Group_TabOverview => Get(nameof(Group_TabOverview));
+    public static string Group_TabExpenses => Get(nameof(Group_TabExpenses));
+    public static string Group_TabBalances => Get(nameof(Group_TabBalances));
 
     // --- Group Details ---
     public static string GroupDetails_Title => Get(nameof(GroupDetails_Title));
@@ -91,6 +106,9 @@ public static class AppResources
     public static string GroupDetails_ResponsibilityIndependent => Get(nameof(GroupDetails_ResponsibilityIndependent));
     public static string GroupDetails_ResponsibilityDependsOn => Get(nameof(GroupDetails_ResponsibilityDependsOn));
     public static string GroupDetails_ResponsibilityResponsibleForPeople => Get(nameof(GroupDetails_ResponsibilityResponsibleForPeople));
+    public static string GroupDetails_DependencyIndependent => Get(nameof(GroupDetails_DependencyIndependent));
+    public static string GroupDetails_DependencyDependsOnFormat => Get(nameof(GroupDetails_DependencyDependsOnFormat));
+    public static string GroupDetails_DependencyResponsibleForFormat => Get(nameof(GroupDetails_DependencyResponsibleForFormat));
     public static string GroupDetails_AddPersonHint => Get(nameof(GroupDetails_AddPersonHint));
 
     // --- Add Event ---
@@ -104,11 +122,30 @@ public static class AppResources
     public static string AddEvent_QuickCustom => Get(nameof(AddEvent_QuickCustom));
     public static string AddEvent_EventLabel => Get(nameof(AddEvent_EventLabel));
     public static string AddEvent_EventPlaceholder => Get(nameof(AddEvent_EventPlaceholder));
+    public static string AddEvent_IconLabel => Get(nameof(AddEvent_IconLabel));
+    public static string AddEvent_OnDate => Get(nameof(AddEvent_OnDate));
     public static string AddEvent_PaidBy => Get(nameof(AddEvent_PaidBy));
     public static string AddEvent_PayerHint => Get(nameof(AddEvent_PayerHint));
     public static string AddEvent_WhoJoined => Get(nameof(AddEvent_WhoJoined));
     public static string AddEvent_EveryoneDefault => Get(nameof(AddEvent_EveryoneDefault));
+    public static string AddEvent_ParticipantHint => Get(nameof(AddEvent_ParticipantHint));
+    public static string AddEvent_SplitPreviewTitle => Get(nameof(AddEvent_SplitPreviewTitle));
+    public static string AddEvent_SplitPreviewHint => Get(nameof(AddEvent_SplitPreviewHint));
+    public static string AddEvent_AdjustSplit => Get(nameof(AddEvent_AdjustSplit));
+    public static string AddEvent_SplitLabel => Get(nameof(AddEvent_SplitLabel));
+    public static string AddEvent_SplitEqual => Get(nameof(AddEvent_SplitEqual));
+    public static string AddEvent_SplitExact => Get(nameof(AddEvent_SplitExact));
+    public static string AddEvent_SplitPercent => Get(nameof(AddEvent_SplitPercent));
     public static string AddEvent_SaveButton => Get(nameof(AddEvent_SaveButton));
+    public static string AddEvent_ImpactTitle => Get(nameof(AddEvent_ImpactTitle));
+    public static string AddEvent_ImpactHint => Get(nameof(AddEvent_ImpactHint));
+    public static string AddEvent_AttachMedia => Get(nameof(AddEvent_AttachMedia));
+    public static string AddEvent_TakePhoto => Get(nameof(AddEvent_TakePhoto));
+    public static string AddEvent_CameraNotSupported => Get(nameof(AddEvent_CameraNotSupported));
+    public static string AddEvent_AttachMediaQueued => Get(nameof(AddEvent_AttachMediaQueued));
+    public static string AddEvent_TakePhotoQueued => Get(nameof(AddEvent_TakePhotoQueued));
+    public static string AddEvent_NoteLabel => Get(nameof(AddEvent_NoteLabel));
+    public static string AddEvent_NotePlaceholder => Get(nameof(AddEvent_NotePlaceholder));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
 
     // --- Settlement ---
@@ -127,6 +164,8 @@ public static class AppResources
     public static string RecordPayment_WhoPaid => Get(nameof(RecordPayment_WhoPaid));
     public static string RecordPayment_WhoReceived => Get(nameof(RecordPayment_WhoReceived));
     public static string RecordPayment_SaveButton => Get(nameof(RecordPayment_SaveButton));
+    public static string RecordPayment_SuggestionTitle => Get(nameof(RecordPayment_SuggestionTitle));
+    public static string RecordPayment_ConfirmButton => Get(nameof(RecordPayment_ConfirmButton));
 
     // --- Common ---
     public static string Common_Amount => Get(nameof(Common_Amount));
@@ -154,12 +193,31 @@ public static class AppResources
     public static string Validation_AddAtLeastOnePerson => Get(nameof(Validation_AddAtLeastOnePerson));
     public static string Validation_ChooseBothPeople => Get(nameof(Validation_ChooseBothPeople));
     public static string Validation_DifferentPeople => Get(nameof(Validation_DifferentPeople));
+    public static string Validation_TotalMustMatchAmount => Get(nameof(Validation_TotalMustMatchAmount));
     public static string Validation_InvalidCustomWeight => Get(nameof(Validation_InvalidCustomWeight));
     public static string Validation_CustomWeightRequiredForCustomCategory => Get(nameof(Validation_CustomWeightRequiredForCustomCategory));
     public static string Validation_GroupArchivedReadonly => Get(nameof(Validation_GroupArchivedReadonly));
     public static string Validation_PersonNotFound => Get(nameof(Validation_PersonNotFound));
     public static string Validation_ResponsiblePersonNotFound => Get(nameof(Validation_ResponsiblePersonNotFound));
     public static string Validation_PersonCannotDependOnSelf => Get(nameof(Validation_PersonCannotDependOnSelf));
+    public static string Validation_CircularDependency => Get(nameof(Validation_CircularDependency));
+
+    // --- Group switcher ---
+    public static string GroupSwitcher_Title => Get(nameof(GroupSwitcher_Title));
+    public static string GroupSwitcher_CurrentSuffix => Get(nameof(GroupSwitcher_CurrentSuffix));
+    public static string GroupSwitcher_Select => Get(nameof(GroupSwitcher_Select));
+    public static string GroupSwitcher_ArchivedToggle => Get(nameof(GroupSwitcher_ArchivedToggle));
+    public static string GroupSwitcher_NewGroup => Get(nameof(GroupSwitcher_NewGroup));
+
+    // --- Create group ---
+    public static string CreateGroup_Title => Get(nameof(CreateGroup_Title));
+    public static string CreateGroup_GroupName => Get(nameof(CreateGroup_GroupName));
+    public static string CreateGroup_GroupNamePlaceholder => Get(nameof(CreateGroup_GroupNamePlaceholder));
+    public static string CreateGroup_Currency => Get(nameof(CreateGroup_Currency));
+    public static string CreateGroup_Continue => Get(nameof(CreateGroup_Continue));
+    public static string CreateGroup_ParticipantPlaceholder => Get(nameof(CreateGroup_ParticipantPlaceholder));
+    public static string CreateGroup_AddParticipant => Get(nameof(CreateGroup_AddParticipant));
+    public static string CreateGroup_Create => Get(nameof(CreateGroup_Create));
 
     // --- Archived groups ---
     public static string Archived_Title => Get(nameof(Archived_Title));
@@ -170,6 +228,13 @@ public static class AppResources
 
     // --- Settings ---
     public static string Settings_Title => Get(nameof(Settings_Title));
+    public static string Settings_ProfileSection => Get(nameof(Settings_ProfileSection));
+    public static string Settings_ProfileHint => Get(nameof(Settings_ProfileHint));
+    public static string Settings_MyNameLabel => Get(nameof(Settings_MyNameLabel));
+    public static string Settings_MyNamePlaceholder => Get(nameof(Settings_MyNamePlaceholder));
+    public static string Settings_SaveProfileButton => Get(nameof(Settings_SaveProfileButton));
+    public static string Settings_ThemeLabel => Get(nameof(Settings_ThemeLabel));
+    public static string Settings_ProfileSaved => Get(nameof(Settings_ProfileSaved));
     public static string Settings_LanguageSection => Get(nameof(Settings_LanguageSection));
     public static string Settings_LanguageHint => Get(nameof(Settings_LanguageHint));
     public static string Settings_LanguageSaved => Get(nameof(Settings_LanguageSaved));
@@ -202,6 +267,7 @@ public static class AppResources
     public static string Mapper_SummaryEvents => Get(nameof(Mapper_SummaryEvents));
     public static string Mapper_Today => Get(nameof(Mapper_Today));
     public static string Mapper_Yesterday => Get(nameof(Mapper_Yesterday));
+    public static string Mapper_Me => Get(nameof(Mapper_Me));
 
     // --- Group status labels ---
     public static string Status_CurrentGroup => Get(nameof(Status_CurrentGroup));
@@ -212,4 +278,7 @@ public static class AppResources
     public static string Status_Settled => Get(nameof(Status_Settled));
     public static string Status_DefaultGroupName => Get(nameof(Status_DefaultGroupName));
     public static string Status_Household => Get(nameof(Status_Household));
+    public static string ExpenseDetails_DeleteTitle => Get(nameof(ExpenseDetails_DeleteTitle));
+    public static string ExpenseDetails_DeleteMessage => Get(nameof(ExpenseDetails_DeleteMessage));
+    public static string ExpenseDetails_DeleteAction => Get(nameof(ExpenseDetails_DeleteAction));
 }
