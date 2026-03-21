@@ -45,6 +45,7 @@
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
                                 <DatePicker Date="{Binding PaymentDate}" />
+                                <TimePicker Time="{Binding PaymentTime}" />
                             </VerticalStackLayout>
                         </Border>
                     </Grid>

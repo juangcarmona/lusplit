@@ -25,6 +25,7 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
     public string AmountText { get; set; } = string.Empty;
 
     public DateTime PaymentDate { get; set; } = DateTime.Today;
+    public TimeSpan PaymentTime { get; set; } = DateTime.Now.TimeOfDay;
 
     public string StatusText { get; set; } = string.Empty;
     public bool IsQuickMode { get; private set; }
@@ -121,7 +122,8 @@ public partial class RecordPaymentPage : ContentPage, IQueryAttributable
                 return;
             }
 
-            await _dataService.AddPaymentAsync(from.Id, to.Id, amountMinor, PaymentDate);
+            var paymentDateTime = PaymentDate.Date.Add(PaymentTime);
+            await _dataService.AddPaymentAsync(from.Id, to.Id, amountMinor, paymentDateTime);
             if (string.Equals(_origin, "settlement", StringComparison.OrdinalIgnoreCase))
             {
                 await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
