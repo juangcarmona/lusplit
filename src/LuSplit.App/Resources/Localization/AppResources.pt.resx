@@ -280,6 +280,9 @@
   <data name="Common_Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="Export_DialogTitle" xml:space="preserve">
     <value>Exportar este grupo</value>
   </data>
@@ -297,6 +300,18 @@
   </data>
   <data name="Export_Failed" xml:space="preserve">
     <value>Falha na exportação. {0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>Como deseja exportar?</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>Guardar no dispositivo</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>Partilhar...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>«{0}» guardado em Transferências.</value>
   </data>
   <data name="Validation_TitleRequired" xml:space="preserve">
     <value>O título é obrigatório.</value>

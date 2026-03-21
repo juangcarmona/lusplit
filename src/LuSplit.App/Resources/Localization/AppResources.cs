@@ -171,6 +171,7 @@ public static class AppResources
     public static string Common_Amount => Get(nameof(Common_Amount));
     public static string Common_Date => Get(nameof(Common_Date));
     public static string Common_Cancel => Get(nameof(Common_Cancel));
+    public static string Common_Ok => Get(nameof(Common_Ok));
 
     // --- Export ---
     public static string Export_DialogTitle => Get(nameof(Export_DialogTitle));
@@ -179,6 +180,10 @@ public static class AppResources
     public static string Export_PdfOption => Get(nameof(Export_PdfOption));
     public static string Export_ShareTitle => Get(nameof(Export_ShareTitle));
     public static string Export_Failed => Get(nameof(Export_Failed));
+    public static string Export_DeliveryDialogTitle => Get(nameof(Export_DeliveryDialogTitle));
+    public static string Export_SaveToDevice => Get(nameof(Export_SaveToDevice));
+    public static string Export_Share => Get(nameof(Export_Share));
+    public static string Export_SavedToDevice => Get(nameof(Export_SavedToDevice));
 
     // --- Validation ---
     public static string Validation_TitleRequired => Get(nameof(Validation_TitleRequired));

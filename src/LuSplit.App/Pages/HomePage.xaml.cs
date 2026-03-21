@@ -123,25 +123,7 @@ public partial class HomePage : ContentPage
 
     private async void OnOverflowClicked(object? sender, EventArgs e)
     {
-        var editGroup = AppResources.Group_EditGroup;
-        var settleUp = AppResources.Group_SettleUp;
-        var export = AppResources.GroupDetails_ExportButton;
-        var archive = AppResources.GroupDetails_ArchiveButton;
-        var cancel = AppResources.Common_Cancel;
-
-        var selected = await DisplayActionSheet(AppResources.Group_OverflowLabel, cancel, null, editGroup, settleUp, export, archive);
-        if (string.Equals(selected, editGroup, StringComparison.Ordinal))
-        {
-            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
-        }
-        else if (string.Equals(selected, settleUp, StringComparison.Ordinal))
-        {
-            await Shell.Current.GoToAsync(AppRoutes.Settlement);
-        }
-        else if (string.Equals(selected, export, StringComparison.Ordinal) || string.Equals(selected, archive, StringComparison.Ordinal))
-        {
-            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
-        }
+        await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
     }
 
     private void OnExpensesTabClicked(object? sender, EventArgs e)

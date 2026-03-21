@@ -1,16 +1,15 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Pages.GroupDetailsPage"
              x:Name="PageRoot"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             xmlns:local="clr-namespace:LuSplit.App.Pages"
              Title="{x:Static loc:AppResources.GroupDetails_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="8,8,8,8" Spacing="14">
-                <Label Text="{Binding PageTitle}" Style="{StaticResource DisplayTitle}" />
-                <Label Text="{Binding PageSubtitle}" Style="{StaticResource BodyMuted}" />
+            <VerticalStackLayout Padding="16,12,16,24" Spacing="14">
 
                 <!-- Archived group banner -->
                 <Border IsVisible="{Binding IsArchived}"
@@ -23,82 +22,63 @@
                            HorizontalTextAlignment="Center" />
                 </Border>
 
+                <!-- 1. Basics -->
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
                         <Label Text="{x:Static loc:AppResources.GroupDetails_GroupNameLabel}" Style="{StaticResource FieldLabel}" />
-                        <Entry Text="{Binding GroupName}" Placeholder="{x:Static loc:AppResources.GroupDetails_GroupNamePlaceholder}" ClearButtonVisibility="WhileEditing" />
+                        <Entry Text="{Binding GroupName}"
+                               Placeholder="{x:Static loc:AppResources.GroupDetails_GroupNamePlaceholder}"
+                               ClearButtonVisibility="WhileEditing"
+                               IsEnabled="{Binding CanEdit}"
+                               AutomationId="GroupNameEntry" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">
                         <Label Text="{x:Static loc:AppResources.GroupDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
-                        <Picker ItemsSource="{Binding CurrencyOptions}" SelectedItem="{Binding SelectedCurrency}" />
+                        <Picker ItemsSource="{Binding CurrencyOptions}"
+                                SelectedItem="{Binding SelectedCurrency}"
+                                IsEnabled="{Binding CanEdit}"
+                                AutomationId="CurrencyPicker" />
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- 2. People -->
                 <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
-                <Label Text="{x:Static loc:AppResources.GroupDetails_ResponsibilityHint}" Style="{StaticResource BodyMuted}" />
 
-                <CollectionView ItemsSource="{Binding People}" SelectionMode="None">
-                    <CollectionView.EmptyView>
-                        <VerticalStackLayout Padding="0,8,0,0" Spacing="8">
-                            <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
-                            <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleSubtitle}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
-                        </VerticalStackLayout>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource ExpenseItemBorder}">
-                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                    <VerticalStackLayout Spacing="4">
-                                        <Label Text="{Binding DisplayName}" Style="{StaticResource CardTitle}" />
-                                        <Label Text="{Binding DependencyText}" Style="{StaticResource BodyMuted}" />
-                                    </VerticalStackLayout>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="8">
-                                        <Button IsVisible="{Binding Source={x:Reference PageRoot}, Path=BindingContext.CanManagePeople}"
-                                                Text="{x:Static loc:AppResources.GroupDetails_ManagePersonSection}"
-                                                Clicked="OnManagePersonClicked"
-                                                CommandParameter="{Binding ParticipantId}" />
-                                        <Button IsVisible="{Binding CanRemove}"
-                                                Text="{x:Static loc:AppResources.GroupDetails_Remove}"
-                                                Clicked="OnRemovePersonClicked"
-                                                CommandParameter="{Binding Name}" />
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <local:ParticipantsEditorView
+                    Participants="{Binding Participants}"
+                    CanEdit="{Binding CanEdit}"
+                    HostPage="{x:Reference PageRoot}"
+                    AddParticipantRequested="OnParticipantAddRequested"
+                    DependencyChanged="OnDependencyChanged"
+                    AutomationId="ParticipantsEditor" />
 
-                <!-- Add person section (hidden for archived groups) -->
-                <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding CanEdit}">
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonSection}" Style="{StaticResource SectionTitle}" />
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_AddPersonHint}" Style="{StaticResource BodyMuted}" />
-                        <Button Text="{x:Static loc:AppResources.GroupDetails_AddPersonButton}" Clicked="OnAddPersonClicked" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <!-- Save / create button (hidden for archived groups) -->
-                <Button Text="{Binding SaveButtonText}" IsVisible="{Binding CanEdit}" Clicked="OnSaveClicked" />
-
+                <!-- 3. Actions -->
                 <Button Text="{x:Static loc:AppResources.GroupDetails_ExportButton}"
-                        IsVisible="{Binding CanExport}"
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,4,0,0"
+                        AutomationId="ExportButton"
                         Clicked="OnExportClicked" />
 
-                <!-- Archive button: only visible for active (non-archived) edit-mode groups -->
                 <Button Text="{x:Static loc:AppResources.GroupDetails_ArchiveButton}"
                         IsVisible="{Binding CanArchive}"
                         Style="{StaticResource SecondaryButton}"
-                        Margin="0,0,0,0"
+                        AutomationId="ArchiveButton"
                         Clicked="OnArchiveClicked" />
 
+                <!-- 4. Save -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_SaveButton}"
+                        IsVisible="{Binding CanEdit}"
+                        AutomationId="SaveButton"
+                        Clicked="OnSaveClicked" />
+
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
+
             </VerticalStackLayout>
         </ScrollView>
+
         <Border Grid.Row="1"
             BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
             StrokeThickness="0"

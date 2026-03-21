@@ -177,4 +177,28 @@ public static class GroupDetailsDependencyService
 
         return false;
     }
+
+    /// <summary>
+    /// Cycle detection for the draft (create/edit) participant model that uses a string
+    /// <c>DependsOn</c> rather than household IDs.
+    /// </summary>
+    public static bool WouldCreateCycleDraft(
+        string participantName,
+        string? selectedResponsible,
+        IEnumerable<LuSplit.App.Pages.ParticipantDraftViewModel> participants)
+    {
+        if (string.IsNullOrWhiteSpace(selectedResponsible)) return false;
+
+        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { participantName };
+        var cursor = selectedResponsible;
+        while (!string.IsNullOrWhiteSpace(cursor))
+        {
+            if (!visited.Add(cursor)) return true;
+            cursor = participants
+                .FirstOrDefault(p => string.Equals(p.Name, cursor, StringComparison.OrdinalIgnoreCase))
+                ?.DependsOn;
+        }
+
+        return false;
+    }
 }

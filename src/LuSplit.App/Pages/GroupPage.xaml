@@ -8,6 +8,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{x:Static loc:AppResources.Group_DetailsButton}" Clicked="OnGroupDetailsClicked" />
+        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Clicked="OnExportClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,Auto">

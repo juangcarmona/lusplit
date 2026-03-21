@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
 
@@ -10,6 +11,8 @@ public partial class GroupPage : ContentPage, IQueryAttributable
     // Set when navigating to this page for a specific (e.g. archived) group,
     // without changing the user's currently selected active group.
     private string? _overrideGroupId;
+    // Resolved during LoadAsync; used by OnExportClicked when no override is set.
+    private string? _currentGroupId;
 
     public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
 
@@ -59,6 +62,7 @@ public partial class GroupPage : ContentPage, IQueryAttributable
         GroupSummaryText = GroupPresentationMapper.BuildGroupSummary(workspace.Overview);
         IsArchived = workspace.Overview.Group.Closed;
         Title = workspace.GroupName;
+        _currentGroupId = workspace.GroupId;
 
         TimelineItems.Clear();
         foreach (var item in GroupPresentationMapper.BuildTimeline(workspace.Overview, workspace.ExpenseIcons))
@@ -109,5 +113,20 @@ public partial class GroupPage : ContentPage, IQueryAttributable
     private async void OnRecordPaymentClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
+    }
+
+    private async void OnExportClicked(object? sender, EventArgs e)
+    {
+        var groupId = _overrideGroupId ?? _currentGroupId;
+        if (groupId is null) return;
+
+        try
+        {
+            await GroupExportService.RunExportFlowAsync(this, _dataService, groupId);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(null, string.Format(AppResources.Export_Failed, ex.Message), AppResources.Common_Ok);
+        }
     }
 }

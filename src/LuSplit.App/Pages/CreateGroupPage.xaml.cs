@@ -11,11 +11,10 @@ public partial class CreateGroupPage : ContentPage
     private int _step = 1;
 
     public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
-    public ObservableCollection<CreateParticipantViewModel> Participants { get; } = new();
+    public ObservableCollection<ParticipantDraftViewModel> Participants { get; } = new();
 
     public string GroupName { get; set; } = string.Empty;
     public string? SelectedCurrency { get; set; } = AppPreferences.GetPreferredCurrency();
-    public string NewParticipantName { get; set; } = string.Empty;
     public string StatusText { get; set; } = string.Empty;
 
     public bool IsStep1 => _step == 1;
@@ -55,87 +54,22 @@ public partial class CreateGroupPage : ContentPage
         OnPropertyChanged(nameof(StatusText));
     }
 
-    private void OnAddParticipantClicked(object? sender, EventArgs e)
+    // ── ParticipantsEditorView event handlers ──────────────────────────────
+
+    private void OnParticipantAddRequested(object? sender, string name)
     {
-        var normalized = NewParticipantName.Trim();
-        if (string.IsNullOrWhiteSpace(normalized))
-        {
-            StatusText = AppResources.Validation_PersonNameRequired;
-            OnPropertyChanged(nameof(StatusText));
-            return;
-        }
-
-        if (Participants.Any(p => string.Equals(p.Name, normalized, StringComparison.OrdinalIgnoreCase)))
-        {
-            StatusText = AppResources.Validation_PersonNameMustBeUnique;
-            OnPropertyChanged(nameof(StatusText));
-            return;
-        }
-
-        Participants.Add(new CreateParticipantViewModel(normalized));
-        NewParticipantName = string.Empty;
-        StatusText = string.Empty;
-        OnPropertyChanged(nameof(NewParticipantName));
-        OnPropertyChanged(nameof(StatusText));
+        Participants.Add(new ParticipantDraftViewModel(name));
     }
 
-    private async void OnSetDependencyClicked(object? sender, EventArgs e)
+    private void OnParticipantRemoveRequested(object? sender, ParticipantDraftViewModel participant)
     {
-        if (sender is not Button { CommandParameter: string participantName })
-        {
-            return;
-        }
-
-        var current = Participants.FirstOrDefault(p => string.Equals(p.Name, participantName, StringComparison.Ordinal));
-        if (current is null)
-        {
-            return;
-        }
-
-        var options = new[] { AppResources.GroupDetails_DependencyIndependent }
-            .Concat(Participants
-                .Where(p =>
-                    !string.Equals(p.Name, current.Name, StringComparison.Ordinal)
-                    && string.IsNullOrWhiteSpace(p.DependsOn))
-                .Select(p => p.Name)
-                .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
-            .ToArray();
-        var selection = await DisplayActionSheetAsync(AppResources.GroupDetails_DependsOnLabel, AppResources.Common_Cancel, null, options);
-        if (string.IsNullOrWhiteSpace(selection) || string.Equals(selection, AppResources.Common_Cancel, StringComparison.Ordinal))
-        {
-            return;
-        }
-
-        if (string.Equals(selection, AppResources.GroupDetails_DependencyIndependent, StringComparison.Ordinal))
-        {
-            current.DependsOn = null;
-        }
-        else
-        {
-            var isEligibleResponsible = Participants.Any(p =>
-                string.Equals(p.Name, selection, StringComparison.OrdinalIgnoreCase)
-                && string.IsNullOrWhiteSpace(p.DependsOn));
-            if (!isEligibleResponsible)
-            {
-                StatusText = AppResources.Validation_ResponsiblePersonNotFound;
-                OnPropertyChanged(nameof(StatusText));
-                return;
-            }
-
-            if (WouldCreateCycle(current.Name, selection))
-            {
-                StatusText = AppResources.Validation_CircularDependency;
-                OnPropertyChanged(nameof(StatusText));
-                return;
-            }
-
-            current.DependsOn = selection;
-        }
-
-        current.Notify();
-        StatusText = string.Empty;
-        OnPropertyChanged(nameof(StatusText));
+        Participants.Remove(participant);
     }
+
+    // Dependency changes are fully handled inside ParticipantsEditorView (no persistence needed in create mode).
+    private void OnDependencyChanged(object? sender, ParticipantDraftViewModel participant) { }
+
+    // ── Create handler ────────────────────────────────────────────────────
 
     private async void OnCreateClicked(object? sender, EventArgs e)
     {
@@ -153,6 +87,7 @@ public partial class CreateGroupPage : ContentPage
 
             var drafts = orderedParticipants.Select(person => new GroupDraftMember(
                 person.Name,
+                // householdName: own name if independent, responsible's name if dependent
                 string.IsNullOrWhiteSpace(person.DependsOn) ? person.Name : person.DependsOn,
                 ConsumptionCategory.Full,
                 null)).ToArray();
@@ -167,78 +102,39 @@ public partial class CreateGroupPage : ContentPage
         }
     }
 
+    // ── Helpers ───────────────────────────────────────────────────────────
+
     private void EnsureCurrentUserParticipant()
     {
         var preferredName = UserProfilePreferences.GetPreferredName();
         var localizedMe = AppResources.Mapper_Me;
-        var fallbackCurrentUserName = string.IsNullOrWhiteSpace(localizedMe)
+        var fallbackName = string.IsNullOrWhiteSpace(localizedMe)
             ? "Me"
             : localizedMe.Length == 1
                 ? char.ToUpperInvariant(localizedMe[0]).ToString()
                 : char.ToUpperInvariant(localizedMe[0]) + localizedMe[1..];
-        var participantName = string.IsNullOrWhiteSpace(preferredName) ? fallbackCurrentUserName : preferredName;
+        var participantName = string.IsNullOrWhiteSpace(preferredName) ? fallbackName : preferredName;
 
-        var existingIndex = Participants
-            .Select((participant, index) => new { participant, index })
-            .FirstOrDefault(item => string.Equals(item.participant.Name, participantName, StringComparison.OrdinalIgnoreCase))
-            ?.index;
+        var existing = Participants
+            .Select((p, i) => (p, i))
+            .FirstOrDefault(x => string.Equals(x.p.Name, participantName, StringComparison.OrdinalIgnoreCase));
 
-        if (existingIndex is null)
+        if (existing.p is null)
         {
-            Participants.Insert(0, new CreateParticipantViewModel(participantName));
+            // Creator always goes first and cannot be removed
+            Participants.Insert(0, new ParticipantDraftViewModel(participantName, canRemove: false));
             return;
         }
 
-        if (existingIndex.Value > 0)
+        // Promote to first position if needed, ensuring CanRemove=false
+        if (existing.i > 0 || existing.p.CanRemove)
         {
-            var participant = Participants[existingIndex.Value];
-            Participants.RemoveAt(existingIndex.Value);
-            Participants.Insert(0, participant);
-        }
-    }
-
-    private bool WouldCreateCycle(string participantName, string? selectedResponsible)
-    {
-        if (string.IsNullOrWhiteSpace(selectedResponsible))
-        {
-            return false;
-        }
-
-        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { participantName };
-        var cursor = selectedResponsible;
-        while (!string.IsNullOrWhiteSpace(cursor))
-        {
-            if (!visited.Add(cursor))
+            var promoted = new ParticipantDraftViewModel(existing.p.Name, canRemove: false)
             {
-                return true;
-            }
-
-            cursor = Participants.FirstOrDefault(p => string.Equals(p.Name, cursor, StringComparison.OrdinalIgnoreCase))?.DependsOn;
+                DependsOn = existing.p.DependsOn
+            };
+            Participants.RemoveAt(existing.i);
+            Participants.Insert(0, promoted);
         }
-
-        return false;
-    }
-
-}
-
-public sealed class CreateParticipantViewModel : BindableObject
-{
-    public string Name { get; }
-    public string DisplayName => UserProfilePreferences.AnnotateIfCurrentUser(Name);
-    public string? DependsOn { get; set; }
-    public string DependsOnLabel => string.IsNullOrWhiteSpace(DependsOn)
-        ? AppResources.GroupDetails_DependencyIndependent
-        : string.Format(AppResources.GroupDetails_DependencyDependsOnFormat, DependsOn);
-
-    public CreateParticipantViewModel(string name)
-    {
-        Name = name;
-    }
-
-    public void Notify()
-    {
-        OnPropertyChanged(nameof(DisplayName));
-        OnPropertyChanged(nameof(DependsOn));
-        OnPropertyChanged(nameof(DependsOnLabel));
     }
 }

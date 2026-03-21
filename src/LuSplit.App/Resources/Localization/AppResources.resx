@@ -454,6 +454,9 @@
   <data name="Common_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
 
   <!-- Export -->
   <data name="Export_DialogTitle" xml:space="preserve">
@@ -473,6 +476,18 @@
   </data>
   <data name="Export_Failed" xml:space="preserve">
     <value>Export failed. {0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>How would you like to export?</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>Save to device</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>Share...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>"{0}" saved to Downloads.</value>
   </data>
 
   <!-- Validation -->
