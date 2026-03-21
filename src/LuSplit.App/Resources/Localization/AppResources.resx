@@ -38,7 +38,7 @@
     <value>No balances yet</value>
   </data>
   <data name="Home_AllSettled" xml:space="preserve">
-    <value>All settled</value>
+    <value>All balances settled</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
     <value>Fronted for others: {0}</value>

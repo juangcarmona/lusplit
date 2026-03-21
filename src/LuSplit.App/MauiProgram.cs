@@ -28,6 +28,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<GroupDetailsPage>();
 		builder.Services.AddTransient<ActivityPage>();
 		builder.Services.AddTransient<AddExpensePage>();
+		builder.Services.AddTransient<ExpenseDetailsPage>();
 		builder.Services.AddTransient<SettlementPage>();
 		builder.Services.AddTransient<RecordPaymentPage>();
 		builder.Services.AddTransient<LanguageSettingsPage>();

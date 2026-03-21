@@ -382,6 +382,75 @@ public sealed class AppDataService : IAsyncDisposable
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public async Task<ExpenseModel?> GetExpenseAsync(string expenseId)
+    {
+        var normalizedExpenseId = expenseId?.Trim();
+        if (string.IsNullOrWhiteSpace(normalizedExpenseId))
+        {
+            return null;
+        }
+
+        var infra = await GetInfraAsync();
+        var selectedGroupId = await GetSelectedGroupIdAsync();
+        var expense = await infra.ExpenseRepository.GetExpenseByIdAsync(normalizedExpenseId, CancellationToken.None);
+        if (expense is null || !string.Equals(expense.GroupId, selectedGroupId, StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        return new ExpenseModel(
+            expense.Id,
+            expense.GroupId,
+            expense.Title,
+            expense.PaidByParticipantId,
+            expense.AmountMinor,
+            expense.Date,
+            expense.SplitDefinition,
+            expense.Notes);
+    }
+
+    public async Task UpdateExpenseAsync(
+        string expenseId,
+        string title,
+        string paidByParticipantId,
+        long amountMinor,
+        DateTime date,
+        SplitDefinition splitDefinition,
+        string? notes)
+    {
+        var infra = await GetInfraAsync();
+        var selectedGroupId = await GetSelectedGroupIdAsync();
+
+        await new EditExpenseUseCase(
+            infra.GroupRepository,
+            infra.ParticipantRepository,
+            infra.ExpenseRepository).ExecuteAsync(new EditExpenseInput(
+                GroupId: selectedGroupId,
+                ExpenseId: expenseId,
+                Title: title,
+                PaidByParticipantId: paidByParticipantId,
+                AmountMinor: amountMinor,
+                SplitDefinition: splitDefinition,
+                Date: date.ToUniversalTime().ToString("O"),
+                Notes: notes));
+
+        DataChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public async Task DeleteExpenseAsync(string expenseId)
+    {
+        var infra = await GetInfraAsync();
+        var selectedGroupId = await GetSelectedGroupIdAsync();
+
+        await new DeleteExpenseUseCase(
+            infra.GroupRepository,
+            infra.ExpenseRepository).ExecuteAsync(new DeleteExpenseInput(
+                GroupId: selectedGroupId,
+                ExpenseId: expenseId));
+
+        DataChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public async Task<(IReadOnlyList<BalanceModel> Balances, SettlementPlanModel Settlement)> GetSettlementAsync(SettlementMode mode)
     {
         var infra = await GetInfraAsync();

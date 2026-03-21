@@ -29,6 +29,8 @@ public partial class HomePage : ContentPage
     public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
     public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
     public bool ShowBalances => _selectedTab == WorkspaceTab.Balances;
+    public bool ShowWhoOwesWhatSection => WhoOwesWho.Count > 0;
+    public bool ShowBalancesSection => Balances.Count > 0;
 
     public HomePage(AppDataService dataService)
     {
@@ -59,7 +61,7 @@ public partial class HomePage : ContentPage
         var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
         var whoOwesWho = GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode);
         TotalUnsettledText = whoOwesWho.Count == 0
-            ? AppResources.Group_EveryoneEven
+            ? AppResources.Home_AllSettled
             : string.Format(
                 AppResources.Home_UnsettledFormat,
                 GroupPresentationMapper.FormatTotalUnsettled(overview));
@@ -91,6 +93,8 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
+        OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
+        OnPropertyChanged(nameof(ShowBalancesSection));
         ApplyTabVisualState();
     }
 
@@ -150,6 +154,25 @@ public partial class HomePage : ContentPage
     private async void OnSettleUpClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.Settlement);
+    }
+
+    private async void OnEventSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (sender is not CollectionView collectionView)
+        {
+            return;
+        }
+
+        if (e.CurrentSelection.FirstOrDefault() is not CompactEventEntryViewModel selected
+            || !selected.IsExpense
+            || string.IsNullOrWhiteSpace(selected.SourceId))
+        {
+            collectionView.SelectedItem = null;
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{AppRoutes.ExpenseDetails}?expenseId={Uri.EscapeDataString(selected.SourceId)}");
+        collectionView.SelectedItem = null;
     }
 
     private void SetSelectedTab(WorkspaceTab tab)

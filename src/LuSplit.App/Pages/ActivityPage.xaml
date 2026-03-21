@@ -32,10 +32,10 @@
                                    FontSize="18"
                                    VerticalTextAlignment="Start" />
                             <VerticalStackLayout Grid.Column="1" Spacing="0">
-                                <Label Text="{Binding Title}" Style="{StaticResource BodyText}" LineBreakMode="TailTruncation" MaxLines="1" />
-                                <Label Text="{Binding Subtitle}" Style="{StaticResource BodyMuted}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                <Label Text="{Binding Line1}" Style="{StaticResource BodyText}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                <Label Text="{Binding Line2}" Style="{StaticResource BodyMuted}" LineBreakMode="TailTruncation" MaxLines="1" />
                             </VerticalStackLayout>
-                            <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End" />
+                            <Label Grid.Column="2" Text="›" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

@@ -94,6 +94,13 @@ public partial class AddExpensePage : ContentPage
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(ExpenseTitle))
+            {
+                StatusText = AppResources.Validation_TitleRequired;
+                OnPropertyChanged(nameof(StatusText));
+                return;
+            }
+
             if (!CanSave || !TryParseAmountLenient(AmountText, out var totalMinor))
             {
                 return;
@@ -111,7 +118,7 @@ public partial class AddExpensePage : ContentPage
                 new FixedSplitComponent(fixedAmounts)
             });
 
-            var title = string.IsNullOrWhiteSpace(ExpenseTitle) ? AppResources.AddEvent_QuickCustom : ExpenseTitle.Trim();
+            var title = ExpenseTitle.Trim();
             await _dataService.AddExpenseAsync(
                 title,
                 totalMinor,
@@ -459,11 +466,13 @@ public partial class AddExpensePage : ContentPage
     private void RecalculateSaveState()
     {
         var hasAmount = TryParseAmountLenient(AmountText, out _);
+        var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
         var hasPayer = SelectedPayerName is not null && _payerParticipantIdByLabel.ContainsKey(SelectedPayerName);
         var includedCount = ParticipantRows.Count(row => row.IsIncluded);
         var hasRowInputError = ParticipantRows.Any(row => row.HasTransientInvalidInput);
 
-        CanSave = hasAmount
+        CanSave = hasTitle
+            && hasAmount
             && hasPayer
             && includedCount >= 2
             && !hasRowInputError

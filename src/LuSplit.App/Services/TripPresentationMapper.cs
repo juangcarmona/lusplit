@@ -32,10 +32,12 @@ public sealed record BalanceLineViewModel(string Text, string AmountText);
 public sealed record NetBalanceViewModel(string ParticipantId, string Name, string AmountText, bool IsPositive);
 public sealed record SettlementSuggestionViewModel(string FromParticipantId, string ToParticipantId, string Text, string AmountText, long AmountMinor);
 public sealed record CompactEventEntryViewModel(
+    string SourceId,
+    bool IsExpense,
     string Icon,
-    string Title,
-    string AmountText,
-    string Subtitle,
+    string Line1,
+    string Line2,
+    string SortTieBreaker,
     DateTimeOffset SortDate);
 public sealed record EventIconOptionViewModel(string Icon, string Label)
 {
@@ -190,19 +192,24 @@ public static class GroupPresentationMapper
                     .ToArray();
 
                 return new CompactEventEntryViewModel(
+                    expense.Id,
+                    true,
                     ResolveExpenseIcon(expense, expenseIcons),
-                    expense.Title,
-                    FormatMinor(expense.AmountMinor, currency),
-                    string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {JoinNames(participantIds)}"),
+                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} — {FormatMinor(expense.AmountMinor, currency)}"),
+                    string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {participantIds.Length} people"),
+                    expense.Id,
                     ParseDate(expense.Date));
             })
             .Concat(overview.Transfers.Select(transfer => new CompactEventEntryViewModel(
+                transfer.Id,
+                false,
                 "💸",
-                AppResources.Mapper_PaymentTitle,
-                FormatMinor(transfer.AmountMinor, currency),
+                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} — {FormatMinor(transfer.AmountMinor, currency)}"),
                 string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} → {ResolveParticipantName(transfer.ToParticipantId, participantsById)}"),
+                transfer.Id,
                 ParseDate(transfer.Date))))
             .OrderByDescending(item => item.SortDate)
+            .ThenByDescending(item => item.SortTieBreaker, StringComparer.Ordinal)
             .ToArray();
     }
 
