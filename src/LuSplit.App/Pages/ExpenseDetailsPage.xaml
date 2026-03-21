@@ -17,7 +17,12 @@
                            Style="{StaticResource SectionTitle}"
                            VerticalTextAlignment="Center"
                            LineBreakMode="TailTruncation"
-                           MaxLines="1" />
+                           MaxLines="1"
+                           IsVisible="{Binding IsViewMode}" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding ExpenseTitle}"
+                           TextChanged="OnExpenseTitleChanged"
+                           IsVisible="{Binding IsEditMode}" />
                     <Button Grid.Column="2"
                             Text="{Binding EditButtonText}"
                             Clicked="OnEditClicked"
@@ -33,6 +38,7 @@
                     <Label Text="{Binding HeaderLine2}" Style="{StaticResource BodyMuted}" />
                     <Label Text="{Binding DateText}" Style="{StaticResource BodyMuted}" />
                     <Label Text="{Binding NoteText}" Style="{StaticResource BodyMuted}" IsVisible="{Binding HasNote}" />
+                    <Label Text="{Binding ExpectedTotalText}" Style="{StaticResource BodyMuted}" IsVisible="{Binding IsEditMode}" />
                 </VerticalStackLayout>
 
                 <Label Text="Participants" Style="{StaticResource SectionTitle}" />

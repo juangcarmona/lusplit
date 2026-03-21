@@ -13,12 +13,13 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
     private string _expenseId = string.Empty;
     private string _currency = "USD";
     private bool _isEditMode;
+    private long _fixedTotalMinor;
 
     public ObservableCollection<ExpenseParticipantRowViewModel> ParticipantRows { get; } = new();
     public ObservableCollection<PreviewRowViewModel> PreviewRows { get; } = new();
     public ObservableCollection<string> PayerNames { get; } = new();
 
-    public string ExpenseTitle { get; private set; } = string.Empty;
+    public string ExpenseTitle { get; set; } = string.Empty;
     public string HeaderLine1 { get; private set; } = string.Empty;
     public string HeaderLine2 { get; private set; } = string.Empty;
     public string DateText { get; private set; } = string.Empty;
@@ -28,7 +29,9 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
     public string StatusText { get; private set; } = string.Empty;
     public bool CanSave { get; private set; }
     public bool IsEditMode => _isEditMode;
+    public bool IsViewMode => !_isEditMode;
     public string EditButtonText => _isEditMode ? "Cancel" : "Edit";
+    public string ExpectedTotalText => $"Total fixed: {FormatMinor(_fixedTotalMinor, _currency)}";
 
     public ExpenseDetailsPage(AppDataService dataService)
     {
@@ -69,6 +72,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         }
 
         ExpenseTitle = expense.Title;
+        _fixedTotalMinor = expense.AmountMinor;
         HeaderLine1 = $"{expense.Title} — {FormatMinor(expense.AmountMinor, _currency)}";
 
         var payerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, expense.PaidByParticipantId, StringComparison.Ordinal))?.Name ?? "Unknown";
@@ -98,6 +102,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         OnPropertyChanged(nameof(NoteText));
         OnPropertyChanged(nameof(HasNote));
         OnPropertyChanged(nameof(SelectedPayerName));
+        OnPropertyChanged(nameof(ExpectedTotalText));
     }
 
     private void BuildParticipantRows(ExpenseModel expense, string payerName)
@@ -143,6 +148,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         }
 
         OnPropertyChanged(nameof(IsEditMode));
+        OnPropertyChanged(nameof(IsViewMode));
         OnPropertyChanged(nameof(EditButtonText));
         RecalculateSaveState();
     }
@@ -208,6 +214,12 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         RecalculateSaveState();
     }
 
+    private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
+    {
+        ExpenseTitle = e.NewTextValue ?? string.Empty;
+        RecalculateSaveState();
+    }
+
     private void OnPayerChanged(object? sender, EventArgs e)
     {
         if (!_isEditMode)
@@ -242,13 +254,20 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
             .ToDictionary(row => row.Id, row => row.AmountMinor, StringComparer.Ordinal);
 
         var total = shares.Values.Sum();
+        if (total != _fixedTotalMinor)
+        {
+            StatusText = "Total must match amount";
+            OnPropertyChanged(nameof(StatusText));
+            return;
+        }
+
         var splitDefinition = new SplitDefinition(new SplitComponent[] { new FixedSplitComponent(shares) });
 
         await _dataService.UpdateExpenseAsync(
             _expenseId,
             ExpenseTitle.Trim(),
             payer.Id,
-            total,
+            _fixedTotalMinor,
             DateTime.TryParse(DateText, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var parsedDate)
                 ? parsedDate
                 : DateTime.Today,
@@ -257,6 +276,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
 
         _isEditMode = false;
         OnPropertyChanged(nameof(IsEditMode));
+        OnPropertyChanged(nameof(IsViewMode));
         OnPropertyChanged(nameof(EditButtonText));
         await LoadAsync();
     }
@@ -266,7 +286,13 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         var totalMinor = ParticipantRows.Where(row => row.IsIncluded).Sum(row => row.AmountMinor);
         var hasIncluded = ParticipantRows.Any(row => row.IsIncluded);
         var hasPayer = !string.IsNullOrWhiteSpace(SelectedPayerName);
-        CanSave = _isEditMode && hasIncluded && hasPayer && totalMinor > 0;
+        var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
+        var totalMatches = totalMinor == _fixedTotalMinor;
+        StatusText = _isEditMode && !totalMatches
+            ? "Total must match amount"
+            : string.Empty;
+        OnPropertyChanged(nameof(StatusText));
+        CanSave = _isEditMode && hasTitle && hasIncluded && hasPayer && totalMinor > 0 && totalMatches;
         OnPropertyChanged(nameof(CanSave));
     }
 
