@@ -13,11 +13,11 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     private string? _overrideGroupId;
     private bool _isArchived;
 
-    public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
+    public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public ObservableCollection<ParticipantDraftViewModel> Participants { get; } = new();
 
     public string GroupName { get; set; } = string.Empty;
-    public string? SelectedCurrency { get; set; } = "USD";
+    public CurrencyOption? SelectedCurrencyOption { get; set; }
     public string StatusText { get; set; } = string.Empty;
 
     public bool IsArchived => _isArchived;
@@ -62,8 +62,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _groupId = details.GroupId;
             _isArchived = details.IsArchived;
             GroupName = details.GroupName;
-            EnsureCurrencyOption(details.Currency);
-            SelectedCurrency = details.Currency;
+            BuildCurrencyList(details.Currency);
             Title = details.GroupName;
 
             var preferredName = UserProfilePreferences.GetPreferredName();
@@ -162,7 +161,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(SelectedCurrency))
+        if (SelectedCurrencyOption is null)
         {
             StatusText = AppResources.Validation_SelectCurrency;
             OnPropertyChanged(nameof(StatusText));
@@ -178,7 +177,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
         try
         {
-            await _dataService.UpdateGroupAsync(_groupId, GroupName, SelectedCurrency);
+            await _dataService.UpdateGroupAsync(_groupId, GroupName, SelectedCurrencyOption.Code);
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
@@ -229,16 +228,29 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     // ── Helpers ───────────────────────────────────────────────────────────
 
-    private void EnsureCurrencyOption(string currency)
+    private void BuildCurrencyList(string preferredCurrencyCode)
     {
-        if (!CurrencyOptions.Contains(currency, StringComparer.OrdinalIgnoreCase))
-            CurrencyOptions.Add(currency.ToUpperInvariant());
+        CurrencyOptions.Clear();
+        foreach (var option in CurrencyCatalog.GetSupportedCurrencyOptions())
+        {
+            CurrencyOptions.Add(option);
+        }
+
+        var selected = CurrencyCatalog.FindByCode(CurrencyOptions, preferredCurrencyCode);
+        if (selected is null)
+        {
+            selected = CurrencyCatalog.GetOrCreateOption(preferredCurrencyCode);
+            CurrencyOptions.Add(selected);
+        }
+
+        SelectedCurrencyOption = selected;
+        OnPropertyChanged(nameof(SelectedCurrencyOption));
     }
 
     private void NotifyAllProperties()
     {
         OnPropertyChanged(nameof(GroupName));
-        OnPropertyChanged(nameof(SelectedCurrency));
+        OnPropertyChanged(nameof(SelectedCurrencyOption));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
         OnPropertyChanged(nameof(CanArchive));

@@ -12,7 +12,14 @@ public static class AppPreferences
     {
         if (Preferences.Default.ContainsKey(PreferredCurrencyKey))
         {
-            return Preferences.Default.Get(PreferredCurrencyKey, "USD").Trim().ToUpperInvariant();
+            var saved = Preferences.Default.Get(PreferredCurrencyKey, CurrencyCatalog.DefaultCurrencyCode);
+            var normalized = CurrencyCatalog.NormalizeSupportedOrDefault(saved);
+            if (!string.Equals(saved, normalized, StringComparison.Ordinal))
+            {
+                Preferences.Default.Set(PreferredCurrencyKey, normalized);
+            }
+
+            return normalized;
         }
 
         var inferredCurrency = InferCurrencyFromDeviceLocale();
@@ -27,7 +34,7 @@ public static class AppPreferences
 
     public static void SetPreferredCurrency(string? currency)
     {
-        var normalized = string.IsNullOrWhiteSpace(currency) ? "USD" : currency.Trim().ToUpperInvariant();
+        var normalized = CurrencyCatalog.NormalizeSupportedOrDefault(currency);
         Preferences.Default.Set(PreferredCurrencyKey, normalized);
     }
 
@@ -45,12 +52,11 @@ public static class AppPreferences
         try
         {
             var region = new RegionInfo(CultureInfo.CurrentCulture.Name);
-            var currency = region.ISOCurrencySymbol;
-            return string.IsNullOrWhiteSpace(currency) ? "USD" : currency.Trim().ToUpperInvariant();
+            return CurrencyCatalog.NormalizeSupportedOrDefault(region.ISOCurrencySymbol, CurrencyCatalog.DefaultCurrencyCode);
         }
         catch
         {
-            return "USD";
+            return CurrencyCatalog.DefaultCurrencyCode;
         }
     }
 }

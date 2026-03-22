@@ -1,4 +1,5 @@
 using System.Globalization;
+using LuSplit.App.Resources.Localization;
 using MauiApplication = Microsoft.Maui.Controls.Application;
 using MauiMainThread = Microsoft.Maui.ApplicationModel.MainThread;
 
@@ -10,19 +11,20 @@ namespace LuSplit.App.Services;
 public static class LocalizationHelper
 {
     private const string LanguagePreferenceKey = "app_language";
+    private const string FallbackLanguageCode = "en";
 
     /// <summary>
     /// The cultures explicitly supported by this app (satellite RESX files exist for these).
     /// </summary>
     public static readonly IReadOnlyList<LanguageOption> SupportedLanguages = new[]
     {
-        new LanguageOption("",   "🌐", "System Default"),
-        new LanguageOption("en", "🇬🇧", "English"),
-        new LanguageOption("es", "🇪🇸", "Español"),
-        new LanguageOption("fr", "🇫🇷", "Français"),
-        new LanguageOption("de", "🇩🇪", "Deutsch"),
-        new LanguageOption("it", "🇮🇹", "Italiano"),
-        new LanguageOption("pt", "🇵🇹", "Português"),
+        new LanguageOption("", "🌐", () => AppResources.Language_SystemDefault),
+        new LanguageOption("en", "🇬🇧", () => AppResources.Language_English),
+        new LanguageOption("es", "🇪🇸", () => AppResources.Language_Spanish),
+        new LanguageOption("fr", "🇫🇷", () => AppResources.Language_French),
+        new LanguageOption("de", "🇩🇪", () => AppResources.Language_German),
+        new LanguageOption("it", "🇮🇹", () => AppResources.Language_Italian),
+        new LanguageOption("pt", "🇵🇹", () => AppResources.Language_Portuguese),
     };
 
     private static readonly HashSet<string> _supportedCodes =
@@ -36,18 +38,39 @@ public static class LocalizationHelper
     /// </summary>
     public static void ApplyPersistedLanguage()
     {
+        InitializePreferredLanguageIfNeeded();
+
         var saved = GetSavedLanguageCode();
+
+        if (string.IsNullOrEmpty(saved))
+        {
+            ApplyCulture(_osCulture);
+            return;
+        }
 
         if (!string.IsNullOrEmpty(saved) && _supportedCodes.Contains(saved))
         {
             ApplyCulture(new CultureInfo(saved));
+            return;
         }
-        // else: keep the current OS culture; ResourceManager will fall back to en if unsupported.
+
+        ApplyCulture(new CultureInfo(FallbackLanguageCode));
     }
 
     /// <summary>Returns the language code saved in preferences, or empty string for System Default.</summary>
     public static string GetSavedLanguageCode() =>
         Preferences.Default.Get(LanguagePreferenceKey, string.Empty);
+
+    public static void InitializePreferredLanguageIfNeeded()
+    {
+        if (Preferences.Default.ContainsKey(LanguagePreferenceKey))
+        {
+            return;
+        }
+
+        var inferred = InferSupportedLanguageFromSystem();
+        Preferences.Default.Set(LanguagePreferenceKey, inferred);
+    }
 
     /// <summary>
     /// Persists the chosen language code, applies the culture, and rebuilds the UI.
@@ -92,10 +115,37 @@ public static class LocalizationHelper
             window.Page = services.GetRequiredService<AppShell>();
         });
     }
+
+    public static string InferSupportedLanguageFromSystem()
+    {
+        var culture = CultureInfo.CurrentUICulture;
+        var candidates = new[]
+        {
+            culture.Name,
+            culture.TwoLetterISOLanguageName,
+            CultureInfo.InstalledUICulture.TwoLetterISOLanguageName
+        };
+
+        foreach (var candidate in candidates)
+        {
+            if (string.IsNullOrWhiteSpace(candidate))
+            {
+                continue;
+            }
+
+            var normalized = candidate.Trim();
+            if (_supportedCodes.Contains(normalized))
+            {
+                return normalized.Length > 2 ? normalized[..2] : normalized;
+            }
+        }
+
+        return FallbackLanguageCode;
+    }
 }
 
 /// <summary>A language available in the language picker.</summary>
-public sealed record LanguageOption(string Culture, string Flag, string NativeName)
+public sealed record LanguageOption(string Culture, string Flag, Func<string> NativeNameAccessor)
 {
-    public string DisplayLabel => $"{Flag} {NativeName}";
+    public string DisplayLabel => $"{Flag} {NativeNameAccessor()}";
 }

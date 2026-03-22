@@ -654,6 +654,126 @@
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>System Default</value>
   </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>Me</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>No groups are available.</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>Euro</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>US Dollar</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>British Pound</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>Swiss Franc</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>Japanese Yen</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>Chinese Yuan</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>Indian Rupee</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>Australian Dollar</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>Canadian Dollar</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>Brazilian Real</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>Mexican Peso</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>Argentine Peso</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>Chilean Peso</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>Colombian Peso</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>Peruvian Sol</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>Swedish Krona</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>Norwegian Krone</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>Danish Krone</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>Polish Złoty</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>Czech Koruna</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>Hungarian Forint</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>Romanian Leu</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>Turkish Lira</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>UAE Dirham</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>Saudi Riyal</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>South Korean Won</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>Singapore Dollar</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>Hong Kong Dollar</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>New Zealand Dollar</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>South African Rand</value>
+  </data>
 
   <!-- Validation (service-level) -->
   <data name="Validation_CurrencyRequired" xml:space="preserve">

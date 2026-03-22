@@ -10,11 +10,11 @@ public partial class CreateGroupPage : ContentPage
     private readonly AppDataService _dataService;
     private int _step = 1;
 
-    public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
+    public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public ObservableCollection<ParticipantDraftViewModel> Participants { get; } = new();
 
     public string GroupName { get; set; } = string.Empty;
-    public string? SelectedCurrency { get; set; } = AppPreferences.GetPreferredCurrency();
+    public CurrencyOption? SelectedCurrencyOption { get; set; }
     public string StatusText { get; set; } = string.Empty;
 
     public bool IsStep1 => _step == 1;
@@ -25,6 +25,7 @@ public partial class CreateGroupPage : ContentPage
         _dataService = dataService;
         InitializeComponent();
         BindingContext = this;
+        BuildCurrencyList(AppPreferences.GetPreferredCurrency());
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
@@ -39,7 +40,7 @@ public partial class CreateGroupPage : ContentPage
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(SelectedCurrency))
+        if (SelectedCurrencyOption is null)
         {
             StatusText = AppResources.Validation_SelectCurrency;
             OnPropertyChanged(nameof(StatusText));
@@ -92,7 +93,7 @@ public partial class CreateGroupPage : ContentPage
                 ConsumptionCategory.Full,
                 null)).ToArray();
 
-            await _dataService.CreateGroupAsync(GroupName.Trim(), SelectedCurrency!, drafts);
+            await _dataService.CreateGroupAsync(GroupName.Trim(), SelectedCurrencyOption!.Code, drafts);
             await Shell.Current.GoToAsync($"//{AppRoutes.Home}");
         }
         catch (Exception ex)
@@ -109,7 +110,7 @@ public partial class CreateGroupPage : ContentPage
         var preferredName = UserProfilePreferences.GetPreferredName();
         var localizedMe = AppResources.Mapper_Me;
         var fallbackName = string.IsNullOrWhiteSpace(localizedMe)
-            ? "Me"
+            ? AppResources.Common_MeCapitalized
             : localizedMe.Length == 1
                 ? char.ToUpperInvariant(localizedMe[0]).ToString()
                 : char.ToUpperInvariant(localizedMe[0]) + localizedMe[1..];
@@ -136,5 +137,18 @@ public partial class CreateGroupPage : ContentPage
             Participants.RemoveAt(existing.i);
             Participants.Insert(0, promoted);
         }
+    }
+
+    private void BuildCurrencyList(string preferredCurrencyCode)
+    {
+        CurrencyOptions.Clear();
+        foreach (var option in CurrencyCatalog.GetSupportedCurrencyOptions())
+        {
+            CurrencyOptions.Add(option);
+        }
+
+        SelectedCurrencyOption = CurrencyCatalog.FindByCode(CurrencyOptions, preferredCurrencyCode)
+            ?? CurrencyCatalog.FindByCode(CurrencyOptions, CurrencyCatalog.DefaultCurrencyCode);
+        OnPropertyChanged(nameof(SelectedCurrencyOption));
     }
 }
