@@ -1,6 +1,6 @@
 ---
-title: "LuSplit — Split expenses without the chaos"
-description: "LuSplit is a calm, offline-first expense-splitting app for families and friends. Clear balances. No accounts. No paywalls."
+title: "LuSplit — Split expenses clearly and settle balances fast."
+description: "A simple way to split expenses and settle up. Free, offline, open-source. No accounts needed."
 ---
 
 ## What is LuSplit?

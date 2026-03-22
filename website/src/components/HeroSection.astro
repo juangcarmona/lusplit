@@ -5,46 +5,51 @@ import { localizedHref } from '../lib/i18n';
 interface Props {
   ui: UiStrings;
   lang: Lang;
-  headline?: string;
-  subtitle?: string;
-  ctaPrimary?: string;
-  ctaPrimaryHref?: string;
-  ctaSecondary?: string;
-  ctaSecondaryHref?: string;
 }
 
-const {
-  ui,
-  lang,
-  headline    = ui['hero.tagline']     ?? 'Split expenses without the chaos',
-  subtitle    = ui['hero.subtitle']    ?? 'A calm shared-expense tool for families and friends.',
-  ctaPrimary       = ui['hero.ctaPrimary']      ?? 'See how it works',
-  ctaPrimaryHref   = localizedHref(lang, '/product'),
-  ctaSecondary     = ui['hero.ctaSecondary']    ?? 'How it works',
-  ctaSecondaryHref = localizedHref(lang, '/product'),
-} = Astro.props;
+const { ui, lang } = Astro.props;
+
+const headline     = ui['hero.tagline']      ?? 'Split expenses clearly and settle balances fast.';
+const subtitle     = ui['hero.subtitle']     ?? 'A simple way to split expenses and settle up.';
+const ctaPrimary   = ui['hero.ctaPrimary']   ?? 'How it works';
+const ctaSecondary = ui['hero.ctaSecondary'] ?? 'Open source';
+
+// Update to your actual GitHub repository URL
+const GITHUB_URL = 'https://github.com/juangcarmona/lusplit';
 ---
 
-<section class="hero section">
+<section class="hero">
   <div class="container hero-inner">
-    <div class="hero-logo-wrap">
-      <img
-        src="/lusplit-logo.svg"
-        alt="LuSplit"
-        class="hero-logo"
-        width="80"
-        height="80"
-      />
-    </div>
-
     <div class="hero-text">
       <p class="hero-product-name">LuSplit</p>
       <h1 class="hero-headline">{headline}</h1>
       <p class="hero-subtitle">{subtitle}</p>
 
       <div class="hero-actions">
-        <a href={ctaPrimaryHref} class="btn btn--primary hero-cta">{ctaPrimary}</a>
-        <a href={ctaSecondaryHref} class="btn btn--secondary hero-cta">{ctaSecondary}</a>
+        <a href={localizedHref(lang, '/product')} class="btn btn--primary">
+          {ctaPrimary}
+        </a>
+        <a
+          href={GITHUB_URL}
+          class="btn btn--secondary hero-gh-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/octocat.svg"   class="gh-icon gh-icon--light" width="18" height="18" alt="" aria-hidden="true" />
+          <img src="/octocat-w.svg" class="gh-icon gh-icon--dark"  width="18" height="18" alt="" aria-hidden="true" />
+          {ctaSecondary}
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-media">
+      <div class="phone-shot hero-shot">
+        <img
+          src="/screenshots/group_overview.png"
+          alt="LuSplit — group overview with balances and recent activity"
+          loading="eager"
+          width="260"
+        />
       </div>
     </div>
   </div>
@@ -57,31 +62,22 @@ const {
   }
 
   .hero-inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
     align-items: center;
     gap: 3rem;
-    padding-block: 4rem;
-  }
-
-  .hero-logo-wrap {
-    flex-shrink: 0;
-  }
-
-  .hero-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-card);
+    padding-block: 3rem;
   }
 
   .hero-text {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    max-width: 48ch;
   }
 
   .hero-product-name {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -89,18 +85,20 @@ const {
   }
 
   .hero-headline {
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
-    font-weight: 700;
+    font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+    font-weight: 800;
     line-height: 1.15;
     color: var(--text-primary);
-    max-width: 18ch;
+    letter-spacing: -0.02em;
+    margin: 0;
   }
 
   .hero-subtitle {
-    font-size: 1.0625rem;
+    font-size: 1rem;
     color: var(--text-muted);
-    max-width: 52ch;
-    line-height: 1.7;
+    line-height: 1.65;
+    max-width: 46ch;
+    margin: 0;
   }
 
   .hero-actions {
@@ -110,12 +108,43 @@ const {
     margin-top: 0.5rem;
   }
 
-  @media (max-width: 640px) {
+  /* GitHub octocat icon — theme-aware */
+  .gh-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .gh-icon--dark { display: none; }
+
+  :global(html.dark) .gh-icon--light { display: none; }
+  :global(html.dark) .gh-icon--dark  { display: block; }
+
+  /* Hero screenshot */
+  .hero-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Override global .phone-shot size for hero — smaller to fit above the fold */
+  .hero-shot {
+    max-width: 220px !important;
+    margin: 0 !important;
+  }
+
+  /* Mobile — stack, image below text */
+  @media (max-width: 768px) {
     .hero-inner {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-      padding-block: 2.5rem;
+      grid-template-columns: 1fr;
+      padding-block: 2rem;
+      gap: 2rem;
+    }
+
+    .hero-media { order: 2; }
+
+    .hero-shot {
+      max-width: 180px !important;
     }
   }
 </style>

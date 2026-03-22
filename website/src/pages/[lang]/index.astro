@@ -5,7 +5,6 @@ import HeroSection from '../../components/HeroSection.astro';
 import SectionBlock from '../../components/SectionBlock.astro';
 import FeatureGrid from '../../components/FeatureGrid.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
-import FallbackNotice from '../../components/FallbackNotice.astro';
 import { SUPPORTED_LANGS, getPageContent, getUiStrings, localizedHref } from '../../lib/i18n';
 import type { Lang } from '../../lib/i18n';
 
@@ -15,7 +14,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 const { lang } = Astro.params as { lang: Lang };
 const ui = getUiStrings(lang);
-const { Content, frontmatter, isFallback } = getPageContent(lang, 'home');
+const { frontmatter } = getPageContent(lang, 'home');
 
 const features = [
   { titleKey: 'feature1.title', descKey: 'feature1.desc' },
@@ -37,13 +36,6 @@ const features = [
     centered={false}
   >
     <FeatureGrid ui={ui} features={features} />
-  </SectionBlock>
-
-  <SectionBlock>
-    {isFallback && <FallbackNotice ui={ui} />}
-    <div class="prose">
-      <Content />
-    </div>
   </SectionBlock>
 
   <CtaBlock
