@@ -52,12 +52,46 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await EnsureStartupProfileAsync();
         await LoadAsync();
+    }
+
+    private async Task EnsureStartupProfileAsync()
+    {
+        _ = AppPreferences.GetPreferredCurrency();
+
+        if (!string.IsNullOrWhiteSpace(UserProfilePreferences.GetPreferredName()))
+        {
+            return;
+        }
+
+        var preferredName = await DisplayPromptAsync(
+            AppResources.Settings_Title,
+            AppResources.Settings_ProfileHint,
+            AppResources.Common_Ok,
+            AppResources.Common_Cancel,
+            AppResources.Settings_MyNamePlaceholder,
+            maxLength: 60);
+
+        if (!string.IsNullOrWhiteSpace(preferredName))
+        {
+            UserProfilePreferences.SetPreferredName(preferredName);
+        }
     }
 
     private async Task LoadAsync()
     {
-        var workspace = await _dataService.GetGroupWorkspaceAsync();
+        GroupWorkspaceModel workspace;
+        try
+        {
+            workspace = await _dataService.GetGroupWorkspaceAsync();
+        }
+        catch (InvalidOperationException)
+        {
+            await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
+            return;
+        }
+
         var overview = workspace.Overview;
 
         GroupName = workspace.GroupName;
