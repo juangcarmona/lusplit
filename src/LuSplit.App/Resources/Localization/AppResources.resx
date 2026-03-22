@@ -61,6 +61,12 @@
   <data name="Home_BalancesEmpty" xml:space="preserve">
     <value>Everyone is even</value>
   </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Shared expenses, tracked clearly.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Track shared costs, see who owes what, and settle up.</value>
+  </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
   </data>
@@ -312,6 +318,33 @@
   </data>
   <data name="AddEvent_QuickCustom" xml:space="preserve">
     <value>Custom</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Anything else</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Meal</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Groceries</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Stay</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>Drinks</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Fun</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
     <value>Title</value>
@@ -843,6 +876,9 @@
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} people · {1} events</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} people</value>
   </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Today</value>

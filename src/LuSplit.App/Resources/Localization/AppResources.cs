@@ -31,6 +31,8 @@ public static class AppResources
     public static string Home_OverviewNoActivityText => Get(nameof(Home_OverviewNoActivityText));
     public static string Home_ExpensesEmpty => Get(nameof(Home_ExpensesEmpty));
     public static string Home_BalancesEmpty => Get(nameof(Home_BalancesEmpty));
+    public static string Home_NoGroupsTitle => Get(nameof(Home_NoGroupsTitle));
+    public static string Home_NoGroupsSubtitle => Get(nameof(Home_NoGroupsSubtitle));
     public static string Groups_Title => Get(nameof(Groups_Title));
     public static string Groups_Subtitle => Get(nameof(Groups_Subtitle));
     public static string Groups_EmptyTitle => Get(nameof(Groups_EmptyTitle));
@@ -120,6 +122,15 @@ public static class AppResources
     public static string AddEvent_QuickGroceries => Get(nameof(AddEvent_QuickGroceries));
     public static string AddEvent_QuickTickets => Get(nameof(AddEvent_QuickTickets));
     public static string AddEvent_QuickCustom => Get(nameof(AddEvent_QuickCustom));
+    public static string AddEvent_IconOption_AnythingElse => Get(nameof(AddEvent_IconOption_AnythingElse));
+    public static string AddEvent_IconOption_Meal => Get(nameof(AddEvent_IconOption_Meal));
+    public static string AddEvent_IconOption_Transport => Get(nameof(AddEvent_IconOption_Transport));
+    public static string AddEvent_IconOption_Groceries => Get(nameof(AddEvent_IconOption_Groceries));
+    public static string AddEvent_IconOption_Tickets => Get(nameof(AddEvent_IconOption_Tickets));
+    public static string AddEvent_IconOption_Stay => Get(nameof(AddEvent_IconOption_Stay));
+    public static string AddEvent_IconOption_Drinks => Get(nameof(AddEvent_IconOption_Drinks));
+    public static string AddEvent_IconOption_Coffee => Get(nameof(AddEvent_IconOption_Coffee));
+    public static string AddEvent_IconOption_Fun => Get(nameof(AddEvent_IconOption_Fun));
     public static string AddEvent_EventLabel => Get(nameof(AddEvent_EventLabel));
     public static string AddEvent_EventPlaceholder => Get(nameof(AddEvent_EventPlaceholder));
     public static string AddEvent_IconLabel => Get(nameof(AddEvent_IconLabel));
@@ -310,6 +321,7 @@ public static class AppResources
     public static string Mapper_BalanceEvenNow => Get(nameof(Mapper_BalanceEvenNow));
     public static string Mapper_SummaryReadyToGo => Get(nameof(Mapper_SummaryReadyToGo));
     public static string Mapper_SummaryEvents => Get(nameof(Mapper_SummaryEvents));
+    public static string Mapper_PeopleCountFormat => Get(nameof(Mapper_PeopleCountFormat));
     public static string Mapper_Today => Get(nameof(Mapper_Today));
     public static string Mapper_Yesterday => Get(nameof(Mapper_Yesterday));
     public static string Mapper_Me => Get(nameof(Mapper_Me));

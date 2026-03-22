@@ -23,9 +23,11 @@ public partial class HomePage : ContentPage
     public ObservableCollection<CompactEventEntryViewModel> Events { get; } = new();
     public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
 
+    public bool HasGroup { get; private set; } = true;
     public string GroupName { get; private set; } = string.Empty;
     public string GroupMetaText { get; private set; } = string.Empty;
     public string TotalUnsettledText { get; private set; } = string.Empty;
+    public bool ShowNoGroupsEmptyState => !HasGroup;
     public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
     public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
     public bool ShowBalances => _selectedTab == WorkspaceTab.Balances;
@@ -91,10 +93,28 @@ public partial class HomePage : ContentPage
         }
         catch (NoGroupsAvailableException)
         {
-            await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
+            HasGroup = false;
+            GroupName = string.Empty;
+            GroupMetaText = string.Empty;
+            TotalUnsettledText = string.Empty;
+            Balances.Clear();
+            Events.Clear();
+            WhoOwesWho.Clear();
+            OnPropertyChanged(nameof(HasGroup));
+            OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
+            OnPropertyChanged(nameof(GroupName));
+            OnPropertyChanged(nameof(GroupMetaText));
+            OnPropertyChanged(nameof(TotalUnsettledText));
+            OnPropertyChanged(nameof(HasEvents));
+            OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
+            OnPropertyChanged(nameof(ShowBalancesSection));
+            OnPropertyChanged(nameof(ShowOverviewEmptyState));
+            OnPropertyChanged(nameof(ShowExpensesEmptyState));
+            OnPropertyChanged(nameof(ShowBalancesEmptyState));
             return;
         }
 
+        HasGroup = true;
         var overview = workspace.Overview;
 
         GroupName = workspace.GroupName;
@@ -134,6 +154,8 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
+        OnPropertyChanged(nameof(HasGroup));
+        OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
         OnPropertyChanged(nameof(HasEvents));
         OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
         OnPropertyChanged(nameof(ShowBalancesSection));
@@ -151,6 +173,11 @@ public partial class HomePage : ContentPage
     private async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(AppRoutes.AddExpense);
+    }
+
+    private async void OnCreateGroupClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
     }
 
     private void OnOpenDrawerClicked(object? sender, EventArgs e)

@@ -46,25 +46,26 @@ public sealed record EventIconOptionViewModel(string Icon, string Label)
 
 public static class GroupPresentationMapper
 {
-    private static readonly EventIconOptionViewModel[] BuiltInEventIcons =
-    {
-        new("✨", "Anything else"),
-        new("🍝", "Meal"),
-        new("🚕", "Transport"),
-        new("🛒", "Groceries"),
-        new("🎟", "Tickets"),
-        new("🏨", "Stay"),
-        new("🍻", "Drinks"),
-        new("☕", "Coffee"),
-        new("🎉", "Fun")
-    };
-
     public static IReadOnlyList<EventIconOptionViewModel> GetEventIconOptions()
-        => BuiltInEventIcons;
+        => new[]
+        {
+            new EventIconOptionViewModel("✨", AppResources.AddEvent_IconOption_AnythingElse),
+            new EventIconOptionViewModel("🍝", AppResources.AddEvent_IconOption_Meal),
+            new EventIconOptionViewModel("🚕", AppResources.AddEvent_IconOption_Transport),
+            new EventIconOptionViewModel("🛒", AppResources.AddEvent_IconOption_Groceries),
+            new EventIconOptionViewModel("🎟", AppResources.AddEvent_IconOption_Tickets),
+            new EventIconOptionViewModel("🏨", AppResources.AddEvent_IconOption_Stay),
+            new EventIconOptionViewModel("🍻", AppResources.AddEvent_IconOption_Drinks),
+            new EventIconOptionViewModel("☕", AppResources.AddEvent_IconOption_Coffee),
+            new EventIconOptionViewModel("🎉", AppResources.AddEvent_IconOption_Fun)
+        };
 
     public static EventIconOptionViewModel ResolveEventIconOption(string? icon)
-        => BuiltInEventIcons.FirstOrDefault(option => string.Equals(option.Icon, icon, StringComparison.Ordinal))
-            ?? BuiltInEventIcons[0];
+    {
+        var options = GetEventIconOptions();
+        return options.FirstOrDefault(option => string.Equals(option.Icon, icon, StringComparison.Ordinal))
+            ?? options[0];
+    }
 
     public static string SuggestEventIcon(string title)
         => IconForEvent(title);
@@ -196,7 +197,10 @@ public static class GroupPresentationMapper
                     true,
                     ResolveExpenseIcon(expense, expenseIcons),
                     string.Create(CultureInfo.CurrentCulture, $"{expense.Title} - {FormatMinor(expense.AmountMinor, currency)}"),
-                    string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {participantIds.Length} people"),
+                    string.Format(
+                        AppResources.Mapper_PeopleCountFormat,
+                        ResolveParticipantName(expense.PaidByParticipantId, participantsById),
+                        participantIds.Length),
                     expense.Id,
                     ParseDate(expense.Date));
             })
@@ -214,7 +218,10 @@ public static class GroupPresentationMapper
     }
 
     public static string FormatCompactPeopleAndEvents(GroupOverviewModel overview)
-        => string.Create(CultureInfo.CurrentCulture, $"{overview.Summary.ParticipantCount} people · {overview.Summary.ExpenseCount + overview.Summary.TransferCount} events");
+        => string.Format(
+            AppResources.Mapper_SummaryEvents,
+            overview.Summary.ParticipantCount,
+            overview.Summary.ExpenseCount + overview.Summary.TransferCount);
 
     public static string FormatTotalUnsettled(GroupOverviewModel overview)
     {

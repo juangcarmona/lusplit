@@ -175,6 +175,39 @@
   <data name="AddEvent_QuickCustom" xml:space="preserve">
     <value>Personalizado</value>
   </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Outro</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Refeição</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Transporte</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Compras</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Bilhetes</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Alojamento</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>Bebidas</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Café</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Diversão</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Ícone</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>em</value>
+  </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
     <value>Evento</value>
   </data>
@@ -553,6 +586,9 @@
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} pessoas · {1} eventos</value>
   </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} pessoas</value>
+  </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Hoje</value>
   </data>
@@ -587,6 +623,21 @@
   </data>
   <data name="Status_Household" xml:space="preserve">
     <value>Lar</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Todos estão quites</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Despesas partilhadas, de forma clara.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Acompanhe custos partilhados, veja quem deve o quê e acerte contas.</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Independente</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Adicionar</value>
   </data>
 
 </root>

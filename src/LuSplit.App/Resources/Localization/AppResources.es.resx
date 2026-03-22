@@ -175,6 +175,39 @@
   <data name="AddEvent_QuickCustom" xml:space="preserve">
     <value>Personalizado</value>
   </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Otra cosa</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Comida</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Transporte</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Compras</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Entradas</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Alojamiento</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>Bebidas</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Café</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Diversión</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Icono</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>el</value>
+  </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
     <value>Evento</value>
   </data>
@@ -260,7 +293,7 @@
     <value>Registrar pago</value>
   </data>
   <data name="RecordPayment_Subtitle" xml:space="preserve">
-    <value>Captura un pago real y mantén la cronología del grupo honesta.</value>
+    <value>Registra un pago real entre participantes.</value>
   </data>
   <data name="RecordPayment_WhoPaid" xml:space="preserve">
     <value>¿Quién pagó?</value>
@@ -573,6 +606,9 @@
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} personas · {1} eventos</value>
   </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} personas</value>
+  </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Hoy</value>
   </data>
@@ -607,6 +643,21 @@
   </data>
   <data name="Status_Household" xml:space="preserve">
     <value>Hogar</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Todos están en paz</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Gastos compartidos, claros.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Registra gastos compartidos, mira quién debe qué y salda cuentas.</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Independiente</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Añadir</value>
   </data>
 
 </root>
