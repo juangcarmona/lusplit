@@ -224,6 +224,7 @@ code {
 /* ─── Prose (rendered Markdown) ──────────────────────────── */
 .prose {
   max-width: 70ch;
+  margin-top: 2.5rem;
 }
 
 .prose h1,
@@ -236,6 +237,10 @@ code {
 .prose h1:first-child,
 .prose h2:first-child {
   margin-top: 0;
+}
+
+.prose h2 {
+  margin-top: 2.5rem;
 }
 
 .prose p {
@@ -265,6 +270,43 @@ code {
   border: none;
   border-top: 1px solid var(--border);
   margin-block: 2rem;
+}
+
+.prose img.screenshot::before {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 5px;
+  background: #2a2a2d;
+  border-radius: 3px;
+  margin: 0 auto 8px;
+}
+
+.phone-shot {
+  max-width: 280px;
+  margin: 1.5rem auto 2.25rem;
+  padding: 10px;
+  border-radius: 32px;
+  background: #0f0f10;
+  border: 2px solid #1c1c1e;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+  box-sizing: border-box;
+}
+
+.phone-shot::before {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 5px;
+  background: #2a2a2d;
+  border-radius: 999px;
+  margin: 0 auto 8px;
+}
+
+.phone-shot img {
+  display: block;
+  width: 100%;
+  border-radius: 22px;
 }
 
 /* ─── Utility ────────────────────────────────────────────── */

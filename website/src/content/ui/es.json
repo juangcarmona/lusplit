@@ -37,5 +37,46 @@
   "theme.toggle": "Cambiar modo oscuro",
   "lang.label": "Idioma",
 
-  "fallback.notice": "Esta página aún no está disponible en tu idioma. Mostrando contenido en inglés."
+  "fallback.notice": "Esta página aún no está disponible en tu idioma. Mostrando contenido en inglés.",
+
+  "product.title": "Cómo funciona",
+  "product.subtitle": "Desde la creación del grupo hasta la liquidación final — un flujo claro y paso a paso.",
+
+  "product.step1.title": "1. Crear un grupo",
+  "product.step1.desc": "Empieza nombrando tu grupo y añadiendo las personas implicadas.",
+  "product.step1.b1": "Vincula dependientes al adulto correcto",
+  "product.step1.b2": "Cada grupo gestiona sus propios gastos",
+  "product.step1.b3": "Sin cuenta necesaria para empezar",
+
+  "product.step2.title": "2. Añadir gastos",
+  "product.step2.desc": "Registra cada pago compartido — quién pagó, para qué y a quién cubre.",
+  "product.step2.b1": "Divide en partes iguales, por importe, porcentaje o peso",
+  "product.step2.b2": "Vista previa del impacto antes de guardar",
+  "product.step2.b3": "Cualquier miembro puede ser el pagador",
+
+  "product.step3.title": "3. Consultar saldos",
+  "product.step3.desc": "El resumen mantiene a todos al día de un vistazo.",
+  "product.step3.b1": "Saldo por persona siempre actualizado",
+  "product.step3.b2": "Actividad reciente en la parte superior",
+  "product.step3.b3": "Sin cálculos mentales necesarios",
+
+  "product.step4.title": "4. Historial de gastos",
+  "product.step4.desc": "Todos los gastos se guardan en una sola lista.",
+  "product.step4.b1": "Registro completo desde el primer gasto",
+  "product.step4.b2": "Edita o elimina entradas pasadas",
+  "product.step4.b3": "Los saldos se recalculan al instante",
+
+  "product.step5.title": "5. Liquidar",
+  "product.step5.desc": "Cuando el grupo termina, LuSplit calcula las transferencias mínimas para saldar todos los saldos.",
+  "product.step5.b1": "El menor número de transferencias posible",
+  "product.step5.b2": "Ningún dinero pasa por la aplicación",
+  "product.step5.b3": "El plan es una sugerencia, no una transacción",
+
+  "product.step6.title": "6. Registrar pagos",
+  "product.step6.desc": "Confirma cada pago para mantener los saldos actualizados y el historial ordenado.",
+  "product.step6.b1": "Un toque por transferencia sugerida",
+  "product.step6.b2": "También funciona con importes personalizados",
+  "product.step6.b3": "Mantiene el historial completo y limpio",
+
+  "product.closing": "LuSplit no gestiona nada. Ningún dinero pasa por él. Simplemente hace que los gastos compartidos sean claros."
 }

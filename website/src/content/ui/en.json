@@ -37,5 +37,46 @@
   "theme.toggle": "Toggle dark mode",
   "lang.label": "Language",
 
-  "fallback.notice": "This page is not yet available in your language. Showing English content."
+  "fallback.notice": "This page is not yet available in your language. Showing English content.",
+
+  "product.title": "How it Works",
+  "product.subtitle": "From group setup to final settlement — a clear, step-by-step flow.",
+
+  "product.step1.title": "1. Create a group",
+  "product.step1.desc": "Start by naming your group and adding the people involved.",
+  "product.step1.b1": "Link dependents to the right adult",
+  "product.step1.b2": "Each group tracks its own expenses",
+  "product.step1.b3": "No account needed to start",
+
+  "product.step2.title": "2. Add expenses",
+  "product.step2.desc": "Record each shared payment — who paid, what for, and who it covers.",
+  "product.step2.b1": "Split equally, by amount, percentage, or weight",
+  "product.step2.b2": "Instant impact preview before saving",
+  "product.step2.b3": "Any member can be the payer",
+
+  "product.step3.title": "3. Check balances",
+  "product.step3.desc": "The overview keeps everyone up to date at a glance.",
+  "product.step3.b1": "Per-person balance always current",
+  "product.step3.b2": "Recent activity at the top",
+  "product.step3.b3": "No mental math required",
+
+  "product.step4.title": "4. Browse expense history",
+  "product.step4.desc": "All expenses are stored in a single, scannable list.",
+  "product.step4.b1": "Full record from the first expense",
+  "product.step4.b2": "Edit or delete past entries",
+  "product.step4.b3": "Balances recalculate instantly",
+
+  "product.step5.title": "5. Settle up",
+  "product.step5.desc": "When the group is done, LuSplit calculates the minimum transfers to zero all balances.",
+  "product.step5.b1": "Fewest transfers possible",
+  "product.step5.b2": "No money moves through the app",
+  "product.step5.b3": "Plan is a suggestion, not a transaction",
+
+  "product.step6.title": "6. Record payments",
+  "product.step6.desc": "Confirm each payment to keep balances accurate and the timeline clean.",
+  "product.step6.b1": "One tap per suggested transfer",
+  "product.step6.b2": "Works with custom amounts too",
+  "product.step6.b3": "Keeps the full history consistent",
+
+  "product.closing": "LuSplit handles nothing. No money flows through it. It simply makes shared expenses clear."
 }

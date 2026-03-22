@@ -37,5 +37,46 @@
   "theme.toggle": "Basculer le mode sombre",
   "lang.label": "Langue",
 
-  "fallback.notice": "Cette page n'est pas encore disponible dans votre langue. Affichage du contenu en anglais."
+  "fallback.notice": "Cette page n'est pas encore disponible dans votre langue. Affichage du contenu en anglais.",
+
+  "product.title": "Comment ça marche",
+  "product.subtitle": "De la création du groupe au règlement final — un flux clair, étape par étape.",
+
+  "product.step1.title": "1. Créer un groupe",
+  "product.step1.desc": "Commencez par nommer votre groupe et ajouter les personnes concernées.",
+  "product.step1.b1": "Liez les dépendants au bon adulte",
+  "product.step1.b2": "Chaque groupe suit ses propres dépenses",
+  "product.step1.b3": "Aucun compte nécessaire pour démarrer",
+
+  "product.step2.title": "2. Ajouter des dépenses",
+  "product.step2.desc": "Enregistrez chaque paiement partagé — qui a payé, pour quoi et qui ça couvre.",
+  "product.step2.b1": "Répartissez à parts égales, par montant, pourcentage ou poids",
+  "product.step2.b2": "Aperçu de l'impact avant d'enregistrer",
+  "product.step2.b3": "N'importe quel membre peut être le payeur",
+
+  "product.step3.title": "3. Consulter les soldes",
+  "product.step3.desc": "La vue d'ensemble tient tout le monde à jour en un coup d'œil.",
+  "product.step3.b1": "Solde par personne toujours à jour",
+  "product.step3.b2": "Activité récente en tête de liste",
+  "product.step3.b3": "Sans calcul mental nécessaire",
+
+  "product.step4.title": "4. Historique des dépenses",
+  "product.step4.desc": "Toutes les dépenses sont stockées dans une seule liste.",
+  "product.step4.b1": "Historique complet depuis la première dépense",
+  "product.step4.b2": "Modifiez ou supprimez des entrées passées",
+  "product.step4.b3": "Les soldes se recalculent instantanément",
+
+  "product.step5.title": "5. Régler",
+  "product.step5.desc": "Quand le groupe est prêt, LuSplit calcule les virements minimaux pour solder tous les soldes.",
+  "product.step5.b1": "Le moins de virements possible",
+  "product.step5.b2": "Aucun argent ne transite par l'application",
+  "product.step5.b3": "Le plan est une suggestion, pas une transaction",
+
+  "product.step6.title": "6. Enregistrer les paiements",
+  "product.step6.desc": "Confirmez chaque paiement pour maintenir les soldes exacts et l'historique cohérent.",
+  "product.step6.b1": "Un seul geste par virement suggéré",
+  "product.step6.b2": "Fonctionne aussi avec des montants personnalisés",
+  "product.step6.b3": "Garde l'historique complet et propre",
+
+  "product.closing": "LuSplit ne gère rien. Aucun argent ne transite par lui. Il rend simplement les dépenses partagées compréhensibles."
 }

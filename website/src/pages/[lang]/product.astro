@@ -1,0 +1,232 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SUPPORTED_LANGS, getUiStrings } from '../../lib/i18n';
+import type { Lang } from '../../lib/i18n';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+};
+
+const { lang } = Astro.params as { lang: Lang };
+const ui = getUiStrings(lang);
+
+const steps = [
+  {
+    titleKey: 'product.step1.title',
+    descKey:  'product.step1.desc',
+    bullets:  ['product.step1.b1', 'product.step1.b2', 'product.step1.b3'],
+    img:      '/screenshots/create_group_people.png',
+    imgAlt:   'Create group — add people and define who depends on whom',
+  },
+  {
+    titleKey: 'product.step2.title',
+    descKey:  'product.step2.desc',
+    bullets:  ['product.step2.b1', 'product.step2.b2', 'product.step2.b3'],
+    img:      '/screenshots/add_expense.png',
+    imgAlt:   'Add expense — title, amount, participants, and instant impact preview',
+  },
+  {
+    titleKey: 'product.step3.title',
+    descKey:  'product.step3.desc',
+    bullets:  ['product.step3.b1', 'product.step3.b2', 'product.step3.b3'],
+    img:      '/screenshots/group_overview.png',
+    imgAlt:   'Overview — balances and recent activity at a glance',
+  },
+  {
+    titleKey: 'product.step4.title',
+    descKey:  'product.step4.desc',
+    bullets:  ['product.step4.b1', 'product.step4.b2', 'product.step4.b3'],
+    img:      '/screenshots/group_expenses.png',
+    imgAlt:   'Expenses — every shared expense in one list',
+  },
+  {
+    titleKey: 'product.step5.title',
+    descKey:  'product.step5.desc',
+    bullets:  ['product.step5.b1', 'product.step5.b2', 'product.step5.b3'],
+    img:      '/screenshots/settle_up.png',
+    imgAlt:   'Settle up — the minimum transfers needed to clear debts',
+  },
+  {
+    titleKey: 'product.step6.title',
+    descKey:  'product.step6.desc',
+    bullets:  ['product.step6.b1', 'product.step6.b2', 'product.step6.b3'],
+    img:      '/screenshots/record_payment.png',
+    imgAlt:   'Record payment — save a suggested payment directly',
+  },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={ui['product.title'] ?? 'How it Works'}
+  description={ui['product.subtitle'] ?? 'From group setup to final settlement — a clear, step-by-step flow.'}
+  ui={ui}
+>
+  <section class="product-page section">
+    <div class="container">
+
+      <header class="product-hero">
+        <h1 class="product-title">{ui['product.title']}</h1>
+        <p class="product-subtitle">{ui['product.subtitle']}</p>
+      </header>
+
+      <div class="how-steps">
+        {steps.map((step, i) => (
+          <article class="how-step">
+            <div class="how-step__content">
+              <h2>{ui[step.titleKey]}</h2>
+              <p>{ui[step.descKey]}</p>
+              <ul>
+                {step.bullets.map(bKey => (
+                  <li>{ui[bKey]}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="how-step__media">
+              <div class="phone-shot">
+                <img
+                  src={step.img}
+                  alt={step.imgAlt}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <footer class="product-closing">
+        <p>{ui['product.closing']}</p>
+      </footer>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .product-page {
+    min-height: 60vh;
+  }
+
+  .product-hero {
+    max-width: 52rem;
+    margin-bottom: 3rem;
+  }
+
+  .product-title {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.625rem;
+    letter-spacing: -0.02em;
+  }
+
+  .product-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 60ch;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ─── Steps grid ─────────────────────────────────────────── */
+  .how-steps {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .how-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 380px);
+    gap: 2rem;
+    align-items: center;
+  }
+
+  /* Zig-zag: even steps flip columns */
+  .how-step:nth-child(even) .how-step__content {
+    order: 2;
+  }
+
+  .how-step:nth-child(even) .how-step__media {
+    order: 1;
+  }
+
+  /* ─── Step content ───────────────────────────────────────── */
+  .how-step__content h2 {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .how-step__content p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 0.875rem;
+    max-width: 52ch;
+  }
+
+  .how-step__content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .how-step__content ul li {
+    font-size: 0.9375rem;
+    color: var(--text-secondary, var(--text-muted));
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .how-step__content ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-teal, #00b4b4);
+    font-size: 0.8rem;
+    top: 0.1em;
+  }
+
+  /* ─── Media / phone frame ────────────────────────────────── */
+  .how-step__media {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ─── Closing ────────────────────────────────────────────── */
+  .product-closing {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    max-width: 60ch;
+  }
+
+  .product-closing p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* ─── Mobile ─────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .how-step {
+      grid-template-columns: 1fr;
+    }
+
+    /* Reset zig-zag on mobile — image always after text */
+    .how-step__content,
+    .how-step__media {
+      order: initial !important;
+    }
+  }
+</style>

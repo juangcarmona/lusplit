@@ -12,12 +12,8 @@ interface Props {
 const { lang, ui } = Astro.props;
 
 const navItems = [
-  { key: 'nav.home',         href: localizedHref(lang, '/') },
-  { key: 'nav.features',     href: localizedHref(lang, '/features') },
-  { key: 'nav.howItWorks',   href: localizedHref(lang, '/how-it-works') },
-  { key: 'nav.screenshots',  href: localizedHref(lang, '/screenshots') },
-  { key: 'nav.privacy',      href: localizedHref(lang, '/privacy') },
-  { key: 'nav.support',      href: localizedHref(lang, '/support') },
+  { key: 'nav.home',       href: localizedHref(lang, '/') },
+  { key: 'nav.howItWorks', href: localizedHref(lang, '/product') }
 ];
 
 const currentPath = Astro.url.pathname;

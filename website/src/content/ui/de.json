@@ -37,5 +37,46 @@
   "theme.toggle": "Dunkelmodus umschalten",
   "lang.label": "Sprache",
 
-  "fallback.notice": "Diese Seite ist noch nicht in Ihrer Sprache verfügbar. Es wird englischer Inhalt angezeigt."
+  "fallback.notice": "Diese Seite ist noch nicht in Ihrer Sprache verfügbar. Es wird englischer Inhalt angezeigt.",
+
+  "product.title": "So funktioniert es",
+  "product.subtitle": "Von der Gruppenerstellung bis zur Abrechnung — ein klarer, schrittweiser Ablauf.",
+
+  "product.step1.title": "1. Gruppe erstellen",
+  "product.step1.desc": "Beginnen Sie damit, Ihre Gruppe zu benennen und die beteiligten Personen hinzuzufügen.",
+  "product.step1.b1": "Verknüpfen Sie Abhängige mit dem richtigen Erwachsenen",
+  "product.step1.b2": "Jede Gruppe verwaltet ihre eigenen Ausgaben",
+  "product.step1.b3": "Kein Konto erforderlich, um zu starten",
+
+  "product.step2.title": "2. Ausgaben hinzufügen",
+  "product.step2.desc": "Erfassen Sie jede gemeinsame Zahlung — wer bezahlt hat, wofür und wen es betrifft.",
+  "product.step2.b1": "Teilen Sie gleichmäßig, nach Betrag, Prozentsatz oder Gewicht auf",
+  "product.step2.b2": "Auswirkungsvorschau vor dem Speichern",
+  "product.step2.b3": "Jedes Mitglied kann Zahler sein",
+
+  "product.step3.title": "3. Salden prüfen",
+  "product.step3.desc": "Die Übersicht hält alle auf dem aktuellen Stand.",
+  "product.step3.b1": "Saldo pro Person immer aktuell",
+  "product.step3.b2": "Letzte Aktivität oben angezeigt",
+  "product.step3.b3": "Kein Kopfrechnen notwendig",
+
+  "product.step4.title": "4. Ausgabenverlauf",
+  "product.step4.desc": "Alle Ausgaben werden in einer einzigen, übersichtlichen Liste gespeichert.",
+  "product.step4.b1": "Vollständige Aufzeichnung seit der ersten Ausgabe",
+  "product.step4.b2": "Frühere Einträge bearbeiten oder löschen",
+  "product.step4.b3": "Salden werden sofort neu berechnet",
+
+  "product.step5.title": "5. Abrechnen",
+  "product.step5.desc": "Wenn die Gruppe fertig ist, berechnet LuSplit die minimalen Überweisungen, um alle Salden auszugleichen.",
+  "product.step5.b1": "Geringstmögliche Anzahl von Überweisungen",
+  "product.step5.b2": "Kein Geld fließt durch die App",
+  "product.step5.b3": "Der Plan ist ein Vorschlag, keine Transaktion",
+
+  "product.step6.title": "6. Zahlungen erfassen",
+  "product.step6.desc": "Bestätigen Sie jede Zahlung, um die Salden genau und die Chronik konsistent zu halten.",
+  "product.step6.b1": "Ein Tippen pro vorgeschlagener Überweisung",
+  "product.step6.b2": "Funktioniert auch mit benutzerdefinierten Beträgen",
+  "product.step6.b3": "Hält die vollständige Chronik sauber",
+
+  "product.closing": "LuSplit verwaltet nichts. Kein Geld fließt durch es. Es macht geteilte Ausgaben einfach verständlich."
 }

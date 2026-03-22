@@ -1,38 +1,73 @@
 ---
 title: "How it Works — LuSplit"
-description: "Learn how LuSplit lets you create groups, add expenses, track balances, and settle up with friends and family."
+description: "See how LuSplit works: create a group, add expenses, understand balances, settle up, and record payments."
 ---
 
-# How it Works
+# How it works
 
-LuSplit follows a simple flow from start to settled.
+LuSplit follows a simple flow: create a group, add expenses, understand balances, and settle up clearly.
 
 ## 1. Create a group
 
-Start by creating a group. Give it a name that fits the occasion — "Portugal trip", "Apartment expenses", "Family weekend". A group is a container for a set of people and their shared expenses.
+Start by creating a group and adding the people involved.
 
-## 2. Add people
+You can define dependency relationships so children or dependents are attached to the right adult and costs are attributed correctly.
 
-Add everyone who is part of the expense-sharing arrangement. Each person is identified by name. You can link dependent members (like children) to an adult in the group, so their costs are attributed correctly.
+<div class="phone-shot">
+  <img src="/screenshots/create_group_people.png" alt="Create group — add people and define who depends on whom" />
+</div>
 
-## 3. Add expenses
+## 2. Track shared expenses
 
-When someone pays for something shared, add it as an expense. Record what was paid, how much it cost, who paid, and who it covers. Choose how to split it: equally, by exact amount, by percentage, or by weight.
+When someone pays for something shared, add it as an expense.
 
-## 4. See balances
+Record:
+- title  
+- amount  
+- who paid  
+- who joined  
 
-LuSplit calculates balances automatically. At any time you can open the group and see exactly who owes what. Positive amounts mean someone is owed money. Negative amounts mean someone owes money to the group.
+The impact is visible immediately before saving.
+
+<div class="phone-shot">
+  <img src="/screenshots/add_expense.png" alt="Add expense — title, amount, participants, and instant impact preview" />
+</div>
+
+## 3. Understand the group instantly
+
+The overview shows the current state of the group:
+- balances  
+- recent activity  
+- who owes what  
+
+<div class="phone-shot">
+  <img src="/screenshots/group_overview.png" alt="Overview — balances and recent activity at a glance" />
+</div>
+
+## 4. See all expenses
+
+The full history of the group is available in a single list.
+
+<div class="phone-shot">
+  <img src="/screenshots/group_expenses.png" alt="Expenses — every shared expense in one list" />
+</div>
 
 ## 5. Settle up
 
-When the group is ready to close out, LuSplit generates a settlement plan. This is a minimal list of payments that brings all balances to zero. For example: "Alex pays Jordan €20. Jordan pays Sam €8."
+When it is time to close the group, LuSplit generates the minimum set of transfers required.
 
-No money moves through LuSplit. You handle the actual payments directly between your group.
+<div class="phone-shot">
+  <img src="/screenshots/settle_up.png" alt="Settle up — the minimum transfers needed to clear debts" />
+</div>
 
-## 6. Export
+## 6. Record payments
 
-Export the full expense log and settlement summary anytime as JSON, CSV, or PDF. Keep a record for yourself or share it with the group.
+After a payment happens, record it to keep balances accurate and the timeline consistent.
+
+<div class="phone-shot">
+  <img src="/screenshots/record_payment.png" alt="Record payment — save a suggested payment directly" />
+</div>
 
 ---
 
-That is the full flow. LuSplit is intentionally simple. It does one thing: give your group clarity around shared costs.
+LuSplit focuses on clarity. No money moves through the app. It simply makes shared expenses understandable.

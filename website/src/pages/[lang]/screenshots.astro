@@ -21,12 +21,12 @@ const pageTitles: Record<Lang, string> = {
 };
 
 const pageDescriptions: Record<Lang, string> = {
-  en: 'See LuSplit in action. Real screenshots from the app showing groups, expenses, balances, and settlement.',
-  es: 'Descubre LuSplit en acción. Capturas reales de la app: grupos, gastos, saldos y liquidación.',
-  fr: "Découvrez LuSplit en action. Vraies captures d'écran de l'appli : groupes, dépenses, soldes et règlement.",
-  de: 'Sehen Sie LuSplit in Aktion. Echte Screenshots der App: Gruppen, Ausgaben, Salden und Abrechnung.',
-  pt: 'Veja o LuSplit em ação. Capturas reais da app: grupos, despesas, saldos e liquidação.',
-  it: 'Guarda LuSplit in azione. Screenshot reali dell\'app: gruppi, spese, saldi e liquidazione.',
+  en: 'Real screenshots from LuSplit showing the core flow: overview, expenses, add expense, settlement, payments, and group setup.',
+  es: 'Capturas reales de LuSplit mostrando el flujo principal: visión general, gastos, añadir gasto, liquidación, pagos y creación de grupo.',
+  fr: "Vraies captures d'écran de LuSplit montrant le flux principal : vue d'ensemble, dépenses, ajout d'une dépense, règlement, paiements et création de groupe.",
+  de: 'Echte Screenshots von LuSplit mit dem Kernablauf: Übersicht, Ausgaben, Ausgabe hinzufügen, Abrechnung, Zahlungen und Gruppenerstellung.',
+  pt: 'Capturas reais do LuSplit a mostrar o fluxo principal: visão geral, despesas, adicionar despesa, liquidação, pagamentos e criação de grupo.',
+  it: 'Screenshot reali di LuSplit che mostrano il flusso principale: panoramica, spese, aggiunta spesa, saldo, pagamenti e creazione gruppo.',
 };
 
 const headings: Record<Lang, string> = {
@@ -39,90 +39,72 @@ const headings: Record<Lang, string> = {
 };
 
 const intros: Record<Lang, string> = {
-  en: 'A look at LuSplit across its main screens. Clean, focused, and built for everyday use.',
-  es: 'Un vistazo a LuSplit en sus pantallas principales. Limpio, enfocado y pensado para el uso diario.',
-  fr: "Un aperçu de LuSplit sur ses écrans principaux. Épuré, ciblé et conçu pour une utilisation quotidienne.",
-  de: 'Ein Blick auf LuSplit in seinen wichtigsten Ansichten. Klar, fokussiert und für den täglichen Einsatz entwickelt.',
-  pt: 'Um olhar sobre o LuSplit nas suas principais ecrãs. Limpo, focado e feito para uso diário.',
-  it: "Uno sguardo a LuSplit nelle sue schermate principali. Pulito, mirato e pensato per l'uso quotidiano.",
+  en: 'A real look at LuSplit across the core product flow: setup, tracking expenses, understanding balances, and settling up.',
+  es: 'Una visión real de LuSplit a través del flujo principal del producto: configuración, registro de gastos, comprensión de saldos y liquidación.',
+  fr: "Un aperçu réel de LuSplit à travers le flux principal du produit : configuration, suivi des dépenses, compréhension des soldes et règlement.",
+  de: 'Ein echter Blick auf LuSplit entlang des zentralen Produktablaufs: Einrichtung, Ausgaben erfassen, Salden verstehen und abrechnen.',
+  pt: 'Uma visão real do LuSplit ao longo do fluxo principal do produto: configuração, registo de despesas, compreensão de saldos e liquidação.',
+  it: 'Uno sguardo reale a LuSplit lungo il flusso principale del prodotto: configurazione, registrazione spese, comprensione dei saldi e saldo finale.',
 };
 
 const screenshotCaptions: Record<string, Record<Lang, string>> = {
-  home: {
-    en: 'Home — your groups at a glance',
-    es: 'Inicio — tus grupos de un vistazo',
-    fr: 'Accueil — vos groupes en un coup d\'œil',
-    de: 'Startseite — Ihre Gruppen auf einen Blick',
-    pt: 'Início — os seus grupos num relance',
-    it: 'Home — i tuoi gruppi a colpo d\'occhio',
+  group_overview: {
+    en: 'Overview — balances and recent activity at a glance',
+    es: 'Resumen — saldos y actividad reciente de un vistazo',
+    fr: "Vue d'ensemble — soldes et activité récente en un coup d'œil",
+    de: 'Übersicht — Salden und letzte Aktivität auf einen Blick',
+    pt: 'Visão geral — saldos e atividade recente num relance',
+    it: "Panoramica — saldi e attività recente a colpo d'occhio",
   },
-  group_details: {
-    en: 'Trip details — all expenses in one place',
-    es: 'Detalles del viaje — todos los gastos en un lugar',
-    fr: 'Détails du voyage — toutes les dépenses au même endroit',
-    de: 'Reisedetails — alle Ausgaben auf einen Blick',
-    pt: 'Detalhes da viagem — todas as despesas num só lugar',
-    it: 'Dettagli viaggio — tutte le spese in un unico posto',
+  group_expenses: {
+    en: 'Expenses — every shared expense in one list',
+    es: 'Gastos — todos los gastos compartidos en una sola lista',
+    fr: 'Dépenses — toutes les dépenses partagées dans une seule liste',
+    de: 'Ausgaben — alle geteilten Ausgaben in einer Liste',
+    pt: 'Despesas — todas as despesas partilhadas numa só lista',
+    it: 'Spese — tutte le spese condivise in un unico elenco',
   },
-  group_details_bottom: {
-    en: 'Balances — who owes what at a glance',
-    es: 'Saldos — quién debe qué de un vistazo',
-    fr: 'Soldes — qui doit quoi en un coup d\'œil',
-    de: 'Salden — wer schuldet was auf einen Blick',
-    pt: 'Saldos — quem deve o quê num relance',
-    it: 'Saldi — chi deve cosa a colpo d\'occhio',
-  },
-  activity: {
-    en: 'Activity — recent transactions and changes',
-    es: 'Actividad — transacciones y cambios recientes',
-    fr: 'Activité — transactions et modifications récentes',
-    de: 'Aktivität — aktuelle Transaktionen und Änderungen',
-    pt: 'Atividade — transações e alterações recentes',
-    it: 'Attività — transazioni e modifiche recenti',
-  },
-  add_event: {
-    en: 'Add expense — record what was paid and by whom',
-    es: 'Añadir gasto — registra qué se pagó y por quién',
-    fr: 'Ajouter une dépense — enregistrez ce qui a été payé et par qui',
-    de: 'Ausgabe hinzufügen — erfassen Sie, was gezahlt wurde und von wem',
-    pt: 'Adicionar despesa — registe o que foi pago e por quem',
-    it: 'Aggiungi spesa — registra cosa è stato pagato e da chi',
-  },
-  record_payment: {
-    en: 'Record payment — log a direct payment between members',
-    es: 'Registrar pago — anota un pago directo entre miembros',
-    fr: 'Enregistrer un paiement — consignez un paiement direct entre membres',
-    de: 'Zahlung erfassen — direkte Zahlung zwischen Mitgliedern aufzeichnen',
-    pt: 'Registar pagamento — registar um pagamento direto entre membros',
-    it: 'Registra pagamento — registra un pagamento diretto tra membri',
+  add_expense: {
+    en: 'Add expense — title, amount, participants, and instant impact preview',
+    es: 'Añadir gasto — título, importe, participantes y vista previa inmediata del impacto',
+    fr: "Ajouter une dépense — titre, montant, participants et aperçu immédiat de l'impact",
+    de: 'Ausgabe hinzufügen — Titel, Betrag, Teilnehmer und sofortige Auswirkungsvorschau',
+    pt: 'Adicionar despesa — título, valor, participantes e pré-visualização imediata do impacto',
+    it: "Aggiungi spesa — titolo, importo, partecipanti e anteprima immediata dell'impatto",
   },
   settle_up: {
-    en: 'Settle up — minimal transfer plan to zero all balances',
-    es: 'Liquidar — plan mínimo de transferencias para saldar todo',
-    fr: 'Régler — plan de virements minimal pour solder tous les comptes',
-    de: 'Abrechnen — minimaler Überweisungsplan zum Ausgleich aller Salden',
-    pt: 'Liquidar — plano mínimo de transferências para zerar todos os saldos',
-    it: 'Pareggia i conti — piano minimo di bonifici per azzerare tutti i saldi',
+    en: 'Settle up — the minimum transfers needed to clear debts',
+    es: 'Liquidar — las transferencias mínimas necesarias para saldar deudas',
+    fr: 'Régler — les virements minimaux nécessaires pour solder les dettes',
+    de: 'Abrechnen — die minimal nötigen Überweisungen zum Begleichen der Schulden',
+    pt: 'Liquidar — as transferências mínimas necessárias para acertar as dívidas',
+    it: 'Pareggia i conti — i trasferimenti minimi necessari per chiudere i debiti',
   },
-  settings: {
-    en: 'Settings — manage your preferences',
-    es: 'Ajustes — gestiona tus preferencias',
-    fr: 'Paramètres — gérez vos préférences',
-    de: 'Einstellungen — verwalten Sie Ihre Einstellungen',
-    pt: 'Definições — gira as suas preferências',
-    it: 'Impostazioni — gestisci le tue preferenze',
+  record_payment: {
+    en: 'Record payment — save a suggested payment directly',
+    es: 'Registrar pago — guarda directamente un pago sugerido',
+    fr: 'Enregistrer un paiement — enregistrez directement un paiement suggéré',
+    de: 'Zahlung erfassen — eine vorgeschlagene Zahlung direkt speichern',
+    pt: 'Registar pagamento — guardar diretamente um pagamento sugerido',
+    it: 'Registra pagamento — salva direttamente un pagamento suggerito',
+  },
+  create_group_people: {
+    en: 'Create group — add people and define who depends on whom',
+    es: 'Crear grupo — añade personas y define quién depende de quién',
+    fr: 'Créer un groupe — ajoutez des personnes et définissez qui dépend de qui',
+    de: 'Gruppe erstellen — Personen hinzufügen und Abhängigkeiten festlegen',
+    pt: 'Criar grupo — adicionar pessoas e definir quem depende de quem',
+    it: 'Crea gruppo — aggiungi persone e definisci chi dipende da chi',
   },
 };
 
 const screenshots = [
-  'home',
-  'group_details',
-  'group_details_bottom',
-  'activity',
-  'add_event',
-  'record_payment',
+  'group_overview',
+  'group_expenses',
+  'add_expense',
   'settle_up',
-  'settings',
+  'record_payment',
+  'create_group_people',
 ];
 
 const pageTitle = pageTitles[lang];
@@ -140,13 +122,13 @@ const intro = intros[lang];
       </header>
 
       <div class="screenshots-grid">
-        {screenshots.map(name => (
-          <figure class="screenshot-card">
+        {screenshots.map((name, index) => (
+          <figure class={`screenshot-card ${index === 0 ? 'featured' : ''}`}>
             <div class="screenshot-img-wrap">
               <img
-                src={`/screenshots/${lang}/${name}.png`}
+                src={`/screenshots/${name}.png`}
                 alt={screenshotCaptions[name][lang]}
-                loading="lazy"
+                loading={index === 0 ? 'eager' : 'lazy'}
                 class="screenshot-img"
               />
             </div>
@@ -166,18 +148,20 @@ const intro = intros[lang];
   }
 
   .screenshots-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
+    max-width: 52rem;
   }
 
   .screenshots-title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
     color: var(--text-primary);
     margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
   }
 
   .screenshots-intro {
-    font-size: 1.0625rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
     max-width: 60ch;
     line-height: 1.7;
@@ -185,8 +169,9 @@ const intro = intros[lang];
 
   .screenshots-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
   }
 
   .screenshot-card {
@@ -196,35 +181,53 @@ const intro = intros[lang];
     gap: 0.75rem;
   }
 
-  .screenshot-img-wrap {
-    border-radius: var(--radius-md, 12px);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
-    background: var(--bg-surface);
+  .screenshot-card.featured {
+    grid-column: 1 / -1;
   }
 
-  .screenshot-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.25s ease;
+  .screenshot-card.featured .screenshot-img-wrap {
+    max-width: 420px;
   }
 
-  .screenshot-img-wrap:hover .screenshot-img {
-    transform: scale(1.02);
-  }
+.screenshot-img-wrap {
+  max-width: 320px;        /* phone width */
+  margin: 0 auto;
+  border-radius: 32px;     /* device corners */
+  padding: 10px;           /* frame thickness */
+  background: #0f0f10;     /* phone body */
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 0 0 2px #1c1c1e;
+}
+
+.screenshot-img-wrap::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 6px;
+  background: #2a2a2d;
+  border-radius: 3px;
+  margin: 0 auto 8px auto; /* speaker */
+}
+
+.screenshot-img {
+  border-radius: 24px;     /* screen corners */
+}
 
   .screenshot-caption {
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    line-height: 1.5;
-    padding-inline: 0.25rem;
+    line-height: 1.45;
+    padding-inline: 0.15rem;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 900px) {
     .screenshots-grid {
       grid-template-columns: 1fr;
+    }
+
+    .screenshot-card.featured {
+      grid-column: auto;
     }
   }
 </style>

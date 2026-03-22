@@ -37,5 +37,46 @@
   "theme.toggle": "Attiva/disattiva modalità scura",
   "lang.label": "Lingua",
 
-  "fallback.notice": "Questa pagina non è ancora disponibile nella tua lingua. Visualizzazione del contenuto in inglese."
+  "fallback.notice": "Questa pagina non è ancora disponibile nella tua lingua. Visualizzazione del contenuto in inglese.",
+
+  "product.title": "Come funziona",
+  "product.subtitle": "Dalla creazione del gruppo alla liquidazione finale — un flusso chiaro, passo dopo passo.",
+
+  "product.step1.title": "1. Crea un gruppo",
+  "product.step1.desc": "Inizia dando un nome al tuo gruppo e aggiungendo le persone coinvolte.",
+  "product.step1.b1": "Collega i dipendenti all'adulto giusto",
+  "product.step1.b2": "Ogni gruppo tiene traccia delle proprie spese",
+  "product.step1.b3": "Nessun account necessario per iniziare",
+
+  "product.step2.title": "2. Aggiungi spese",
+  "product.step2.desc": "Registra ogni pagamento condiviso — chi ha pagato, per cosa e chi copre.",
+  "product.step2.b1": "Dividi equamente, per importo, percentuale o peso",
+  "product.step2.b2": "Anteprima dell'impatto prima di salvare",
+  "product.step2.b3": "Qualsiasi membro può essere il pagatore",
+
+  "product.step3.title": "3. Controlla i saldi",
+  "product.step3.desc": "La panoramica tiene tutti aggiornati a colpo d'occhio.",
+  "product.step3.b1": "Saldo per persona sempre aggiornato",
+  "product.step3.b2": "Attività recente in cima alla lista",
+  "product.step3.b3": "Nessun calcolo mentale necessario",
+
+  "product.step4.title": "4. Storico delle spese",
+  "product.step4.desc": "Tutte le spese sono archiviate in un unico elenco.",
+  "product.step4.b1": "Registro completo dalla prima spesa",
+  "product.step4.b2": "Modifica o elimina voci precedenti",
+  "product.step4.b3": "I saldi si ricalcolano istantaneamente",
+
+  "product.step5.title": "5. Pareggia i conti",
+  "product.step5.desc": "Quando il gruppo è pronto, LuSplit calcola i trasferimenti minimi per azzerare tutti i saldi.",
+  "product.step5.b1": "Il minor numero possibile di trasferimenti",
+  "product.step5.b2": "Nessun denaro transita attraverso l'app",
+  "product.step5.b3": "Il piano è un suggerimento, non una transazione",
+
+  "product.step6.title": "6. Registra pagamenti",
+  "product.step6.desc": "Conferma ogni pagamento per mantenere i saldi accurati e la cronologia coerente.",
+  "product.step6.b1": "Un tocco per ogni trasferimento suggerito",
+  "product.step6.b2": "Funziona anche con importi personalizzati",
+  "product.step6.b3": "Mantiene la cronologia completa e pulita",
+
+  "product.closing": "LuSplit non gestisce nulla. Nessun denaro transita attraverso di esso. Rende semplicemente le spese condivise comprensibili."
 }
