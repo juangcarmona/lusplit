@@ -45,7 +45,7 @@ public partial class LanguageSettingsPage : ContentPage
         OnPropertyChanged(nameof(PreferredName));
         OnPropertyChanged(nameof(SelectedCurrencyOption));
         OnPropertyChanged(nameof(IsDarkThemeEnabled));
-        await DisplayAlert(AppResources.Settings_Title, AppResources.Settings_ProfileSaved, AppResources.Common_Ok);
+        await DisplayAlert(AppResources.Settings_Title, AppResources.Settings_ProfileSaved, AppResources.Common_Cancel);
     }
 
     private void BuildCurrencyList(string preferredCurrencyCode)

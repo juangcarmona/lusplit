@@ -30,8 +30,6 @@ public static class LocalizationHelper
     private static readonly HashSet<string> _supportedCodes =
         new(SupportedLanguages.Select(l => l.Culture).Where(c => c.Length > 0), StringComparer.OrdinalIgnoreCase);
 
-    private static readonly CultureInfo _osCulture = CultureInfo.CurrentUICulture;
-
     // Captured once at process start so "System Default" can truly restore the original OS culture.
     private static readonly CultureInfo _osCulture = CultureInfo.CurrentUICulture;
 
