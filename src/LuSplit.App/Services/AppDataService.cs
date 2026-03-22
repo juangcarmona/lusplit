@@ -539,7 +539,7 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
         var groupIds = await ListGroupIdsAsync();
         if (groupIds.Count == 0)
         {
-            throw new InvalidOperationException(AppResources.Validation_GroupNotFound);
+            throw new NoGroupsAvailableException();
         }
 
         var preferredGroupId = Preferences.Default.Get(SelectedGroupPreferenceKey, string.Empty);

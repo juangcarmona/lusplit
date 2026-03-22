@@ -20,6 +20,11 @@ public static class AppPreferences
         return inferredCurrency;
     }
 
+    public static void InitializePreferredCurrencyIfNeeded()
+    {
+        _ = GetPreferredCurrency();
+    }
+
     public static void SetPreferredCurrency(string? currency)
     {
         var normalized = string.IsNullOrWhiteSpace(currency) ? "USD" : currency.Trim().ToUpperInvariant();

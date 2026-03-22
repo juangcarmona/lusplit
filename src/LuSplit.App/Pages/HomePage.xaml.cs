@@ -58,7 +58,7 @@ public partial class HomePage : ContentPage
 
     private async Task EnsureStartupProfileAsync()
     {
-        _ = AppPreferences.GetPreferredCurrency();
+        AppPreferences.InitializePreferredCurrencyIfNeeded();
 
         if (!string.IsNullOrWhiteSpace(UserProfilePreferences.GetPreferredName())
             || UserProfilePreferences.HasSeenPreferredNamePrompt())
@@ -89,7 +89,7 @@ public partial class HomePage : ContentPage
         {
             workspace = await _dataService.GetGroupWorkspaceAsync();
         }
-        catch (InvalidOperationException)
+        catch (NoGroupsAvailableException)
         {
             await Shell.Current.GoToAsync(AppRoutes.CreateGroup);
             return;
