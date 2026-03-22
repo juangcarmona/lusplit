@@ -22,7 +22,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     public bool IsArchived => _isArchived;
 
-    /// <summary>True when the group is not archived — the only case where edits are possible.</summary>
+    /// <summary>True when the group is not archived - the only case where edits are possible.</summary>
     public bool CanEdit => !_isArchived;
 
     /// <summary>Archive button is visible only for active (non-archived) groups.</summary>

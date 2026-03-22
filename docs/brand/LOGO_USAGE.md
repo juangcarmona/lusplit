@@ -1,6 +1,6 @@
 # LuSplit Logo Usage
 
-Version 1.0 — Foundational Identity
+Version 1.0 - Foundational Identity
 
 ## Primary Icon Construction
 

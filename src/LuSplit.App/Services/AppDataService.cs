@@ -171,7 +171,7 @@ public sealed class AppDataService : IAsyncDisposable
                 .ToArray());
     }
 
-    /// <summary>Archives a group. Archived groups are read-only — the domain blocks new expenses and participants on closed groups.</summary>
+    /// <summary>Archives a group. Archived groups are read-only - the domain blocks new expenses and participants on closed groups.</summary>
     public async Task ArchiveGroupAsync(string groupId)
     {
         var infra = await GetInfraAsync();

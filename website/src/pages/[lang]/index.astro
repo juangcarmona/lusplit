@@ -4,7 +4,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import HeroSection from '../../components/HeroSection.astro';
 import SectionBlock from '../../components/SectionBlock.astro';
 import FeatureGrid from '../../components/FeatureGrid.astro';
-import CtaBlock from '../../components/CtaBlock.astro';
+// import CtaBlock from '../../components/CtaBlock.astro';
+import BetaCtaBlock from '../../components/BetaCtaBlock.astro';
+import { playStoreUrl } from '../../lib/links';
 import { SUPPORTED_LANGS, getPageContent, getUiStrings, localizedHref } from '../../lib/i18n';
 import type { Lang } from '../../lib/i18n';
 
@@ -38,11 +40,9 @@ const features = [
     <FeatureGrid ui={ui} features={features} />
   </SectionBlock>
 
-  <CtaBlock
-    headline={ui['cta.headline']}
-    subtext={ui['cta.subtext']}
-    buttonLabel={ui['cta.button']}
-    buttonHref={localizedHref(lang, '/product')}
+   <BetaCtaBlock
+    ui={ui}
+    playHref={playStoreUrl}
     accent="teal"
   />
 </BaseLayout>

@@ -1,6 +1,6 @@
 # LuSplit MVP Scope
 
-Version 1.0 — Scope Definition
+Version 1.0 - Scope Definition
 
 ## Product Intent
 

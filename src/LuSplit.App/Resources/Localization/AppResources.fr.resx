@@ -421,7 +421,7 @@
     <value>Dépendant</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Ajoutez d'abord le payeur. Ajoutez ensuite les membres de la famille avec le même nom de foyer — ils régleront sous le payeur.</value>
+    <value>Ajoutez d'abord le payeur. Ajoutez ensuite les membres de la famille avec le même nom de foyer - ils régleront sous le payeur.</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
     <value>Entrez une pondération personnalisée valide (ex. 0,5).</value>

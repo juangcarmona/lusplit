@@ -1,5 +1,5 @@
 ---
-title: "Privacy — LuSplit"
+title: "Privacy - LuSplit"
 description: "LuSplit funziona offline. I dati delle tue spese rimangono sul tuo dispositivo. Nessun account, nessuna telemetria, nessuna pubblicità."
 ---
 

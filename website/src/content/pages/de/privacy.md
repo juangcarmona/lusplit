@@ -1,5 +1,5 @@
 ---
-title: "Datenschutz — LuSplit"
+title: "Datenschutz - LuSplit"
 description: "LuSplit arbeitet offline. Ihre Ausgabendaten bleiben auf Ihrem Gerät. Keine Konten, keine Telemetrie, keine Werbung."
 ---
 

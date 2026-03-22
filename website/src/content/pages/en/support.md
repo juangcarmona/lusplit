@@ -1,5 +1,5 @@
 ---
-title: "Support — LuSplit"
+title: "Support - LuSplit"
 description: "Get help with LuSplit, report a bug, or contribute to the project. LuSplit is open-source."
 ---
 

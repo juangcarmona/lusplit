@@ -421,7 +421,7 @@
     <value>Dependente</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Adicione primeiro o pagador. Depois adicione familiares com o mesmo nome de lar — saldarão sob o pagador.</value>
+    <value>Adicione primeiro o pagador. Depois adicione familiares com o mesmo nome de lar - saldarão sob o pagador.</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
     <value>Introduza um peso personalizado válido (ex. 0,5).</value>

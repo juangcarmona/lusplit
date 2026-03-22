@@ -1,5 +1,5 @@
 ---
-title: "So funktioniert es — LuSplit"
+title: "So funktioniert es - LuSplit"
 description: "Erfahren Sie, wie Sie mit LuSplit Gruppen erstellen, Ausgaben hinzufügen, Salden verfolgen und mit Freunden und Familie abrechnen."
 ---
 
@@ -9,7 +9,7 @@ LuSplit folgt einem einfachen Ablauf von Anfang bis Ende.
 
 ## 1. Erstellen Sie eine Gruppe
 
-Beginnen Sie mit der Erstellung einer Gruppe. Geben Sie ihr einen Namen, der zur Gelegenheit passt — "Portugal-Reise", "WG-Ausgaben", "Familienwochenende". Eine Gruppe ist ein Container für eine Reihe von Personen und ihre gemeinsamen Ausgaben.
+Beginnen Sie mit der Erstellung einer Gruppe. Geben Sie ihr einen Namen, der zur Gelegenheit passt - "Portugal-Reise", "WG-Ausgaben", "Familienwochenende". Eine Gruppe ist ein Container für eine Reihe von Personen und ihre gemeinsamen Ausgaben.
 
 ## 2. Fügen Sie Personen hinzu
 

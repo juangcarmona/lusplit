@@ -1,11 +1,11 @@
 ---
-title: "LuSplit — Dividi le spese senza complicazioni"
+title: "LuSplit - Dividi le spese senza complicazioni"
 description: "LuSplit è un'app semplice e offline per la condivisione delle spese tra famiglie e amici. Saldi chiari. Nessun account. Nessun abbonamento."
 ---
 
 ## Cos'è LuSplit?
 
-LuSplit è uno strumento open-source per la gestione delle spese condivise tra famiglie e amici. Aiuta i gruppi a tenere traccia dei costi, vedere chi deve cosa, e raggiungere una risoluzione equa — senza abbonamenti o account obbligatori.
+LuSplit è uno strumento open-source per la gestione delle spese condivise tra famiglie e amici. Aiuta i gruppi a tenere traccia dei costi, vedere chi deve cosa, e raggiungere una risoluzione equa - senza abbonamenti o account obbligatori.
 
 ## Per chi è?
 

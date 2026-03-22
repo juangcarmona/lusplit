@@ -1,6 +1,6 @@
 # LuSplit Voice and Tone
 
-Version 1.0 — Foundational Identity
+Version 1.0 - Foundational Identity
 
 ## Voice Attributes
 

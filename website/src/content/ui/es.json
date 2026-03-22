@@ -7,7 +7,7 @@
   "nav.support": "Soporte",
 
   "hero.tagline": "Gastos compartidos, registrados con claridad.",
-  "hero.subtitle": "Registra los gastos del grupo, consulta saldos y ajusta cuentas — sin cuentas ni suscripciones.",
+  "hero.subtitle": "Registra los gastos del grupo, consulta saldos y ajusta cuentas - sin cuentas ni suscripciones.",
   "hero.ctaPrimary": "Cómo funciona",
   "hero.ctaSecondary": "Open source",
 
@@ -40,7 +40,7 @@
   "fallback.notice": "Esta página aún no está disponible en tu idioma. Mostrando contenido en inglés.",
 
   "product.title": "Cómo funciona",
-  "product.subtitle": "Desde crear un grupo hasta ajustar cuentas — así funciona.",
+  "product.subtitle": "Desde crear un grupo hasta ajustar cuentas - así funciona.",
 
   "product.stepLabel": "Paso",
 
@@ -51,7 +51,7 @@
   "product.step1.b3": "Sin cuenta necesaria para empezar",
 
   "product.step2.title": "Añadir gastos",
-  "product.step2.desc": "Anota cada pago compartido — quién pagó, para qué y a quién cubre.",
+  "product.step2.desc": "Anota cada pago compartido - quién pagó, para qué y a quién cubre.",
   "product.step2.b1": "Divide en partes iguales, por importe, porcentaje o peso",
   "product.step2.b2": "Vista previa del impacto antes de guardar",
   "product.step2.b3": "Cualquier miembro puede ser el pagador",
@@ -72,7 +72,7 @@
   "product.step5.desc": "LuSplit calcula el mínimo de transferencias para saldar todos los saldos.",
   "product.step5.b1": "El menor número de transferencias posible",
   "product.step5.b2": "Ningún dinero pasa por la aplicación",
-  "product.step5.b3": "Es una sugerencia, no una transacción — el dinero no pasa por la app",
+  "product.step5.b3": "Es una sugerencia, no una transacción - el dinero no pasa por la app",
 
   "product.step6.title": "Registrar pagos",
   "product.step6.desc": "Marca cada pago como hecho para mantener los saldos al día y el historial limpio.",
@@ -80,5 +80,12 @@
   "product.step6.b2": "También funciona con importes personalizados",
   "product.step6.b3": "Mantiene el historial completo y limpio",
 
-  "product.closing": "LuSplit no gestiona dinero. Todo se mueve directamente entre personas. Solo hace que los gastos compartidos sean simples."
+  "product.closing": "LuSplit no gestiona dinero. Todo se mueve directamente entre personas. Solo hace que los gastos compartidos sean simples.",
+
+  "beta.headline": "LuSplit está a punto de lanzarse. Únete a la beta.",
+  "beta.subtext": "Google Play exige una fase de pruebas cerrada antes del lanzamiento público. Puedes ver la app o pedir acceso a la lista de testers.",
+  "beta.playButton": "Ver en Google Play",
+  "beta.joinButton": "Solicitar acceso a la beta",
+  "beta.emailSubject": "Join the beta",
+  "beta.emailBody": "Hola Juan: Me gustaría unirme a la lista de beta testers de LuSplit.%0D%0A"
 }

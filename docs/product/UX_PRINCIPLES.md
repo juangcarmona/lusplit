@@ -1,6 +1,6 @@
 # LuSplit UX Principles
 
-Version 1.0 — Product Direction
+Version 1.0 - Product Direction
 
 ## Core Experience
 

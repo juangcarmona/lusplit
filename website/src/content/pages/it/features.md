@@ -1,11 +1,11 @@
 ---
-title: "Funzionalità — LuSplit"
+title: "Funzionalità - LuSplit"
 description: "LuSplit aiuta i gruppi a tenere traccia delle spese condivise, capire i saldi e pareggiare i conti equamente. Gratuito, offline e open-source."
 ---
 
 # Funzionalità
 
-LuSplit fornisce gli strumenti di cui un gruppo ha bisogno per tracciare i costi condivisi e raggiungere una liquidazione equa — niente di più.
+LuSplit fornisce gli strumenti di cui un gruppo ha bisogno per tracciare i costi condivisi e raggiungere una liquidazione equa - niente di più.
 
 ## Gruppi
 
@@ -13,7 +13,7 @@ Crea un gruppo per qualsiasi situazione condivisa: un viaggio, una casa, un even
 
 ## Persone
 
-Aggiungi persone a un gruppo. Ogni persona in un gruppo è un membro. Puoi aggiungere membri dipendenti — per esempio, bambini collegati a un adulto — in modo che i costi possano essere distribuiti con precisione.
+Aggiungi persone a un gruppo. Ogni persona in un gruppo è un membro. Puoi aggiungere membri dipendenti - per esempio, bambini collegati a un adulto - in modo che i costi possano essere distribuiti con precisione.
 
 ## Spese
 
@@ -32,7 +32,7 @@ LuSplit calcola i saldi in modo continuo. In qualsiasi momento puoi vedere, per 
 
 ## Piano di liquidazione
 
-Quando il gruppo è pronto a pareggiare i conti, LuSplit genera un elenco minimo di bonifici. Questo piano riduce il numero di pagamenti necessari per portare tutti i saldi a zero. Il piano è un suggerimento, non una transazione — nessun denaro passa attraverso LuSplit.
+Quando il gruppo è pronto a pareggiare i conti, LuSplit genera un elenco minimo di bonifici. Questo piano riduce il numero di pagamenti necessari per portare tutti i saldi a zero. Il piano è un suggerimento, non una transazione - nessun denaro passa attraverso LuSplit.
 
 ## Esportazione
 

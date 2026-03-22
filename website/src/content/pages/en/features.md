@@ -1,11 +1,11 @@
 ---
-title: "Features — LuSplit"
+title: "Features - LuSplit"
 description: "LuSplit helps groups track shared expenses, understand balances, and settle up fairly. Free, offline-first, and open-source."
 ---
 
 # Features
 
-LuSplit provides the tools a group needs to track shared costs and reach a fair settlement — nothing more.
+LuSplit provides the tools a group needs to track shared costs and reach a fair settlement - nothing more.
 
 ## Groups
 
@@ -13,7 +13,7 @@ Create a group for any shared situation: a trip, a household, a family event. Ea
 
 ## People
 
-Add people to a group. Each person in a group is a member. You can add dependent members — for example, children linked to a parent — so that costs can be distributed accurately.
+Add people to a group. Each person in a group is a member. You can add dependent members - for example, children linked to a parent - so that costs can be distributed accurately.
 
 ## Expenses
 
@@ -32,7 +32,7 @@ LuSplit calculates balances continuously. At any point you can see, for each per
 
 ## Settlement plan
 
-When the group is ready to settle, LuSplit generates a minimal list of transfers. This plan reduces the number of payments needed to bring every balance to zero. The plan is a suggestion, not a transaction — no money moves through LuSplit.
+When the group is ready to settle, LuSplit generates a minimal list of transfers. This plan reduces the number of payments needed to bring every balance to zero. The plan is a suggestion, not a transaction - no money moves through LuSplit.
 
 ## Export
 

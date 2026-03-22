@@ -195,7 +195,7 @@ public static class GroupPresentationMapper
                     expense.Id,
                     true,
                     ResolveExpenseIcon(expense, expenseIcons),
-                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} — {FormatMinor(expense.AmountMinor, currency)}"),
+                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} - {FormatMinor(expense.AmountMinor, currency)}"),
                     string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {participantIds.Length} people"),
                     expense.Id,
                     ParseDate(expense.Date));
@@ -204,7 +204,7 @@ public static class GroupPresentationMapper
                 transfer.Id,
                 false,
                 "💸",
-                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} — {FormatMinor(transfer.AmountMinor, currency)}"),
+                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} - {FormatMinor(transfer.AmountMinor, currency)}"),
                 string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} → {ResolveParticipantName(transfer.ToParticipantId, participantsById)}"),
                 transfer.Id,
                 ParseDate(transfer.Date))))
@@ -245,14 +245,14 @@ public static class GroupPresentationMapper
     /// <summary>
     /// Picks the settlement mode that best reflects the group's participant structure.
     /// When all participants have their own economic unit (no dependents), participant-level
-    /// and owner-level settlement are identical — either works. When some participants are
+    /// and owner-level settlement are identical - either works. When some participants are
     /// dependents (share an economic unit with another participant), owner mode aggregates their
     /// balances under the responsible participant.
     /// </summary>
     public static SettlementMode ResolveSettlementMode(GroupOverviewModel overview)
     {
         // If the number of economic units equals the number of participants, every person
-        // has their own independent unit — both modes produce the same result.
+        // has their own independent unit - both modes produce the same result.
         if (overview.EconomicUnits.Count >= overview.Participants.Count)
         {
             return SettlementMode.Participant;

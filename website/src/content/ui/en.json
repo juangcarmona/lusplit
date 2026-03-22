@@ -7,7 +7,7 @@
   "nav.support": "Support",
 
   "hero.tagline": "Shared expenses, tracked clearly.",
-  "hero.subtitle": "Track shared costs, see who owes what, and settle up — no accounts or subscriptions required.",
+  "hero.subtitle": "Track shared costs, see who owes what, and settle up - no accounts or subscriptions required.",
   "hero.ctaPrimary": "How it works",
   "hero.ctaSecondary": "Open source",
 
@@ -19,7 +19,7 @@
   "feature2.title": "Flexible Splits",
   "feature2.desc": "Split equally, by amount, percentage, or custom weight.",
   "feature3.title": "Clear Balances",
-  "feature3.desc": "See who owes what — updated after every change.",
+  "feature3.desc": "See who owes what - updated after every change.",
   "feature4.title": "Simple Settlement",
   "feature4.desc": "The fewest transfers needed to zero all balances.",
   "feature5.title": "Export Everything",
@@ -40,7 +40,7 @@
   "fallback.notice": "This page is not yet available in your language. Showing English content.",
 
   "product.title": "How it Works",
-  "product.subtitle": "From setting up a group to settling up — here's exactly how it works.",
+  "product.subtitle": "From setting up a group to settling up - here's exactly how it works.",
 
   "product.stepLabel": "Step",
 
@@ -51,13 +51,13 @@
   "product.step1.b3": "No account needed to start",
 
   "product.step2.title": "Add expenses",
-  "product.step2.desc": "Log each shared payment — who paid, what for, and who it covers.",
+  "product.step2.desc": "Log each shared payment - who paid, what for, and who it covers.",
   "product.step2.b1": "Split equally, by amount, percentage, or weight",
   "product.step2.b2": "Instant impact preview before saving",
   "product.step2.b3": "Any member can be the payer",
 
   "product.step3.title": "Check balances",
-  "product.step3.desc": "See everyone's current balance at a glance — no math required.",
+  "product.step3.desc": "See everyone's current balance at a glance - no math required.",
   "product.step3.b1": "Per-person balance always current",
   "product.step3.b2": "Recent activity at the top",
   "product.step3.b3": "No mental math required",
@@ -72,7 +72,7 @@
   "product.step5.desc": "LuSplit works out the fewest transfers to bring all balances to zero.",
   "product.step5.b1": "Fewest transfers possible",
   "product.step5.b2": "No money moves through the app",
-  "product.step5.b3": "A suggestion to act on — no money moves in the app",
+  "product.step5.b3": "A suggestion to act on - no money moves in the app",
 
   "product.step6.title": "Record payments",
   "product.step6.desc": "Mark each payment done to keep balances accurate and the history clean.",
@@ -80,5 +80,12 @@
   "product.step6.b2": "Works with custom amounts too",
   "product.step6.b3": "Keeps the full history consistent",
 
-  "product.closing": "LuSplit handles nothing. All money moves directly between people. It makes shared costs simple."
+  "product.closing": "LuSplit handles nothing. All money moves directly between people. It makes shared costs simple.",
+
+  "beta.headline": "LuSplit is almost ready. Join the beta.",
+  "beta.subtext": "Google Play requires closed testing before public release. You can try LuSplit early or request access to the testing list.",
+  "beta.playButton": "View on Google Play",
+  "beta.joinButton": "Request beta access",
+  "beta.emailSubject": "Join the beta",
+  "beta.emailBody": "Hi Juan, I would like to join the LuSplit beta testing list.%0D%0A"
 }

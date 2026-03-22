@@ -23,7 +23,7 @@ export interface PageFrontmatter {
 
 export type UiStrings = Record<string, string>;
 
-// Resolved at build time by Vite — paths are relative to this file (src/lib/)
+// Resolved at build time by Vite - paths are relative to this file (src/lib/)
 const mdModules = import.meta.glob<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: any;
