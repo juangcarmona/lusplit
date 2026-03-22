@@ -108,12 +108,7 @@ public partial class CreateGroupPage : ContentPage
     private void EnsureCurrentUserParticipant()
     {
         var preferredName = UserProfilePreferences.GetPreferredName();
-        var localizedMe = AppResources.Mapper_Me;
-        var fallbackName = string.IsNullOrWhiteSpace(localizedMe)
-            ? AppResources.Common_MeCapitalized
-            : localizedMe.Length == 1
-                ? char.ToUpperInvariant(localizedMe[0]).ToString()
-                : char.ToUpperInvariant(localizedMe[0]) + localizedMe[1..];
+        var fallbackName = LocalizationHelper.GetCapitalizedMeLabel();
         var participantName = string.IsNullOrWhiteSpace(preferredName) ? fallbackName : preferredName;
 
         var existing = Participants

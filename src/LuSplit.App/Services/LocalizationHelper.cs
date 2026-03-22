@@ -11,7 +11,7 @@ namespace LuSplit.App.Services;
 public static class LocalizationHelper
 {
     private const string LanguagePreferenceKey = "app_language";
-    private const string FallbackLanguageCode = "en";
+    private const string DefaultLanguageCode = "en";
 
     /// <summary>
     /// The cultures explicitly supported by this app (satellite RESX files exist for these).
@@ -54,7 +54,7 @@ public static class LocalizationHelper
             return;
         }
 
-        ApplyCulture(new CultureInfo(FallbackLanguageCode));
+        ApplyCulture(new CultureInfo(DefaultLanguageCode));
     }
 
     /// <summary>Returns the language code saved in preferences, or empty string for System Default.</summary>
@@ -116,6 +116,11 @@ public static class LocalizationHelper
         });
     }
 
+    /// <summary>
+    /// Infers a supported app language from system UI culture.
+    /// Candidate priority: full culture (e.g. es-ES), then two-letter language code (es),
+    /// then installed UI culture two-letter code. Falls back to default app language when unsupported.
+    /// </summary>
     public static string InferSupportedLanguageFromSystem()
     {
         var culture = CultureInfo.CurrentUICulture;
@@ -140,7 +145,20 @@ public static class LocalizationHelper
             }
         }
 
-        return FallbackLanguageCode;
+        return DefaultLanguageCode;
+    }
+
+    public static string GetCapitalizedMeLabel()
+    {
+        var localizedMe = AppResources.Mapper_Me;
+        if (string.IsNullOrWhiteSpace(localizedMe))
+        {
+            return AppResources.Common_MeCapitalized;
+        }
+
+        return localizedMe.Length == 1
+            ? char.ToUpperInvariant(localizedMe[0]).ToString()
+            : char.ToUpperInvariant(localizedMe[0]) + localizedMe[1..];
     }
 }
 

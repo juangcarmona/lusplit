@@ -15,9 +15,14 @@ public static class CurrencyCatalog
 
     public static string DefaultCurrencyCode => "USD";
 
+    /// <summary>Returns true when the provided code is part of the supported currency catalog.</summary>
     public static bool IsSupported(string? code)
         => !string.IsNullOrWhiteSpace(code) && SupportedCodeSet.Contains(code.Trim());
 
+    /// <summary>
+    /// Normalizes a currency code and guarantees a supported value by falling back to the provided fallback code
+    /// (or the catalog default when fallback is not provided).
+    /// </summary>
     public static string NormalizeSupportedOrDefault(string? code, string? fallbackCode = null)
     {
         var normalizedFallback = string.IsNullOrWhiteSpace(fallbackCode)
@@ -33,11 +38,15 @@ public static class CurrencyCatalog
         return IsSupported(normalizedCode) ? normalizedCode : normalizedFallback;
     }
 
+    /// <summary>Returns all supported currencies in a stable, predefined order.</summary>
     public static IReadOnlyList<CurrencyOption> GetSupportedCurrencyOptions()
         => SupportedCodes
             .Select(BuildOption)
             .ToArray();
 
+    /// <summary>
+    /// Returns a currency option for any input code, preserving unknown code values while still generating a label.
+    /// </summary>
     public static CurrencyOption GetOrCreateOption(string? code)
     {
         var normalized = string.IsNullOrWhiteSpace(code)
@@ -46,6 +55,7 @@ public static class CurrencyCatalog
         return BuildOption(normalized);
     }
 
+    /// <summary>Finds a currency option by code from an existing options sequence.</summary>
     public static CurrencyOption? FindByCode(IEnumerable<CurrencyOption> options, string? code)
     {
         if (string.IsNullOrWhiteSpace(code))
