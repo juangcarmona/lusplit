@@ -16,9 +16,9 @@ public partial class LanguageSettingsPage : ContentPage
     private SettingsTab _selectedTab = SettingsTab.Profile;
 
     public ObservableCollection<LanguageOptionViewModel> Languages { get; } = new();
-    public ObservableCollection<string> CurrencyOptions { get; } = new() { "USD", "EUR", "GBP" };
+    public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public string PreferredName { get; set; } = string.Empty;
-    public string? SelectedCurrency { get; set; } = "USD";
+    public CurrencyOption? SelectedCurrencyOption { get; set; }
     public bool IsDarkThemeEnabled { get; set; }
     public bool ShowProfileTab => _selectedTab == SettingsTab.Profile;
     public bool ShowLanguageTab => _selectedTab == SettingsTab.Language;
@@ -28,7 +28,7 @@ public partial class LanguageSettingsPage : ContentPage
         InitializeComponent();
         BindingContext = this;
         PreferredName = UserProfilePreferences.GetPreferredName();
-        SelectedCurrency = AppPreferences.GetPreferredCurrency();
+        BuildCurrencyList(AppPreferences.GetPreferredCurrency());
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();
         BuildLanguageList();
         ApplyTabVisualState();
@@ -37,15 +37,28 @@ public partial class LanguageSettingsPage : ContentPage
     private async void OnSaveProfileClicked(object? sender, EventArgs e)
     {
         UserProfilePreferences.SetPreferredName(PreferredName);
-        AppPreferences.SetPreferredCurrency(SelectedCurrency);
+        AppPreferences.SetPreferredCurrency(SelectedCurrencyOption?.Code);
         AppPreferences.SetDarkThemeEnabled(IsDarkThemeEnabled);
         PreferredName = UserProfilePreferences.GetPreferredName();
-        SelectedCurrency = AppPreferences.GetPreferredCurrency();
+        BuildCurrencyList(AppPreferences.GetPreferredCurrency());
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();
         OnPropertyChanged(nameof(PreferredName));
-        OnPropertyChanged(nameof(SelectedCurrency));
+        OnPropertyChanged(nameof(SelectedCurrencyOption));
         OnPropertyChanged(nameof(IsDarkThemeEnabled));
         await DisplayAlert(AppResources.Settings_Title, AppResources.Settings_ProfileSaved, AppResources.Common_Cancel);
+    }
+
+    private void BuildCurrencyList(string preferredCurrencyCode)
+    {
+        CurrencyOptions.Clear();
+        foreach (var option in CurrencyCatalog.GetSupportedCurrencyOptions())
+        {
+            CurrencyOptions.Add(option);
+        }
+
+        SelectedCurrencyOption = CurrencyCatalog.FindByCode(CurrencyOptions, preferredCurrencyCode)
+            ?? CurrencyCatalog.FindByCode(CurrencyOptions, CurrencyCatalog.DefaultCurrencyCode);
+        OnPropertyChanged(nameof(SelectedCurrencyOption));
     }
 
     private void OnProfileTabClicked(object? sender, EventArgs e)
@@ -64,14 +77,9 @@ public partial class LanguageSettingsPage : ContentPage
 
         foreach (var option in LocalizationHelper.SupportedLanguages)
         {
-            // The "System Default" entry uses a resource key so its label follows the active language.
-            var displayLabel = string.IsNullOrEmpty(option.Culture)
-                ? $"{option.Flag} {AppResources.Language_SystemDefault}"
-                : option.DisplayLabel;
-
             Languages.Add(new LanguageOptionViewModel(
                 option.Culture,
-                displayLabel,
+                option.DisplayLabel,
                 string.Equals(option.Culture, saved, StringComparison.OrdinalIgnoreCase)));
         }
     }

@@ -12,7 +12,6 @@ namespace LuSplit.App.Services;
 
 public sealed class AppDataService : IAsyncDisposable
 {
-    private const string DefaultGroupId = "g1";
     private const string SelectedGroupPreferenceKey = "selected-group-id";
 
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -42,7 +41,6 @@ public sealed class AppDataService : IAsyncDisposable
             var dbPath = Path.Combine(FileSystem.AppDataDirectory, "lusplit.sqlite");
             _infra = await InfraLocalSqlite.CreateAsync(dbPath);
             await EnsureAppMetadataTablesAsync();
-            await EnsureSeedDataAsync();
         }
         finally
         {
@@ -531,54 +529,6 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
         await Task.CompletedTask;
     }
 
-    private async Task EnsureSeedDataAsync()
-    {
-        var infra = _infra ?? throw new InvalidOperationException("Infrastructure not initialized.");
-        var existing = await infra.GroupRepository.GetByIdAsync(DefaultGroupId, CancellationToken.None);
-        if (existing is not null)
-        {
-            return;
-        }
-
-        await infra.GroupRepository.SaveGroupAsync(new Group(DefaultGroupId, "USD", false), CancellationToken.None);
-
-        await infra.EconomicUnitRepository.SaveEconomicUnitAsync(new EconomicUnit("u1", DefaultGroupId, "p1", "Household A"), CancellationToken.None);
-        await infra.EconomicUnitRepository.SaveEconomicUnitAsync(new EconomicUnit("u2", DefaultGroupId, "p2", "Household B"), CancellationToken.None);
-
-        await infra.ParticipantRepository.SaveParticipantAsync(new Participant("p1", DefaultGroupId, "u1", "Alex", ConsumptionCategory.Full), CancellationToken.None);
-        await infra.ParticipantRepository.SaveParticipantAsync(new Participant("p2", DefaultGroupId, "u2", "Blair", ConsumptionCategory.Full), CancellationToken.None);
-        await infra.ParticipantRepository.SaveParticipantAsync(new Participant("p3", DefaultGroupId, "u2", "Casey", ConsumptionCategory.Half), CancellationToken.None);
-
-        await infra.ExpenseRepository.SaveAsync(new Expense(
-            "e1",
-            DefaultGroupId,
-            "Dinner",
-            "p1",
-            900,
-            DateTimeOffset.UtcNow.AddDays(-2).ToString("O"),
-            new SplitDefinition(new SplitComponent[]
-            {
-                new RemainderSplitComponent(new[] { "p1", "p2", "p3" }, RemainderMode.Equal)
-            }),
-            null), CancellationToken.None);
-
-        await infra.ExpenseRepository.SaveAsync(new Expense(
-            "e2",
-            DefaultGroupId,
-            "Groceries",
-            "p2",
-            600,
-            DateTimeOffset.UtcNow.AddDays(-1).ToString("O"),
-            new SplitDefinition(new SplitComponent[]
-            {
-                new FixedSplitComponent(new Dictionary<string, long> { ["p1"] = 100 }),
-                new RemainderSplitComponent(new[] { "p2", "p3" }, RemainderMode.Equal)
-            }),
-            "Weekly staples"), CancellationToken.None);
-
-        await SaveGroupMetadataAsync(DefaultGroupId, "Weekend group", DateTimeOffset.UtcNow);
-    }
-
     private async Task<string> GetSelectedGroupIdAsync()
     {
         if (!string.IsNullOrWhiteSpace(_selectedGroupId))
@@ -587,10 +537,14 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
         }
 
         var groupIds = await ListGroupIdsAsync();
-        var preferredGroupId = Preferences.Default.Get(SelectedGroupPreferenceKey, DefaultGroupId);
+        if (groupIds.Count == 0)
+        {
+            throw new NoGroupsAvailableException();
+        }
+
+        var preferredGroupId = Preferences.Default.Get(SelectedGroupPreferenceKey, string.Empty);
         _selectedGroupId = groupIds.FirstOrDefault(groupId => string.Equals(groupId, preferredGroupId, StringComparison.Ordinal))
-            ?? groupIds.FirstOrDefault()
-            ?? DefaultGroupId;
+            ?? groupIds.First();
 
         Preferences.Default.Set(SelectedGroupPreferenceKey, _selectedGroupId);
         return _selectedGroupId;

@@ -38,7 +38,8 @@
                     <VerticalStackLayout Spacing="6">
                         <Label Text="{x:Static loc:AppResources.GroupDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding CurrencyOptions}"
-                                SelectedItem="{Binding SelectedCurrency}"
+                                ItemDisplayBinding="{Binding DisplayLabel}"
+                                SelectedItem="{Binding SelectedCurrencyOption}"
                                 IsEnabled="{Binding CanEdit}"
                                 AutomationId="CurrencyPicker" />
                     </VerticalStackLayout>

@@ -382,6 +382,66 @@
   <data name="Language_SystemDefault" xml:space="preserve">
     <value>Sistema</value>
   </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>Francés</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>Alemán</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Portugués</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>Yo</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>No hay grupos disponibles.</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>Moneda</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve"><value>Euro</value></data>
+  <data name="Currency_Name_USD" xml:space="preserve"><value>Dólar estadounidense</value></data>
+  <data name="Currency_Name_GBP" xml:space="preserve"><value>Libra esterlina</value></data>
+  <data name="Currency_Name_CHF" xml:space="preserve"><value>Franco suizo</value></data>
+  <data name="Currency_Name_JPY" xml:space="preserve"><value>Yen japonés</value></data>
+  <data name="Currency_Name_CNY" xml:space="preserve"><value>Yuan chino</value></data>
+  <data name="Currency_Name_INR" xml:space="preserve"><value>Rupia india</value></data>
+  <data name="Currency_Name_AUD" xml:space="preserve"><value>Dólar australiano</value></data>
+  <data name="Currency_Name_CAD" xml:space="preserve"><value>Dólar canadiense</value></data>
+  <data name="Currency_Name_BRL" xml:space="preserve"><value>Real brasileño</value></data>
+  <data name="Currency_Name_MXN" xml:space="preserve"><value>Peso mexicano</value></data>
+  <data name="Currency_Name_ARS" xml:space="preserve"><value>Peso argentino</value></data>
+  <data name="Currency_Name_CLP" xml:space="preserve"><value>Peso chileno</value></data>
+  <data name="Currency_Name_COP" xml:space="preserve"><value>Peso colombiano</value></data>
+  <data name="Currency_Name_PEN" xml:space="preserve"><value>Sol peruano</value></data>
+  <data name="Currency_Name_SEK" xml:space="preserve"><value>Corona sueca</value></data>
+  <data name="Currency_Name_NOK" xml:space="preserve"><value>Corona noruega</value></data>
+  <data name="Currency_Name_DKK" xml:space="preserve"><value>Corona danesa</value></data>
+  <data name="Currency_Name_PLN" xml:space="preserve"><value>Esloti polaco</value></data>
+  <data name="Currency_Name_CZK" xml:space="preserve"><value>Corona checa</value></data>
+  <data name="Currency_Name_HUF" xml:space="preserve"><value>Forinto húngaro</value></data>
+  <data name="Currency_Name_RON" xml:space="preserve"><value>Leu rumano</value></data>
+  <data name="Currency_Name_TRY" xml:space="preserve"><value>Lira turca</value></data>
+  <data name="Currency_Name_AED" xml:space="preserve"><value>Dírham de EAU</value></data>
+  <data name="Currency_Name_SAR" xml:space="preserve"><value>Riyal saudí</value></data>
+  <data name="Currency_Name_KRW" xml:space="preserve"><value>Won surcoreano</value></data>
+  <data name="Currency_Name_SGD" xml:space="preserve"><value>Dólar de Singapur</value></data>
+  <data name="Currency_Name_HKD" xml:space="preserve"><value>Dólar de Hong Kong</value></data>
+  <data name="Currency_Name_NZD" xml:space="preserve"><value>Dólar neozelandés</value></data>
+  <data name="Currency_Name_ZAR" xml:space="preserve"><value>Rand sudafricano</value></data>
 
   <!-- GroupDetails missing keys -->
   <data name="GroupDetails_ArchiveButton" xml:space="preserve">
