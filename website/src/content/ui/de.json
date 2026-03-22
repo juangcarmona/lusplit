@@ -7,7 +7,7 @@
   "nav.support": "Support",
 
   "hero.tagline": "Gemeinsame Ausgaben, klar erfasst.",
-  "hero.subtitle": "Gruppenausgaben verfolgen, Salden einsehen und abrechnen — ohne Konto oder Abonnement.",
+  "hero.subtitle": "Gruppenausgaben verfolgen, Salden einsehen und abrechnen - ohne Konto oder Abonnement.",
   "hero.ctaPrimary": "So funktioniert es",
   "hero.ctaSecondary": "Open source",
 
@@ -19,7 +19,7 @@
   "feature2.title": "Flexible Aufteilung",
   "feature2.desc": "Gleichmäßig, nach Betrag, Prozentsatz oder benutzerdefiniertem Gewicht aufteilen.",
   "feature3.title": "Klare Salden",
-  "feature3.desc": "Immer sehen, wer wie viel schuldet — aktualisiert nach jeder Änderung.",
+  "feature3.desc": "Immer sehen, wer wie viel schuldet - aktualisiert nach jeder Änderung.",
   "feature4.title": "Einfache Abrechnung",
   "feature4.desc": "Minimale Anzahl an Überweisungen, um alle Salden auszugleichen.",
   "feature5.title": "Alles exportieren",
@@ -40,7 +40,7 @@
   "fallback.notice": "Diese Seite ist noch nicht in Ihrer Sprache verfügbar. Es wird englischer Inhalt angezeigt.",
 
   "product.title": "So funktioniert es",
-  "product.subtitle": "Von der Gruppenerstellung bis zur Abrechnung — so funktioniert es.",
+  "product.subtitle": "Von der Gruppenerstellung bis zur Abrechnung - so funktioniert es.",
 
   "product.stepLabel": "Schritt",
 
@@ -51,13 +51,13 @@
   "product.step1.b3": "Kein Konto erforderlich, um zu starten",
 
   "product.step2.title": "Ausgaben hinzufügen",
-  "product.step2.desc": "Jeden gemeinsamen Zahlungsvorgang erfassen — wer bezahlt hat, wofür und wen es betrifft.",
+  "product.step2.desc": "Jeden gemeinsamen Zahlungsvorgang erfassen - wer bezahlt hat, wofür und wen es betrifft.",
   "product.step2.b1": "Teilen Sie gleichmäßig, nach Betrag, Prozentsatz oder Gewicht auf",
   "product.step2.b2": "Auswirkungsvorschau vor dem Speichern",
   "product.step2.b3": "Jedes Mitglied kann Zahler sein",
 
   "product.step3.title": "Salden prüfen",
-  "product.step3.desc": "Den aktuellen Saldo jeder Person auf einen Blick sehen — ohne Rechenaufwand.",
+  "product.step3.desc": "Den aktuellen Saldo jeder Person auf einen Blick sehen - ohne Rechenaufwand.",
   "product.step3.b1": "Saldo pro Person immer aktuell",
   "product.step3.b2": "Letzte Aktivität oben angezeigt",
   "product.step3.b3": "Kein Kopfrechnen notwendig",
@@ -72,7 +72,7 @@
   "product.step5.desc": "LuSplit berechnet die minimale Anzahl an Überweisungen, um alle Salden auf null zu setzen.",
   "product.step5.b1": "Geringstmögliche Anzahl von Überweisungen",
   "product.step5.b2": "Kein Geld fließt durch die App",
-  "product.step5.b3": "Ein Vorschlag zum Handeln — kein Geld fließt durch die App",
+  "product.step5.b3": "Ein Vorschlag zum Handeln - kein Geld fließt durch die App",
 
   "product.step6.title": "Zahlungen erfassen",
   "product.step6.desc": "Jede Zahlung als erledigt markieren, um Salden aktuell und die Chronik sauber zu halten.",
@@ -80,5 +80,12 @@
   "product.step6.b2": "Funktioniert auch mit benutzerdefinierten Beträgen",
   "product.step6.b3": "Hält die vollständige Chronik sauber",
 
-  "product.closing": "LuSplit verwaltet kein Geld. Alles fließt direkt zwischen Personen. Es macht gemeinsame Ausgaben einfach übersichtlich."
+  "product.closing": "LuSplit verwaltet kein Geld. Alles fließt direkt zwischen Personen. Es macht gemeinsame Ausgaben einfach übersichtlich.",
+
+  "beta.headline": "LuSplit steht kurz vor dem Start. Mach bei der Beta mit.",
+  "beta.subtext": "Google Play verlangt vor der öffentlichen Veröffentlichung einen geschlossenen Test. Du kannst dir die App ansehen oder Zugang zur Testerliste anfragen.",
+  "beta.playButton": "Bei Google Play ansehen",
+  "beta.joinButton": "Beta-Zugang anfragen",
+  "beta.emailSubject": "Join the beta",
+  "beta.emailBody": "Hallo Juan, Ich möchte der LuSplit-Betatester-Liste beitreten.%0D%0A"
 }

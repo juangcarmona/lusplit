@@ -74,7 +74,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
 
         ExpenseTitle = expense.Title;
         _fixedTotalMinor = expense.AmountMinor;
-        HeaderLine1 = $"{expense.Title} — {FormatMinor(expense.AmountMinor, _currency)}";
+        HeaderLine1 = $"{expense.Title} - {FormatMinor(expense.AmountMinor, _currency)}";
 
         var payerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, expense.PaidByParticipantId, StringComparison.Ordinal))?.Name ?? "Unknown";
         var participantCount = expense.SplitDefinition.Components

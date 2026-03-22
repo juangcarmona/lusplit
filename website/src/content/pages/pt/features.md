@@ -1,11 +1,11 @@
 ---
-title: "Funcionalidades — LuSplit"
+title: "Funcionalidades - LuSplit"
 description: "O LuSplit ajuda grupos a controlar despesas partilhadas, entender saldos e liquidar de forma justa. Gratuito, offline e open-source."
 ---
 
 # Funcionalidades
 
-O LuSplit fornece as ferramentas de que um grupo precisa para acompanhar os custos partilhados e chegar a uma liquidação justa — nada mais.
+O LuSplit fornece as ferramentas de que um grupo precisa para acompanhar os custos partilhados e chegar a uma liquidação justa - nada mais.
 
 ## Grupos
 
@@ -13,7 +13,7 @@ Crie um grupo para qualquer situação partilhada: uma viagem, uma casa, um even
 
 ## Pessoas
 
-Adicione pessoas a um grupo. Cada pessoa num grupo é um membro. Pode adicionar membros dependentes — por exemplo, crianças ligadas a um adulto — para que os custos possam ser distribuídos com precisão.
+Adicione pessoas a um grupo. Cada pessoa num grupo é um membro. Pode adicionar membros dependentes - por exemplo, crianças ligadas a um adulto - para que os custos possam ser distribuídos com precisão.
 
 ## Despesas
 
@@ -32,7 +32,7 @@ O LuSplit calcula os saldos continuamente. A qualquer momento pode ver, para cad
 
 ## Plano de liquidação
 
-Quando o grupo estiver pronto para liquidar, o LuSplit gera uma lista mínima de transferências. Este plano reduz o número de pagamentos necessários para levar todos os saldos a zero. O plano é uma sugestão, não uma transação — nenhum dinheiro passa pelo LuSplit.
+Quando o grupo estiver pronto para liquidar, o LuSplit gera uma lista mínima de transferências. Este plano reduz o número de pagamentos necessários para levar todos os saldos a zero. O plano é uma sugestão, não uma transação - nenhum dinheiro passa pelo LuSplit.
 
 ## Exportar
 

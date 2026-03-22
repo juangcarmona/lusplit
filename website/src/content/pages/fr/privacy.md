@@ -1,5 +1,5 @@
 ---
-title: "Confidentialité — LuSplit"
+title: "Confidentialité - LuSplit"
 description: "LuSplit fonctionne hors ligne. Vos données de dépenses restent sur votre appareil. Pas de comptes, pas de télémétrie, pas de publicité."
 ---
 

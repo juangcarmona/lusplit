@@ -1,5 +1,5 @@
 ---
-title: "Privacy — LuSplit"
+title: "Privacy - LuSplit"
 description: "LuSplit is offline-first. Your expense data stays on your device. No accounts, no telemetry, no advertising."
 ---
 

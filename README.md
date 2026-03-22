@@ -52,11 +52,11 @@ If I ever introduce ads, it will only be to sustain optional backend infrastruct
 
 LuSplit is a Turborepo monorepo.
 
-- `packages/core` — Domain model (deterministic split & settlement logic)
-- `packages/application` — CQRS handlers
-- `packages/infra-local` — SQLite + export adapters
-- `apps/mobile` — React Native app
-- `apps/web` — Web client (planned)
+- `packages/core ` - Domain model (deterministic split & settlement logic)
+- `packages/application ` - CQRS handlers
+- `packages/infra-local ` - SQLite + export adapters
+- `apps/mobile ` - React Native app
+- `apps/web ` - Web client (planned)
 
 Domain rules are defined in:
 `/packages/core/DOMAIN.md`

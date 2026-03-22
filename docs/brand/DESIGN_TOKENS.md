@@ -1,6 +1,6 @@
 # LuSplit Design Tokens
 
-Version 1.0 — Foundational Identity
+Version 1.0 - Foundational Identity
 
 ## Color Tokens
 
@@ -10,9 +10,9 @@ Version 1.0 — Foundational Identity
 |---|---|---|---|
 | `color.panel.left.teal` | `#2CB1A1` | `44, 177, 161` | Left split panel |
 | `color.panel.right.indigo` | `#5A74FF` | `90, 116, 255` | Right split panel |
-| `color.text.primary.navy` | `#1F2937` | — | Primary text |
-| `color.background.snow` | `#F6F8FB` | — | Primary background |
-| `color.divider.white` | `#FFFFFF` | — | Split divider |
+| `color.text.primary.navy` | `#1F2937` | - | Primary text |
+| `color.background.snow` | `#F6F8FB` | - | Primary background |
+| `color.divider.white` | `#FFFFFF` | - | Split divider |
 
 ### Secondary Palette
 

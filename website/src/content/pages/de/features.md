@@ -1,11 +1,11 @@
 ---
-title: "Funktionen — LuSplit"
+title: "Funktionen - LuSplit"
 description: "LuSplit hilft Gruppen dabei, gemeinsame Ausgaben zu verfolgen, Salden zu verstehen und fair abzurechnen. Kostenlos, offline-fähig und open-source."
 ---
 
 # Funktionen
 
-LuSplit stellt die Werkzeuge bereit, die eine Gruppe benötigt, um gemeinsame Kosten zu verfolgen und zu einer fairen Abrechnung zu gelangen — nicht mehr.
+LuSplit stellt die Werkzeuge bereit, die eine Gruppe benötigt, um gemeinsame Kosten zu verfolgen und zu einer fairen Abrechnung zu gelangen - nicht mehr.
 
 ## Gruppen
 
@@ -13,7 +13,7 @@ Erstellen Sie eine Gruppe für jede gemeinsame Situation: eine Reise, einen Haus
 
 ## Personen
 
-Fügen Sie Personen zu einer Gruppe hinzu. Jede Person in einer Gruppe ist ein Mitglied. Sie können abhängige Mitglieder hinzufügen — zum Beispiel Kinder, die einem Erwachsenen zugeordnet sind — damit Kosten genau verteilt werden können.
+Fügen Sie Personen zu einer Gruppe hinzu. Jede Person in einer Gruppe ist ein Mitglied. Sie können abhängige Mitglieder hinzufügen - zum Beispiel Kinder, die einem Erwachsenen zugeordnet sind - damit Kosten genau verteilt werden können.
 
 ## Ausgaben
 
@@ -32,7 +32,7 @@ LuSplit berechnet Salden fortlaufend. Jederzeit können Sie für jede Person in 
 
 ## Abrechnungsplan
 
-Wenn die Gruppe bereit zur Abrechnung ist, erstellt LuSplit eine minimale Liste von Überweisungen. Dieser Plan reduziert die Anzahl der notwendigen Zahlungen, um alle Salden auf null zu bringen. Der Plan ist ein Vorschlag, keine Transaktion — kein Geld fließt über LuSplit.
+Wenn die Gruppe bereit zur Abrechnung ist, erstellt LuSplit eine minimale Liste von Überweisungen. Dieser Plan reduziert die Anzahl der notwendigen Zahlungen, um alle Salden auf null zu bringen. Der Plan ist ein Vorschlag, keine Transaktion - kein Geld fließt über LuSplit.
 
 ## Export
 

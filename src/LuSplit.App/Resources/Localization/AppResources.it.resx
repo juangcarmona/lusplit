@@ -421,7 +421,7 @@
     <value>Dipendente</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Aggiungi prima il pagante. Poi aggiungi i familiari con lo stesso nome di nucleo — salderanno sotto il pagante.</value>
+    <value>Aggiungi prima il pagante. Poi aggiungi i familiari con lo stesso nome di nucleo - salderanno sotto il pagante.</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
     <value>Inserisci un peso personalizzato valido (es. 0,5).</value>

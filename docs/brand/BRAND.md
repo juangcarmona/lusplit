@@ -1,6 +1,6 @@
 # LuSplit Brand
 
-Version 1.0 — Foundational Identity
+Version 1.0 - Foundational Identity
 
 ## Brand Name
 

@@ -1,5 +1,5 @@
 ---
-title: "LuSplit — Divide gastos sin complicaciones"
+title: "LuSplit - Divide gastos sin complicaciones"
 description: "LuSplit es una app de gastos compartidos, simple y offline, para familias y amigos. Saldos claros. Sin cuentas. Sin suscripciones."
 ---
 

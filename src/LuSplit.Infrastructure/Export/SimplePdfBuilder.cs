@@ -185,7 +185,7 @@ internal static class SimplePdfBuilder
             }
         }
 
-        // Draw text — one BT/ET block per line for clean absolute positioning
+        // Draw text - one BT/ET block per line for clean absolute positioning
         foreach (var (line, y) in items)
         {
             if (line.Style is PdfLineStyle.Empty or PdfLineStyle.Separator) continue;

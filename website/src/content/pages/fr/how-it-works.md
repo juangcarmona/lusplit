@@ -1,5 +1,5 @@
 ---
-title: "Comment ça marche — LuSplit"
+title: "Comment ça marche - LuSplit"
 description: "Découvrez comment LuSplit vous permet de créer des groupes, d'ajouter des dépenses, de suivre les soldes et de régler avec vos proches."
 ---
 
@@ -9,7 +9,7 @@ LuSplit suit un flux simple du début à la fin.
 
 ## 1. Créez un groupe
 
-Commencez par créer un groupe. Donnez-lui un nom qui correspond à l'occasion — "Voyage au Portugal", "Dépenses de l'appartement", "Week-end en famille". Un groupe est un conteneur pour un ensemble de personnes et leurs dépenses partagées.
+Commencez par créer un groupe. Donnez-lui un nom qui correspond à l'occasion - "Voyage au Portugal", "Dépenses de l'appartement", "Week-end en famille". Un groupe est un conteneur pour un ensemble de personnes et leurs dépenses partagées.
 
 ## 2. Ajoutez des personnes
 

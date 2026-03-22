@@ -1,6 +1,6 @@
 # LuSplit Website
 
-Public product website for LuSplit. Built with [Astro](https://astro.build) — static, multilingual, and minimal.
+Public product website for LuSplit. Built with [Astro](https://astro.build) - static, multilingual, and minimal.
 
 ---
 

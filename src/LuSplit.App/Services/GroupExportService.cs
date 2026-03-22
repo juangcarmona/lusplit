@@ -106,7 +106,7 @@ public static class GroupExportService
     {
         if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
         {
-            // API 29+: write via MediaStore — no WRITE_EXTERNAL_STORAGE permission needed
+            // API 29+: write via MediaStore - no WRITE_EXTERNAL_STORAGE permission needed
             var context = Android.App.Application.Context;
             var values = new Android.Content.ContentValues();
             values.Put(Android.Provider.MediaStore.IMediaColumns.DisplayName, result.FileName);
@@ -125,7 +125,7 @@ public static class GroupExportService
         }
         else
         {
-            // API 23-28: direct file copy — WRITE_EXTERNAL_STORAGE declared with maxSdkVersion="28"
+            // API 23-28: direct file copy - WRITE_EXTERNAL_STORAGE declared with maxSdkVersion="28"
             var downloadsDir = Android.OS.Environment
                 .GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)!
                 .AbsolutePath;

@@ -7,7 +7,7 @@
   "nav.support": "Supporto",
 
   "hero.tagline": "Spese condivise, tracciate con chiarezza.",
-  "hero.subtitle": "Tieni traccia delle spese del gruppo, consulta i saldi e pareggia i conti — senza account o abbonamenti.",
+  "hero.subtitle": "Tieni traccia delle spese del gruppo, consulta i saldi e pareggia i conti - senza account o abbonamenti.",
   "hero.ctaPrimary": "Come funziona",
   "hero.ctaSecondary": "Open source",
 
@@ -19,7 +19,7 @@
   "feature2.title": "Divisione flessibile",
   "feature2.desc": "Dividi in parti uguali, per importo, percentuale o peso personalizzato.",
   "feature3.title": "Saldi chiari",
-  "feature3.desc": "Vedi chi deve cosa — aggiornato dopo ogni modifica.",
+  "feature3.desc": "Vedi chi deve cosa - aggiornato dopo ogni modifica.",
   "feature4.title": "Liquidazione semplice",
   "feature4.desc": "Il numero minimo di trasferimenti per azzerare tutti i saldi.",
   "feature5.title": "Esporta tutto",
@@ -40,7 +40,7 @@
   "fallback.notice": "Questa pagina non è ancora disponibile nella tua lingua. Visualizzazione del contenuto in inglese.",
 
   "product.title": "Come funziona",
-  "product.subtitle": "Dalla creazione del gruppo alla liquidazione — ecco come funziona.",
+  "product.subtitle": "Dalla creazione del gruppo alla liquidazione - ecco come funziona.",
 
   "product.stepLabel": "Passo",
 
@@ -51,13 +51,13 @@
   "product.step1.b3": "Nessun account necessario per iniziare",
 
   "product.step2.title": "Aggiungi spese",
-  "product.step2.desc": "Annota ogni pagamento condiviso — chi ha pagato, per cosa e chi copre.",
+  "product.step2.desc": "Annota ogni pagamento condiviso - chi ha pagato, per cosa e chi copre.",
   "product.step2.b1": "Dividi equamente, per importo, percentuale o peso",
   "product.step2.b2": "Anteprima dell'impatto prima di salvare",
   "product.step2.b3": "Qualsiasi membro può essere il pagatore",
 
   "product.step3.title": "Controlla i saldi",
-  "product.step3.desc": "Vedi il saldo attuale di ogni persona a colpo d'occhio — senza fare calcoli.",
+  "product.step3.desc": "Vedi il saldo attuale di ogni persona a colpo d'occhio - senza fare calcoli.",
   "product.step3.b1": "Saldo per persona sempre aggiornato",
   "product.step3.b2": "Attività recente in cima alla lista",
   "product.step3.b3": "Nessun calcolo mentale necessario",
@@ -72,7 +72,7 @@
   "product.step5.desc": "LuSplit calcola il numero minimo di trasferimenti per azzerare tutti i saldi.",
   "product.step5.b1": "Il minor numero possibile di trasferimenti",
   "product.step5.b2": "Nessun denaro transita attraverso l'app",
-  "product.step5.b3": "Un suggerimento da seguire — nessun denaro transita nell'app",
+  "product.step5.b3": "Un suggerimento da seguire - nessun denaro transita nell'app",
 
   "product.step6.title": "Registra pagamenti",
   "product.step6.desc": "Segna ogni pagamento come fatto per mantenere i saldi precisi e la cronologia pulita.",
@@ -80,5 +80,12 @@
   "product.step6.b2": "Funziona anche con importi personalizzati",
   "product.step6.b3": "Mantiene la cronologia completa e pulita",
 
-  "product.closing": "LuSplit non gestisce denaro. Tutto si muove direttamente tra le persone. Rende le spese condivise semplici e chiare."
+  "product.closing": "LuSplit non gestisce denaro. Tutto si muove direttamente tra le persone. Rende le spese condivise semplici e chiare.",
+
+  "beta.headline": "LuSplit è quasi pronto. Unisciti alla beta.",
+  "beta.subtext": "Google Play richiede un test chiuso prima del rilascio pubblico. Puoi vedere l’app oppure richiedere l’accesso alla lista dei tester.",
+  "beta.playButton": "Vedi su Google Play",
+  "beta.joinButton": "Richiedi accesso alla beta",
+  "beta.emailSubject": "Join the beta",
+  "beta.emailBody": "Ciao Juan, Vorrei unirmi alla lista dei beta tester di LuSplit.%0D%0A"
 }

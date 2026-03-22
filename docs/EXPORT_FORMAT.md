@@ -27,10 +27,10 @@ All amounts in minor units (integers) for lossless roundtrip.
 **Purpose:** Spreadsheet-friendly analysis. UTF-8 with BOM.
 
 Contains:
-- `expenses.csv` — id, title, amount (decimal), currency, paid_by, date, notes
-- `members.csv` — id, name, household, consumption_category, custom_weight
-- `transfers.csv` — id, from, to, amount (decimal), currency, date, type, note
-- `balances.csv` — person, balance (decimal), currency, direction
+- `expenses.csv ` - id, title, amount (decimal), currency, paid_by, date, notes
+- `members.csv ` - id, name, household, consumption_category, custom_weight
+- `transfers.csv ` - id, from, to, amount (decimal), currency, date, type, note
+- `balances.csv ` - person, balance (decimal), currency, direction
 
 Money in CSV is formatted as a decimal (e.g. `10.00`) derived from minor units.
 

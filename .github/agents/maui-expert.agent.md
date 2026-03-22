@@ -39,7 +39,7 @@ Apply these when reviewing, planning, or implementing UI:
 
 1. **Mobile-first**: Assume thumb-zone interaction. Primary actions sit at the bottom; destructive actions need confirmation.
 2. **Accessibility**: Every interactive element needs `AutomationId` and a meaningful `SemanticProperties.Description`. Contrast ratios ≥ 4.5:1.
-3. **Clarity over cleverness**: One primary call-to-action per screen. Reduce cognitive load — hide complexity behind progressive disclosure.
+3. **Clarity over cleverness**: One primary call-to-action per screen. Reduce cognitive load - hide complexity behind progressive disclosure.
 4. **Feedback**: Every async operation shows a loading state; errors appear inline, not silently swallowed.
 5. **Consistency**: Follow the existing style vocabulary (`DisplayTitle`, `SectionTitle`, `BodyMuted`, `FieldLabel`, `FormFieldBorder`, `PrimaryButton`, etc.). Do not invent new ad-hoc styles unless adding them to `Styles.xaml` simultaneously.
 6. **Dark-mode parity**: Test every color change with `AppThemeBinding`; never use a hardcoded hex where a theme-aware key exists.

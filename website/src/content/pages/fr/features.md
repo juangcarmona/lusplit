@@ -1,11 +1,11 @@
 ---
-title: "Fonctionnalités — LuSplit"
+title: "Fonctionnalités - LuSplit"
 description: "LuSplit aide les groupes à suivre les dépenses partagées, comprendre les soldes et régler équitablement. Gratuit, hors ligne et open-source."
 ---
 
 # Fonctionnalités
 
-LuSplit fournit les outils dont un groupe a besoin pour suivre les coûts partagés et parvenir à un règlement équitable — rien de plus.
+LuSplit fournit les outils dont un groupe a besoin pour suivre les coûts partagés et parvenir à un règlement équitable - rien de plus.
 
 ## Groupes
 
@@ -13,7 +13,7 @@ Créez un groupe pour toute situation partagée : un voyage, un foyer, un évén
 
 ## Personnes
 
-Ajoutez des personnes à un groupe. Chaque personne dans un groupe est un membre. Vous pouvez ajouter des membres dépendants — par exemple, des enfants liés à un adulte — afin que les coûts puissent être répartis avec précision.
+Ajoutez des personnes à un groupe. Chaque personne dans un groupe est un membre. Vous pouvez ajouter des membres dépendants - par exemple, des enfants liés à un adulte - afin que les coûts puissent être répartis avec précision.
 
 ## Dépenses
 
@@ -32,7 +32,7 @@ LuSplit calcule les soldes en continu. À tout moment, vous pouvez voir, pour ch
 
 ## Plan de règlement
 
-Lorsque le groupe est prêt à régler, LuSplit génère une liste minimale de virements. Ce plan réduit le nombre de paiements nécessaires pour ramener tous les soldes à zéro. Le plan est une suggestion, pas une transaction — aucun argent ne transite par LuSplit.
+Lorsque le groupe est prêt à régler, LuSplit génère une liste minimale de virements. Ce plan réduit le nombre de paiements nécessaires pour ramener tous les soldes à zéro. Le plan est une suggestion, pas une transaction - aucun argent ne transite par LuSplit.
 
 ## Export
 

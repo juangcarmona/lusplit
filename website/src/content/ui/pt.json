@@ -7,7 +7,7 @@
   "nav.support": "Suporte",
 
   "hero.tagline": "Despesas partilhadas, registadas com clareza.",
-  "hero.subtitle": "Registe as despesas do grupo, consulte saldos e acerte contas — sem contas nem subscrições.",
+  "hero.subtitle": "Registe as despesas do grupo, consulte saldos e acerte contas - sem contas nem subscrições.",
   "hero.ctaPrimary": "Como funciona",
   "hero.ctaSecondary": "Open source",
 
@@ -19,7 +19,7 @@
   "feature2.title": "Divisão flexível",
   "feature2.desc": "Divida em partes iguais, por valor, percentagem ou peso personalizado.",
   "feature3.title": "Saldos claros",
-  "feature3.desc": "Veja quem deve o quê — atualizado a cada alteração.",
+  "feature3.desc": "Veja quem deve o quê - atualizado a cada alteração.",
   "feature4.title": "Liquidação simples",
   "feature4.desc": "O mínimo de transferências para zerar todos os saldos.",
   "feature5.title": "Exporte tudo",
@@ -40,7 +40,7 @@
   "fallback.notice": "Esta página ainda não está disponível no seu idioma. A mostrar conteúdo em inglês.",
 
   "product.title": "Como funciona",
-  "product.subtitle": "Desde criar um grupo até acertar contas — é assim que funciona.",
+  "product.subtitle": "Desde criar um grupo até acertar contas - é assim que funciona.",
 
   "product.stepLabel": "Passo",
 
@@ -51,13 +51,13 @@
   "product.step1.b3": "Sem conta necessária para começar",
 
   "product.step2.title": "Adicionar despesas",
-  "product.step2.desc": "Anote cada pagamento partilhado — quem pagou, para quê e quem cobre.",
+  "product.step2.desc": "Anote cada pagamento partilhado - quem pagou, para quê e quem cobre.",
   "product.step2.b1": "Divida em partes iguais, por valor, percentagem ou peso",
   "product.step2.b2": "Pré-visualização do impacto antes de guardar",
   "product.step2.b3": "Qualquer membro pode ser o pagador",
 
   "product.step3.title": "Consultar saldos",
-  "product.step3.desc": "Consulte o saldo de cada pessoa de relance — sem fazer contas.",
+  "product.step3.desc": "Consulte o saldo de cada pessoa de relance - sem fazer contas.",
   "product.step3.b1": "Saldo por pessoa sempre atualizado",
   "product.step3.b2": "Atividade recente no topo",
   "product.step3.b3": "Sem cálculos mentais necessários",
@@ -72,7 +72,7 @@
   "product.step5.desc": "O LuSplit calcula o número mínimo de transferências para zerar todos os saldos.",
   "product.step5.b1": "O menor número possível de transferências",
   "product.step5.b2": "Nenhum dinheiro passa pela aplicação",
-  "product.step5.b3": "Uma sugestão para agir — o dinheiro não passa pela app",
+  "product.step5.b3": "Uma sugestão para agir - o dinheiro não passa pela app",
 
   "product.step6.title": "Registar pagamentos",
   "product.step6.desc": "Marque cada pagamento como feito para manter os saldos exatos e o histórico limpo.",
@@ -80,5 +80,12 @@
   "product.step6.b2": "Funciona também com valores personalizados",
   "product.step6.b3": "Mantém o histórico completo e limpo",
 
-  "product.closing": "O LuSplit não gere dinheiro. Tudo se move diretamente entre pessoas. Torna as despesas partilhadas simples e claras."
+  "product.closing": "O LuSplit não gere dinheiro. Tudo se move diretamente entre pessoas. Torna as despesas partilhadas simples e claras.",
+
+  "beta.headline": "O LuSplit está quase pronto. Entre na beta.",
+  "beta.subtext": "O Google Play exige um teste fechado antes do lançamento público. Você pode ver a app ou pedir acesso à lista de testers.",
+  "beta.playButton": "Ver no Google Play",
+  "beta.joinButton": "Pedir acesso à beta",
+  "beta.emailSubject": "Join the beta",
+  "beta.emailBody": "Olá Juan, Gostaria de entrar na lista de beta testers do LuSplit.%0D%0A"
 }
