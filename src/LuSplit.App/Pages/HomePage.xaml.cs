@@ -60,7 +60,8 @@ public partial class HomePage : ContentPage
     {
         _ = AppPreferences.GetPreferredCurrency();
 
-        if (!string.IsNullOrWhiteSpace(UserProfilePreferences.GetPreferredName()))
+        if (!string.IsNullOrWhiteSpace(UserProfilePreferences.GetPreferredName())
+            || UserProfilePreferences.HasSeenPreferredNamePrompt())
         {
             return;
         }
@@ -77,6 +78,8 @@ public partial class HomePage : ContentPage
         {
             UserProfilePreferences.SetPreferredName(preferredName);
         }
+
+        UserProfilePreferences.MarkPreferredNamePromptSeen();
     }
 
     private async Task LoadAsync()
