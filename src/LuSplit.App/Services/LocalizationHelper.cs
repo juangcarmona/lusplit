@@ -30,6 +30,8 @@ public static class LocalizationHelper
     private static readonly HashSet<string> _supportedCodes =
         new(SupportedLanguages.Select(l => l.Culture).Where(c => c.Length > 0), StringComparer.OrdinalIgnoreCase);
 
+    private static readonly CultureInfo _osCulture = CultureInfo.CurrentUICulture;
+
     // Captured once at process start so "System Default" can truly restore the original OS culture.
     private static readonly CultureInfo _osCulture = CultureInfo.CurrentUICulture;
 
@@ -48,7 +50,7 @@ public static class LocalizationHelper
             return;
         }
 
-        if (!string.IsNullOrEmpty(saved) && _supportedCodes.Contains(saved))
+        if (_supportedCodes.Contains(saved))
         {
             ApplyCulture(new CultureInfo(saved));
             return;
@@ -61,6 +63,10 @@ public static class LocalizationHelper
     public static string GetSavedLanguageCode() =>
         Preferences.Default.Get(LanguagePreferenceKey, string.Empty);
 
+    /// <summary>
+    /// Initializes the persisted language preference one time on first app startup.
+    /// If the preference already exists, user-selected value is preserved.
+    /// </summary>
     public static void InitializePreferredLanguageIfNeeded()
     {
         if (Preferences.Default.ContainsKey(LanguagePreferenceKey))
@@ -119,7 +125,9 @@ public static class LocalizationHelper
     /// <summary>
     /// Infers a supported app language from system UI culture.
     /// Candidate priority: full culture (e.g. es-ES), then two-letter language code (es),
-    /// then installed UI culture two-letter code. Falls back to default app language when unsupported.
+    /// then installed UI culture two-letter code. When a full culture is matched in supported codes,
+    /// it is normalized to its two-letter language component before persistence.
+    /// Falls back to default app language when unsupported.
     /// </summary>
     public static string InferSupportedLanguageFromSystem()
     {
@@ -148,6 +156,9 @@ public static class LocalizationHelper
         return DefaultLanguageCode;
     }
 
+    /// <summary>
+    /// Returns the localized "me" label with a leading uppercase character for use as a fallback display name.
+    /// </summary>
     public static string GetCapitalizedMeLabel()
     {
         var localizedMe = AppResources.Mapper_Me;
