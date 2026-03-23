@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Registe despesas partilhadas, consulte saldos e liquide contas. Sem conta.
+
+
+FULL DESCRIPTION
+
+Despesas partilhadas, contas claras.
+
+O LuSplit ajuda-o a acompanhar os custos de qualquer grupo — viagens, casa, eventos ou qualquer outra situação. Registe cada pagamento partilhado, consulte quem deve o quê de relance e encontre a forma mais rápida de liquidar. Sem conta. Funciona completamente offline.
+
+• Grupos — Crie grupos para viagens, casa ou qualquer situação partilhada. Cada grupo gere as suas próprias despesas de forma independente.
+
+• Divisão flexível — Divida em partes iguais, por valor, por percentagem ou por peso personalizado. Pré-visualização do impacto nos saldos antes de guardar.
+
+• Saldos claros — O saldo atual de cada pessoa, sempre atualizado. Sem cálculos mentais.
+
+• Liquidação simples — O LuSplit calcula o número mínimo de transferências para zerar todos os saldos. Nenhum dinheiro passa pela aplicação — é uma sugestão que executa diretamente.
+
+• Histórico completo — Todas as despesas num só lugar. Edite ou elimine entradas e os saldos recalculam-se instantaneamente.
+
+• Exporte tudo — Exporte os seus dados em JSON, CSV ou PDF a qualquer momento.
+
+• Sem conta — Sem registo. Sem login. Funciona completamente offline.
+
+O LuSplit não gere dinheiro. Tudo se move diretamente entre pessoas. Torna as despesas partilhadas simples e claras.

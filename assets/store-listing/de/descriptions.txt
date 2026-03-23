@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Gemeinsame Ausgaben verfolgen, Salden prüfen und abrechnen — kein Konto.
+
+
+FULL DESCRIPTION
+
+Gemeinsame Ausgaben, klare Abrechnung.
+
+LuSplit hilft Ihnen, die Kosten jeder Gruppe zu verfolgen — Reisen, Wohnungen, Veranstaltungen oder sonstige gemeinsame Ausgaben. Erfassen Sie jeden gemeinsamen Zahlungsvorgang, sehen Sie auf einen Blick, wer wie viel schuldet, und finden Sie den schnellsten Weg zur Abrechnung. Kein Konto erforderlich. Funktioniert vollständig offline.
+
+• Gruppen — Erstellen Sie Gruppen für Reisen, Wohnungen oder jede gemeinsame Situation. Jede Gruppe verwaltet ihre eigenen Ausgaben unabhängig.
+
+• Flexible Aufteilung — Gleichmäßig, nach Betrag, nach Prozentsatz oder nach benutzerdefiniertem Gewicht aufteilen. Vorschau der Auswirkungen auf die Salden vor dem Speichern.
+
+• Klare Salden — Der aktuelle Saldo jeder Person, immer aktuell. Kein Kopfrechnen erforderlich.
+
+• Einfache Abrechnung — LuSplit berechnet die minimale Anzahl an Überweisungen, um alle Salden auf null zu setzen. Kein Geld fließt durch die App — es ist ein Vorschlag, den Sie direkt ausführen.
+
+• Vollständige Ausgabenhistorie — Alle Ausgaben an einem Ort. Frühere Einträge bearbeiten oder löschen — die Salden werden sofort neu berechnet.
+
+• Alles exportieren — Daten jederzeit als JSON, CSV oder PDF exportieren.
+
+• Kein Konto erforderlich — Keine Registrierung. Kein Login. Vollständig offline verfügbar.
+
+LuSplit verwaltet kein Geld. Alles fließt direkt zwischen Personen. Es macht gemeinsame Ausgaben einfach übersichtlich.

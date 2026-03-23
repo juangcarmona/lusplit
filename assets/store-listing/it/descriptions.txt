@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Tieni traccia delle spese condivise e pareggia i conti. Nessun account.
+
+
+FULL DESCRIPTION
+
+Spese condivise, conti chiari.
+
+LuSplit ti aiuta a tenere traccia dei costi di qualsiasi gruppo — viaggi, casa, eventi o altro. Annota ogni pagamento condiviso, vedi chi deve cosa a colpo d'occhio e trova il modo più rapido per pareggiare i conti. Nessun account necessario. Funziona completamente offline.
+
+• Gruppi — Crea gruppi per viaggi, casa o qualsiasi situazione condivisa. Ogni gruppo tiene traccia delle proprie spese in modo indipendente.
+
+• Divisione flessibile — Dividi in parti uguali, per importo, per percentuale o per peso personalizzato. Anteprima dell'impatto sui saldi prima di salvare.
+
+• Saldi chiari — Il saldo attuale di ogni persona, sempre aggiornato. Nessun calcolo mentale richiesto.
+
+• Liquidazione semplice — LuSplit calcola il numero minimo di trasferimenti per azzerare tutti i saldi. Nessun denaro transita attraverso l'app — è un suggerimento da seguire direttamente.
+
+• Storico completo — Tutte le spese in un unico posto. Modifica o elimina voci precedenti e i saldi si ricalcolano istantaneamente.
+
+• Esporta tutto — Esporta i tuoi dati in JSON, CSV o PDF in qualsiasi momento.
+
+• Nessun account — Nessuna registrazione. Nessun login. Funziona completamente offline.
+
+LuSplit non gestisce denaro. Tutto si muove direttamente tra le persone. Rende le spese condivise semplici e chiare.

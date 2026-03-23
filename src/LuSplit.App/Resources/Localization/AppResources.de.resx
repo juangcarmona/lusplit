@@ -175,6 +175,39 @@
   <data name="AddEvent_QuickCustom" xml:space="preserve">
     <value>Benutzerdefiniert</value>
   </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Etwas anderes</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Mahlzeit</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Einkauf</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Unterkunft</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>Getränke</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Kaffee</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Spaß</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>am</value>
+  </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
     <value>Ereignis</value>
   </data>
@@ -553,6 +586,9 @@
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} Personen · {1} Ereignisse</value>
   </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} Personen</value>
+  </data>
   <data name="Mapper_Today" xml:space="preserve">
     <value>Heute</value>
   </data>
@@ -587,6 +623,198 @@
   </data>
   <data name="Status_Household" xml:space="preserve">
     <value>Haushalt</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Alle sind quitt</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Gemeinsame Ausgaben, und klare Konten.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Erfasse Ausgaben im Detail, sieh wer wem etwas schuldet.</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Unabhängig</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>Noch keine Salden</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>Alle Salden ausgeglichen</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>Zahlen</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 Ereignisse</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>Noch keine Aktivität</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>Noch keine Ausgaben oder Zahlungen</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>Archivierte Gruppen anzeigen</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>Jede Person ist standardmäßig unabhängig. Gemeinsame Verantwortung ändert nicht, wer zahlen kann.</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>Name eingeben</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>Verantwortungsname (optional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>Abhängig von (optional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>Unabhängig (Standard)</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>Person verwalten</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>Person speichern</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>Diese Person ist für andere verantwortlich. Abhängige zuerst aktualisieren, um die Verantwortung zu ändern.</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>unabhängig</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>abhängig von {0}</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>zahlt für {0} Personen</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>Abhängig von: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>Zahlt für: {0}</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>Person aktualisiert.</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>Jeder Teilnehmer kann Zahler sein, unabhängig von der Verantwortung.</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>Person auswählen. Abhängige folgen ihrem Verantwortlichen.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>Aufteilungsvorschau</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>Betrag und Teilnehmer eingeben, um eine Vorschau zu sehen.</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>Aufteilung:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>Gleich</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>Genau</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>Danach</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>Wer wem was schuldet, erscheint hier.</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>Der Ausgleich basiert auf Teilnehmern, damit Erstattungen an die gehen, die wirklich gezahlt haben.</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>Verantwortungsübersicht (Lesbarkeit)</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>Vorschlag</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>Zahlung bestätigen</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>Der Personenname muss in dieser Gruppe eindeutig sein.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>Diese Gruppe ist archiviert und schreibgeschützt.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>Person nicht gefunden.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>Verantwortliche Person nicht gefunden.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>Eine Person kann nicht von sich selbst abhängen.</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>Zirkuläre Abhängigkeit ist nicht erlaubt.</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>Summe muss dem Betrag entsprechen</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>Gruppe wechseln</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(Aktuell)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>Archivierte Gruppen</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ Neue Gruppe</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>Gruppe erstellen</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>Gruppenname</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Skiurlaub</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>Währung</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>Teilnehmername</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>Ausgabe löschen</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>Diese Ausgabe wirklich löschen?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>Verantwortung von {0}</value>
   </data>
 
 </root>

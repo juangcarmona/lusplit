@@ -8,7 +8,22 @@
              Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="*,Auto">
         <Grid RowDefinitions="*,Auto" RowSpacing="0">
-            <ScrollView>
+            <VerticalStackLayout Padding="24,24,24,12"
+                                 Spacing="12"
+                                 IsVisible="{Binding ShowNoGroupsEmptyState}"
+                                 VerticalOptions="Center">
+                <Label Text="{x:Static loc:AppResources.Home_NoGroupsTitle}"
+                       Style="{StaticResource DisplayTitle}"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="{x:Static loc:AppResources.Home_NoGroupsSubtitle}"
+                       Style="{StaticResource BodyMuted}"
+                       HorizontalTextAlignment="Center" />
+                <Button Text="{x:Static loc:AppResources.CreateGroup_Title}"
+                        Clicked="OnCreateGroupClicked"
+                        HorizontalOptions="Fill" />
+            </VerticalStackLayout>
+
+            <ScrollView IsVisible="{Binding HasGroup}">
                 <VerticalStackLayout Padding="16,16,16,8" Spacing="10">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
                         <Button Grid.Column="0"
@@ -179,7 +194,8 @@
             <Button Grid.Row="1"
                     Margin="16,8,16,8"
                     Text="{x:Static loc:AppResources.Group_AddExpense}"
-                    Clicked="OnAddExpenseClicked" />
+                    Clicked="OnAddExpenseClicked"
+                    IsVisible="{Binding HasGroup}" />
         </Grid>
 
         <Border Grid.Row="1"

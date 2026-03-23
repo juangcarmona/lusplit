@@ -46,25 +46,45 @@ public sealed record EventIconOptionViewModel(string Icon, string Label)
 
 public static class GroupPresentationMapper
 {
-    private static readonly EventIconOptionViewModel[] BuiltInEventIcons =
+    private static readonly (string Icon, Func<string> LabelFactory)[] BuiltInEventIconDefinitions =
     {
-        new("✨", "Anything else"),
-        new("🍝", "Meal"),
-        new("🚕", "Transport"),
-        new("🛒", "Groceries"),
-        new("🎟", "Tickets"),
-        new("🏨", "Stay"),
-        new("🍻", "Drinks"),
-        new("☕", "Coffee"),
-        new("🎉", "Fun")
+        ("✨", () => AppResources.AddEvent_IconOption_AnythingElse),
+        ("🍝", () => AppResources.AddEvent_IconOption_Meal),
+        ("🚕", () => AppResources.AddEvent_IconOption_Transport),
+        ("🛒", () => AppResources.AddEvent_IconOption_Groceries),
+        ("🎟", () => AppResources.AddEvent_IconOption_Tickets),
+        ("🏨", () => AppResources.AddEvent_IconOption_Stay),
+        ("🍻", () => AppResources.AddEvent_IconOption_Drinks),
+        ("☕", () => AppResources.AddEvent_IconOption_Coffee),
+        ("🎉", () => AppResources.AddEvent_IconOption_Fun)
     };
 
     public static IReadOnlyList<EventIconOptionViewModel> GetEventIconOptions()
-        => BuiltInEventIcons;
+    {
+        var options = new EventIconOptionViewModel[BuiltInEventIconDefinitions.Length];
+        for (var i = 0; i < BuiltInEventIconDefinitions.Length; i++)
+        {
+            var descriptor = BuiltInEventIconDefinitions[i];
+            options[i] = new EventIconOptionViewModel(descriptor.Icon, descriptor.LabelFactory());
+        }
+
+        return options;
+    }
 
     public static EventIconOptionViewModel ResolveEventIconOption(string? icon)
-        => BuiltInEventIcons.FirstOrDefault(option => string.Equals(option.Icon, icon, StringComparison.Ordinal))
-            ?? BuiltInEventIcons[0];
+    {
+        for (var i = 0; i < BuiltInEventIconDefinitions.Length; i++)
+        {
+            var definition = BuiltInEventIconDefinitions[i];
+            if (string.Equals(definition.Icon, icon, StringComparison.Ordinal))
+            {
+                return new EventIconOptionViewModel(definition.Icon, definition.LabelFactory());
+            }
+        }
+
+        var fallback = BuiltInEventIconDefinitions[0];
+        return new EventIconOptionViewModel(fallback.Icon, fallback.LabelFactory());
+    }
 
     public static string SuggestEventIcon(string title)
         => IconForEvent(title);
@@ -196,7 +216,10 @@ public static class GroupPresentationMapper
                     true,
                     ResolveExpenseIcon(expense, expenseIcons),
                     string.Create(CultureInfo.CurrentCulture, $"{expense.Title} - {FormatMinor(expense.AmountMinor, currency)}"),
-                    string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(expense.PaidByParticipantId, participantsById)} → {participantIds.Length} people"),
+                    string.Format(
+                        AppResources.Mapper_PeopleCountFormat,
+                        ResolveParticipantName(expense.PaidByParticipantId, participantsById),
+                        participantIds.Length),
                     expense.Id,
                     ParseDate(expense.Date));
             })
@@ -214,7 +237,10 @@ public static class GroupPresentationMapper
     }
 
     public static string FormatCompactPeopleAndEvents(GroupOverviewModel overview)
-        => string.Create(CultureInfo.CurrentCulture, $"{overview.Summary.ParticipantCount} people · {overview.Summary.ExpenseCount + overview.Summary.TransferCount} events");
+        => string.Format(
+            AppResources.Mapper_SummaryEvents,
+            overview.Summary.ParticipantCount,
+            overview.Summary.ExpenseCount + overview.Summary.TransferCount);
 
     public static string FormatTotalUnsettled(GroupOverviewModel overview)
     {
