@@ -7,7 +7,7 @@ This folder contains Google Play Store listing localization assets for LuSplit.
 ```
 /assets/store-listing
   /{lang}
-    descriptions.json        # Short and full descriptions for the Play Store
+    descriptions.txt         # Short and full descriptions for the Play Store
     /screenshots
       /mobile                # Phone screenshots (drop PNG files here)
       /tablet                # Tablet screenshots (drop PNG files here)
@@ -33,20 +33,24 @@ This folder contains Google Play Store listing localization assets for LuSplit.
 | `ru`    | Russian               |
 | `ar`    | Arabic                |
 
-## descriptions.json
+## descriptions.txt
 
-Each language folder contains a `descriptions.json` file with this exact shape:
+Each language folder contains a `descriptions.txt` file structured for easy copy-paste into the Play Console:
 
-```json
-{
-  "shortDescription": "...",
-  "fullDescription": "..."
-}
+```
+SHORT DESCRIPTION
+
+<text — paste directly into the Play Console short description field>
+
+
+FULL DESCRIPTION
+
+<text — paste directly into the Play Console full description field>
 ```
 
-- `shortDescription` — Maps to the Google Play short description field (≤ 80 characters).
-- `fullDescription` — Maps to the Google Play full description field (≤ 4000 characters).
-- `appName` is not included here. The app name is fixed as **LuSplit**.
+- Short description maps to the Google Play short description field (≤ 80 characters).
+- Full description maps to the Google Play full description field (≤ 4000 characters).
+- `appName` is not included. The app name is fixed as **LuSplit**.
 
 **English (`en`) is the canonical source.** All other languages are derived from it and must stay
 consistent with the English text in terminology, tone, and structure.
@@ -74,6 +78,6 @@ Naming screenshots with a numeric prefix keeps them ordered predictably:
 
 When the English source text changes:
 
-1. Update `en/descriptions.json` first.
+1. Update `en/descriptions.txt` first.
 2. Update all other language files to reflect the change.
 3. Keep terminology consistent with the website translations in `website/src/content/ui/`.

@@ -6,7 +6,7 @@
   "nav.privacy": "Privacy",
   "nav.support": "Support",
 
-  "hero.tagline": "Shared expenses, tracked clearly.",
+  "hero.tagline": "Shared expenses, clear accounts.",
   "hero.subtitle": "Track shared costs, see who owes what, and settle up - no accounts or subscriptions required.",
   "hero.ctaPrimary": "How it works",
   "hero.ctaSecondary": "Open source",
@@ -31,7 +31,7 @@
   "cta.subtext": "Free, open-source, and offline. No accounts needed.",
   "cta.button": "How it works",
 
-  "footer.tagline": "Shared expenses, made clear.",
+  "footer.tagline": "Shared expenses, clear accounts.",
   "footer.copyright": "LuSplit. Open-source. Free forever.",
 
   "theme.toggle": "Toggle dark mode",

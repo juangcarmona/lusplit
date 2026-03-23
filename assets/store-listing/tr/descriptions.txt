@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Ortak giderleri takip edin, kimin borçlu olduğunu görün. Hesap gerekmez.
+
+
+FULL DESCRIPTION
+
+Ortak giderler, net hesaplar.
+
+LuSplit, seyahatler, ev, etkinlikler veya başka herhangi bir durum için gruptaki maliyetleri takip etmenize yardımcı olur. Her ortak ödemeyi kaydedin, kimin ne kadar borçlu olduğunu tek bakışta görün ve hızlı şekilde hesaplaşın. Hesap gerekmez. Tamamen çevrimdışı çalışır.
+
+• Gruplar — Seyahatler, ev veya herhangi bir ortak durum için gruplar oluşturun. Her grup kendi giderlerini bağımsız olarak takip eder.
+
+• Esnek Bölüşüm — Eşit olarak, tutara, yüzdeye veya özel ağırlığa göre bölüşün. Kaydetmeden önce bakiyelere etkisini önizleyin.
+
+• Net Bakiyeler — Her kişinin güncel bakiyesi, her zaman güncel. Zihinsel hesap yapmaya gerek yok.
+
+• Basit Hesaplaşma — LuSplit, tüm bakiyeleri sıfıra getirmek için gereken minimum transfer sayısını hesaplar. Uygulama üzerinden para geçmez — doğrudan uygulayacağınız bir öneridir.
+
+• Tam Gider Geçmişi — Tüm giderler tek bir yerde. Önceki kayıtları düzenleyin veya silin; bakiyeler anında yeniden hesaplanır.
+
+• Her Şeyi Dışa Aktar — Verilerinizi istediğiniz zaman JSON, CSV veya PDF olarak dışa aktarın.
+
+• Hesap Gerekmez — Kayıt yok. Giriş yok. Tamamen çevrimdışı çalışır.
+
+LuSplit hiçbir para işlemez. Her şey doğrudan insanlar arasında gerçekleşir. Yalnızca ortak giderleri basitleştirir.

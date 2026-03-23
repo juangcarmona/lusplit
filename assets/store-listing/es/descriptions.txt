@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Registra gastos del grupo, consulta saldos y liquida cuentas. Sin registros.
+
+
+FULL DESCRIPTION
+
+Gastos compartidos y cuentas claras.
+
+LuSplit te ayuda a llevar los gastos de cualquier grupo — viajes, casa, eventos o lo que necesites. Anota cada pago compartido, consulta quién debe qué de un vistazo y calcula la forma más rápida de liquidar. Sin cuenta. Funciona completamente sin conexión.
+
+• Grupos — Crea grupos para viajes, casa o cualquier situación compartida. Cada grupo gestiona sus propios gastos de forma independiente.
+
+• División flexible — Divide en partes iguales, por importe, porcentaje o peso personalizado. Vista previa del impacto en los saldos antes de guardar.
+
+• Saldos claros — El saldo de cada persona, siempre actualizado. Sin cálculos mentales.
+
+• Liquidación simple — LuSplit calcula el mínimo de transferencias para saldar todos los saldos. El dinero no pasa por la app — es una sugerencia que ejecutas directamente.
+
+• Historial completo — Todos los gastos en una sola lista. Edita o elimina entradas y los saldos se recalculan al instante.
+
+• Exporta todo — Exporta tus datos en JSON, CSV o PDF cuando quieras.
+
+• Sin cuentas — Sin registro. Sin login. Funciona completamente sin conexión.
+
+LuSplit no gestiona dinero. Todo se mueve directamente entre personas. Solo hace que los gastos compartidos sean simples.

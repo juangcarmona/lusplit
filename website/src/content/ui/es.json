@@ -6,7 +6,7 @@
   "nav.privacy": "Privacidad",
   "nav.support": "Soporte",
 
-  "hero.tagline": "Gastos compartidos, registrados con claridad.",
+  "hero.tagline": "Gastos compartidos y cuentas claras.",
   "hero.subtitle": "Registra los gastos del grupo, consulta saldos y ajusta cuentas - sin cuentas ni suscripciones.",
   "hero.ctaPrimary": "Cómo funciona",
   "hero.ctaSecondary": "Open source",
@@ -31,7 +31,7 @@
   "cta.subtext": "Gratis, open-source y sin conexión. Sin cuentas.",
   "cta.button": "Cómo funciona",
 
-  "footer.tagline": "Gastos compartidos, sin complicaciones.",
+  "footer.tagline": "Gastos compartidos y cuentas claras.",
   "footer.copyright": "LuSplit. Código abierto. Gratis para siempre.",
 
   "theme.toggle": "Cambiar modo oscuro",

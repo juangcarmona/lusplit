@@ -1,0 +1,26 @@
+SHORT DESCRIPTION
+
+Catat pengeluaran bersama, lihat siapa berutang, dan selesaikan. Tanpa akun.
+
+
+FULL DESCRIPTION
+
+Pengeluaran bersama, akun jelas.
+
+LuSplit membantu Anda melacak biaya di semua kelompok — perjalanan, rumah, acara, atau situasi apa pun. Catat setiap pembayaran bersama, lihat siapa yang berutang kepada siapa sekilas, dan temukan cara tercepat untuk menyelesaikan. Tanpa akun. Bekerja sepenuhnya offline.
+
+• Kelompok — Buat kelompok untuk perjalanan, rumah, atau situasi bersama apa pun. Setiap kelompok melacak pengeluarannya secara mandiri.
+
+• Pembagian Fleksibel — Bagi rata, berdasarkan jumlah, persentase, atau bobot kustom. Pratinjau dampak pada saldo sebelum menyimpan.
+
+• Saldo Jelas — Saldo terkini setiap orang, selalu diperbarui. Tanpa perlu berhitung.
+
+• Penyelesaian Sederhana — LuSplit menghitung transfer paling sedikit yang diperlukan untuk menol-kan semua saldo. Tidak ada uang yang melewati aplikasi — hanya saran yang Anda lakukan langsung.
+
+• Riwayat Pengeluaran Lengkap — Semua pengeluaran dalam satu tempat. Edit atau hapus entri lama dan saldo dihitung ulang seketika.
+
+• Ekspor Semua — Ekspor data Anda sebagai JSON, CSV, atau PDF kapan saja.
+
+• Tanpa Akun — Tanpa daftar. Tanpa masuk. Bekerja sepenuhnya offline.
+
+LuSplit tidak menangani uang apa pun. Semua uang bergerak langsung antar orang. Ini membuat pengeluaran bersama menjadi sederhana.
