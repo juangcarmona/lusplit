@@ -156,6 +156,7 @@ public partial class ParticipantsEditorView : ContentView
         }
 
         participant.Notify();
+        ReorderParticipants();
         StatusText = string.Empty;
         DependencyChanged?.Invoke(this, participant);
     }
@@ -178,5 +179,30 @@ public partial class ParticipantsEditorView : ContentView
         }
 
         RemoveParticipantRequested?.Invoke(this, target);
+    }
+
+    private void ReorderParticipants()
+    {
+        var participants = Participants;
+        if (participants is null || participants.Count <= 1) return;
+
+        var source = participants.ToList();
+        var roots = source.Where(p => string.IsNullOrWhiteSpace(p.DependsOn)).ToList();
+        var ordered = new List<ParticipantDraftViewModel>();
+        foreach (var root in roots)
+        {
+            ordered.Add(root);
+            ordered.AddRange(source.Where(p =>
+                string.Equals(p.DependsOn, root.Name, StringComparison.OrdinalIgnoreCase)));
+        }
+        // Orphaned dependents at the end
+        foreach (var orphan in source.Except(ordered))
+            ordered.Add(orphan);
+
+        for (var i = 0; i < ordered.Count; i++)
+        {
+            var current = participants.IndexOf(ordered[i]);
+            if (current != i) participants.Move(current, i);
+        }
     }
 }

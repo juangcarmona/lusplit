@@ -43,12 +43,11 @@
                     <Grid ColumnDefinitions="*,Auto,Auto"
                           ColumnSpacing="8"
                           Padding="0,6">
-                        <VerticalStackLayout Spacing="2">
+                        <VerticalStackLayout Spacing="2" Margin="{Binding TreeIndent}">
                             <Label Text="{Binding DisplayName}" Style="{StaticResource CardTitle}" />
-                            <Label Text="{Binding DependsOnLabel}" Style="{StaticResource BodyMuted}" />
                         </VerticalStackLayout>
 
-                        <!-- Dependency toggle button: text shows current state, tap to change -->
+                        <!-- Dependency chip: text shows current state, tap to change -->
                         <Button Grid.Column="1"
                                 Text="{Binding DependsOnLabel}"
                                 Style="{StaticResource SecondaryButton}"

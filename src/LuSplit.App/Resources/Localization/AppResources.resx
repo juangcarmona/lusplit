@@ -228,7 +228,7 @@
     <value>Archive this group?</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
-    <value>This group will be moved to archive. You can still read and export it, but won't be able to add new events.</value>
+    <value>This group will be archived. You can still view and export it, but you won’t be able to add new expenses.</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
     <value>Archive</value>
@@ -427,6 +427,18 @@
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Event saved.</value>
   </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>Adults only</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>Adults</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>Dependents</value>
+  </data>
 
   <!-- Settlement -->
   <data name="Settlement_Title" xml:space="preserve">
@@ -496,13 +508,13 @@
     <value>Export this group</value>
   </data>
   <data name="Export_JsonOption" xml:space="preserve">
-    <value>JSON snapshot</value>
+    <value>Raw data (JSON)</value>
   </data>
   <data name="Export_CsvOption" xml:space="preserve">
-    <value>CSV spreadsheet</value>
+    <value>Spreadsheet (CSV)</value>
   </data>
   <data name="Export_PdfOption" xml:space="preserve">
-    <value>PDF summary</value>
+    <value>Summary (PDF)</value>
   </data>
   <data name="Export_ShareTitle" xml:space="preserve">
     <value>Export group</value>

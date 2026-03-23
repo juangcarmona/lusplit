@@ -8,7 +8,6 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="20,24,20,24" Spacing="14">
-                <Label Text="{x:Static loc:AppResources.RecordPayment_Title}" Style="{StaticResource DisplayTitle}" />
                 <Label Text="{x:Static loc:AppResources.RecordPayment_Subtitle}" Style="{StaticResource BodyMuted}" />
 
                 <VerticalStackLayout IsVisible="{Binding IsQuickMode}" Spacing="8">
