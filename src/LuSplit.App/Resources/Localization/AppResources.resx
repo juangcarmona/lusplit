@@ -62,10 +62,10 @@
     <value>Everyone is even</value>
   </data>
   <data name="Home_NoGroupsTitle" xml:space="preserve">
-    <value>Shared expenses, tracked clearly.</value>
+    <value>Shared expenses, and clear accounts.</value>
   </data>
   <data name="Home_NoGroupsSubtitle" xml:space="preserve">
-    <value>Track shared costs, see who owes what, and settle up.</value>
+    <value>Track expenses in detail, see who owes whom.</value>
   </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
     <value>View archived groups</value>
