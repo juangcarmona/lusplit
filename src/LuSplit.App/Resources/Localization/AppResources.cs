@@ -158,6 +158,10 @@ public static class AppResources
     public static string AddEvent_NoteLabel => Get(nameof(AddEvent_NoteLabel));
     public static string AddEvent_NotePlaceholder => Get(nameof(AddEvent_NotePlaceholder));
     public static string AddEvent_Saved => Get(nameof(AddEvent_Saved));
+    public static string AddEvent_SelectAll => Get(nameof(AddEvent_SelectAll));
+    public static string AddEvent_AdultsOnly => Get(nameof(AddEvent_AdultsOnly));
+    public static string AddEvent_SectionAdults => Get(nameof(AddEvent_SectionAdults));
+    public static string AddEvent_SectionDependents => Get(nameof(AddEvent_SectionDependents));
 
     // --- Settlement ---
     public static string Settlement_Title => Get(nameof(Settlement_Title));

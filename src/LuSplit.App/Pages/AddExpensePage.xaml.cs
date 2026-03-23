@@ -13,6 +13,8 @@ public partial class AddExpensePage : ContentPage
     private readonly List<ParticipantModel> _participants = new();
     private readonly Dictionary<string, string> _payerParticipantIdByLabel = new(StringComparer.Ordinal);
     private string _currency = "USD";
+    private string _currencyPrefix = string.Empty;
+    private string _currencySuffix = string.Empty;
     private bool _isRecalculating;
     private bool _isCalculationValid;
     private EventIconOptionViewModel _selectedEventIconOption = GroupPresentationMapper.GetEventIconOptions()[0];
@@ -24,6 +26,9 @@ public partial class AddExpensePage : ContentPage
 
     public string ExpenseTitle { get; set; } = string.Empty;
     public string AmountText { get; set; } = string.Empty;
+    public string CurrencyPrefix => _currencyPrefix;
+    public string CurrencySuffix => _currencySuffix;
+    public bool HasDependents { get; private set; }
     public DateTime ExpenseDate { get; set; } = DateTime.Today;
     public TimeSpan ExpenseTime { get; set; } = DateTime.Now.TimeOfDay;
     public string? SelectedPayerName { get; set; }
@@ -82,6 +87,19 @@ public partial class AddExpensePage : ContentPage
         var defaults = _dataService.GetEventDraftDefaults();
         _currency = overview.Group.Currency;
 
+        // Currency prefix/suffix for display
+        var symbol = _currency.ToUpperInvariant() switch
+        {
+            "USD" => "$",
+            "EUR" => "€",
+            "GBP" => "£",
+            _ => string.Empty
+        };
+        _currencyPrefix = string.IsNullOrEmpty(symbol) ? string.Empty : symbol;
+        _currencySuffix = string.IsNullOrEmpty(symbol) ? $" {_currency.ToUpperInvariant()}" : string.Empty;
+        OnPropertyChanged(nameof(CurrencyPrefix));
+        OnPropertyChanged(nameof(CurrencySuffix));
+
         _participants.Clear();
         _participants.AddRange(overview.Participants);
         PayerNames.Clear();
@@ -96,12 +114,45 @@ public partial class AddExpensePage : ContentPage
         SelectedEventIconOption = GroupPresentationMapper.ResolveEventIconOption(null);
         OnPropertyChanged(nameof(SelectedEventIconOption));
 
+        // Determine adults vs. dependents from economic units
+        var adultIds = overview.EconomicUnits
+            .Select(u => u.OwnerParticipantId)
+            .ToHashSet(StringComparer.Ordinal);
+        HasDependents = _participants.Any(p => !adultIds.Contains(p.Id));
+        OnPropertyChanged(nameof(HasDependents));
+
+        var adults = _participants.Where(p => adultIds.Contains(p.Id)).ToList();
+        var dependents = _participants.Where(p => !adultIds.Contains(p.Id)).ToList();
+
         foreach (var participant in _participants)
         {
             PayerNames.Add(participant.Name);
             _payerParticipantIdByLabel[participant.Name] = participant.Id;
+        }
+
+        var isFirstAdult = true;
+        var isFirstDependent = true;
+        foreach (var participant in adults.Concat(dependents))
+        {
+            var isAdult = adultIds.Contains(participant.Id);
+            string? groupHeader = null;
+            if (isAdult && isFirstAdult && HasDependents)
+            {
+                groupHeader = AppResources.AddEvent_SectionAdults;
+            }
+            else if (!isAdult && isFirstDependent && HasDependents)
+            {
+                groupHeader = AppResources.AddEvent_SectionDependents;
+                isFirstDependent = false;
+            }
+            if (isAdult) isFirstAdult = false;
+
             var isIncluded = defaults.ParticipantIds.Count == 0 || defaults.ParticipantIds.Contains(participant.Id, StringComparer.Ordinal);
-            ParticipantRows.Add(new ParticipantSplitRowViewModel(participant.Id, participant.Name, isIncluded));
+            ParticipantRows.Add(new ParticipantSplitRowViewModel(participant.Id, participant.Name, isIncluded)
+            {
+                GroupHeader = groupHeader,
+                IsDependent = !isAdult
+            });
         }
 
         SelectedPayerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, defaults.PaidByParticipantId, StringComparison.Ordinal))?.Name
@@ -161,6 +212,41 @@ public partial class AddExpensePage : ContentPage
     }
 
     private void OnAmountTextChanged(object? sender, TextChangedEventArgs e) => RecalculateAll();
+
+    private void OnSelectAllClicked(object? sender, EventArgs e)
+    {
+        foreach (var row in ParticipantRows)
+        {
+            if (row.IsIncluded) continue;
+            row.IsIncluded = true;
+            row.IsEditing = false;
+            row.ValidationError = string.Empty;
+            row.HasTransientInvalidInput = false;
+            row.RawInput = string.Empty;
+            row.IsCustomAmount = false;
+        }
+        RecalculateAll();
+    }
+
+    private void OnAdultsOnlyClicked(object? sender, EventArgs e)
+    {
+        foreach (var row in ParticipantRows)
+        {
+            var shouldBeIncluded = !row.IsDependent;
+            if (row.IsIncluded == shouldBeIncluded) continue;
+            row.IsIncluded = shouldBeIncluded;
+            if (!shouldBeIncluded)
+            {
+                row.IsEditing = false;
+                row.ValidationError = string.Empty;
+                row.HasTransientInvalidInput = false;
+                row.RawInput = string.Empty;
+                row.CommittedAmountMinor = 0;
+                row.IsCustomAmount = false;
+            }
+        }
+        RecalculateAll();
+    }
     private void OnExpenseTitleChanged(object? sender, TextChangedEventArgs e)
     {
         OnPropertyChanged(nameof(IsTitleInvalid));
@@ -806,6 +892,10 @@ public partial class AddExpensePage : ContentPage
         public bool CanShowEditButton => _isIncluded && !_isEditing;
         public bool IsViewing => !_isEditing;
         public bool HasValidationError => !string.IsNullOrWhiteSpace(_validationError);
+
+        public string? GroupHeader { get; set; }
+        public bool HasGroupHeader => !string.IsNullOrEmpty(GroupHeader);
+        public bool IsDependent { get; set; }
 
         public ParticipantSplitRowViewModel(string id, string name, bool isIncluded)
         {

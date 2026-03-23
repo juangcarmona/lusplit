@@ -37,6 +37,8 @@ public partial class HomePage : ContentPage
     public bool ShowOverviewEmptyState => ShowOverview && !HasEvents;
     public bool ShowExpensesEmptyState => ShowExpenses && !HasEvents;
     public bool ShowBalancesEmptyState => ShowBalances && !ShowWhoOwesWhatSection && !ShowBalancesSection;
+    public bool ShowAddExpenseButton => HasGroup && _selectedTab != WorkspaceTab.Balances;
+    public bool ShowSettleUpButton => HasGroup && _selectedTab == WorkspaceTab.Balances;
 
     public HomePage(AppDataService dataService)
     {
@@ -111,6 +113,8 @@ public partial class HomePage : ContentPage
             OnPropertyChanged(nameof(ShowOverviewEmptyState));
             OnPropertyChanged(nameof(ShowExpensesEmptyState));
             OnPropertyChanged(nameof(ShowBalancesEmptyState));
+            OnPropertyChanged(nameof(ShowAddExpenseButton));
+            OnPropertyChanged(nameof(ShowSettleUpButton));
             return;
         }
 
@@ -254,6 +258,9 @@ public partial class HomePage : ContentPage
         OverviewTabButton.Style = _selectedTab == WorkspaceTab.Overview ? null : unselectedStyle;
         ExpensesTabButton.Style = _selectedTab == WorkspaceTab.Expenses ? null : unselectedStyle;
         BalancesTabButton.Style = _selectedTab == WorkspaceTab.Balances ? null : unselectedStyle;
+
+        OnPropertyChanged(nameof(ShowAddExpenseButton));
+        OnPropertyChanged(nameof(ShowSettleUpButton));
     }
 }
 

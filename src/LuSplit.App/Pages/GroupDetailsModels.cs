@@ -17,6 +17,9 @@ public sealed class ParticipantDraftViewModel : BindableObject
 
     public string? DependsOn { get; set; }
 
+    public bool IsDependent => !string.IsNullOrWhiteSpace(DependsOn);
+    public Thickness TreeIndent => IsDependent ? new Thickness(16, 0, 0, 0) : Thickness.Zero;
+
     public string DependsOnLabel => string.IsNullOrWhiteSpace(DependsOn)
         ? AppResources.GroupDetails_DependencyIndependent
         : string.Format(AppResources.GroupDetails_DependencyDependsOnFormat, DependsOn);
@@ -33,6 +36,8 @@ public sealed class ParticipantDraftViewModel : BindableObject
         OnPropertyChanged(nameof(DependsOn));
         OnPropertyChanged(nameof(DependsOnLabel));
         OnPropertyChanged(nameof(DisplayName));
+        OnPropertyChanged(nameof(IsDependent));
+        OnPropertyChanged(nameof(TreeIndent));
     }
 }
 

@@ -180,10 +180,6 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <Button Text="{x:Static loc:AppResources.Group_SettleUp}"
-                                Style="{StaticResource SecondaryButton}"
-                                HorizontalOptions="Start"
-                                Clicked="OnSettleUpClicked" />
                         <Label Text="{x:Static loc:AppResources.Home_BalancesEmpty}"
                                Style="{StaticResource BodyMuted}"
                                IsVisible="{Binding ShowBalancesEmptyState}" />
@@ -191,11 +187,16 @@
                 </VerticalStackLayout>
             </ScrollView>
 
-            <Button Grid.Row="1"
-                    Margin="16,8,16,8"
-                    Text="{x:Static loc:AppResources.Group_AddExpense}"
-                    Clicked="OnAddExpenseClicked"
-                    IsVisible="{Binding HasGroup}" />
+            <Grid Grid.Row="1">
+                <Button Margin="16,8,16,8"
+                        Text="{x:Static loc:AppResources.Group_AddExpense}"
+                        Clicked="OnAddExpenseClicked"
+                        IsVisible="{Binding ShowAddExpenseButton}" />
+                <Button Margin="16,8,16,8"
+                        Text="{x:Static loc:AppResources.Group_SettleUp}"
+                        Clicked="OnSettleUpClicked"
+                        IsVisible="{Binding ShowSettleUpButton}" />
+            </Grid>
         </Grid>
 
         <Border Grid.Row="1"

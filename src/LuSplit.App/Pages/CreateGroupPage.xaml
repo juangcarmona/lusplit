@@ -10,7 +10,6 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
-                <Label Text="{x:Static loc:AppResources.CreateGroup_Title}" Style="{StaticResource SectionTitle}" />
 
                 <VerticalStackLayout IsVisible="{Binding IsStep1}" Spacing="8">
                     <Border Style="{StaticResource FormFieldBorder}">
