@@ -46,16 +46,20 @@
 
                 <BoxView HeightRequest="1" Color="{AppThemeBinding Light={StaticResource StrokeLight}, Dark={StaticResource StrokeDark}}" />
 
-                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                     <VerticalStackLayout Grid.Column="0" Spacing="2">
                         <Label Text="{x:Static loc:AppResources.AddEvent_PaidBy}" Style="{StaticResource FieldLabel}" />
                         <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName}" SelectedIndexChanged="OnPayerChanged" />
                     </VerticalStackLayout>
-                    <Label Grid.Column="1" Text="{x:Static loc:AppResources.AddEvent_OnDate}" Style="{StaticResource BodyMuted}" VerticalTextAlignment="End" Margin="0,0,0,8" />
-                    <VerticalStackLayout Grid.Column="2" Spacing="2">
-                        <Label Text="{x:Static loc:AppResources.Common_Date}" Style="{StaticResource FieldLabel}" />
-                        <DatePicker Date="{Binding ExpenseDate}" />
-                        <TimePicker Time="{Binding ExpenseTime}" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="4">
+                            <Label Grid.Column="0" Text="📅" VerticalTextAlignment="Center" FontSize="16" />
+                            <DatePicker Grid.Column="1" Date="{Binding ExpenseDate}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="4">
+                            <Label Grid.Column="0" Text="🕐" VerticalTextAlignment="Center" FontSize="16" />
+                            <TimePicker Grid.Column="1" Time="{Binding ExpenseTime}" />
+                        </Grid>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -88,13 +92,12 @@
                                        IsVisible="{Binding HasGroupHeader}"
                                        Margin="0,6,0,0" />
                                 <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="6">
-                                    <Label Text="{Binding IsIncludedMark}"
-                                           VerticalTextAlignment="Center"
-                                           TextColor="{StaticResource PositiveSoftGreen}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="OnParticipantRowTapped" CommandParameter="{Binding Id}" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                    <CheckBox IsChecked="{Binding IsIncluded, Mode=TwoWay}"
+                                              CheckedChanged="OnParticipantCheckChanged"
+                                              Color="{StaticResource PositiveSoftGreen}"
+                                              VerticalOptions="Center"
+                                              MinimumWidthRequest="44"
+                                              MinimumHeightRequest="44" />
 
                                     <Label Grid.Column="1"
                                            Text="{Binding Name}"

@@ -253,6 +253,18 @@
   <data name="AddEvent_Saved" xml:space="preserve">
     <value>Evento salvato.</value>
   </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>Seleziona tutti</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>Solo adulti</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>Adulti</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>Dipendenti</value>
+  </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
     <value>Spese recenti</value>
   </data>
