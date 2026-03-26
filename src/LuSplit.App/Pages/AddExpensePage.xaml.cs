@@ -325,21 +325,14 @@ public partial class AddExpensePage : ContentPage
 
         if (!row.IsIncluded)
         {
-            row.IsEditing = false;
-            row.ValidationError = string.Empty;
-            row.HasTransientInvalidInput = false;
-            row.RawInput = string.Empty;
             row.CommittedAmountMinor = 0;
-            row.IsCustomAmount = false;
         }
-        else
-        {
-            row.IsEditing = false;
-            row.ValidationError = string.Empty;
-            row.HasTransientInvalidInput = false;
-            row.RawInput = string.Empty;
-            row.IsCustomAmount = false;
-        }
+
+        row.IsEditing = false;
+        row.ValidationError = string.Empty;
+        row.HasTransientInvalidInput = false;
+        row.RawInput = string.Empty;
+        row.IsCustomAmount = false;
 
         RecalculateAll();
     }
@@ -556,8 +549,9 @@ public partial class AddExpensePage : ContentPage
             return AppResources.Validation_InvalidAmount;
         }
 
-        var customRows = included.Where(row => row.IsCustomAmount || (row.IsEditing && row.LiveParsedAmountMinor.HasValue)).ToArray();
-        var autoRows = included.Where(row => !row.IsCustomAmount && !(row.IsEditing && row.LiveParsedAmountMinor.HasValue)).ToArray();
+        var isProvisionalCustom = (ParticipantSplitRowViewModel row) => row.IsCustomAmount || (row.IsEditing && row.LiveParsedAmountMinor.HasValue);
+        var customRows = included.Where(row => isProvisionalCustom(row)).ToArray();
+        var autoRows = included.Where(row => !isProvisionalCustom(row)).ToArray();
 
         var customSum = customRows.Sum(row => row.IsCustomAmount ? row.CommittedAmountMinor : (row.LiveParsedAmountMinor ?? 0));
         var remaining = totalMinor - customSum;
