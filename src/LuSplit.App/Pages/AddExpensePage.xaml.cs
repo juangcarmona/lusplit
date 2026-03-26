@@ -16,6 +16,7 @@ public partial class AddExpensePage : ContentPage
     private string _currencyPrefix = string.Empty;
     private string _currencySuffix = string.Empty;
     private bool _isRecalculating;
+    private bool _isSettingParticipantRows;
     private bool _isCalculationValid;
     private EventIconOptionViewModel _selectedEventIconOption = GroupPresentationMapper.GetEventIconOptions()[0];
 
@@ -215,35 +216,51 @@ public partial class AddExpensePage : ContentPage
 
     private void OnSelectAllClicked(object? sender, EventArgs e)
     {
-        foreach (var row in ParticipantRows)
+        _isSettingParticipantRows = true;
+        try
         {
-            if (row.IsIncluded) continue;
-            row.IsIncluded = true;
-            row.IsEditing = false;
-            row.ValidationError = string.Empty;
-            row.HasTransientInvalidInput = false;
-            row.RawInput = string.Empty;
-            row.IsCustomAmount = false;
+            foreach (var row in ParticipantRows)
+            {
+                if (row.IsIncluded) continue;
+                row.IsIncluded = true;
+                row.IsEditing = false;
+                row.ValidationError = string.Empty;
+                row.HasTransientInvalidInput = false;
+                row.RawInput = string.Empty;
+                row.IsCustomAmount = false;
+            }
+        }
+        finally
+        {
+            _isSettingParticipantRows = false;
         }
         RecalculateAll();
     }
 
     private void OnAdultsOnlyClicked(object? sender, EventArgs e)
     {
-        foreach (var row in ParticipantRows)
+        _isSettingParticipantRows = true;
+        try
         {
-            var shouldBeIncluded = !row.IsDependent;
-            if (row.IsIncluded == shouldBeIncluded) continue;
-            row.IsIncluded = shouldBeIncluded;
-            if (!shouldBeIncluded)
+            foreach (var row in ParticipantRows)
             {
-                row.IsEditing = false;
-                row.ValidationError = string.Empty;
-                row.HasTransientInvalidInput = false;
-                row.RawInput = string.Empty;
-                row.CommittedAmountMinor = 0;
-                row.IsCustomAmount = false;
+                var shouldBeIncluded = !row.IsDependent;
+                if (row.IsIncluded == shouldBeIncluded) continue;
+                row.IsIncluded = shouldBeIncluded;
+                if (!shouldBeIncluded)
+                {
+                    row.IsEditing = false;
+                    row.ValidationError = string.Empty;
+                    row.HasTransientInvalidInput = false;
+                    row.RawInput = string.Empty;
+                    row.CommittedAmountMinor = 0;
+                    row.IsCustomAmount = false;
+                }
             }
+        }
+        finally
+        {
+            _isSettingParticipantRows = false;
         }
         RecalculateAll();
     }
@@ -290,6 +307,32 @@ public partial class AddExpensePage : ContentPage
             row.RawInput = string.Empty;
             row.IsCustomAmount = false;
         }
+
+        RecalculateAll();
+    }
+
+    private void OnParticipantCheckChanged(object? sender, CheckedChangedEventArgs e)
+    {
+        if (_isSettingParticipantRows)
+        {
+            return;
+        }
+
+        if (sender is not CheckBox { BindingContext: ParticipantSplitRowViewModel row })
+        {
+            return;
+        }
+
+        if (!row.IsIncluded)
+        {
+            row.CommittedAmountMinor = 0;
+        }
+
+        row.IsEditing = false;
+        row.ValidationError = string.Empty;
+        row.HasTransientInvalidInput = false;
+        row.RawInput = string.Empty;
+        row.IsCustomAmount = false;
 
         RecalculateAll();
     }
@@ -506,10 +549,11 @@ public partial class AddExpensePage : ContentPage
             return AppResources.Validation_InvalidAmount;
         }
 
-        var customRows = included.Where(row => row.IsCustomAmount).ToArray();
-        var autoRows = included.Where(row => !row.IsCustomAmount).ToArray();
+        var isProvisionalCustom = (ParticipantSplitRowViewModel row) => row.IsCustomAmount || (row.IsEditing && row.LiveParsedAmountMinor.HasValue);
+        var customRows = included.Where(row => isProvisionalCustom(row)).ToArray();
+        var autoRows = included.Where(row => !isProvisionalCustom(row)).ToArray();
 
-        var customSum = customRows.Sum(row => row.CommittedAmountMinor);
+        var customSum = customRows.Sum(row => row.IsCustomAmount ? row.CommittedAmountMinor : (row.LiveParsedAmountMinor ?? 0));
         var remaining = totalMinor - customSum;
         if (remaining < 0)
         {
