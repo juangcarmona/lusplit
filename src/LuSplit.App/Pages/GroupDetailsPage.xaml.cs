@@ -19,6 +19,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     public string GroupName { get; set; } = string.Empty;
     public CurrencyOption? SelectedCurrencyOption { get; set; }
     public string StatusText { get; set; } = string.Empty;
+    public string? GroupImagePath { get; private set; }
 
     public bool IsArchived => _isArchived;
 
@@ -62,6 +63,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _groupId = details.GroupId;
             _isArchived = details.IsArchived;
             GroupName = details.GroupName;
+            GroupImagePath = details.ImagePath;
             BuildCurrencyList(details.Currency);
             Title = details.GroupName;
 
@@ -226,6 +228,68 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         }
     }
 
+    private async void OnChangePhotoClicked(object? sender, EventArgs e)
+    {
+        if (_groupId is null) return;
+
+        var choice = await DisplayActionSheetAsync(
+            AppResources.GroupDetails_PhotoSectionTitle,
+            AppResources.Common_Cancel,
+            null,
+            AppResources.GroupDetails_PhotoFromCamera,
+            AppResources.GroupDetails_PhotoFromGallery,
+            string.IsNullOrEmpty(GroupImagePath) ? null : AppResources.GroupDetails_PhotoRemove);
+
+        if (string.IsNullOrEmpty(choice) || choice == AppResources.Common_Cancel)
+            return;
+
+        try
+        {
+            if (choice == AppResources.GroupDetails_PhotoRemove)
+            {
+                await RemoveGroupPhotoAsync();
+                return;
+            }
+
+            FileResult? result = choice == AppResources.GroupDetails_PhotoFromCamera
+                ? await MediaPicker.Default.CapturePhotoAsync()
+                : await MediaPicker.Default.PickPhotoAsync();
+
+            if (result is null) return;
+
+            var dir = Path.Combine(FileSystem.AppDataDirectory, "group_images");
+            Directory.CreateDirectory(dir);
+            var destPath = Path.Combine(dir, $"{_groupId}.jpg");
+
+            await using (var src = await result.OpenReadAsync())
+            await using (var dst = File.OpenWrite(destPath))
+            {
+                await src.CopyToAsync(dst);
+            }
+
+            await _dataService.SaveGroupImageAsync(_groupId, destPath);
+            GroupImagePath = destPath;
+            OnPropertyChanged(nameof(GroupImagePath));
+        }
+        catch (Exception ex)
+        {
+            StatusText = ex.Message;
+            OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    private async Task RemoveGroupPhotoAsync()
+    {
+        if (_groupId is null) return;
+
+        if (!string.IsNullOrEmpty(GroupImagePath) && File.Exists(GroupImagePath))
+            File.Delete(GroupImagePath);
+
+        await _dataService.SaveGroupImageAsync(_groupId, null);
+        GroupImagePath = null;
+        OnPropertyChanged(nameof(GroupImagePath));
+    }
+
     // ── Helpers ───────────────────────────────────────────────────────────
 
     private void BuildCurrencyList(string preferredCurrencyCode)
@@ -251,6 +315,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     {
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(SelectedCurrencyOption));
+        OnPropertyChanged(nameof(GroupImagePath));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
         OnPropertyChanged(nameof(CanArchive));

@@ -93,6 +93,11 @@ public static class AppResources
     public static string GroupDetails_PersonAddedNew => Get(nameof(GroupDetails_PersonAddedNew));
     public static string GroupDetails_PersonUpdated => Get(nameof(GroupDetails_PersonUpdated));
     public static string GroupDetails_Remove => Get(nameof(GroupDetails_Remove));
+    public static string GroupDetails_ChangePhotoButton => Get(nameof(GroupDetails_ChangePhotoButton));
+    public static string GroupDetails_PhotoSectionTitle => Get(nameof(GroupDetails_PhotoSectionTitle));
+    public static string GroupDetails_PhotoFromCamera => Get(nameof(GroupDetails_PhotoFromCamera));
+    public static string GroupDetails_PhotoFromGallery => Get(nameof(GroupDetails_PhotoFromGallery));
+    public static string GroupDetails_PhotoRemove => Get(nameof(GroupDetails_PhotoRemove));
     public static string GroupDetails_ArchiveButton => Get(nameof(GroupDetails_ArchiveButton));
     public static string GroupDetails_ArchiveConfirmTitle => Get(nameof(GroupDetails_ArchiveConfirmTitle));
     public static string GroupDetails_ArchiveConfirmMessage => Get(nameof(GroupDetails_ArchiveConfirmMessage));
@@ -329,6 +334,13 @@ public static class AppResources
     public static string Mapper_BalanceEvenNow => Get(nameof(Mapper_BalanceEvenNow));
     public static string Mapper_SummaryReadyToGo => Get(nameof(Mapper_SummaryReadyToGo));
     public static string Mapper_SummaryEvents => Get(nameof(Mapper_SummaryEvents));
+    public static string Mapper_SummaryPeople => Get(nameof(Mapper_SummaryPeople));
+    public static string Mapper_NoActivity => Get(nameof(Mapper_NoActivity));
+    public static string Mapper_Activity_Expense => Get(nameof(Mapper_Activity_Expense));
+    public static string Mapper_Activity_Expenses => Get(nameof(Mapper_Activity_Expenses));
+    public static string Mapper_Activity_Payment => Get(nameof(Mapper_Activity_Payment));
+    public static string Mapper_Activity_Payments => Get(nameof(Mapper_Activity_Payments));
+    public static string Mapper_Activity_ExpensesPayments => Get(nameof(Mapper_Activity_ExpensesPayments));
     public static string Mapper_PeopleCountFormat => Get(nameof(Mapper_PeopleCountFormat));
     public static string Mapper_Today => Get(nameof(Mapper_Today));
     public static string Mapper_Yesterday => Get(nameof(Mapper_Yesterday));

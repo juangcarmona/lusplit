@@ -265,6 +265,18 @@
   <data name="AddEvent_SectionDependents" xml:space="preserve">
     <value>Dependentes</value>
   </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Modo de divisão</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Auto</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Valor fixo</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Percentagem</value>
+  </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
     <value>Despesas recentes</value>
   </data>
@@ -597,6 +609,27 @@
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} pessoas · {1} eventos</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} pessoas</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>sem movimentações</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} despesa</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} despesas</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} pagamento</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} pagamentos</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} despesas · {1} pagamentos</value>
   </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
     <value>{0} → {1} pessoas</value>

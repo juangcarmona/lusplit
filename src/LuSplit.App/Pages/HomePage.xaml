@@ -6,8 +6,10 @@
              x:Class="LuSplit.App.Pages.HomePage"
              Title="{x:Static loc:AppResources.Home_Title}"
              Shell.NavBarIsVisible="False">
+
     <Grid RowDefinitions="*,Auto">
         <Grid RowDefinitions="*,Auto" RowSpacing="0">
+
             <VerticalStackLayout Padding="24,24,24,12"
                                  Spacing="12"
                                  IsVisible="{Binding ShowNoGroupsEmptyState}"
@@ -24,34 +26,136 @@
             </VerticalStackLayout>
 
             <ScrollView IsVisible="{Binding HasGroup}">
-                <VerticalStackLayout Padding="16,16,16,8" Spacing="10">
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
-                        <Button Grid.Column="0"
-                                Text="☰"
-                                Clicked="OnOpenDrawerClicked"
-                                Style="{StaticResource SecondaryButton}"
-                                Padding="10,6"
-                                MinimumWidthRequest="42"
-                                MinimumHeightRequest="36" />
-                        <Label Grid.Column="1"
-                               Text="{Binding GroupName}"
-                               FontFamily="BrandSemiBold"
-                               FontSize="24"
-                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryNavy}, Dark={StaticResource TextOnDark}}"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="1" />
-                        <Button Grid.Column="2"
-                                Text="⋯"
-                                Clicked="OnOverflowClicked"
-                                Style="{StaticResource SecondaryButton}"
-                                Padding="10,6"
-                                MinimumWidthRequest="42"
-                                MinimumHeightRequest="36" />
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Hero header -->
+                    <Grid HeightRequest="220">
+
+                        <!-- fallback gradient -->
+                        <Grid IsVisible="{Binding HasNoGroupImage}">
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#2CB1A1" Offset="0" />
+                                    <GradientStop Color="#5A74FF" Offset="1" />
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                        </Grid>
+
+                        <!-- background image -->
+                        <Image Source="{Binding GroupImageSource}"
+                               Aspect="AspectFill"
+                               IsVisible="{Binding HasGroupImage}" />
+
+                        <!-- readability overlay -->
+                        <Grid>
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#55000000" Offset="0.0" />
+                                    <GradientStop Color="#88000000" Offset="0.35" />
+                                    <GradientStop Color="#DD000000" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                        </Grid>
+
+                        <!-- top actions -->
+                        <Grid Padding="16,18,16,0"
+                              VerticalOptions="Start"
+                              ColumnDefinitions="Auto,*,Auto">
+
+                            <Border Grid.Column="0"
+                                    WidthRequest="44"
+                                    HeightRequest="44"
+                                    StrokeShape="RoundRectangle 22"
+                                    Stroke="#44FFFFFF"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#22FFFFFF">
+                                <Button Text="☰"
+                                        Clicked="OnOpenDrawerClicked"
+                                        BackgroundColor="Transparent"
+                                        TextColor="White"
+                                        FontSize="18"
+                                        Padding="0"
+                                        MinimumWidthRequest="44"
+                                        MinimumHeightRequest="44" />
+                            </Border>
+
+                            <Border Grid.Column="2"
+                                    WidthRequest="44"
+                                    HeightRequest="44"
+                                    StrokeShape="RoundRectangle 22"
+                                    Stroke="#44FFFFFF"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#22FFFFFF">
+                                <Button Text="⋯"
+                                        Clicked="OnOverflowClicked"
+                                        BackgroundColor="Transparent"
+                                        TextColor="White"
+                                        FontSize="20"
+                                        Padding="0"
+                                        MinimumWidthRequest="44"
+                                        MinimumHeightRequest="44" />
+                            </Border>
+                        </Grid>
+
+                        <!-- centered content -->
+                        <VerticalStackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Padding="24,54,24,24"
+                                             Spacing="8">
+
+                            <!-- circular icon/photo -->
+                            <Border WidthRequest="76"
+                                    HeightRequest="76"
+                                    StrokeShape="RoundRectangle 38"
+                                    Stroke="#55FFFFFF"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#22FFFFFF"
+                                    HorizontalOptions="Center"
+                                    StrokeLineJoin="Round">
+
+                                <Grid>
+                                    <Image Source="{Binding GroupImageSource}"
+                                           Aspect="AspectFill"
+                                           IsVisible="{Binding HasGroupImage}" />
+
+                                    <Label Text="🏔️"
+                                           FontSize="30"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           IsVisible="{Binding HasNoGroupImage}" />
+                                </Grid>
+                            </Border>
+
+                            <Label Text="{Binding GroupName}"
+                                   TextColor="White"
+                                   FontFamily="BrandSemiBold"
+                                   FontSize="22"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="2" />
+
+                            <Label Text="{Binding GroupMetaText}"
+                                   TextColor="#E6FFFFFF"
+                                   FontFamily="BrandRegular"
+                                   FontSize="13"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1" />
+
+                            <!--<Label Text="{Binding TotalUnsettledText}"
+                                   TextColor="White"
+                                   FontFamily="BrandMedium"
+                                   FontSize="14"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1" />-->
+                        </VerticalStackLayout>
                     </Grid>
 
-                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <!-- tabs -->
+                    <Grid Padding="16,0,16,0"
+                          ColumnDefinitions="*,*,*"
+                          ColumnSpacing="8">
                         <Button x:Name="OverviewTabButton"
                                 Grid.Column="0"
                                 Text="{x:Static loc:AppResources.Group_TabOverview}"
@@ -68,19 +172,22 @@
                                 Clicked="OnBalancesTabClicked" />
                     </Grid>
 
-                    <VerticalStackLayout IsVisible="{Binding ShowOverview}" Spacing="10">
-                        <VerticalStackLayout Spacing="2">
-                            <Label Text="{Binding GroupMetaText}" Style="{StaticResource BodyMuted}" />
-                            <Label Text="{Binding TotalUnsettledText}" Style="{StaticResource BodyText}" />
-                        </VerticalStackLayout>
+                    <VerticalStackLayout Padding="16,4,16,8"
+                                         IsVisible="{Binding ShowOverview}"
+                                         Spacing="10">
 
                         <VerticalStackLayout IsVisible="{Binding ShowOverviewEmptyState}" Spacing="2">
                             <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityCount}" Style="{StaticResource BodyMuted}" />
                             <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityText}" Style="{StaticResource BodyMuted}" />
                         </VerticalStackLayout>
 
-                        <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowWhoOwesWhatSection}" />
-                        <CollectionView ItemsSource="{Binding WhoOwesWho}" SelectionMode="None" IsVisible="{Binding ShowWhoOwesWhatSection}">
+                        <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}"
+                               Style="{StaticResource SectionTitle}"
+                               IsVisible="{Binding ShowWhoOwesWhatSection}" />
+
+                        <CollectionView ItemsSource="{Binding WhoOwesWho}"
+                                        SelectionMode="None"
+                                        IsVisible="{Binding ShowWhoOwesWhatSection}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="*,Auto" Padding="0,3">
@@ -94,8 +201,13 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <Label Text="{x:Static loc:AppResources.Group_TabBalances}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowBalancesSection}" />
-                        <CollectionView ItemsSource="{Binding Balances}" SelectionMode="None" IsVisible="{Binding ShowBalancesSection}">
+                        <Label Text="{x:Static loc:AppResources.Group_TabBalances}"
+                               Style="{StaticResource SectionTitle}"
+                               IsVisible="{Binding ShowBalancesSection}" />
+
+                        <CollectionView ItemsSource="{Binding Balances}"
+                                        SelectionMode="None"
+                                        IsVisible="{Binding ShowBalancesSection}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="*,Auto" Padding="0,3">
@@ -110,8 +222,15 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
 
-                        <Label Text="{x:Static loc:AppResources.Home_RecentExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
-                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,6,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
+                        <Label Text="{x:Static loc:AppResources.Home_RecentExpenses}"
+                               Style="{StaticResource SectionTitle}"
+                               IsVisible="{Binding HasEvents}" />
+
+                        <CollectionView ItemsSource="{Binding Events}"
+                                        SelectionMode="Single"
+                                        Margin="0,6,0,0"
+                                        SelectionChanged="OnEventSelectionChanged"
+                                        IsVisible="{Binding HasEvents}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
@@ -127,9 +246,16 @@
                         </CollectionView>
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout IsVisible="{Binding ShowExpenses}" Spacing="10">
+                    <VerticalStackLayout Padding="16,4,16,8"
+                                         IsVisible="{Binding ShowExpenses}"
+                                         Spacing="10">
                         <Label Text="{x:Static loc:AppResources.Group_TabExpenses}" Style="{StaticResource SectionTitle}" IsVisible="{Binding HasEvents}" />
-                        <CollectionView ItemsSource="{Binding Events}" SelectionMode="Single" Margin="0,2,0,0" SelectionChanged="OnEventSelectionChanged" IsVisible="{Binding HasEvents}">
+
+                        <CollectionView ItemsSource="{Binding Events}"
+                                        SelectionMode="Single"
+                                        Margin="0,2,0,0"
+                                        SelectionChanged="OnEventSelectionChanged"
+                                        IsVisible="{Binding HasEvents}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" Padding="0,4">
@@ -143,14 +269,20 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
+
                         <Label Text="{x:Static loc:AppResources.Home_ExpensesEmpty}"
                                Style="{StaticResource BodyMuted}"
                                IsVisible="{Binding ShowExpensesEmptyState}" />
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout IsVisible="{Binding ShowBalances}" Spacing="10">
+                    <VerticalStackLayout Padding="16,4,16,8"
+                                         IsVisible="{Binding ShowBalances}"
+                                         Spacing="10">
                         <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowWhoOwesWhatSection}" />
-                        <CollectionView ItemsSource="{Binding WhoOwesWho}" SelectionMode="None" IsVisible="{Binding ShowWhoOwesWhatSection}">
+
+                        <CollectionView ItemsSource="{Binding WhoOwesWho}"
+                                        SelectionMode="None"
+                                        IsVisible="{Binding ShowWhoOwesWhatSection}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="*,Auto" Padding="0,3">
@@ -165,7 +297,10 @@
                         </CollectionView>
 
                         <Label Text="{x:Static loc:AppResources.Group_TabBalances}" Style="{StaticResource SectionTitle}" IsVisible="{Binding ShowBalancesSection}" />
-                        <CollectionView ItemsSource="{Binding Balances}" SelectionMode="None" IsVisible="{Binding ShowBalancesSection}">
+
+                        <CollectionView ItemsSource="{Binding Balances}"
+                                        SelectionMode="None"
+                                        IsVisible="{Binding ShowBalancesSection}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="*,Auto" Padding="0,3">
@@ -184,6 +319,7 @@
                                Style="{StaticResource BodyMuted}"
                                IsVisible="{Binding ShowBalancesEmptyState}" />
                     </VerticalStackLayout>
+
                 </VerticalStackLayout>
             </ScrollView>
 
@@ -192,6 +328,7 @@
                         Text="{x:Static loc:AppResources.Group_AddExpense}"
                         Clicked="OnAddExpenseClicked"
                         IsVisible="{Binding ShowAddExpenseButton}" />
+
                 <Button Margin="16,8,16,8"
                         Text="{x:Static loc:AppResources.Group_SettleUp}"
                         Clicked="OnSettleUpClicked"

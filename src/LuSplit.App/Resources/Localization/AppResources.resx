@@ -293,6 +293,21 @@
   <data name="GroupDetails_Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Change photo</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Group photo</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Remove photo</value>
+  </data>
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">
@@ -900,6 +915,27 @@
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} people · {1} events</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} people</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>no activity</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} expense</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} expenses</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} payment</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} payments</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} expenses · {1} payments</value>
   </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
     <value>{0} → {1} people</value>

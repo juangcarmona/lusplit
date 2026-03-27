@@ -35,7 +35,7 @@ public partial class GroupSwitcherPage : ContentPage
         ActiveGroups.Clear();
         foreach (var group in groups)
         {
-            ActiveGroups.Add(new GroupSwitcherItemViewModel(group.GroupId, group.Name, group.IsCurrent));
+            ActiveGroups.Add(new GroupSwitcherItemViewModel(group.GroupId, group.Name, group.IsCurrent, group.ImagePath));
         }
 
         ArchivedGroups.Clear();
@@ -68,8 +68,12 @@ public partial class GroupSwitcherPage : ContentPage
     }
 }
 
-public sealed record GroupSwitcherItemViewModel(string GroupId, string Name, bool IsCurrent)
+public sealed record GroupSwitcherItemViewModel(string GroupId, string Name, bool IsCurrent, string? ImagePath = null)
 {
     public bool CanSelect => !IsCurrent;
     public string DisplayName => IsCurrent ? $"{Name} {AppResources.GroupSwitcher_CurrentSuffix}" : Name;
+    public string AvatarInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
+    public bool HasImage => !string.IsNullOrEmpty(ImagePath) && File.Exists(ImagePath);
+    public bool HasNoImage => !HasImage;
+    public ImageSource? ThumbnailSource => HasImage ? ImageSource.FromFile(ImagePath!) : null;
 }

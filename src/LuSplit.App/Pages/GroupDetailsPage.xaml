@@ -9,7 +9,22 @@
              Title="{x:Static loc:AppResources.GroupDetails_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
-            <VerticalStackLayout Padding="16,12,16,24" Spacing="14">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Full-width header with image/gradient + group name -->
+                <local:GroupHeaderView
+                    GroupName="{Binding GroupName}"
+                    ImagePath="{Binding GroupImagePath}" />
+
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="14">
+
+                <!-- Change photo (edit mode only) -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ChangePhotoButton}"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding CanEdit}"
+                        Margin="0,0,0,4"
+                        AutomationId="ChangePhotoButton"
+                        Clicked="OnChangePhotoClicked" />
 
                 <!-- Archived group banner -->
                 <Border IsVisible="{Binding IsArchived}"
@@ -77,6 +92,7 @@
 
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
 
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
