@@ -29,7 +29,7 @@
                 <VerticalStackLayout Spacing="12">
 
                     <!-- Hero header -->
-                    <Grid HeightRequest="260">
+                    <Grid HeightRequest="220">
 
                         <!-- fallback gradient -->
                         <Grid IsVisible="{Binding HasNoGroupImage}">
@@ -142,13 +142,13 @@
                                    LineBreakMode="TailTruncation"
                                    MaxLines="1" />
 
-                            <Label Text="{Binding TotalUnsettledText}"
+                            <!--<Label Text="{Binding TotalUnsettledText}"
                                    TextColor="White"
                                    FontFamily="BrandMedium"
                                    FontSize="14"
                                    HorizontalTextAlignment="Center"
                                    LineBreakMode="TailTruncation"
-                                   MaxLines="1" />
+                                   MaxLines="1" />-->
                         </VerticalStackLayout>
                     </Grid>
 

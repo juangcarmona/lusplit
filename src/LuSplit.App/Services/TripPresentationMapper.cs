@@ -237,10 +237,10 @@ public static class GroupPresentationMapper
     }
 
     public static string FormatCompactPeopleAndEvents(GroupOverviewModel overview)
-        => string.Format(
-            AppResources.Mapper_SummaryEvents,
+        => FormatActivitySummary(
             overview.Summary.ParticipantCount,
-            overview.Summary.ExpenseCount + overview.Summary.TransferCount);
+            overview.Summary.ExpenseCount,
+            overview.Summary.TransferCount);
 
     public static string FormatTotalUnsettled(GroupOverviewModel overview)
     {
@@ -261,11 +261,24 @@ public static class GroupPresentationMapper
     }
 
     public static string BuildGroupSummary(GroupOverviewModel overview)
+        => FormatActivitySummary(
+            overview.Summary.ParticipantCount,
+            overview.Summary.ExpenseCount,
+            overview.Summary.TransferCount);
+
+    private static string FormatActivitySummary(int people, int expenses, int transfers)
     {
-        var eventCount = overview.Summary.ExpenseCount + overview.Summary.TransferCount;
-        return eventCount == 0
-            ? string.Format(AppResources.Mapper_SummaryReadyToGo, overview.Summary.ParticipantCount)
-            : string.Format(AppResources.Mapper_SummaryEvents, overview.Summary.ParticipantCount, eventCount);
+        var peoplePart = string.Format(AppResources.Mapper_SummaryPeople, people);
+        var activityPart = (expenses, transfers) switch
+        {
+            (0, 0) => AppResources.Mapper_NoActivity,
+            (1, 0) => string.Format(AppResources.Mapper_Activity_Expense, expenses),
+            (_, 0) => string.Format(AppResources.Mapper_Activity_Expenses, expenses),
+            (0, 1) => string.Format(AppResources.Mapper_Activity_Payment, transfers),
+            (0, _) => string.Format(AppResources.Mapper_Activity_Payments, transfers),
+            _      => string.Format(AppResources.Mapper_Activity_ExpensesPayments, expenses, transfers)
+        };
+        return $"{peoplePart} · {activityPart}";
     }
 
     /// <summary>

@@ -610,6 +610,27 @@
   <data name="Mapper_SummaryEvents" xml:space="preserve">
     <value>{0} persone · {1} eventi</value>
   </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} persone</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>nessuna attività</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} spesa</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} spese</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} pagamento</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} pagamenti</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} spese · {1} pagamenti</value>
+  </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
     <value>{0} → {1} persone</value>
   </data>
