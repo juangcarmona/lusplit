@@ -73,7 +73,8 @@ public sealed class AppDataService : IAsyncDisposable
             ResolveGroupName(metadata.Name, overview),
             overview,
             await GetExpenseIconsAsync(groupId),
-            metadata.LastOpenedUtc);
+            metadata.LastOpenedUtc,
+            metadata.ImagePath);
     }
 
     public async Task<IReadOnlyList<ParticipantModel>> GetParticipantsAsync()
@@ -103,7 +104,8 @@ public sealed class AppDataService : IAsyncDisposable
                 GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
                 GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_AddFirstEvent,
                 BuildGroupStatusText(string.Equals(groupId, selectedGroupId, StringComparison.Ordinal), workspace.LastOpenedUtc, lastActivity),
-                rankDate));
+                rankDate,
+                workspace.ImagePath));
         }
 
         return groups
@@ -132,7 +134,8 @@ public sealed class AppDataService : IAsyncDisposable
                 GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
                 GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_Settled,
                 string.Empty,
-                rankDate));
+                rankDate,
+                workspace.ImagePath));
         }
 
         return groups
@@ -166,7 +169,8 @@ public sealed class AppDataService : IAsyncDisposable
                         string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
                     participant.ConsumptionCategory.ToString().ToUpperInvariant(),
                     participant.CustomConsumptionWeight))
-                .ToArray());
+                .ToArray(),
+            workspace.ImagePath);
     }
 
     /// <summary>Archives a group. Archived groups are read-only - the domain blocks new expenses and participants on closed groups.</summary>
@@ -196,6 +200,24 @@ public sealed class AppDataService : IAsyncDisposable
         Preferences.Default.Set(SelectedGroupPreferenceKey, _selectedGroupId);
         await TouchGroupAsync(_selectedGroupId);
         DataChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>Persists the group image path (or clears it when <paramref name="imagePath"/> is <c>null</c>).</summary>
+    public async Task SaveGroupImageAsync(string groupId, string? imagePath)
+    {
+        var infra = await GetInfraAsync();
+
+        using var command = infra.Db.CreateCommand();
+        command.CommandText = @"
+INSERT INTO group_metadata (group_id, image_path)
+VALUES ($groupId, $imagePath)
+ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
+        command.Parameters.AddWithValue("$groupId", groupId);
+        command.Parameters.AddWithValue("$imagePath", (object?)imagePath ?? DBNull.Value);
+        command.ExecuteNonQuery();
+
+        DataChanged?.Invoke(this, EventArgs.Empty);
+        await Task.CompletedTask;
     }
 
     public async Task<string> CreateGroupAsync(string groupName, string currency, IReadOnlyList<GroupDraftMember> members)
@@ -526,6 +548,19 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
   icon TEXT NULL
 );";
         command.ExecuteNonQuery();
+
+        // Migration: add image_path column if this is an existing database without it.
+        try
+        {
+            using var alterCmd = infra.Db.CreateCommand();
+            alterCmd.CommandText = "ALTER TABLE group_metadata ADD COLUMN image_path TEXT NULL";
+            alterCmd.ExecuteNonQuery();
+        }
+        catch (Exception ex) when (ex.Message.Contains("duplicate column name"))
+        {
+            // Column already present from a previous run; nothing to do.
+        }
+
         await Task.CompletedTask;
     }
 
@@ -572,7 +607,7 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
         var infra = await GetInfraAsync();
 
         using var command = infra.Db.CreateCommand();
-        command.CommandText = "SELECT name, last_opened_utc FROM group_metadata WHERE group_id = $groupId";
+        command.CommandText = "SELECT name, last_opened_utc, image_path FROM group_metadata WHERE group_id = $groupId";
         command.Parameters.AddWithValue("$groupId", groupId);
 
         using var reader = command.ExecuteReader();
@@ -583,7 +618,8 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
 
         return new GroupMetadataRecord(
             reader.IsDBNull(0) ? null : reader.GetString(0),
-            reader.IsDBNull(1) || !DateTimeOffset.TryParse(reader.GetString(1), out var lastOpenedUtc) ? null : lastOpenedUtc);
+            reader.IsDBNull(1) || !DateTimeOffset.TryParse(reader.GetString(1), out var lastOpenedUtc) ? null : lastOpenedUtc,
+            reader.IsDBNull(2) ? null : reader.GetString(2));
     }
 
     private async Task SaveGroupMetadataAsync(string groupId, string? name, DateTimeOffset? lastOpenedUtc)
@@ -800,7 +836,8 @@ public sealed record GroupWorkspaceModel(
     string GroupName,
     GroupOverviewModel Overview,
     IReadOnlyDictionary<string, string> ExpenseIcons,
-    DateTimeOffset? LastOpenedUtc);
+    DateTimeOffset? LastOpenedUtc,
+    string? ImagePath = null);
 
 public sealed record GroupListItemModel(
     string GroupId,
@@ -810,14 +847,19 @@ public sealed record GroupListItemModel(
     string SummaryText,
     string BalancePreviewText,
     string StatusText,
-    DateTimeOffset RankDate);
+    DateTimeOffset RankDate,
+    string? ImagePath = null)
+{
+    public string AvatarInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
+}
 
 public sealed record GroupDetailsModel(
     string GroupId,
     string GroupName,
     string Currency,
     bool IsArchived,
-    IReadOnlyList<GroupMemberModel> Members);
+    IReadOnlyList<GroupMemberModel> Members,
+    string? ImagePath = null);
 
 public sealed record GroupMemberModel(
     string ParticipantId,
@@ -833,4 +875,4 @@ public sealed record GroupDraftMember(
     ConsumptionCategory ConsumptionCategory = ConsumptionCategory.Full,
     string? CustomConsumptionWeight = null);
 
-sealed record GroupMetadataRecord(string? Name, DateTimeOffset? LastOpenedUtc);
+sealed record GroupMetadataRecord(string? Name, DateTimeOffset? LastOpenedUtc, string? ImagePath = null);

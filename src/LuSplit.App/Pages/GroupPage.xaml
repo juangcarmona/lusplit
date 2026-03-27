@@ -26,11 +26,48 @@
                            HorizontalTextAlignment="Center" />
                 </Border>
 
-                <!-- Group header -->
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="{Binding GroupName}" Style="{StaticResource DisplayTitle}" />
-                    <Label Text="{Binding GroupSummaryText}" Style="{StaticResource BodyMuted}" />
-                </VerticalStackLayout>
+                <!-- Group header with background image -->
+                <Grid HeightRequest="180"
+                        Margin="-20,-16,-20,0">
+
+                    <!-- Fallback gradient -->
+                    <Grid IsVisible="{Binding HasNoGroupImage}">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#2CB1A1" Offset="0" />
+                                <GradientStop Color="#5A74FF" Offset="1" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+
+                    <!-- Background image -->
+                    <Image Source="{Binding GroupImageSource}"
+                            Aspect="AspectFill"
+                            IsVisible="{Binding HasGroupImage}" />
+
+                    <!-- Dark overlay -->
+                    <Grid>
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#22000000" Offset="0.0" />
+                                <GradientStop Color="#AA000000" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+
+                    <!-- Header content -->
+                    <VerticalStackLayout Padding="20,16,20,16"
+                         Spacing="6"
+                         VerticalOptions="End">
+                        <Label Text="{Binding GroupName}"
+                            TextColor="White"
+                            Style="{StaticResource DisplayTitle}" />
+
+                        <Label Text="{Binding GroupSummaryText}"
+                            TextColor="#E6FFFFFF"
+                            Style="{StaticResource BodyMuted}" />
+                    </VerticalStackLayout>
+                </Grid>
 
                 <!-- Balance summary card -->
                 <Border Style="{StaticResource ExpenseItemBorder}">

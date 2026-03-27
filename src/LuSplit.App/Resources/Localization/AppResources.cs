@@ -93,6 +93,11 @@ public static class AppResources
     public static string GroupDetails_PersonAddedNew => Get(nameof(GroupDetails_PersonAddedNew));
     public static string GroupDetails_PersonUpdated => Get(nameof(GroupDetails_PersonUpdated));
     public static string GroupDetails_Remove => Get(nameof(GroupDetails_Remove));
+    public static string GroupDetails_ChangePhotoButton => Get(nameof(GroupDetails_ChangePhotoButton));
+    public static string GroupDetails_PhotoSectionTitle => Get(nameof(GroupDetails_PhotoSectionTitle));
+    public static string GroupDetails_PhotoFromCamera => Get(nameof(GroupDetails_PhotoFromCamera));
+    public static string GroupDetails_PhotoFromGallery => Get(nameof(GroupDetails_PhotoFromGallery));
+    public static string GroupDetails_PhotoRemove => Get(nameof(GroupDetails_PhotoRemove));
     public static string GroupDetails_ArchiveButton => Get(nameof(GroupDetails_ArchiveButton));
     public static string GroupDetails_ArchiveConfirmTitle => Get(nameof(GroupDetails_ArchiveConfirmTitle));
     public static string GroupDetails_ArchiveConfirmMessage => Get(nameof(GroupDetails_ArchiveConfirmMessage));

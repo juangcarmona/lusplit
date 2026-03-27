@@ -24,9 +24,17 @@ public partial class HomePage : ContentPage
     public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
 
     public bool HasGroup { get; private set; } = true;
+
+    public string? GroupImagePath { get; private set; }
+    public bool HasGroupImage => !string.IsNullOrWhiteSpace(GroupImagePath);
+    public bool HasNoGroupImage => !HasGroupImage;
+    public ImageSource? GroupImageSource =>
+        HasGroupImage ? ImageSource.FromFile(GroupImagePath!) : null;
+
     public string GroupName { get; private set; } = string.Empty;
     public string GroupMetaText { get; private set; } = string.Empty;
     public string TotalUnsettledText { get; private set; } = string.Empty;
+
     public bool ShowNoGroupsEmptyState => !HasGroup;
     public bool ShowOverview => _selectedTab == WorkspaceTab.Overview;
     public bool ShowExpenses => _selectedTab == WorkspaceTab.Expenses;
@@ -99,32 +107,26 @@ public partial class HomePage : ContentPage
             GroupName = string.Empty;
             GroupMetaText = string.Empty;
             TotalUnsettledText = string.Empty;
+            GroupImagePath = null;
+
             Balances.Clear();
             Events.Clear();
             WhoOwesWho.Clear();
-            OnPropertyChanged(nameof(HasGroup));
-            OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
-            OnPropertyChanged(nameof(GroupName));
-            OnPropertyChanged(nameof(GroupMetaText));
-            OnPropertyChanged(nameof(TotalUnsettledText));
-            OnPropertyChanged(nameof(HasEvents));
-            OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
-            OnPropertyChanged(nameof(ShowBalancesSection));
-            OnPropertyChanged(nameof(ShowOverviewEmptyState));
-            OnPropertyChanged(nameof(ShowExpensesEmptyState));
-            OnPropertyChanged(nameof(ShowBalancesEmptyState));
-            OnPropertyChanged(nameof(ShowAddExpenseButton));
-            OnPropertyChanged(nameof(ShowSettleUpButton));
+
+            NotifyWorkspaceStateChanged();
+            ApplyTabVisualState();
             return;
         }
 
         HasGroup = true;
-        var overview = workspace.Overview;
 
-        GroupName = workspace.GroupName;
-        GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
+        var overview = workspace.Overview;
         var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
         var whoOwesWho = GroupPresentationMapper.BuildWhoOwesWho(overview, settlementMode);
+
+        GroupName = workspace.GroupName;
+        GroupImagePath = workspace.ImagePath;
+        GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
         TotalUnsettledText = whoOwesWho.Count == 0
             ? AppResources.Home_AllSettled
             : string.Format(
@@ -155,18 +157,32 @@ public partial class HomePage : ContentPage
             WhoOwesWho.Add(line);
         }
 
+        NotifyWorkspaceStateChanged();
+        ApplyTabVisualState();
+    }
+
+    private void NotifyWorkspaceStateChanged()
+    {
+        OnPropertyChanged(nameof(HasGroup));
+        OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
+
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
         OnPropertyChanged(nameof(TotalUnsettledText));
-        OnPropertyChanged(nameof(HasGroup));
-        OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
+
+        OnPropertyChanged(nameof(GroupImagePath));
+        OnPropertyChanged(nameof(HasGroupImage));
+        OnPropertyChanged(nameof(HasNoGroupImage));
+        OnPropertyChanged(nameof(GroupImageSource));
+
         OnPropertyChanged(nameof(HasEvents));
         OnPropertyChanged(nameof(ShowWhoOwesWhatSection));
         OnPropertyChanged(nameof(ShowBalancesSection));
         OnPropertyChanged(nameof(ShowOverviewEmptyState));
         OnPropertyChanged(nameof(ShowExpensesEmptyState));
         OnPropertyChanged(nameof(ShowBalancesEmptyState));
-        ApplyTabVisualState();
+        OnPropertyChanged(nameof(ShowAddExpenseButton));
+        OnPropertyChanged(nameof(ShowSettleUpButton));
     }
 
     private async void OnDataChanged(object? sender, EventArgs e)
@@ -252,15 +268,14 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(ShowOverviewEmptyState));
         OnPropertyChanged(nameof(ShowExpensesEmptyState));
         OnPropertyChanged(nameof(ShowBalancesEmptyState));
+        OnPropertyChanged(nameof(ShowAddExpenseButton));
+        OnPropertyChanged(nameof(ShowSettleUpButton));
 
         var unselectedStyle = (Style)MauiApplication.Current!.Resources["SecondaryButton"];
 
         OverviewTabButton.Style = _selectedTab == WorkspaceTab.Overview ? null : unselectedStyle;
         ExpensesTabButton.Style = _selectedTab == WorkspaceTab.Expenses ? null : unselectedStyle;
         BalancesTabButton.Style = _selectedTab == WorkspaceTab.Balances ? null : unselectedStyle;
-
-        OnPropertyChanged(nameof(ShowAddExpenseButton));
-        OnPropertyChanged(nameof(ShowSettleUpButton));
     }
 }
 

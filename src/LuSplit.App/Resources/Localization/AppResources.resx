@@ -293,6 +293,21 @@
   <data name="GroupDetails_Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Change photo</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Group photo</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Remove photo</value>
+  </data>
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">

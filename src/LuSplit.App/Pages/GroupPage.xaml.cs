@@ -22,6 +22,8 @@ public partial class GroupPage : ContentPage, IQueryAttributable
 
     public string GroupSummaryText { get; private set; } = string.Empty;
 
+    public string? GroupImagePath { get; private set; }
+
     public bool IsArchived { get; private set; }
 
     public bool CanEdit => !IsArchived;
@@ -61,6 +63,7 @@ public partial class GroupPage : ContentPage, IQueryAttributable
         GroupName = workspace.GroupName;
         GroupSummaryText = GroupPresentationMapper.BuildGroupSummary(workspace.Overview);
         IsArchived = workspace.Overview.Group.Closed;
+        GroupImagePath = workspace.ImagePath;
         Title = workspace.GroupName;
         _currentGroupId = workspace.GroupId;
 
@@ -75,6 +78,7 @@ public partial class GroupPage : ContentPage, IQueryAttributable
 
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupSummaryText));
+        OnPropertyChanged(nameof(GroupImagePath));
         OnPropertyChanged(nameof(IsArchived));
         OnPropertyChanged(nameof(CanEdit));
     }
