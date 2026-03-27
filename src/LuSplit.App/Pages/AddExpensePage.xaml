@@ -129,30 +129,18 @@
                                            Keyboard="Numeric"
                                            HorizontalTextAlignment="End"
                                            TextChanged="OnParticipantRawInputChanged"
-                                           Completed="OnParticipantEditConfirmClicked"
                                            IsVisible="{Binding IsEditing}" />
 
                                     <Button Grid.Column="3"
-                                            Text="✎"
-                                            Clicked="OnParticipantEditStartClicked"
+                                            Text="{Binding ModeLabel}"
+                                            Clicked="OnModeSelectorClicked"
                                             CommandParameter="{Binding Id}"
                                             Style="{StaticResource SecondaryButton}"
-                                            IsVisible="{Binding CanShowEditButton}"
+                                            IsVisible="{Binding IsIncluded}"
                                             Padding="6,0"
                                             FontSize="12"
-                                            MinimumWidthRequest="28"
-                                            MinimumHeightRequest="28" />
-
-                                    <Button Grid.Column="3"
-                                            Text="✓"
-                                            Clicked="OnParticipantEditConfirmClicked"
-                                            CommandParameter="{Binding Id}"
-                                            Style="{StaticResource SecondaryButton}"
-                                            IsVisible="{Binding IsEditing}"
-                                            Padding="6,0"
-                                            FontSize="12"
-                                            MinimumWidthRequest="28"
-                                            MinimumHeightRequest="28" />
+                                            MinimumWidthRequest="40"
+                                            MinimumHeightRequest="36" />
                                 </Grid>
 
                                 <Label Grid.Row="2"
