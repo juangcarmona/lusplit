@@ -265,6 +265,18 @@
   <data name="AddEvent_SectionDependents" xml:space="preserve">
     <value>Abhängige</value>
   </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Aufteilungsmodus</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Auto</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Fester Betrag</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Prozent</value>
+  </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
     <value>Neueste Ausgaben</value>
   </data>

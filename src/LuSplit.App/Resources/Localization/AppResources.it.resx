@@ -265,6 +265,18 @@
   <data name="AddEvent_SectionDependents" xml:space="preserve">
     <value>Dipendenti</value>
   </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Modalità di suddivisione</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Auto</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Importo fisso</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Percentuale</value>
+  </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
     <value>Spese recenti</value>
   </data>
