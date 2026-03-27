@@ -162,6 +162,10 @@ public static class AppResources
     public static string AddEvent_AdultsOnly => Get(nameof(AddEvent_AdultsOnly));
     public static string AddEvent_SectionAdults => Get(nameof(AddEvent_SectionAdults));
     public static string AddEvent_SectionDependents => Get(nameof(AddEvent_SectionDependents));
+    public static string AddEvent_SplitMode_Title => Get(nameof(AddEvent_SplitMode_Title));
+    public static string AddEvent_SplitMode_Auto => Get(nameof(AddEvent_SplitMode_Auto));
+    public static string AddEvent_SplitMode_Fixed => Get(nameof(AddEvent_SplitMode_Fixed));
+    public static string AddEvent_SplitMode_Percentage => Get(nameof(AddEvent_SplitMode_Percentage));
 
     // --- Settlement ---
     public static string Settlement_Title => Get(nameof(Settlement_Title));

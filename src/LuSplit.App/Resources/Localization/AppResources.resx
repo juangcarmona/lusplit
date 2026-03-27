@@ -439,6 +439,18 @@
   <data name="AddEvent_SectionDependents" xml:space="preserve">
     <value>Dependents</value>
   </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Split mode</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Auto</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Fixed amount</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Percentage</value>
+  </data>
 
   <!-- Settlement -->
   <data name="Settlement_Title" xml:space="preserve">

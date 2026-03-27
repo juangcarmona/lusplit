@@ -223,11 +223,11 @@ public partial class AddExpensePage : ContentPage
             {
                 if (row.IsIncluded) continue;
                 row.IsIncluded = true;
-                row.IsEditing = false;
+                row.SplitMode = SplitMode.Auto;
+                row.CommittedPercentage = null;
                 row.ValidationError = string.Empty;
                 row.HasTransientInvalidInput = false;
                 row.RawInput = string.Empty;
-                row.IsCustomAmount = false;
             }
         }
         finally
@@ -249,12 +249,12 @@ public partial class AddExpensePage : ContentPage
                 row.IsIncluded = shouldBeIncluded;
                 if (!shouldBeIncluded)
                 {
-                    row.IsEditing = false;
+                    row.SplitMode = SplitMode.Auto;
+                    row.CommittedPercentage = null;
                     row.ValidationError = string.Empty;
                     row.HasTransientInvalidInput = false;
                     row.RawInput = string.Empty;
                     row.CommittedAmountMinor = 0;
-                    row.IsCustomAmount = false;
                 }
             }
         }
@@ -292,20 +292,20 @@ public partial class AddExpensePage : ContentPage
         row.IsIncluded = !row.IsIncluded;
         if (!row.IsIncluded)
         {
-            row.IsEditing = false;
+            row.SplitMode = SplitMode.Auto;
+            row.CommittedPercentage = null;
             row.ValidationError = string.Empty;
             row.HasTransientInvalidInput = false;
             row.RawInput = string.Empty;
             row.CommittedAmountMinor = 0;
-            row.IsCustomAmount = false;
         }
         else
         {
-            row.IsEditing = false;
+            row.SplitMode = SplitMode.Auto;
+            row.CommittedPercentage = null;
             row.ValidationError = string.Empty;
             row.HasTransientInvalidInput = false;
             row.RawInput = string.Empty;
-            row.IsCustomAmount = false;
         }
 
         RecalculateAll();
@@ -328,29 +328,20 @@ public partial class AddExpensePage : ContentPage
             row.CommittedAmountMinor = 0;
         }
 
-        row.IsEditing = false;
+        row.SplitMode = SplitMode.Auto;
+        row.CommittedPercentage = null;
         row.ValidationError = string.Empty;
         row.HasTransientInvalidInput = false;
         row.RawInput = string.Empty;
-        row.IsCustomAmount = false;
 
         RecalculateAll();
     }
 
-    private async void OnParticipantEditStartClicked(object? sender, EventArgs e)
+    private async void OnModeSelectorClicked(object? sender, EventArgs e)
     {
         if (sender is not Button { CommandParameter: string participantId })
         {
             return;
-        }
-
-        foreach (var item in ParticipantRows)
-        {
-            if (!string.Equals(item.Id, participantId, StringComparison.Ordinal))
-            {
-                item.IsEditing = false;
-                item.ValidationError = string.Empty;
-            }
         }
 
         var row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
@@ -359,47 +350,63 @@ public partial class AddExpensePage : ContentPage
             return;
         }
 
-        row.IsEditing = true;
-        row.RawInput = (row.CommittedAmountMinor / 100m).ToString("0.##", CultureInfo.CurrentCulture);
-        row.ValidationError = string.Empty;
-        row.HasTransientInvalidInput = false;
-        RefreshRowsDisplay();
-        await Task.CompletedTask;
-    }
+        var result = await DisplayActionSheet(
+            AppResources.AddEvent_SplitMode_Title,
+            AppResources.Common_Cancel,
+            null,
+            AppResources.AddEvent_SplitMode_Auto,
+            AppResources.AddEvent_SplitMode_Fixed,
+            AppResources.AddEvent_SplitMode_Percentage);
 
-    private void OnParticipantEditConfirmClicked(object? sender, EventArgs e)
-    {
-        ParticipantSplitRowViewModel? row = null;
-
-        if (sender is Entry { BindingContext: ParticipantSplitRowViewModel fromEntry })
-        {
-            row = fromEntry;
-        }
-        else if (sender is Button { CommandParameter: string participantId })
-        {
-            row = ParticipantRows.FirstOrDefault(candidate => string.Equals(candidate.Id, participantId, StringComparison.Ordinal));
-        }
-
-        if (row is null || !row.IsIncluded || !row.IsEditing)
+        if (result is null || string.Equals(result, AppResources.Common_Cancel, StringComparison.Ordinal))
         {
             return;
         }
 
-        if (TryParseAmountLenient(row.RawInput, out var parsedMinor))
+        SplitMode newMode;
+        if (string.Equals(result, AppResources.AddEvent_SplitMode_Fixed, StringComparison.Ordinal))
         {
-            row.CommittedAmountMinor = parsedMinor;
-            row.IsCustomAmount = true;
-            row.IsEditing = false;
-            row.ValidationError = string.Empty;
-            row.HasTransientInvalidInput = false;
+            newMode = SplitMode.Fixed;
+        }
+        else if (string.Equals(result, AppResources.AddEvent_SplitMode_Percentage, StringComparison.Ordinal))
+        {
+            newMode = SplitMode.Percentage;
         }
         else
         {
-            row.ValidationError = AppResources.Validation_InvalidAmount;
-            row.HasTransientInvalidInput = true;
+            newMode = SplitMode.Auto;
         }
 
+        ApplyModeChange(row, newMode);
         RecalculateAll();
+    }
+
+    private void ApplyModeChange(ParticipantSplitRowViewModel row, SplitMode newMode)
+    {
+        var previousAmount = row.CommittedAmountMinor;
+        row.ValidationError = string.Empty;
+        row.HasTransientInvalidInput = false;
+        row.CommittedPercentage = null;
+
+        switch (newMode)
+        {
+            case SplitMode.Fixed:
+                row.RawInput = previousAmount > 0
+                    ? (previousAmount / 100m).ToString("0.##", CultureInfo.CurrentCulture)
+                    : string.Empty;
+                row.SplitMode = SplitMode.Fixed;
+                break;
+            case SplitMode.Percentage:
+                row.RawInput = string.Empty;
+                row.CommittedAmountMinor = 0;
+                row.SplitMode = SplitMode.Percentage;
+                break;
+            default:
+                row.RawInput = string.Empty;
+                row.CommittedAmountMinor = 0;
+                row.SplitMode = SplitMode.Auto;
+                break;
+        }
     }
 
     private void OnParticipantRawInputChanged(object? sender, TextChangedEventArgs e)
@@ -416,17 +423,40 @@ public partial class AddExpensePage : ContentPage
 
         row.RawInput = e.NewTextValue ?? string.Empty;
 
-        if (IsTransientInputAcceptable(row.RawInput, out var parsedMinor))
+        if (row.SplitMode == SplitMode.Percentage)
         {
-            row.ValidationError = string.Empty;
-            row.HasTransientInvalidInput = false;
-            row.LiveParsedAmountMinor = parsedMinor;
+            if (IsTransientPercentageAcceptable(row.RawInput, out var parsedPct))
+            {
+                row.ValidationError = string.Empty;
+                row.HasTransientInvalidInput = false;
+                if (parsedPct.HasValue)
+                {
+                    row.CommittedPercentage = parsedPct.Value;
+                }
+            }
+            else
+            {
+                row.ValidationError = AppResources.Validation_InvalidAmount;
+                row.HasTransientInvalidInput = true;
+                row.CommittedPercentage = null;
+            }
         }
         else
         {
-            row.ValidationError = AppResources.Validation_InvalidAmount;
-            row.HasTransientInvalidInput = true;
-            row.LiveParsedAmountMinor = null;
+            if (IsTransientInputAcceptable(row.RawInput, out var parsedMinor))
+            {
+                row.ValidationError = string.Empty;
+                row.HasTransientInvalidInput = false;
+                if (parsedMinor.HasValue)
+                {
+                    row.CommittedAmountMinor = parsedMinor.Value;
+                }
+            }
+            else
+            {
+                row.ValidationError = AppResources.Validation_InvalidAmount;
+                row.HasTransientInvalidInput = true;
+            }
         }
 
         RecalculateAll();
@@ -549,12 +579,24 @@ public partial class AddExpensePage : ContentPage
             return AppResources.Validation_InvalidAmount;
         }
 
-        var isProvisionalCustom = (ParticipantSplitRowViewModel row) => row.IsCustomAmount || (row.IsEditing && row.LiveParsedAmountMinor.HasValue);
-        var customRows = included.Where(row => isProvisionalCustom(row)).ToArray();
-        var autoRows = included.Where(row => !isProvisionalCustom(row)).ToArray();
+        var isEffectivelyFixed = (ParticipantSplitRowViewModel row) =>
+            row.SplitMode == SplitMode.Fixed && !string.IsNullOrWhiteSpace(row.RawInput) && !row.HasTransientInvalidInput;
 
-        var customSum = customRows.Sum(row => row.IsCustomAmount ? row.CommittedAmountMinor : (row.LiveParsedAmountMinor ?? 0));
-        var remaining = totalMinor - customSum;
+        var isEffectivelyPercentage = (ParticipantSplitRowViewModel row) =>
+            row.SplitMode == SplitMode.Percentage && !string.IsNullOrWhiteSpace(row.RawInput) && !row.HasTransientInvalidInput && row.CommittedPercentage.HasValue;
+
+        var fixedRows = included.Where(r => isEffectivelyFixed(r)).ToArray();
+        var pctRows = included.Where(r => isEffectivelyPercentage(r)).ToArray();
+        var autoRows = included.Where(r => !isEffectivelyFixed(r) && !isEffectivelyPercentage(r)).ToArray();
+
+        var fixedSum = fixedRows.Sum(r => r.CommittedAmountMinor);
+        foreach (var row in pctRows)
+        {
+            row.CommittedAmountMinor = (long)Math.Round(totalMinor * row.CommittedPercentage!.Value / 100m, MidpointRounding.AwayFromZero);
+        }
+
+        var pctSum = pctRows.Sum(r => r.CommittedAmountMinor);
+        var remaining = totalMinor - fixedSum - pctSum;
         if (remaining < 0)
         {
             return AppResources.Validation_InvalidAmount;
@@ -580,7 +622,6 @@ public partial class AddExpensePage : ContentPage
         foreach (var row in ParticipantRows.Where(row => !row.IsIncluded))
         {
             row.CommittedAmountMinor = 0;
-            row.LiveParsedAmountMinor = null;
         }
 
         return string.Empty;
@@ -591,7 +632,6 @@ public partial class AddExpensePage : ContentPage
         foreach (var row in ParticipantRows)
         {
             row.CommittedAmountMinor = 0;
-            row.LiveParsedAmountMinor = null;
         }
     }
 
@@ -646,13 +686,18 @@ public partial class AddExpensePage : ContentPage
                 continue;
             }
 
-            if (row.IsEditing)
+            if (row.SplitMode == SplitMode.Fixed)
             {
                 if (string.IsNullOrWhiteSpace(row.RawInput))
                 {
                     row.RawInput = (row.CommittedAmountMinor / 100m).ToString("0.##", CultureInfo.CurrentCulture);
                 }
 
+                row.DisplayValue = string.Empty;
+            }
+            else if (row.SplitMode == SplitMode.Percentage)
+            {
+                // RawInput holds the percentage string; leave as-is
                 row.DisplayValue = string.Empty;
             }
             else
@@ -695,6 +740,49 @@ public partial class AddExpensePage : ContentPage
             }
 
             parsedMinor = (long)Math.Round(value * 100m, MidpointRounding.AwayFromZero);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsTransientPercentageAcceptable(string? input, out decimal? parsedPercentage)
+    {
+        parsedPercentage = null;
+        var normalized = NormalizeNumberInput(input);
+
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return true;
+        }
+
+        if (normalized == ".")
+        {
+            return true;
+        }
+
+        var trailingDecimal = normalized.EndsWith(".", StringComparison.Ordinal);
+        if (trailingDecimal)
+        {
+            normalized = normalized.TrimEnd('.');
+            if (string.IsNullOrWhiteSpace(normalized))
+            {
+                return true;
+            }
+        }
+
+        if (decimal.TryParse(normalized, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out var value))
+        {
+            if (value < 0 || value > 100)
+            {
+                return false;
+            }
+
+            if (!trailingDecimal)
+            {
+                parsedPercentage = value;
+            }
+
             return true;
         }
 
@@ -775,14 +863,15 @@ public partial class AddExpensePage : ContentPage
             : $"{symbol}{amount:0.00}";
     }
 
+    public enum SplitMode { Auto, Fixed, Percentage }
+
     public sealed class ParticipantSplitRowViewModel : BindableObject
     {
         private bool _isIncluded;
-        private bool _isEditing;
-        private bool _isCustomAmount;
+        private SplitMode _splitMode = SplitMode.Auto;
+        private decimal? _committedPercentage;
         private string _rawInput = string.Empty;
         private long _committedAmountMinor;
-        private long? _liveParsedAmountMinor;
         private string _validationError = string.Empty;
         private bool _hasTransientInvalidInput;
         private string _displayValue = "—";
@@ -803,39 +892,40 @@ public partial class AddExpensePage : ContentPage
                 _isIncluded = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsIncludedMark));
-                OnPropertyChanged(nameof(CanShowEditButton));
+                OnPropertyChanged(nameof(IsEditing));
                 OnPropertyChanged(nameof(IsViewing));
             }
         }
 
-        public bool IsEditing
+        public SplitMode SplitMode
         {
-            get => _isEditing;
+            get => _splitMode;
             set
             {
-                if (_isEditing == value)
+                if (_splitMode == value)
                 {
                     return;
                 }
 
-                _isEditing = value;
+                _splitMode = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(CanShowEditButton));
+                OnPropertyChanged(nameof(IsEditing));
                 OnPropertyChanged(nameof(IsViewing));
+                OnPropertyChanged(nameof(ModeLabel));
             }
         }
 
-        public bool IsCustomAmount
+        public decimal? CommittedPercentage
         {
-            get => _isCustomAmount;
+            get => _committedPercentage;
             set
             {
-                if (_isCustomAmount == value)
+                if (_committedPercentage == value)
                 {
                     return;
                 }
 
-                _isCustomAmount = value;
+                _committedPercentage = value;
                 OnPropertyChanged();
             }
         }
@@ -867,21 +957,6 @@ public partial class AddExpensePage : ContentPage
                 }
 
                 _committedAmountMinor = normalized;
-                OnPropertyChanged();
-            }
-        }
-
-        public long? LiveParsedAmountMinor
-        {
-            get => _liveParsedAmountMinor;
-            set
-            {
-                if (_liveParsedAmountMinor == value)
-                {
-                    return;
-                }
-
-                _liveParsedAmountMinor = value;
                 OnPropertyChanged();
             }
         }
@@ -932,10 +1007,16 @@ public partial class AddExpensePage : ContentPage
             }
         }
 
+        public bool IsEditing => (_splitMode == SplitMode.Fixed || _splitMode == SplitMode.Percentage) && _isIncluded;
+        public bool IsViewing => !IsEditing;
         public string IsIncludedMark => _isIncluded ? "✓" : " ";
-        public bool CanShowEditButton => _isIncluded && !_isEditing;
-        public bool IsViewing => !_isEditing;
         public bool HasValidationError => !string.IsNullOrWhiteSpace(_validationError);
+        public string ModeLabel => _splitMode switch
+        {
+            SplitMode.Fixed => "💰▼",
+            SplitMode.Percentage => "% ▼",
+            _ => "⚖️▼"
+        };
 
         public string? GroupHeader { get; set; }
         public bool HasGroupHeader => !string.IsNullOrEmpty(GroupHeader);
