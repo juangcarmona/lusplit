@@ -12,15 +12,24 @@ internal sealed class CsvGroupExporter
         var slug = ExportFileNaming.Slug(dto.GroupName, dto.ExportedAt);
         var fileName = $"{slug}-export.zip";
         var filePath = Path.Combine(dto.OutputDirectory, fileName);
+        var tempPath = filePath + ".tmp";
 
-        if (File.Exists(filePath)) File.Delete(filePath);
-
-        using (var archive = ZipFile.Open(filePath, ZipArchiveMode.Create))
+        try
         {
-            AddEntry(archive, "members.csv", BuildMembers(dto.Overview));
-            AddEntry(archive, "expenses.csv", BuildExpenses(dto.Overview));
-            AddEntry(archive, "transfers.csv", BuildTransfers(dto.Overview));
-            AddEntry(archive, "balances.csv", BuildBalances(dto.Overview));
+            using (var archive = ZipFile.Open(tempPath, ZipArchiveMode.Create))
+            {
+                AddEntry(archive, "members.csv", BuildMembers(dto.Overview));
+                AddEntry(archive, "expenses.csv", BuildExpenses(dto.Overview));
+                AddEntry(archive, "transfers.csv", BuildTransfers(dto.Overview));
+                AddEntry(archive, "balances.csv", BuildBalances(dto.Overview));
+            }
+
+            File.Move(tempPath, filePath, overwrite: true);
+        }
+        catch
+        {
+            if (File.Exists(tempPath)) File.Delete(tempPath);
+            throw;
         }
 
         await Task.CompletedTask;

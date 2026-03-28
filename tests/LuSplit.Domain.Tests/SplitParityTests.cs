@@ -283,6 +283,69 @@ public sealed class SplitParityTests
         Assert.Equal(0, shares[ParticipantB]);
     }
 
+    [Fact]
+    public void ThrowsWhenFixedShareIsNegative()
+    {
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    100,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new FixedSplitComponent(new Dictionary<string, long>
+                        {
+                            [ParticipantA] = -1
+                        })
+                    })),
+                Participants));
+    }
+
+    [Fact]
+    public void ThrowsWhenExplicitWeightOverrideIsZero()
+    {
+        Assert.Throws<DomainInvariantException>(() =>
+            SplitEvaluator.EvaluateSplit(
+                BuildExpense(
+                    100,
+                    new SplitDefinition(new SplitComponent[]
+                    {
+                        new RemainderSplitComponent(
+                            new[] { ParticipantA, ParticipantB },
+                            RemainderMode.Weight,
+                            Weights: new Dictionary<string, string>
+                            {
+                                [ParticipantA] = "0",
+                                [ParticipantB] = "1"
+                            })
+                    })),
+                Participants));
+    }
+
+    [Fact]
+    public void ExplicitWeightMapOverridesConsumptionCategory()
+    {
+        // ParticipantA is Full (default weight 1) and ParticipantB is Half (default weight 0.5).
+        // Explicit weights reverse precedence: B gets weight 2, A gets weight 1.
+        var shares = SplitEvaluator.EvaluateSplit(
+            BuildExpense(
+                9,
+                new SplitDefinition(new SplitComponent[]
+                {
+                    new RemainderSplitComponent(
+                        new[] { ParticipantA, ParticipantB },
+                        RemainderMode.Weight,
+                        Weights: new Dictionary<string, string>
+                        {
+                            [ParticipantA] = "1",
+                            [ParticipantB] = "2"
+                        })
+                })),
+            Participants);
+
+        Assert.Equal(3, shares[ParticipantA]);  // 1/3 of 9
+        Assert.Equal(6, shares[ParticipantB]);  // 2/3 of 9
+    }
+
     private static Expense BuildExpense(long amountMinor, SplitDefinition splitDefinition)
         => BuildExpense(GroupId, amountMinor, splitDefinition);
 

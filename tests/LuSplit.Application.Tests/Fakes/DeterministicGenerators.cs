@@ -24,3 +24,15 @@ internal sealed class FixedClock : IClock
 
     public string NowIso() => _nowIso;
 }
+
+internal sealed class CollisionIdGenerator : IIdGenerator
+{
+    private readonly string _collisionId;
+
+    public CollisionIdGenerator(string collisionId)
+    {
+        _collisionId = collisionId;
+    }
+
+    public string NextId() => _collisionId;
+}

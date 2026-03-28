@@ -1,4 +1,5 @@
 using LuSplit.Application.Commands;
+using LuSplit.Application.Errors;
 using LuSplit.Domain.Errors;
 
 namespace LuSplit.Application.Tests;
@@ -15,7 +16,7 @@ public sealed class AddExpenseCommandTests
     [Fact]
     public void CreateRejectsMissingGroupId()
     {
-        Assert.Throws<ArgumentException>(() =>
+        Assert.Throws<ValidationError>(() =>
             AddExpenseCommand.Create(" ", "p1", 100m, new DateOnly(2026, 1, 1)));
     }
 

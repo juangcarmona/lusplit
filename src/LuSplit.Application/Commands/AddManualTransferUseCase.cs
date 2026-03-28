@@ -29,20 +29,9 @@ public sealed class AddManualTransferUseCase
 
     public async Task<TransferModel> ExecuteAsync(AddManualTransferInput input, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(input.GroupId))
-        {
-            throw new ValidationError("groupId is required");
-        }
-
-        if (string.IsNullOrWhiteSpace(input.FromParticipantId))
-        {
-            throw new ValidationError("fromParticipantId is required");
-        }
-
-        if (string.IsNullOrWhiteSpace(input.ToParticipantId))
-        {
-            throw new ValidationError("toParticipantId is required");
-        }
+        UseCaseGuards.AssertNonEmpty(input.GroupId, "groupId");
+        UseCaseGuards.AssertNonEmpty(input.FromParticipantId, "fromParticipantId");
+        UseCaseGuards.AssertNonEmpty(input.ToParticipantId, "toParticipantId");
 
         if (input.AmountMinor <= 0)
         {
@@ -72,11 +61,7 @@ public sealed class AddManualTransferUseCase
             throw new ValidationError($"Transfer participants must belong to group {input.GroupId}");
         }
 
-        var date = input.Date ?? _clock.NowIso();
-        if (!DateTimeOffset.TryParse(date, out _))
-        {
-            throw new ValidationError("date must be a valid ISO date");
-        }
+        var date = UseCaseGuards.ResolveDate(input.Date, _clock.NowIso());
 
         var transfer = new Transfer(
             _idGenerator.NextId(),

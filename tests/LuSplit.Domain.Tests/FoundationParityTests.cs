@@ -16,6 +16,12 @@ public sealed class FoundationParityTests
     }
 
     [Fact]
+    public void FromMinorUnitsRejectsNegativeValues()
+    {
+        Assert.Throws<DomainInvariantException>(() => MoneyAmount.FromMinorUnits(-1));
+    }
+
+    [Fact]
     public void EqualSplitUsesDeterministicLexicalOrderingForRemainder()
     {
         var result = SplitEvaluator.EvaluateSplit(

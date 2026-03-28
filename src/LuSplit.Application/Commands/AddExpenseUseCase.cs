@@ -30,9 +30,9 @@ public sealed class AddExpenseUseCase
 
     public async Task<ExpenseModel> ExecuteAsync(AddExpenseInput input, CancellationToken cancellationToken = default)
     {
-        AssertNonEmpty(input.GroupId, "groupId");
-        AssertNonEmpty(input.Title, "title");
-        AssertNonEmpty(input.PaidByParticipantId, "paidByParticipantId");
+        UseCaseGuards.AssertNonEmpty(input.GroupId, "groupId");
+        UseCaseGuards.AssertNonEmpty(input.Title, "title");
+        UseCaseGuards.AssertNonEmpty(input.PaidByParticipantId, "paidByParticipantId");
 
         if (input.AmountMinor <= 0)
         {
@@ -57,11 +57,7 @@ public sealed class AddExpenseUseCase
             throw new ValidationError($"Payer is not in group {input.GroupId}");
         }
 
-        var date = input.Date ?? _clock.NowIso();
-        if (!DateTimeOffset.TryParse(date, out _))
-        {
-            throw new ValidationError("date must be a valid ISO date");
-        }
+        var date = UseCaseGuards.ResolveDate(input.Date, _clock.NowIso());
 
         var expense = new Expense(
             _idGenerator.NextId(),
@@ -87,11 +83,4 @@ public sealed class AddExpenseUseCase
             expense.Notes);
     }
 
-    private static void AssertNonEmpty(string value, string fieldName)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ValidationError($"{fieldName} is required");
-        }
-    }
 }

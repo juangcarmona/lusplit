@@ -24,8 +24,8 @@ public sealed class EditExpenseUseCase
 
     public async Task<ExpenseModel> ExecuteAsync(EditExpenseInput input, CancellationToken cancellationToken = default)
     {
-        AssertNonEmpty(input.GroupId, "groupId");
-        AssertNonEmpty(input.ExpenseId, "expenseId");
+        UseCaseGuards.AssertNonEmpty(input.GroupId, "groupId");
+        UseCaseGuards.AssertNonEmpty(input.ExpenseId, "expenseId");
 
         var group = await _groupRepository.GetByIdAsync(input.GroupId, cancellationToken);
         if (group is null)
@@ -49,11 +49,7 @@ public sealed class EditExpenseUseCase
             throw new ValidationError("amountMinor must be greater than zero");
         }
 
-        var nextDate = input.Date ?? existing.Date;
-        if (!DateTimeOffset.TryParse(nextDate, out _))
-        {
-            throw new ValidationError("date must be a valid ISO date");
-        }
+        var nextDate = UseCaseGuards.ResolveDate(input.Date, existing.Date);
 
         var nextExpense = existing with
         {
@@ -86,11 +82,4 @@ public sealed class EditExpenseUseCase
             nextExpense.Notes);
     }
 
-    private static void AssertNonEmpty(string value, string fieldName)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ValidationError($"{fieldName} is required");
-        }
-    }
 }

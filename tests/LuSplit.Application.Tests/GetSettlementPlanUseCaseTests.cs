@@ -109,4 +109,16 @@ public sealed class GetSettlementPlanUseCaseTests
             },
             participantPlan.Transfers);
     }
+
+    [Fact]
+    public async Task ExecuteAsyncThrowsForUnknownSettlementMode()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+
+        var useCase = new GetSettlementPlanUseCase(repos, repos, repos, repos, repos);
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+            useCase.ExecuteAsync("g1", (SettlementMode)999));
+    }
 }

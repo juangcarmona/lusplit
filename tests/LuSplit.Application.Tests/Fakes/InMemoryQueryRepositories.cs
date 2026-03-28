@@ -1,4 +1,3 @@
-using LuSplit.Application.Commands;
 using LuSplit.Application.Ports;
 using LuSplit.Domain.Entities;
 
@@ -90,9 +89,6 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
 
         return Task.CompletedTask;
     }
-
-    public Task AddAsync(AddExpenseCommand command, CancellationToken cancellationToken)
-        => Task.CompletedTask;
 
     public Task<IReadOnlyList<Expense>> ListExpensesByGroupIdAsync(string groupId, CancellationToken cancellationToken)
     {

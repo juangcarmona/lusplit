@@ -38,24 +38,24 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
+                new BalanceModel("id-4", 450),
                 new BalanceModel("id-5", 50),
-                new BalanceModel("id-6", -550)
+                new BalanceModel("id-6", -500)
             },
             result.BalancesByParticipant);
 
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
-                new BalanceModel("id-5", -500)
+                new BalanceModel("id-4", 450),
+                new BalanceModel("id-5", -450)
             },
             result.BalancesByOwner);
 
         Assert.Equal(
             new[]
             {
-                new SettlementTransferModel("id-6", "id-4", 500),
+                new SettlementTransferModel("id-6", "id-4", 450),
                 new SettlementTransferModel("id-6", "id-5", 50)
             },
             result.SettlementByParticipant.Transfers);
@@ -63,7 +63,7 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new SettlementTransferModel("id-5", "id-4", 500)
+                new SettlementTransferModel("id-5", "id-4", 450)
             },
             result.SettlementByOwner.Transfers);
 
@@ -94,9 +94,9 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
+                new BalanceModel("id-4", 450),
                 new BalanceModel("id-5", 50),
-                new BalanceModel("id-6", -550)
+                new BalanceModel("id-6", -500)
             },
             overview.BalancesByParticipant);
 

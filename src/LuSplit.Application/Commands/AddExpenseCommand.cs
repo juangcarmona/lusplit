@@ -6,15 +6,8 @@ public sealed record AddExpenseCommand(string GroupId, string PaidByParticipantI
 {
     public static AddExpenseCommand Create(string groupId, string paidByParticipantId, decimal amountMinorUnits, DateOnly date)
     {
-        if (string.IsNullOrWhiteSpace(groupId))
-        {
-            throw new ArgumentException("Group ID is required.", nameof(groupId));
-        }
-
-        if (string.IsNullOrWhiteSpace(paidByParticipantId))
-        {
-            throw new ArgumentException("Payer participant ID is required.", nameof(paidByParticipantId));
-        }
+        UseCaseGuards.AssertNonEmpty(groupId, "groupId");
+        UseCaseGuards.AssertNonEmpty(paidByParticipantId, "paidByParticipantId");
 
         return new AddExpenseCommand(
             groupId,

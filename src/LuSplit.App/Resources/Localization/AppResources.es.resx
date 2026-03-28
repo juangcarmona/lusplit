@@ -881,5 +881,20 @@
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
     <value>Responsabilidad de {0}</value>
   </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Cambiar foto</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Foto del grupo</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Cámara</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Eliminar foto</value>
+  </data>
 
 </root>
