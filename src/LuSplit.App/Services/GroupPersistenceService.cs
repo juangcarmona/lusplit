@@ -8,9 +8,9 @@ namespace LuSplit.App.Services;
 
 /// <summary>
 /// Handles persistence for groups, economic units, participants, and the
-/// app-layer group_metadata SQL table. The <paramref name="getInfra"/> delegate
+/// app-layer group_metadata SQL table. The <c>getInfra</c> delegate
 /// resolves the initialized <see cref="InfraLocalSqlite"/> instance; the
-/// <paramref name="idGenerator"/> is the shared generator owned by
+/// <c>idGenerator</c> is the shared generator owned by
 /// <see cref="AppDataService"/> and reused here to keep IDs sequential
 /// within a single operation.
 /// </summary>
