@@ -69,14 +69,7 @@ public sealed class AppDataService : IAsyncDisposable
 
     public async Task<GroupWorkspaceModel> GetGroupWorkspaceAsync(string groupId)
     {
-        var infra = await GetInfraAsync();
-        var overview = await new GetGroupOverviewUseCase(
-            infra.GroupRepository,
-            infra.ParticipantRepository,
-            infra.EconomicUnitRepository,
-            infra.ExpenseRepository,
-            infra.TransferRepository).ExecuteAsync(groupId);
-
+        var overview = await GetGroupOverviewAsync(groupId);
         var metadata = await _group.GetGroupMetadataAsync(groupId);
         return new GroupWorkspaceModel(
             groupId,
@@ -89,7 +82,7 @@ public sealed class AppDataService : IAsyncDisposable
 
     public async Task<IReadOnlyList<ParticipantModel>> GetParticipantsAsync()
     {
-        var overview = await GetOverviewAsync();
+        var overview = await GetGroupOverviewAsync(await GetSelectedGroupIdAsync());
         return overview.Participants;
     }
 
@@ -101,21 +94,23 @@ public sealed class AppDataService : IAsyncDisposable
 
         foreach (var groupId in groupIds)
         {
-            var workspace = await GetGroupWorkspaceAsync(groupId);
+            var overview = await GetGroupOverviewAsync(groupId);
             // Archived groups are hidden from the active list.
-            if (workspace.Overview.Group.Closed) continue;
-            var lastActivity = GetLastActivity(workspace.Overview);
-            var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
+            if (overview.Group.Closed) continue;
+            var metadata = await _group.GetGroupMetadataAsync(groupId);
+            var groupName = ResolveGroupName(metadata.Name, overview);
+            var lastActivity = GetLastActivity(overview);
+            var rankDate = metadata.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
             groups.Add(new GroupListItemModel(
                 groupId,
-                workspace.GroupName,
-                workspace.Overview.Group.Currency,
+                groupName,
+                overview.Group.Currency,
                 string.Equals(groupId, selectedGroupId, StringComparison.Ordinal),
-                GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
-                GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_AddFirstEvent,
-                BuildGroupStatusText(string.Equals(groupId, selectedGroupId, StringComparison.Ordinal), workspace.LastOpenedUtc, lastActivity),
+                GroupPresentationMapper.BuildGroupSummary(overview),
+                GroupPresentationMapper.BuildBalancePreview(overview, 1).FirstOrDefault() ?? AppResources.Status_AddFirstEvent,
+                BuildGroupStatusText(string.Equals(groupId, selectedGroupId, StringComparison.Ordinal), metadata.LastOpenedUtc, lastActivity),
                 rankDate,
-                workspace.ImagePath));
+                metadata.ImagePath));
         }
 
         return groups
@@ -132,20 +127,22 @@ public sealed class AppDataService : IAsyncDisposable
 
         foreach (var groupId in groupIds)
         {
-            var workspace = await GetGroupWorkspaceAsync(groupId);
-            if (!workspace.Overview.Group.Closed) continue;
-            var lastActivity = GetLastActivity(workspace.Overview);
-            var rankDate = workspace.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
+            var overview = await GetGroupOverviewAsync(groupId);
+            if (!overview.Group.Closed) continue;
+            var metadata = await _group.GetGroupMetadataAsync(groupId);
+            var groupName = ResolveGroupName(metadata.Name, overview);
+            var lastActivity = GetLastActivity(overview);
+            var rankDate = metadata.LastOpenedUtc ?? lastActivity ?? DateTimeOffset.MinValue;
             groups.Add(new GroupListItemModel(
                 groupId,
-                workspace.GroupName,
-                workspace.Overview.Group.Currency,
+                groupName,
+                overview.Group.Currency,
                 false,
-                GroupPresentationMapper.BuildGroupSummary(workspace.Overview),
-                GroupPresentationMapper.BuildBalancePreview(workspace.Overview, 1).FirstOrDefault() ?? AppResources.Status_Settled,
+                GroupPresentationMapper.BuildGroupSummary(overview),
+                GroupPresentationMapper.BuildBalancePreview(overview, 1).FirstOrDefault() ?? AppResources.Status_Settled,
                 string.Empty,
                 rankDate,
-                workspace.ImagePath));
+                metadata.ImagePath));
         }
 
         return groups
@@ -159,17 +156,18 @@ public sealed class AppDataService : IAsyncDisposable
 
     public async Task<GroupDetailsModel> GetGroupDetailsAsync(string groupId)
     {
-        var workspace = await GetGroupWorkspaceAsync(groupId);
-        var householdNames = BuildHouseholdLookup(workspace.Overview);
-        var ownerIdsByUnit = workspace.Overview.EconomicUnits
+        var overview = await GetGroupOverviewAsync(groupId);
+        var metadata = await _group.GetGroupMetadataAsync(groupId);
+        var householdNames = BuildHouseholdLookup(overview);
+        var ownerIdsByUnit = overview.EconomicUnits
             .ToDictionary(unit => unit.Id, unit => unit.OwnerParticipantId, StringComparer.Ordinal);
 
         return new GroupDetailsModel(
             groupId,
-            workspace.GroupName,
-            workspace.Overview.Group.Currency,
-            workspace.Overview.Group.Closed,
-            workspace.Overview.Participants
+            ResolveGroupName(metadata.Name, overview),
+            overview.Group.Currency,
+            overview.Group.Closed,
+            overview.Participants
                 .OrderBy(participant => participant.Name, StringComparer.OrdinalIgnoreCase)
                 .Select(participant => new GroupMemberModel(
                     participant.Id,
@@ -180,7 +178,7 @@ public sealed class AppDataService : IAsyncDisposable
                     participant.ConsumptionCategory.ToString().ToUpperInvariant(),
                     participant.CustomConsumptionWeight))
                 .ToArray(),
-            workspace.ImagePath);
+            metadata.ImagePath);
     }
 
     /// <summary>Archives a group. Archived groups are read-only - the domain blocks new expenses and participants on closed groups.</summary>
@@ -326,23 +324,10 @@ public sealed class AppDataService : IAsyncDisposable
 
     public async Task<(IReadOnlyList<BalanceModel> Balances, SettlementPlanModel Settlement)> GetSettlementAsync(SettlementMode mode)
     {
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-
-        IReadOnlyList<BalanceModel> balances = mode == SettlementMode.Participant
-            ? await new GetBalancesByParticipantUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.ExpenseRepository, infra.TransferRepository)
-                .ExecuteAsync(selectedGroupId)
-            : await new GetBalancesByEconomicUnitOwnerUseCase(infra.GroupRepository, infra.ParticipantRepository, infra.EconomicUnitRepository, infra.ExpenseRepository, infra.TransferRepository)
-                .ExecuteAsync(selectedGroupId);
-
-        var settlement = await new GetSettlementPlanUseCase(
-            infra.GroupRepository,
-            infra.ParticipantRepository,
-            infra.EconomicUnitRepository,
-            infra.ExpenseRepository,
-            infra.TransferRepository).ExecuteAsync(selectedGroupId, mode);
-
-        return (balances, settlement);
+        var overview = await GetGroupOverviewAsync(await GetSelectedGroupIdAsync());
+        return mode == SettlementMode.Participant
+            ? (overview.BalancesByParticipant, overview.SettlementByParticipant)
+            : (overview.BalancesByEconomicUnitOwner, overview.SettlementByEconomicUnitOwner);
     }
 
     public async Task<ExportFileResult> ExportGroupAsync(string groupId, ExportFormat format)
@@ -382,6 +367,17 @@ public sealed class AppDataService : IAsyncDisposable
     {
         await InitializeAsync();
         return _infra ?? throw new InvalidOperationException("Infrastructure not initialized.");
+    }
+
+    private async Task<GroupOverviewModel> GetGroupOverviewAsync(string groupId)
+    {
+        var infra = await GetInfraAsync();
+        return await new GetGroupOverviewUseCase(
+            infra.GroupRepository,
+            infra.ParticipantRepository,
+            infra.EconomicUnitRepository,
+            infra.ExpenseRepository,
+            infra.TransferRepository).ExecuteAsync(groupId);
     }
 
     private async Task EnsureAppMetadataTablesAsync()

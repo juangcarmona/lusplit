@@ -136,11 +136,7 @@ public partial class CreateGroupPage : ContentPage
 
     private void BuildCurrencyList(string preferredCurrencyCode)
     {
-        CurrencyOptions.Clear();
-        foreach (var option in CurrencyCatalog.GetSupportedCurrencyOptions())
-        {
-            CurrencyOptions.Add(option);
-        }
+        CurrencyCatalog.PopulateSupportedOptions(CurrencyOptions);
 
         SelectedCurrencyOption = CurrencyCatalog.FindByCode(CurrencyOptions, preferredCurrencyCode)
             ?? CurrencyCatalog.FindByCode(CurrencyOptions, CurrencyCatalog.DefaultCurrencyCode);

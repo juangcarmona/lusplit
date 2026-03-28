@@ -31,8 +31,8 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
     public bool CanSave { get; private set; }
     public bool IsEditMode => _isEditMode;
     public bool IsViewMode => !_isEditMode;
-    public string EditButtonText => _isEditMode ? "Cancel" : "Edit";
-    public string ExpectedTotalText => $"Total fixed: {FormatMinor(_fixedTotalMinor, _currency)}";
+    public string EditButtonText => _isEditMode ? AppResources.Common_Cancel : AppResources.Common_Edit;
+    public string ExpectedTotalText => string.Format(AppResources.ExpenseDetails_TotalFixed, CurrencyFormatter.FormatMinor(_fixedTotalMinor, _currency));
 
     public ExpenseDetailsPage(AppDataService dataService)
     {
@@ -67,16 +67,16 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         var expense = await _dataService.GetExpenseAsync(_expenseId);
         if (expense is null)
         {
-            StatusText = "Expense not found.";
+            StatusText = AppResources.ExpenseDetails_NotFound;
             OnPropertyChanged(nameof(StatusText));
             return;
         }
 
         ExpenseTitle = expense.Title;
         _fixedTotalMinor = expense.AmountMinor;
-        HeaderLine1 = $"{expense.Title} - {FormatMinor(expense.AmountMinor, _currency)}";
+        HeaderLine1 = $"{expense.Title} - {CurrencyFormatter.FormatMinor(expense.AmountMinor, _currency)}";
 
-        var payerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, expense.PaidByParticipantId, StringComparison.Ordinal))?.Name ?? "Unknown";
+        var payerName = _participants.FirstOrDefault(participant => string.Equals(participant.Id, expense.PaidByParticipantId, StringComparison.Ordinal))?.Name ?? AppResources.Common_Unknown;
         var participantCount = expense.SplitDefinition.Components
             .SelectMany(component => component switch
             {
@@ -87,7 +87,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
             .Distinct(StringComparer.Ordinal)
             .Count();
 
-        HeaderLine2 = $"{payerName} → {participantCount} people";
+        HeaderLine2 = string.Format(AppResources.Mapper_PeopleCountFormat, payerName, participantCount);
         DateText = expense.Date;
         NoteText = expense.Notes ?? string.Empty;
         SelectedPayerName = payerName;
@@ -133,7 +133,7 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         var payerName = SelectedPayerName ?? string.Empty;
         foreach (var row in ParticipantRows.Where(row => !row.IsPayer && row.IsIncluded && row.AmountMinor > 0))
         {
-            PreviewRows.Add(new PreviewRowViewModel($"{row.Name} → {payerName} {FormatMinor(row.AmountMinor, _currency)}"));
+            PreviewRows.Add(new PreviewRowViewModel($"{row.Name} → {payerName} {CurrencyFormatter.FormatMinor(row.AmountMinor, _currency)}"));
         }
     }
 
@@ -314,21 +314,6 @@ public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
         return false;
     }
 
-    private static string FormatMinor(long minor, string currency)
-    {
-        var amount = minor / 100m;
-        var symbol = currency.ToUpperInvariant() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            _ => string.Empty
-        };
-
-        return string.IsNullOrEmpty(symbol)
-            ? $"{amount:0.00} {currency.ToUpperInvariant()}"
-            : $"{symbol}{amount:0.00}";
-    }
 }
 
 public sealed class ExpenseParticipantRowViewModel : BindableObject
@@ -424,7 +409,7 @@ public sealed class ExpenseParticipantRowViewModel : BindableObject
 
     public string SelectMark => IsIncluded ? "✓" : " ";
     public string NameAndPayer => IsPayer ? $"{Name} (payer)" : Name;
-    public string AmountText => FormatMinor(AmountMinor, _currency);
+    public string AmountText => CurrencyFormatter.FormatMinor(AmountMinor, _currency);
     public bool IsViewing => !_isEditing;
     public bool CanEditAmount => IsEditMode && IsIncluded && !IsPayer;
 
@@ -437,21 +422,6 @@ public sealed class ExpenseParticipantRowViewModel : BindableObject
         _currency = currency;
     }
 
-    private static string FormatMinor(long minor, string currency)
-    {
-        var amount = minor / 100m;
-        var symbol = currency.ToUpperInvariant() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            _ => string.Empty
-        };
-
-        return string.IsNullOrEmpty(symbol)
-            ? $"{amount:0.00} {currency.ToUpperInvariant()}"
-            : $"{symbol}{amount:0.00}";
-    }
 }
 
 public sealed record PreviewRowViewModel(string Text);

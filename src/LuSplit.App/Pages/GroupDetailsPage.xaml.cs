@@ -7,6 +7,7 @@ namespace LuSplit.App.Pages;
 public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 {
     private readonly AppDataService _dataService;
+    private readonly GroupPhotoService _photoService;
     private string? _groupId;
     // Set when navigating from an archived group view (GroupPage) to load that specific group
     // without switching the user's currently selected active group.
@@ -32,6 +33,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     public GroupDetailsPage(AppDataService dataService)
     {
         _dataService = dataService;
+        _photoService = new GroupPhotoService(dataService);
         InitializeComponent();
         BindingContext = this;
 #if ANDROID
@@ -103,9 +105,9 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     // ── ParticipantsEditorView event handlers ──────────────────────────────
 
-    private void OnParticipantAddRequested(object? sender, string name)
+    private async void OnParticipantAddRequested(object? sender, string name)
     {
-        _ = AddMemberAsync(name);
+        await AddMemberAsync(name);
     }
 
     private async Task AddMemberAsync(string name)
@@ -123,9 +125,9 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnDependencyChanged(object? sender, ParticipantDraftViewModel participant)
+    private async void OnDependencyChanged(object? sender, ParticipantDraftViewModel participant)
     {
-        _ = UpdateMemberDependencyAsync(participant);
+        await UpdateMemberDependencyAsync(participant);
     }
 
     private async Task UpdateMemberDependencyAsync(ParticipantDraftViewModel participant)
@@ -251,23 +253,9 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
                 return;
             }
 
-            FileResult? result = choice == AppResources.GroupDetails_PhotoFromCamera
-                ? await MediaPicker.Default.CapturePhotoAsync()
-                : await MediaPicker.Default.PickPhotoAsync();
+            var destPath = await _photoService.PickAndSaveAsync(_groupId, choice == AppResources.GroupDetails_PhotoFromCamera);
+            if (destPath is null) return;
 
-            if (result is null) return;
-
-            var dir = Path.Combine(FileSystem.AppDataDirectory, "group_images");
-            Directory.CreateDirectory(dir);
-            var destPath = Path.Combine(dir, $"{_groupId}.jpg");
-
-            await using (var src = await result.OpenReadAsync())
-            await using (var dst = File.OpenWrite(destPath))
-            {
-                await src.CopyToAsync(dst);
-            }
-
-            await _dataService.SaveGroupImageAsync(_groupId, destPath);
             GroupImagePath = destPath;
             OnPropertyChanged(nameof(GroupImagePath));
         }
@@ -282,10 +270,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     {
         if (_groupId is null) return;
 
-        if (!string.IsNullOrEmpty(GroupImagePath) && File.Exists(GroupImagePath))
-            File.Delete(GroupImagePath);
-
-        await _dataService.SaveGroupImageAsync(_groupId, null);
+        await _photoService.RemoveAsync(_groupId, GroupImagePath);
         GroupImagePath = null;
         OnPropertyChanged(nameof(GroupImagePath));
     }
@@ -294,11 +279,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private void BuildCurrencyList(string preferredCurrencyCode)
     {
-        CurrencyOptions.Clear();
-        foreach (var option in CurrencyCatalog.GetSupportedCurrencyOptions())
-        {
-            CurrencyOptions.Add(option);
-        }
+        CurrencyCatalog.PopulateSupportedOptions(CurrencyOptions);
 
         var selected = CurrencyCatalog.FindByCode(CurrencyOptions, preferredCurrencyCode);
         if (selected is null)

@@ -68,12 +68,28 @@ public partial class GroupSwitcherPage : ContentPage
     }
 }
 
-public sealed record GroupSwitcherItemViewModel(string GroupId, string Name, bool IsCurrent, string? ImagePath = null)
+public sealed class GroupSwitcherItemViewModel
 {
+    public string GroupId { get; }
+    public string Name { get; }
+    public bool IsCurrent { get; }
+    public string? ImagePath { get; }
+
     public bool CanSelect => !IsCurrent;
     public string DisplayName => IsCurrent ? $"{Name} {AppResources.GroupSwitcher_CurrentSuffix}" : Name;
     public string AvatarInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
-    public bool HasImage => !string.IsNullOrEmpty(ImagePath) && File.Exists(ImagePath);
+
+    public bool HasImage { get; }
     public bool HasNoImage => !HasImage;
-    public ImageSource? ThumbnailSource => HasImage ? ImageSource.FromFile(ImagePath!) : null;
+    public ImageSource? ThumbnailSource { get; }
+
+    public GroupSwitcherItemViewModel(string groupId, string name, bool isCurrent, string? imagePath = null)
+    {
+        GroupId = groupId;
+        Name = name;
+        IsCurrent = isCurrent;
+        ImagePath = imagePath;
+        HasImage = !string.IsNullOrEmpty(imagePath) && File.Exists(imagePath);
+        ThumbnailSource = HasImage ? ImageSource.FromFile(imagePath!) : null;
+    }
 }

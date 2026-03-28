@@ -89,13 +89,7 @@ public partial class AddExpensePage : ContentPage
         _currency = overview.Group.Currency;
 
         // Currency prefix/suffix for display
-        var symbol = _currency.ToUpperInvariant() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            _ => string.Empty
-        };
+        var symbol = CurrencyFormatter.GetSymbol(_currency);
         _currencyPrefix = string.IsNullOrEmpty(symbol) ? string.Empty : symbol;
         _currencySuffix = string.IsNullOrEmpty(symbol) ? $" {_currency.ToUpperInvariant()}" : string.Empty;
         OnPropertyChanged(nameof(CurrencyPrefix));
@@ -175,7 +169,7 @@ public partial class AddExpensePage : ContentPage
                 return;
             }
 
-            if (!CanSave || !TryParseAmountLenient(AmountText, out var totalMinor))
+            if (!CanSave || !ExpenseAmountParser.TryParseAmountLenient(AmountText, out var totalMinor))
             {
                 return;
             }
@@ -425,7 +419,7 @@ public partial class AddExpensePage : ContentPage
 
         if (row.SplitMode == SplitMode.Percentage)
         {
-            if (IsTransientPercentageAcceptable(row.RawInput, out var parsedPct))
+            if (ExpenseAmountParser.IsTransientPercentageAcceptable(row.RawInput, out var parsedPct))
             {
                 row.ValidationError = string.Empty;
                 row.HasTransientInvalidInput = false;
@@ -443,7 +437,7 @@ public partial class AddExpensePage : ContentPage
         }
         else
         {
-            if (IsTransientInputAcceptable(row.RawInput, out var parsedMinor))
+            if (ExpenseAmountParser.IsTransientInputAcceptable(row.RawInput, out var parsedMinor))
             {
                 row.ValidationError = string.Empty;
                 row.HasTransientInvalidInput = false;
@@ -561,7 +555,7 @@ public partial class AddExpensePage : ContentPage
 
     private string ValidateAndComputeRows()
     {
-        if (!TryParseAmountLenient(AmountText, out var totalMinor))
+        if (!ExpenseAmountParser.TryParseAmountLenient(AmountText, out var totalMinor))
         {
             ResetAllCommittedShares();
             return AppResources.Validation_InvalidAmount;
@@ -650,7 +644,7 @@ public partial class AddExpensePage : ContentPage
                 continue;
             }
 
-            ImpactRows.Add(new ImpactRowViewModel($"{row.Name} → {SelectedPayerName} {FormatMinor(row.CommittedAmountMinor, _currency)}"));
+            ImpactRows.Add(new ImpactRowViewModel($"{row.Name} → {SelectedPayerName} {CurrencyFormatter.FormatMinor(row.CommittedAmountMinor, _currency)}"));
             if (ImpactRows.Count >= 4)
             {
                 break;
@@ -660,7 +654,7 @@ public partial class AddExpensePage : ContentPage
 
     private void RecalculateSaveState()
     {
-        var hasAmount = TryParseAmountLenient(AmountText, out _);
+        var hasAmount = ExpenseAmountParser.TryParseAmountLenient(AmountText, out _);
         var hasTitle = !string.IsNullOrWhiteSpace(ExpenseTitle);
         var hasPayer = SelectedPayerName is not null && _payerParticipantIdByLabel.ContainsKey(SelectedPayerName);
         var includedCount = ParticipantRows.Count(row => row.IsIncluded);
@@ -702,333 +696,9 @@ public partial class AddExpensePage : ContentPage
             }
             else
             {
-                row.DisplayValue = FormatMinor(row.CommittedAmountMinor, _currency);
+                row.DisplayValue = CurrencyFormatter.FormatMinor(row.CommittedAmountMinor, _currency);
             }
         }
     }
 
-    private static bool IsTransientInputAcceptable(string? input, out long? parsedMinor)
-    {
-        parsedMinor = null;
-        var normalized = NormalizeNumberInput(input);
-
-        if (string.IsNullOrWhiteSpace(normalized))
-        {
-            return true;
-        }
-
-        var trailingDecimal = normalized.EndsWith(".", StringComparison.Ordinal);
-        if (normalized == ".")
-        {
-            return true;
-        }
-
-        if (trailingDecimal)
-        {
-            normalized = normalized.TrimEnd('.');
-            if (string.IsNullOrWhiteSpace(normalized))
-            {
-                return true;
-            }
-        }
-
-        if (decimal.TryParse(normalized, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out var value))
-        {
-            if (value < 0)
-            {
-                return false;
-            }
-
-            parsedMinor = (long)Math.Round(value * 100m, MidpointRounding.AwayFromZero);
-            return true;
-        }
-
-        return false;
-    }
-
-    private static bool IsTransientPercentageAcceptable(string? input, out decimal? parsedPercentage)
-    {
-        parsedPercentage = null;
-        var normalized = NormalizeNumberInput(input);
-
-        if (string.IsNullOrWhiteSpace(normalized))
-        {
-            return true;
-        }
-
-        if (normalized == ".")
-        {
-            return true;
-        }
-
-        var trailingDecimal = normalized.EndsWith(".", StringComparison.Ordinal);
-        if (trailingDecimal)
-        {
-            normalized = normalized.TrimEnd('.');
-            if (string.IsNullOrWhiteSpace(normalized))
-            {
-                return true;
-            }
-        }
-
-        if (decimal.TryParse(normalized, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out var value))
-        {
-            if (value < 0 || value > 100)
-            {
-                return false;
-            }
-
-            if (!trailingDecimal)
-            {
-                parsedPercentage = value;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private static bool TryParseAmountLenient(string? text, out long amountMinor)
-    {
-        amountMinor = 0;
-        var normalized = NormalizeNumberInput(text);
-        if (string.IsNullOrWhiteSpace(normalized))
-        {
-            return false;
-        }
-
-        if (normalized == "." || normalized.EndsWith(".", StringComparison.Ordinal))
-        {
-            return false;
-        }
-
-        if (decimal.TryParse(
-                normalized,
-                NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite,
-                CultureInfo.InvariantCulture,
-                out var parsed))
-        {
-            amountMinor = (long)Math.Round(parsed * 100m, MidpointRounding.AwayFromZero);
-            return amountMinor > 0;
-        }
-
-        return false;
-    }
-
-    private static string NormalizeNumberInput(string? text)
-    {
-        var value = (text ?? string.Empty)
-            .Replace("€", string.Empty, StringComparison.Ordinal)
-            .Replace("$", string.Empty, StringComparison.Ordinal)
-            .Replace("£", string.Empty, StringComparison.Ordinal)
-            .Replace("%", string.Empty, StringComparison.Ordinal)
-            .Trim();
-
-        if (value.Contains(',') && value.Contains('.'))
-        {
-            // Keep the last separator as decimal separator and strip the other separator.
-            var lastComma = value.LastIndexOf(',');
-            var lastDot = value.LastIndexOf('.');
-            if (lastComma > lastDot)
-            {
-                value = value.Replace(".", string.Empty, StringComparison.Ordinal).Replace(',', '.');
-            }
-            else
-            {
-                value = value.Replace(",", string.Empty, StringComparison.Ordinal);
-            }
-        }
-        else if (value.Contains(','))
-        {
-            value = value.Replace(',', '.');
-        }
-
-        return value;
-    }
-
-    private static string FormatMinor(long minor, string currency)
-    {
-        var amount = minor / 100m;
-        var symbol = currency.ToUpperInvariant() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            _ => string.Empty
-        };
-
-        return string.IsNullOrEmpty(symbol)
-            ? $"{amount:0.00} {currency.ToUpperInvariant()}"
-            : $"{symbol}{amount:0.00}";
-    }
-
-    public enum SplitMode { Auto, Fixed, Percentage }
-
-    public sealed class ParticipantSplitRowViewModel : BindableObject
-    {
-        private bool _isIncluded;
-        private SplitMode _splitMode = SplitMode.Auto;
-        private decimal? _committedPercentage;
-        private string _rawInput = string.Empty;
-        private long _committedAmountMinor;
-        private string _validationError = string.Empty;
-        private bool _hasTransientInvalidInput;
-        private string _displayValue = "—";
-
-        public string Id { get; }
-        public string Name { get; }
-
-        public bool IsIncluded
-        {
-            get => _isIncluded;
-            set
-            {
-                if (_isIncluded == value)
-                {
-                    return;
-                }
-
-                _isIncluded = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsIncludedMark));
-                OnPropertyChanged(nameof(IsEditing));
-                OnPropertyChanged(nameof(IsViewing));
-            }
-        }
-
-        public SplitMode SplitMode
-        {
-            get => _splitMode;
-            set
-            {
-                if (_splitMode == value)
-                {
-                    return;
-                }
-
-                _splitMode = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsEditing));
-                OnPropertyChanged(nameof(IsViewing));
-                OnPropertyChanged(nameof(ModeLabel));
-            }
-        }
-
-        public decimal? CommittedPercentage
-        {
-            get => _committedPercentage;
-            set
-            {
-                if (_committedPercentage == value)
-                {
-                    return;
-                }
-
-                _committedPercentage = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string RawInput
-        {
-            get => _rawInput;
-            set
-            {
-                if (string.Equals(_rawInput, value, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                _rawInput = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public long CommittedAmountMinor
-        {
-            get => _committedAmountMinor;
-            set
-            {
-                var normalized = Math.Max(0, value);
-                if (_committedAmountMinor == normalized)
-                {
-                    return;
-                }
-
-                _committedAmountMinor = normalized;
-                OnPropertyChanged();
-            }
-        }
-
-        public string ValidationError
-        {
-            get => _validationError;
-            set
-            {
-                if (string.Equals(_validationError, value, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                _validationError = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(HasValidationError));
-            }
-        }
-
-        public bool HasTransientInvalidInput
-        {
-            get => _hasTransientInvalidInput;
-            set
-            {
-                if (_hasTransientInvalidInput == value)
-                {
-                    return;
-                }
-
-                _hasTransientInvalidInput = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string DisplayValue
-        {
-            get => _displayValue;
-            set
-            {
-                if (string.Equals(_displayValue, value, StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                _displayValue = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsEditing => (_splitMode == SplitMode.Fixed || _splitMode == SplitMode.Percentage) && _isIncluded;
-        public bool IsViewing => !IsEditing;
-        public string IsIncludedMark => _isIncluded ? "✓" : " ";
-        public bool HasValidationError => !string.IsNullOrWhiteSpace(_validationError);
-        public string ModeLabel => _splitMode switch
-        {
-            SplitMode.Fixed => "💰▼",
-            SplitMode.Percentage => "% ▼",
-            _ => "⚖️▼"
-        };
-
-        public string? GroupHeader { get; set; }
-        public bool HasGroupHeader => !string.IsNullOrEmpty(GroupHeader);
-        public bool IsDependent { get; set; }
-
-        public ParticipantSplitRowViewModel(string id, string name, bool isIncluded)
-        {
-            Id = id;
-            Name = name;
-            _isIncluded = isIncluded;
-        }
-    }
-
-    public sealed record ImpactRowViewModel(string Text);
 }

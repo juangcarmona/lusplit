@@ -340,6 +340,12 @@
   <data name="Common_Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
   <data name="Export_DialogTitle" xml:space="preserve">
     <value>Exportar este grupo</value>
   </data>
@@ -877,6 +883,12 @@
   </data>
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
     <value>Eliminar</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Total fijo: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Gasto no encontrado.</value>
   </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
     <value>Responsabilidad de {0}</value>

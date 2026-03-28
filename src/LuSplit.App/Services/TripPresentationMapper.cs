@@ -112,13 +112,13 @@ public static class GroupPresentationMapper
                 ResolveExpenseIcon(expense, expenseIcons),
                 string.Format(AppResources.Mapper_ActivityExpenseTitle, ResolveParticipantName(expense.PaidByParticipantId, participantsById), expense.Title),
                 DescribeExpense(expense, participantsById),
-                FormatMinor(expense.AmountMinor, currency),
+                CurrencyFormatter.FormatMinor(expense.AmountMinor, currency),
                 ParseDate(expense.Date)))
             .Concat(overview.Transfers.Select(transfer => new ActivityEntryViewModel(
                 "💸",
                 string.Format(AppResources.Mapper_ActivityPaymentTitle, ResolveParticipantName(transfer.FromParticipantId, participantsById), ResolveParticipantName(transfer.ToParticipantId, participantsById)),
                 AppResources.Mapper_ActivityPaymentDetail,
-                FormatMinor(transfer.AmountMinor, currency),
+                CurrencyFormatter.FormatMinor(transfer.AmountMinor, currency),
                 ParseDate(transfer.Date))))
             .OrderByDescending(item => item.SortDate)
             .ToArray();
@@ -138,7 +138,7 @@ public static class GroupPresentationMapper
         return transfers
             .Select(transfer => new BalanceLineViewModel(
                 string.Format(AppResources.Mapper_BalanceOwes, ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode), ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)),
-                FormatMinor(transfer.AmountMinor, overview.Group.Currency)))
+                CurrencyFormatter.FormatMinor(transfer.AmountMinor, overview.Group.Currency)))
             .ToArray();
     }
 
@@ -162,7 +162,7 @@ public static class GroupPresentationMapper
                 return new NetBalanceViewModel(
                     balance.EntityId,
                     ResolveParticipantName(balance.EntityId, overview),
-                    $"{sign}{FormatMinor(absAmountMinor, overview.Group.Currency)}",
+                    $"{sign}{CurrencyFormatter.FormatMinor(absAmountMinor, overview.Group.Currency)}",
                     isPositive);
             })
             .OrderByDescending(line => amountByParticipantId.TryGetValue(line.ParticipantId, out var amount) ? amount : 0L)
@@ -184,7 +184,7 @@ public static class GroupPresentationMapper
                 string.Create(
                     CultureInfo.CurrentCulture,
                     $"{ResolveBalanceEntityName(transfer.FromParticipantId, overview, mode)} → {ResolveBalanceEntityName(transfer.ToParticipantId, overview, mode)}"),
-                FormatMinor(transfer.AmountMinor, overview.Group.Currency),
+                CurrencyFormatter.FormatMinor(transfer.AmountMinor, overview.Group.Currency),
                 transfer.AmountMinor))
             .ToArray();
     }
@@ -215,7 +215,7 @@ public static class GroupPresentationMapper
                     expense.Id,
                     true,
                     ResolveExpenseIcon(expense, expenseIcons),
-                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} - {FormatMinor(expense.AmountMinor, currency)}"),
+                    string.Create(CultureInfo.CurrentCulture, $"{expense.Title} - {CurrencyFormatter.FormatMinor(expense.AmountMinor, currency)}"),
                     string.Format(
                         AppResources.Mapper_PeopleCountFormat,
                         ResolveParticipantName(expense.PaidByParticipantId, participantsById),
@@ -227,7 +227,7 @@ public static class GroupPresentationMapper
                 transfer.Id,
                 false,
                 "💸",
-                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} - {FormatMinor(transfer.AmountMinor, currency)}"),
+                string.Create(CultureInfo.CurrentCulture, $"{AppResources.Mapper_PaymentTitle} - {CurrencyFormatter.FormatMinor(transfer.AmountMinor, currency)}"),
                 string.Create(CultureInfo.CurrentCulture, $"{ResolveParticipantName(transfer.FromParticipantId, participantsById)} → {ResolveParticipantName(transfer.ToParticipantId, participantsById)}"),
                 transfer.Id,
                 ParseDate(transfer.Date))))
@@ -247,7 +247,7 @@ public static class GroupPresentationMapper
         var totalUnsettledMinor = overview.BalancesByParticipant
             .Where(balance => balance.AmountMinor > 0)
             .Sum(balance => balance.AmountMinor);
-        return FormatMinor(totalUnsettledMinor, overview.Group.Currency);
+        return CurrencyFormatter.FormatMinor(totalUnsettledMinor, overview.Group.Currency);
     }
 
     public static IReadOnlyList<string> BuildBalancePreview(GroupOverviewModel overview, int maxItems)
@@ -312,8 +312,8 @@ public static class GroupPresentationMapper
         return new TimelineEntryViewModel(
             ResolveExpenseIcon(expense, expenseIcons),
             expense.Title,
-            FormatMinor(expense.AmountMinor, currency),
-            string.Format(AppResources.Mapper_PaymentPrimaryText, ResolveParticipantName(expense.PaidByParticipantId, participantsById), FormatMinor(expense.AmountMinor, currency)),
+            CurrencyFormatter.FormatMinor(expense.AmountMinor, currency),
+            string.Format(AppResources.Mapper_PaymentPrimaryText, ResolveParticipantName(expense.PaidByParticipantId, participantsById), CurrencyFormatter.FormatMinor(expense.AmountMinor, currency)),
             DescribeExpense(expense, participantsById),
             DescribeDay(date),
             date);
@@ -328,7 +328,7 @@ public static class GroupPresentationMapper
         return new TimelineEntryViewModel(
             "💸",
             AppResources.Mapper_PaymentTitle,
-            FormatMinor(transfer.AmountMinor, currency),
+            CurrencyFormatter.FormatMinor(transfer.AmountMinor, currency),
             string.Format(AppResources.Mapper_PaymentPrimaryText, ResolveParticipantName(transfer.FromParticipantId, participantsById), ResolveParticipantName(transfer.ToParticipantId, participantsById)),
             AppResources.Mapper_PaymentSecondaryText,
             DescribeDay(date),
@@ -513,22 +513,6 @@ public static class GroupPresentationMapper
         }
 
         return $"{string.Join(", ", names.Take(names.Count - 1))} {andWord} {names[^1]}";
-    }
-
-    private static string FormatMinor(long minor, string currency)
-    {
-        var amount = minor / 100m;
-        var symbol = currency.ToUpperInvariant() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            _ => string.Empty
-        };
-
-        return string.IsNullOrEmpty(symbol)
-            ? string.Create(CultureInfo.CurrentCulture, $"{amount:0.00} {currency.ToUpperInvariant()}")
-            : string.Create(CultureInfo.CurrentCulture, $"{symbol}{amount:0.00}");
     }
 
     private static string AnnotateIfCurrentUser(string name)

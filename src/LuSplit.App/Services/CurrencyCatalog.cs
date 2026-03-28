@@ -67,6 +67,19 @@ public static class CurrencyCatalog
         return options.FirstOrDefault(option => string.Equals(option.Code, normalized, StringComparison.OrdinalIgnoreCase));
     }
 
+    /// <summary>
+    /// Clears <paramref name="target"/> and fills it with the full list of supported currency options
+    /// in the catalog's canonical order.
+    /// </summary>
+    public static void PopulateSupportedOptions(System.Collections.ObjectModel.ObservableCollection<CurrencyOption> target)
+    {
+        target.Clear();
+        foreach (var option in GetSupportedCurrencyOptions())
+        {
+            target.Add(option);
+        }
+    }
+
     private static CurrencyOption BuildOption(string code)
     {
         var normalized = code.Trim().ToUpperInvariant();
@@ -111,6 +124,10 @@ public static class CurrencyCatalog
             "ZAR" => "R",
             _ => code
         };
+
+    // Note: CurrencyFormatter.GetSymbol covers the three common symbols (USD/EUR/GBP)
+    // used in formatting. The full symbol table above is retained here for the
+    // broader display label used in the currency picker (BuildOption).
 
     private static string GetLocalizedName(string code)
         => code switch

@@ -196,6 +196,8 @@ public static class AppResources
     public static string Common_Date => Get(nameof(Common_Date));
     public static string Common_Cancel => Get(nameof(Common_Cancel));
     public static string Common_Ok => Get(nameof(Common_Ok));
+    public static string Common_Edit => Get(nameof(Common_Edit));
+    public static string Common_Unknown => Get(nameof(Common_Unknown));
 
     // --- Export ---
     public static string Export_DialogTitle => Get(nameof(Export_DialogTitle));
@@ -358,4 +360,6 @@ public static class AppResources
     public static string ExpenseDetails_DeleteTitle => Get(nameof(ExpenseDetails_DeleteTitle));
     public static string ExpenseDetails_DeleteMessage => Get(nameof(ExpenseDetails_DeleteMessage));
     public static string ExpenseDetails_DeleteAction => Get(nameof(ExpenseDetails_DeleteAction));
+    public static string ExpenseDetails_TotalFixed => Get(nameof(ExpenseDetails_TotalFixed));
+    public static string ExpenseDetails_NotFound => Get(nameof(ExpenseDetails_NotFound));
 }
