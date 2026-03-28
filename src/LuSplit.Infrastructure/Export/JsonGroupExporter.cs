@@ -62,8 +62,7 @@ internal sealed class JsonGroupExporter
                 paidByParticipantId = e.PaidByParticipantId,
                 amountMinor = e.AmountMinor,
                 date = e.Date,
-                splitDefinition = JsonSerializer.Deserialize<object>(
-                    SplitJson.SerializeDefinition(e.SplitDefinition)),
+                splitDefinition = SplitJson.SerializeDefinitionToElement(e.SplitDefinition),
                 notes = e.Notes
             }).ToArray(),
             transfers = o.Transfers.Select(t => new

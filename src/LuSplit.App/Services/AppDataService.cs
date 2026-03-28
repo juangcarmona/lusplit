@@ -20,8 +20,18 @@ public sealed class AppDataService : IAsyncDisposable
     private string? _lastPaidByParticipantId;
     private IReadOnlyList<string> _lastParticipantIds = Array.Empty<string>();
     private string? _selectedGroupId;
+    private readonly ExpensePersistenceService _expenses;
+    private readonly GroupPersistenceService _group;
+    private readonly TransferPersistenceService _transfers;
 
     public event EventHandler? DataChanged;
+
+    public AppDataService()
+    {
+        _expenses = new ExpensePersistenceService(GetInfraAsync, GetSelectedGroupIdAsync);
+        _group = new GroupPersistenceService(GetInfraAsync, _idGenerator);
+        _transfers = new TransferPersistenceService(GetInfraAsync, GetSelectedGroupIdAsync);
+    }
 
     public async Task InitializeAsync()
     {
@@ -67,12 +77,12 @@ public sealed class AppDataService : IAsyncDisposable
             infra.ExpenseRepository,
             infra.TransferRepository).ExecuteAsync(groupId);
 
-        var metadata = await GetGroupMetadataAsync(groupId);
+        var metadata = await _group.GetGroupMetadataAsync(groupId);
         return new GroupWorkspaceModel(
             groupId,
             ResolveGroupName(metadata.Name, overview),
             overview,
-            await GetExpenseIconsAsync(groupId),
+            await _expenses.GetExpenseIconsAsync(groupId),
             metadata.LastOpenedUtc,
             metadata.ImagePath);
     }
@@ -86,7 +96,7 @@ public sealed class AppDataService : IAsyncDisposable
     public async Task<IReadOnlyList<GroupListItemModel>> GetGroupsAsync()
     {
         var selectedGroupId = await GetSelectedGroupIdAsync();
-        var groupIds = await ListGroupIdsAsync();
+        var groupIds = await _group.ListGroupIdsAsync();
         var groups = new List<GroupListItemModel>(groupIds.Count);
 
         foreach (var groupId in groupIds)
@@ -117,7 +127,7 @@ public sealed class AppDataService : IAsyncDisposable
 
     public async Task<IReadOnlyList<GroupListItemModel>> GetArchivedGroupsAsync()
     {
-        var groupIds = await ListGroupIdsAsync();
+        var groupIds = await _group.ListGroupIdsAsync();
         var groups = new List<GroupListItemModel>(groupIds.Count);
 
         foreach (var groupId in groupIds)
@@ -176,8 +186,7 @@ public sealed class AppDataService : IAsyncDisposable
     /// <summary>Archives a group. Archived groups are read-only - the domain blocks new expenses and participants on closed groups.</summary>
     public async Task ArchiveGroupAsync(string groupId)
     {
-        var infra = await GetInfraAsync();
-        await new CloseGroupUseCase(infra.GroupRepository).ExecuteAsync(new CloseGroupInput(groupId));
+        await _group.ArchiveGroupCoreAsync(groupId);
 
         // If the archived group was the active selection, fall through to the next active group.
         if (string.Equals(_selectedGroupId, groupId, StringComparison.Ordinal))
@@ -198,26 +207,15 @@ public sealed class AppDataService : IAsyncDisposable
 
         _selectedGroupId = groupId.Trim();
         Preferences.Default.Set(SelectedGroupPreferenceKey, _selectedGroupId);
-        await TouchGroupAsync(_selectedGroupId);
+        await _group.TouchGroupAsync(_selectedGroupId);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Persists the group image path (or clears it when <paramref name="imagePath"/> is <c>null</c>).</summary>
     public async Task SaveGroupImageAsync(string groupId, string? imagePath)
     {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = @"
-INSERT INTO group_metadata (group_id, image_path)
-VALUES ($groupId, $imagePath)
-ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
-        command.Parameters.AddWithValue("$groupId", groupId);
-        command.Parameters.AddWithValue("$imagePath", (object?)imagePath ?? DBNull.Value);
-        command.ExecuteNonQuery();
-
+        await _group.SaveGroupImageAsync(groupId, imagePath);
         DataChanged?.Invoke(this, EventArgs.Empty);
-        await Task.CompletedTask;
     }
 
     public async Task<string> CreateGroupAsync(string groupName, string currency, IReadOnlyList<GroupDraftMember> members)
@@ -243,8 +241,8 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
         var group = await new CreateGroupUseCase(infra.GroupRepository, _idGenerator)
             .ExecuteAsync(new CreateGroupInput(normalizedCurrency));
 
-        await SaveGroupMetadataAsync(group.Id, normalizedName, DateTimeOffset.UtcNow);
-        await AddMembersAsync(group.Id, memberDrafts);
+        await _group.SaveGroupMetadataAsync(group.Id, normalizedName, DateTimeOffset.UtcNow);
+        await _group.AddMembersAsync(group.Id, memberDrafts);
         await SelectGroupAsync(group.Id);
         return group.Id;
     }
@@ -253,14 +251,7 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
     {
         var normalizedName = NormalizeRequired(groupName, AppResources.Validation_GroupNameRequired);
         var normalizedCurrency = NormalizeRequired(currency, AppResources.Validation_CurrencyRequired).ToUpperInvariant();
-        var infra = await GetInfraAsync();
-        var existing = await infra.GroupRepository.GetByIdAsync(groupId, CancellationToken.None)
-            ?? throw new InvalidOperationException(AppResources.Validation_GroupNotFound);
-
-        await infra.GroupRepository.SaveGroupAsync(existing with { Currency = normalizedCurrency }, CancellationToken.None);
-
-        var metadata = await GetGroupMetadataAsync(groupId);
-        await SaveGroupMetadataAsync(groupId, normalizedName, metadata.LastOpenedUtc);
+        await _group.UpdateGroupAsync(groupId, normalizedName, normalizedCurrency);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -273,13 +264,7 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
     {
         var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
         var normalizedHouseholdName = NormalizeOptional(householdName);
-        var participants = (await GetOverviewAsync(groupId)).Participants;
-        if (participants.Any(participant => string.Equals(participant.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
-        }
-
-        await AddMembersAsync(groupId, new[] { new GroupDraftMember(normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight) });
+        await _group.AddGroupMemberAsync(groupId, normalizedName, normalizedHouseholdName, consumptionCategory, customConsumptionWeight);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -288,54 +273,7 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
         var normalizedParticipantId = NormalizeRequired(participantId, AppResources.Validation_PersonNotFound);
         var normalizedName = NormalizeRequired(personName, AppResources.Validation_PersonNameRequired);
         var normalizedDependsOnParticipantId = NormalizeOptional(dependsOnParticipantId);
-
-        var infra = await GetInfraAsync();
-        var group = await infra.GroupRepository.GetByIdAsync(groupId, CancellationToken.None)
-            ?? throw new InvalidOperationException(AppResources.Validation_GroupNotFound);
-        if (group.Closed)
-        {
-            throw new InvalidOperationException(AppResources.Validation_GroupArchivedReadonly);
-        }
-
-        var participants = await infra.ParticipantRepository.ListParticipantsByGroupIdAsync(groupId, CancellationToken.None);
-        var participant = participants.FirstOrDefault(candidate =>
-            string.Equals(candidate.Id, normalizedParticipantId, StringComparison.Ordinal))
-            ?? throw new InvalidOperationException(AppResources.Validation_PersonNotFound);
-
-        if (participants.Any(candidate =>
-                !string.Equals(candidate.Id, participant.Id, StringComparison.Ordinal)
-                && string.Equals(candidate.Name, normalizedName, StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new InvalidOperationException(AppResources.Validation_PersonNameMustBeUnique);
-        }
-
-        var economicUnits = await infra.EconomicUnitRepository.ListEconomicUnitsByGroupIdAsync(groupId, CancellationToken.None);
-        var currentUnit = economicUnits.FirstOrDefault(unit => string.Equals(unit.Id, participant.EconomicUnitId, StringComparison.Ordinal))
-            ?? throw new InvalidOperationException(AppResources.Validation_PersonNotFound);
-
-        var destinationUnit = currentUnit;
-        if (!string.IsNullOrWhiteSpace(normalizedDependsOnParticipantId))
-        {
-            var responsibleParticipant = participants.FirstOrDefault(candidate =>
-                string.Equals(candidate.Id, normalizedDependsOnParticipantId, StringComparison.Ordinal))
-                ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
-
-            if (string.Equals(responsibleParticipant.Id, participant.Id, StringComparison.Ordinal)
-                && !string.Equals(currentUnit.OwnerParticipantId, participant.Id, StringComparison.Ordinal))
-            {
-                throw new InvalidOperationException(AppResources.Validation_PersonCannotDependOnSelf);
-            }
-
-            destinationUnit = economicUnits.FirstOrDefault(unit => string.Equals(unit.Id, responsibleParticipant.EconomicUnitId, StringComparison.Ordinal))
-                ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
-        }
-
-        var updatedParticipant = participant with
-        {
-            Name = normalizedName,
-            EconomicUnitId = destinationUnit.Id
-        };
-        await infra.ParticipantRepository.SaveParticipantAsync(updatedParticipant, CancellationToken.None);
+        await _group.UpdateGroupMemberAsync(groupId, normalizedParticipantId, normalizedName, normalizedDependsOnParticipantId);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -348,32 +286,7 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
         string? icon,
         SplitDefinition? splitDefinition = null)
     {
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-        var expenseIdGenerator = new GuidIdGenerator();
-
-        var split = splitDefinition ?? new SplitDefinition(new SplitComponent[]
-        {
-            new RemainderSplitComponent(participantIds, RemainderMode.Equal)
-        });
-
-        await new AddExpenseUseCase(
-            infra.GroupRepository,
-            infra.ParticipantRepository,
-            infra.ExpenseRepository,
-            expenseIdGenerator,
-            new UtcClock()).ExecuteAsync(new AddExpenseInput(
-                GroupId: selectedGroupId,
-                Title: title,
-                PaidByParticipantId: paidByParticipantId,
-                AmountMinor: amountMinor,
-                SplitDefinition: split,
-                Date: date.ToUniversalTime().ToString("O")));
-
-        if (!string.IsNullOrWhiteSpace(icon))
-        {
-            await SaveExpenseIconAsync(expenseIdGenerator.LastGeneratedId, icon.Trim());
-        }
+        await _expenses.AddExpenseAsync(title, amountMinor, paidByParticipantId, date, participantIds, icon, splitDefinition);
 
         _lastPaidByParticipantId = paidByParticipantId;
         _lastParticipantIds = participantIds.ToArray();
@@ -383,51 +296,12 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
 
     public async Task AddPaymentAsync(string fromParticipantId, string toParticipantId, long amountMinor, DateTime date)
     {
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-
-        await new AddManualTransferUseCase(
-            infra.GroupRepository,
-            infra.ParticipantRepository,
-            infra.TransferRepository,
-            new GuidIdGenerator(),
-            new UtcClock()).ExecuteAsync(new AddManualTransferInput(
-                GroupId: selectedGroupId,
-                FromParticipantId: fromParticipantId,
-                ToParticipantId: toParticipantId,
-                AmountMinor: amountMinor,
-                Date: date.ToUniversalTime().ToString("O"),
-                Note: "Recorded in app"));
-
+        await _transfers.AddPaymentAsync(fromParticipantId, toParticipantId, amountMinor, date);
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task<ExpenseModel?> GetExpenseAsync(string expenseId)
-    {
-        var normalizedExpenseId = expenseId?.Trim();
-        if (string.IsNullOrWhiteSpace(normalizedExpenseId))
-        {
-            return null;
-        }
-
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-        var expense = await infra.ExpenseRepository.GetExpenseByIdAsync(normalizedExpenseId, CancellationToken.None);
-        if (expense is null || !string.Equals(expense.GroupId, selectedGroupId, StringComparison.Ordinal))
-        {
-            return null;
-        }
-
-        return new ExpenseModel(
-            expense.Id,
-            expense.GroupId,
-            expense.Title,
-            expense.PaidByParticipantId,
-            expense.AmountMinor,
-            expense.Date,
-            expense.SplitDefinition,
-            expense.Notes);
-    }
+    public Task<ExpenseModel?> GetExpenseAsync(string expenseId)
+        => _expenses.GetExpenseAsync(expenseId);
 
     public async Task UpdateExpenseAsync(
         string expenseId,
@@ -438,35 +312,14 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
         SplitDefinition splitDefinition,
         string? notes)
     {
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-
-        await new EditExpenseUseCase(
-            infra.GroupRepository,
-            infra.ParticipantRepository,
-            infra.ExpenseRepository).ExecuteAsync(new EditExpenseInput(
-                GroupId: selectedGroupId,
-                ExpenseId: expenseId,
-                Title: title,
-                PaidByParticipantId: paidByParticipantId,
-                AmountMinor: amountMinor,
-                SplitDefinition: splitDefinition,
-                Date: date.ToUniversalTime().ToString("O"),
-                Notes: notes));
+        await _expenses.UpdateExpenseAsync(expenseId, title, paidByParticipantId, amountMinor, date, splitDefinition, notes);
 
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public async Task DeleteExpenseAsync(string expenseId)
     {
-        var infra = await GetInfraAsync();
-        var selectedGroupId = await GetSelectedGroupIdAsync();
-
-        await new DeleteExpenseUseCase(
-            infra.GroupRepository,
-            infra.ExpenseRepository).ExecuteAsync(new DeleteExpenseInput(
-                GroupId: selectedGroupId,
-                ExpenseId: expenseId));
+        await _expenses.DeleteExpenseAsync(expenseId);
 
         DataChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -571,7 +424,7 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
             return _selectedGroupId;
         }
 
-        var groupIds = await ListGroupIdsAsync();
+        var groupIds = await _group.ListGroupIdsAsync();
         if (groupIds.Count == 0)
         {
             throw new NoGroupsAvailableException();
@@ -583,146 +436,6 @@ CREATE TABLE IF NOT EXISTS expense_ui_metadata (
 
         Preferences.Default.Set(SelectedGroupPreferenceKey, _selectedGroupId);
         return _selectedGroupId;
-    }
-
-    private async Task<IReadOnlyList<string>> ListGroupIdsAsync()
-    {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = "SELECT id FROM groups ORDER BY id";
-
-        var groupIds = new List<string>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            groupIds.Add(reader.GetString(0));
-        }
-
-        return groupIds;
-    }
-
-    private async Task<GroupMetadataRecord> GetGroupMetadataAsync(string groupId)
-    {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = "SELECT name, last_opened_utc, image_path FROM group_metadata WHERE group_id = $groupId";
-        command.Parameters.AddWithValue("$groupId", groupId);
-
-        using var reader = command.ExecuteReader();
-        if (!reader.Read())
-        {
-            return new GroupMetadataRecord(null, null);
-        }
-
-        return new GroupMetadataRecord(
-            reader.IsDBNull(0) ? null : reader.GetString(0),
-            reader.IsDBNull(1) || !DateTimeOffset.TryParse(reader.GetString(1), out var lastOpenedUtc) ? null : lastOpenedUtc,
-            reader.IsDBNull(2) ? null : reader.GetString(2));
-    }
-
-    private async Task SaveGroupMetadataAsync(string groupId, string? name, DateTimeOffset? lastOpenedUtc)
-    {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = @"
-INSERT INTO group_metadata (group_id, name, last_opened_utc)
-VALUES ($groupId, $name, $lastOpenedUtc)
-ON CONFLICT(group_id) DO UPDATE SET
-  name = COALESCE(excluded.name, group_metadata.name),
-  last_opened_utc = COALESCE(excluded.last_opened_utc, group_metadata.last_opened_utc);";
-        command.Parameters.AddWithValue("$groupId", groupId);
-        command.Parameters.AddWithValue("$name", (object?)name ?? DBNull.Value);
-        command.Parameters.AddWithValue("$lastOpenedUtc", lastOpenedUtc?.ToString("O") ?? (object)DBNull.Value);
-        command.ExecuteNonQuery();
-
-        await Task.CompletedTask;
-    }
-
-    private Task TouchGroupAsync(string groupId)
-        => SaveGroupMetadataAsync(groupId, null, DateTimeOffset.UtcNow);
-
-    private async Task<IReadOnlyDictionary<string, string>> GetExpenseIconsAsync(string groupId)
-    {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = @"
-SELECT expenses.id, expense_ui_metadata.icon
-FROM expenses
-INNER JOIN expense_ui_metadata ON expense_ui_metadata.expense_id = expenses.id
-WHERE expenses.group_id = $groupId AND expense_ui_metadata.icon IS NOT NULL;";
-        command.Parameters.AddWithValue("$groupId", groupId);
-
-        var icons = new Dictionary<string, string>(StringComparer.Ordinal);
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            icons[reader.GetString(0)] = reader.GetString(1);
-        }
-
-        return icons;
-    }
-
-    private async Task SaveExpenseIconAsync(string expenseId, string icon)
-    {
-        var infra = await GetInfraAsync();
-
-        using var command = infra.Db.CreateCommand();
-        command.CommandText = @"
-INSERT INTO expense_ui_metadata (expense_id, icon)
-VALUES ($expenseId, $icon)
-ON CONFLICT(expense_id) DO UPDATE SET
-  icon = excluded.icon;";
-        command.Parameters.AddWithValue("$expenseId", expenseId);
-        command.Parameters.AddWithValue("$icon", icon);
-        command.ExecuteNonQuery();
-
-        await Task.CompletedTask;
-    }
-
-    private async Task AddMembersAsync(string groupId, IReadOnlyList<GroupDraftMember> members)
-    {
-        var infra = await GetInfraAsync();
-        var createEconomicUnit = new CreateEconomicUnitUseCase(infra.GroupRepository, infra.EconomicUnitRepository, _idGenerator);
-        var createParticipant = new CreateParticipantUseCase(infra.GroupRepository, infra.EconomicUnitRepository, infra.ParticipantRepository, _idGenerator);
-        var overview = await GetOverviewAsync(groupId);
-        var unitsByName = overview.EconomicUnits
-            .Where(unit => !string.IsNullOrWhiteSpace(unit.Name))
-            .GroupBy(unit => unit.Name!, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
-
-        foreach (var member in members)
-        {
-            var householdName = NormalizeOptional(member.HouseholdName);
-            EconomicUnitModel unit;
-
-            if (!string.IsNullOrWhiteSpace(householdName) && unitsByName.TryGetValue(householdName, out var existingUnit))
-            {
-                unit = existingUnit;
-            }
-            else
-            {
-                unit = await createEconomicUnit.ExecuteAsync(new CreateEconomicUnitInput(
-                    groupId,
-                    _idGenerator.NextId(),
-                    householdName));
-
-                if (!string.IsNullOrWhiteSpace(householdName))
-                {
-                    unitsByName[householdName] = unit;
-                }
-            }
-
-            await createParticipant.ExecuteAsync(new CreateParticipantInput(
-                groupId,
-                unit.Id,
-                member.Name,
-                member.ConsumptionCategory,
-                member.CustomConsumptionWeight));
-        }
     }
 
     private static Dictionary<string, string> BuildHouseholdLookup(GroupOverviewModel overview)
@@ -813,21 +526,6 @@ ON CONFLICT(expense_id) DO UPDATE SET
         }
     }
 
-    private sealed class GuidIdGenerator : LuSplit.Application.Ports.IIdGenerator
-    {
-        public string LastGeneratedId { get; private set; } = string.Empty;
-
-        public string NextId()
-        {
-            LastGeneratedId = Guid.NewGuid().ToString("N")[..12];
-            return LastGeneratedId;
-        }
-    }
-
-    private sealed class UtcClock : LuSplit.Application.Ports.IClock
-    {
-        public string NowIso() => DateTimeOffset.UtcNow.ToString("O");
-    }
 }
 
 public sealed record EventDraftDefaults(string? PaidByParticipantId, IReadOnlyList<string> ParticipantIds);

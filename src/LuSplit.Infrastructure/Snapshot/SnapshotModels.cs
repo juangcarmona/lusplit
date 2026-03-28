@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace LuSplit.Infrastructure.Snapshot;
 
 public sealed record GroupSnapshotV1(
@@ -31,7 +33,7 @@ public sealed record SnapshotExpense(
     string PaidByParticipantId,
     long AmountMinor,
     string Date,
-    object SplitDefinition,
+    JsonElement SplitDefinition,
     string? Notes = null);
 
 public sealed record SnapshotTransfer(

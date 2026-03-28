@@ -9,6 +9,8 @@ internal static class SplitJson
     public static string SerializeDefinition(SplitDefinition definition)
         => JsonSerializer.Serialize(ToDto(definition));
 
+    public static JsonElement SerializeDefinitionToElement(SplitDefinition definition)
+        => JsonSerializer.SerializeToElement(ToDto(definition));
     public static SplitDefinition ParseDefinition(string json)
     {
         using var doc = JsonDocument.Parse(json);

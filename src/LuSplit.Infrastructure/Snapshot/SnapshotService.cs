@@ -4,6 +4,13 @@ using LuSplit.Domain.Split;
 using LuSplit.Infrastructure.Sqlite;
 using Microsoft.Data.Sqlite;
 
+// Design note: SnapshotService reads from and writes to the database directly rather than
+// delegating to the live repositories. This is intentional (Option A): the snapshot path
+// is a self-contained export/import concern that must remain stable as an independent
+// serialization contract, independent of any filtering or mapping changes made to the
+// live read-path repositories. Enum-string conversions are shared via SqliteEnumConverters
+// in SqliteHelpers.cs to prevent divergence on those mappings.
+
 namespace LuSplit.Infrastructure.Snapshot;
 
 public static class SnapshotService
@@ -24,13 +31,7 @@ public static class SnapshotService
                 participant.GroupId,
                 participant.EconomicUnitId,
                 participant.Name,
-                participant.ConsumptionCategory switch
-                {
-                    ConsumptionCategory.Full => "FULL",
-                    ConsumptionCategory.Half => "HALF",
-                    ConsumptionCategory.Custom => "CUSTOM",
-                    _ => throw new ArgumentOutOfRangeException()
-                },
+                SqliteEnumConverters.ToConsumptionCategoryString(participant.ConsumptionCategory),
                 participant.CustomConsumptionWeight)).ToArray(),
             economicUnits.Select(unit => new SnapshotEconomicUnit(unit.Id, unit.GroupId, unit.OwnerParticipantId, unit.Name)).ToArray(),
             expenses.Select(expense => new SnapshotExpense(
@@ -40,7 +41,7 @@ public static class SnapshotService
                 expense.PaidByParticipantId,
                 expense.AmountMinor,
                 expense.Date,
-                JsonSerializer.Deserialize<object>(SplitJson.SerializeDefinition(expense.SplitDefinition))!,
+                SplitJson.SerializeDefinitionToElement(expense.SplitDefinition),
                 expense.Notes)).ToArray(),
             transfers.Select(transfer => new SnapshotTransfer(
                 transfer.Id,
@@ -260,13 +261,7 @@ FROM participants WHERE group_id = $groupId ORDER BY id";
                 reader.GetString(1),
                 reader.GetString(2),
                 reader.GetString(3),
-                reader.GetString(4) switch
-                {
-                    "FULL" => ConsumptionCategory.Full,
-                    "HALF" => ConsumptionCategory.Half,
-                    "CUSTOM" => ConsumptionCategory.Custom,
-                    var category => throw new InvalidOperationException($"Unknown consumption category: {category}")
-                },
+                SqliteEnumConverters.ParseConsumptionCategory(reader.GetString(4)),
                 reader.IsDBNull(5) ? null : reader.GetString(5)));
         }
 
@@ -337,7 +332,7 @@ FROM transfers WHERE group_id = $groupId ORDER BY id";
                 reader.GetString(3),
                 reader.GetInt64(4),
                 reader.GetString(5),
-                reader.GetString(6) == "GENERATED" ? TransferType.Generated : TransferType.Manual,
+                SqliteEnumConverters.ParseTransferType(reader.GetString(6)),
                 reader.IsDBNull(7) ? null : reader.GetString(7)));
         }
 
