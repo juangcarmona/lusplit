@@ -24,7 +24,7 @@
                         IsVisible="{Binding CanEdit}"
                         Margin="0,0,0,4"
                         AutomationId="ChangePhotoButton"
-                        Clicked="OnChangePhotoClicked" />
+                        Command="{Binding RequestPhotoChangeCommand}" />
 
                 <!-- Archived group banner -->
                 <Border IsVisible="{Binding IsArchived}"
@@ -76,19 +76,19 @@
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,4,0,0"
                         AutomationId="ExportButton"
-                        Clicked="OnExportClicked" />
+                        Command="{Binding RequestExportCommand}" />
 
                 <Button Text="{x:Static loc:AppResources.GroupDetails_ArchiveButton}"
                         IsVisible="{Binding CanArchive}"
                         Style="{StaticResource SecondaryButton}"
                         AutomationId="ArchiveButton"
-                        Clicked="OnArchiveClicked" />
+                        Command="{Binding RequestArchiveCommand}" />
 
                 <!-- 4. Save -->
                 <Button Text="{x:Static loc:AppResources.GroupDetails_SaveButton}"
                         IsVisible="{Binding CanEdit}"
                         AutomationId="SaveButton"
-                        Clicked="OnSaveClicked" />
+                        Command="{Binding SaveCommand}" />
 
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
 

@@ -57,6 +57,15 @@
              Link="Shared\IRecordPaymentDataService.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\RecordPaymentViewModel.cs"
              Link="Shared\RecordPaymentViewModel.cs" />
+    <!-- GroupDetailsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupDetailsDataService.cs"
+             Link="Shared\IGroupDetailsDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyCatalog.cs"
+             Link="Shared\CurrencyCatalog.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsParticipantSorter.cs"
+             Link="Shared\GroupDetailsParticipantSorter.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsViewModel.cs"
+             Link="Shared\GroupDetailsViewModel.cs" />
   </ItemGroup>
 
 </Project>
