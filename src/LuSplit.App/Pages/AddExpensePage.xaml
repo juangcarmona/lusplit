@@ -9,8 +9,7 @@
         <ScrollView>
             <VerticalStackLayout Padding="14,10,14,10" Spacing="8">
                 <Label Text="{x:Static loc:AppResources.AddEvent_EventLabel}" Style="{StaticResource FieldLabel}" />
-                <Entry Text="{Binding ExpenseTitle}"
-                       TextChanged="OnExpenseTitleChanged"
+                <Entry Text="{Binding ExpenseTitle, Mode=TwoWay}"
                        Placeholder="{x:Static loc:AppResources.AddEvent_EventPlaceholder}" />
                 <Label Text="{x:Static loc:AppResources.Validation_TitleRequired}"
                        Style="{StaticResource BodyMuted}"
@@ -27,8 +26,7 @@
                                TextColor="{AppThemeBinding Light={StaticResource TextPrimaryNavy}, Dark={StaticResource TextOnDark}}" />
                         <Entry x:Name="AmountEntry"
                                Grid.Column="1"
-                               Text="{Binding AmountText}"
-                               TextChanged="OnAmountTextChanged"
+                               Text="{Binding AmountText, Mode=TwoWay}"
                                Keyboard="Numeric"
                                Placeholder="100"
                                FontSize="36" />
@@ -49,7 +47,7 @@
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                     <VerticalStackLayout Grid.Column="0" Spacing="2">
                         <Label Text="{x:Static loc:AppResources.AddEvent_PaidBy}" Style="{StaticResource FieldLabel}" />
-                        <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName}" SelectedIndexChanged="OnPayerChanged" />
+                        <Picker ItemsSource="{Binding PayerNames}" SelectedItem="{Binding SelectedPayerName, Mode=TwoWay}" />
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="4">
@@ -70,13 +68,13 @@
                     <Button Grid.Column="0"
                             Text="{x:Static loc:AppResources.AddEvent_SelectAll}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnSelectAllClicked"
+                            Command="{Binding SelectAllCommand}"
                             Padding="6,4"
                             FontSize="12" />
                     <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.AddEvent_AdultsOnly}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnAdultsOnlyClicked"
+                            Command="{Binding AdultsOnlyCommand}"
                             IsVisible="{Binding HasDependents}"
                             Padding="6,4"
                             FontSize="12" />
@@ -84,13 +82,13 @@
                 <CollectionView ItemsSource="{Binding ParticipantRows}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="2" Padding="0,2">
+                            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="1" Padding="0">
                                 <Label Grid.Row="0"
                                        Text="{Binding GroupHeader}"
                                        Style="{StaticResource BodyMuted}"
                                        FontSize="11"
                                        IsVisible="{Binding HasGroupHeader}"
-                                       Margin="0,6,0,0" />
+                                       Margin="0" />
                                 <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="6">
                                     <CheckBox IsChecked="{Binding IsIncluded, Mode=TwoWay}"
                                               CheckedChanged="OnParticipantCheckChanged"
@@ -128,6 +126,7 @@
                                            Text="{Binding RawInput}"
                                            Keyboard="Numeric"
                                            HorizontalTextAlignment="End"
+                                           FontSize="46"
                                            TextChanged="OnParticipantRawInputChanged"
                                            IsVisible="{Binding IsEditing}" />
 
@@ -135,12 +134,12 @@
                                             Text="{Binding ModeLabel}"
                                             Clicked="OnModeSelectorClicked"
                                             CommandParameter="{Binding Id}"
-                                            Style="{StaticResource SecondaryButton}"
+                                            Style="{StaticResource DropDownButton}"
                                             IsVisible="{Binding IsIncluded}"
-                                            Padding="6,0"
-                                            FontSize="12"
+                                            Padding="1,0"
+                                            FontSize="16"
                                             MinimumWidthRequest="40"
-                                            MinimumHeightRequest="36" />
+                                            MinimumHeightRequest="26" />
                                 </Grid>
 
                                 <Label Grid.Row="2"
@@ -190,7 +189,7 @@
                 BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSnow}, Dark={StaticResource BackgroundDark}}"
                 StrokeThickness="0">
             <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}"
-                    Clicked="OnSaveClicked"
+                    Command="{Binding SaveCommand}"
                     IsEnabled="{Binding CanSave}" />
         </Border>
 

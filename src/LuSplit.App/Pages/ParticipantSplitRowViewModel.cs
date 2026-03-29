@@ -1,10 +1,12 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace LuSplit.App.Pages;
 
 /// <summary>Controls how a participant's share of an expense is determined on the add-expense page.</summary>
 public enum SplitMode { Auto, Fixed, Percentage }
 
 /// <summary>View-model for a single participant row on the add-expense split grid.</summary>
-public sealed class ParticipantSplitRowViewModel : BindableObject
+public sealed class ParticipantSplitRowViewModel : ObservableObject
 {
     private bool _isIncluded;
     private SplitMode _splitMode = SplitMode.Auto;

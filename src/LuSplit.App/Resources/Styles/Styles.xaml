@@ -48,10 +48,10 @@
         <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="{StaticResource PanelRightIndigo}" />
         <Setter Property="FontFamily" Value="BrandMedium" />
-        <Setter Property="CornerRadius" Value="12" />
-        <Setter Property="Padding" Value="16,12" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="8,8" />
+        <Setter Property="MinimumHeightRequest" Value="24" />
+        <Setter Property="MinimumWidthRequest" Value="24" />
     </Style>
 
     <Style TargetType="Entry">
@@ -164,7 +164,7 @@
         <Setter Property="Padding" Value="12" />
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="12" />
+                <RoundRectangle CornerRadius="4" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -181,10 +181,21 @@
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource StrokeDark}}" />
         <Setter Property="BorderWidth" Value="1.5" />
         <Setter Property="FontFamily" Value="BrandMedium" />
-        <Setter Property="CornerRadius" Value="12" />
-        <Setter Property="Padding" Value="16,12" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
-        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="8,8" />
+        <Setter Property="MinimumHeightRequest" Value="24" />
+        <Setter Property="MinimumWidthRequest" Value="24" />
+    </Style>
+
+    <Style x:Key="DropDownButton"  TargetType="Button">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource TextOnDark}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <!--<Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource PanelRightIndigo}, Dark={StaticResource StrokeDark}}" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="CornerRadius" Value="4" />-->
+        <Setter Property="Padding" Value="8,8" />
+        <Setter Property="MinimumHeightRequest" Value="24" />
+        <Setter Property="MinimumWidthRequest" Value="24" />
     </Style>
 
     <Style x:Key="ChipBorder" TargetType="Border">
