@@ -49,7 +49,7 @@ public partial class ArchivedGroupsPage : ContentPage
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await Shell.Current.GoToAsync($"{AppRoutes.GroupTimeline}?groupId={Uri.EscapeDataString(groupId)}");
+            await Shell.Current.GoToAsync($"//{AppRoutes.Home}?groupId={Uri.EscapeDataString(groupId)}");
         }
     }
 }
