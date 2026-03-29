@@ -66,6 +66,16 @@
              Link="Shared\GroupDetailsParticipantSorter.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsViewModel.cs"
              Link="Shared\GroupDetailsViewModel.cs" />
+    <!-- ArchivedGroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupDataService.cs"
+             Link="Shared\IArchivedGroupDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupViewModel.cs"
+             Link="Shared\ArchivedGroupViewModel.cs" />
+    <!-- CreateGroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\ICreateGroupDataService.cs"
+             Link="Shared\ICreateGroupDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\CreateGroupViewModel.cs"
+             Link="Shared\CreateGroupViewModel.cs" />
   </ItemGroup>
 
 </Project>

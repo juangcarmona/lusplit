@@ -7,7 +7,7 @@
              Title="{Binding GroupName}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Clicked="OnExportClicked" />
+        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Command="{Binding RequestExportCommand}" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,Auto">
@@ -28,7 +28,7 @@
                     </Grid>
 
                     <!-- background image -->
-                    <Image Source="{Binding GroupImageSource}"
+                    <Image Source="{Binding GroupImagePath}"
                            Aspect="AspectFill"
                            IsVisible="{Binding HasGroupImage}" />
 
@@ -58,7 +58,7 @@
                                 HorizontalOptions="Center"
                                 StrokeLineJoin="Round">
                             <Grid>
-                                <Image Source="{Binding GroupImageSource}"
+                                <Image Source="{Binding GroupImagePath}"
                                        Aspect="AspectFill"
                                        IsVisible="{Binding HasGroupImage}" />
                                 <Label Text="🏔️"
@@ -102,20 +102,35 @@
                 <Grid Padding="16,0,16,0"
                       ColumnDefinitions="*,*,*"
                       ColumnSpacing="8">
-                    <Button x:Name="OverviewTabButton"
-                            Grid.Column="0"
+                    <Button Grid.Column="0"
                             Text="{x:Static loc:AppResources.Group_TabOverview}"
-                            Clicked="OnOverviewTabClicked" />
-                    <Button x:Name="ExpensesTabButton"
-                            Grid.Column="1"
+                            Command="{Binding SelectOverviewTabCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsOverviewTab}" Value="False">
+                                <Setter Property="Style" Value="{StaticResource SecondaryButton}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.Group_TabExpenses}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnExpensesTabClicked" />
-                    <Button x:Name="BalancesTabButton"
-                            Grid.Column="2"
+                            Command="{Binding SelectExpensesTabCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsExpensesTab}" Value="True">
+                                <Setter Property="Style" Value="{x:Null}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="2"
                             Text="{x:Static loc:AppResources.Group_TabBalances}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnBalancesTabClicked" />
+                            Command="{Binding SelectBalancesTabCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsBalancesTab}" Value="True">
+                                <Setter Property="Style" Value="{x:Null}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
                 </Grid>
 
                 <!-- Overview tab -->

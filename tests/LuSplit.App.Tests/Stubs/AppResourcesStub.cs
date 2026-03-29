@@ -114,6 +114,10 @@ internal static class AppResources
     public static string Currency_Name_NZD => nameof(Currency_Name_NZD);
     public static string Currency_Name_ZAR => nameof(Currency_Name_ZAR);
 
+    // Used by CreateGroupViewModel
+    public static string Validation_AddAtLeastOnePerson => nameof(Validation_AddAtLeastOnePerson);
+    public static string Common_MeCapitalized => nameof(Common_MeCapitalized);
+
     // Used by GroupDetailsDependencyService / GroupDetailsPeopleService
     public static string Validation_PersonNameRequired => nameof(Validation_PersonNameRequired);
     public static string Validation_PersonNameMustBeUnique => nameof(Validation_PersonNameMustBeUnique);

@@ -26,7 +26,7 @@
                                     SelectedItem="{Binding SelectedCurrencyOption}" />
                         </VerticalStackLayout>
                     </Border>
-                    <Button Text="{x:Static loc:AppResources.CreateGroup_Continue}" Clicked="OnContinueClicked" />
+                    <Button Text="{x:Static loc:AppResources.CreateGroup_Continue}" Command="{Binding ContinueCommand}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding IsStep2}" Spacing="8">
@@ -37,7 +37,7 @@
                         AddParticipantRequested="OnParticipantAddRequested"
                         RemoveParticipantRequested="OnParticipantRemoveRequested"
                         DependencyChanged="OnDependencyChanged" />
-                    <Button Text="{x:Static loc:AppResources.CreateGroup_Create}" Clicked="OnCreateClicked" />
+                    <Button Text="{x:Static loc:AppResources.CreateGroup_Create}" Command="{Binding CreateCommand}" />
                 </VerticalStackLayout>
 
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
