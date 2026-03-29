@@ -8,15 +8,25 @@
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
-                    <Button x:Name="ProfileTabButton"
-                            Grid.Column="0"
+                    <Button Grid.Column="0"
                             Text="{x:Static loc:AppResources.Settings_ProfileSection}"
-                            Clicked="OnProfileTabClicked" />
-                    <Button x:Name="LanguageTabButton"
-                            Grid.Column="1"
+                            Command="{Binding SelectProfileTabCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ShowProfileTab}" Value="False">
+                                <Setter Property="Style" Value="{StaticResource SecondaryButton}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.Settings_LanguageSection}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnLanguageTabClicked" />
+                            Command="{Binding SelectLanguageTabCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ShowLanguageTab}" Value="True">
+                                <Setter Property="Style" Value="{x:Null}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
                 </Grid>
 
                 <VerticalStackLayout IsVisible="{Binding ShowProfileTab}" Spacing="10">
@@ -45,7 +55,7 @@
                     </Border>
 
                     <Button Text="{x:Static loc:AppResources.Settings_SaveProfileButton}"
-                            Clicked="OnSaveProfileClicked" />
+                            Command="{Binding SaveProfileCommand}" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding ShowLanguageTab}" Spacing="10">

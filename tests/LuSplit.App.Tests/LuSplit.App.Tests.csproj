@@ -76,6 +76,9 @@
              Link="Shared\ICreateGroupDataService.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\CreateGroupViewModel.cs"
              Link="Shared\CreateGroupViewModel.cs" />
+    <!-- LanguageSettingsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Pages\LanguageSettingsViewModel.cs"
+             Link="Shared\LanguageSettingsViewModel.cs" />
   </ItemGroup>
 
 </Project>

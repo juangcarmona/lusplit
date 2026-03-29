@@ -118,6 +118,10 @@ internal static class AppResources
     public static string Validation_AddAtLeastOnePerson => nameof(Validation_AddAtLeastOnePerson);
     public static string Common_MeCapitalized => nameof(Common_MeCapitalized);
 
+    // Used by LanguageSettingsPage code-behind (DisplayAlert)
+    public static string Settings_Title => nameof(Settings_Title);
+    public static string Settings_ProfileSaved => nameof(Settings_ProfileSaved);
+
     // Used by GroupDetailsDependencyService / GroupDetailsPeopleService
     public static string Validation_PersonNameRequired => nameof(Validation_PersonNameRequired);
     public static string Validation_PersonNameMustBeUnique => nameof(Validation_PersonNameMustBeUnique);
