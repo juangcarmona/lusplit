@@ -49,7 +49,7 @@
                         </Border>
                     </Grid>
 
-                    <Button Text="{x:Static loc:AppResources.RecordPayment_SaveButton}" Clicked="OnSaveClicked" />
+                    <Button Text="{x:Static loc:AppResources.RecordPayment_SaveButton}" Command="{Binding SaveCommand}" />
                 </VerticalStackLayout>
                 <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
             </VerticalStackLayout>

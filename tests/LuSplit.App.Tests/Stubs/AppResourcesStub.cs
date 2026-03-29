@@ -58,4 +58,9 @@ internal static class AppResources
     public static string Mapper_Yesterday => nameof(Mapper_Yesterday);
     public static string Mapper_Me => nameof(Mapper_Me);
     public static string Common_Unknown => nameof(Common_Unknown);
+
+    // Used by RecordPaymentViewModel
+    public static string Validation_ChooseBothPeople => nameof(Validation_ChooseBothPeople);
+    public static string Validation_DifferentPeople => nameof(Validation_DifferentPeople);
+    public static string Validation_InvalidAmount => nameof(Validation_InvalidAmount);
 }

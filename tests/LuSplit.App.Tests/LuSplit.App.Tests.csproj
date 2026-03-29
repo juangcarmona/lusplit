@@ -52,6 +52,11 @@
              Link="Shared\HomeBalanceRowViewModel.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\HomeViewModel.cs"
              Link="Shared\HomeViewModel.cs" />
+    <!-- RecordPaymentViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IRecordPaymentDataService.cs"
+             Link="Shared\IRecordPaymentDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\RecordPaymentViewModel.cs"
+             Link="Shared\RecordPaymentViewModel.cs" />
   </ItemGroup>
 
 </Project>
