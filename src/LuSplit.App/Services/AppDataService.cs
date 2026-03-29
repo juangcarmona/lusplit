@@ -10,7 +10,7 @@ using Microsoft.Maui.Storage;
 
 namespace LuSplit.App.Services;
 
-public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, IExpenseDetailsDataService, IHomeDataService, IRecordPaymentDataService, IGroupDetailsDataService, IArchivedGroupDataService, ICreateGroupDataService, IGroupSwitcherDataService
+public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, IExpenseDetailsDataService, IHomeDataService, IRecordPaymentDataService, IGroupDetailsDataService, IArchivedGroupDataService, ICreateGroupDataService, IGroupSwitcherDataService, IGroupPageDataService, IActivityDataService, IArchivedGroupsDataService
 {
     private const string SelectedGroupPreferenceKey = "selected-group-id";
 

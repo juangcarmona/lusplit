@@ -84,6 +84,23 @@
              Link="Shared\IGroupSwitcherDataService.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\GroupSwitcherViewModel.cs"
              Link="Shared\GroupSwitcherViewModel.cs" />
+    <!-- GroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupPageDataService.cs"
+             Link="Shared\IGroupPageDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupViewModel.cs"
+             Link="Shared\GroupViewModel.cs" />
+    <!-- ActivityViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IActivityDataService.cs"
+             Link="Shared\IActivityDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityCompactDayGroupViewModel.cs"
+             Link="Shared\ActivityCompactDayGroupViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityViewModel.cs"
+             Link="Shared\ActivityViewModel.cs" />
+    <!-- ArchivedGroupsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupsDataService.cs"
+             Link="Shared\IArchivedGroupsDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupsViewModel.cs"
+             Link="Shared\ArchivedGroupsViewModel.cs" />
   </ItemGroup>
 
 </Project>

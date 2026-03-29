@@ -1,41 +1,28 @@
-using System.Collections.ObjectModel;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
-using LuSplit.Application.Models;
 
 namespace LuSplit.App.Pages;
 
 public partial class GroupPage : ContentPage, IQueryAttributable
 {
+    private readonly GroupViewModel _viewModel;
     private readonly AppDataService _dataService;
-    // Set when navigating to this page for a specific (e.g. archived) group,
-    // without changing the user's currently selected active group.
-    private string? _overrideGroupId;
-    // Resolved during LoadAsync; used by OnExportClicked when no override is set.
-    private string? _currentGroupId;
-
-    public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
-
-    public ObservableCollection<BalanceLineViewModel> BalanceLines { get; } = new();
-
-    public string GroupName { get; private set; } = string.Empty;
-
-    public string GroupSummaryText { get; private set; } = string.Empty;
-
-    public string? GroupImagePath { get; private set; }
-
-    public bool IsArchived { get; private set; }
-
-    public bool CanEdit => !IsArchived;
 
     public GroupPage(AppDataService dataService)
     {
         _dataService = dataService;
-
+        _viewModel = new GroupViewModel(dataService);
         InitializeComponent();
-        BindingContext = this;
+        BindingContext = _viewModel;
 
-        _dataService.DataChanged += OnDataChanged;
+        dataService.DataChanged += async (_, _) =>
+            await MainThread.InvokeOnMainThreadAsync(_viewModel.HandleDataChangedAsync);
+
+        _viewModel.GroupDetailsRequested += OnGroupDetailsRequested;
+        _viewModel.SettleUpRequested += OnSettleUpRequested;
+        _viewModel.AddExpenseRequested += OnAddExpenseRequested;
+        _viewModel.RecordPaymentRequested += OnRecordPaymentRequested;
+        _viewModel.ExportRequested += OnExportRequested;
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
@@ -43,87 +30,36 @@ public partial class GroupPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        _overrideGroupId = query.TryGetValue("groupId", out var id) && !string.IsNullOrWhiteSpace(id?.ToString())
-            ? id.ToString()
-            : null;
+        var id = query.TryGetValue("groupId", out var v) && !string.IsNullOrWhiteSpace(v?.ToString())
+            ? v.ToString() : null;
+        _viewModel.SetOverrideGroupId(id);
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await LoadAsync();
+        await _viewModel.LoadAsync();
     }
 
-    private async Task LoadAsync()
+    private async void OnGroupDetailsRequested(object? sender, string? overrideGroupId)
     {
-        var workspace = _overrideGroupId is not null
-            ? await _dataService.GetGroupWorkspaceAsync(_overrideGroupId)
-            : await _dataService.GetGroupWorkspaceAsync();
-
-        GroupName = workspace.GroupName;
-        GroupSummaryText = GroupPresentationMapper.BuildGroupSummary(workspace.Overview);
-        IsArchived = workspace.Overview.Group.Closed;
-        GroupImagePath = workspace.ImagePath;
-        Title = workspace.GroupName;
-        _currentGroupId = workspace.GroupId;
-
-        TimelineItems.Clear();
-        foreach (var item in GroupPresentationMapper.BuildTimeline(workspace.Overview, workspace.ExpenseIcons))
-            TimelineItems.Add(item);
-
-        BalanceLines.Clear();
-        var settlementMode = GroupPresentationMapper.ResolveSettlementMode(workspace.Overview);
-        foreach (var line in GroupPresentationMapper.BuildWhoOwesWho(workspace.Overview, settlementMode))
-            BalanceLines.Add(line);
-
-        OnPropertyChanged(nameof(GroupName));
-        OnPropertyChanged(nameof(GroupSummaryText));
-        OnPropertyChanged(nameof(GroupImagePath));
-        OnPropertyChanged(nameof(IsArchived));
-        OnPropertyChanged(nameof(CanEdit));
-    }
-
-    private async void OnDataChanged(object? sender, EventArgs e)
-    {
-        // Only refresh if we are showing the currently selected group.
-        if (_overrideGroupId is null)
-        {
-            await MainThread.InvokeOnMainThreadAsync(LoadAsync);
-        }
-    }
-
-    private async void OnGroupDetailsClicked(object? sender, EventArgs e)
-    {
-        if (_overrideGroupId is not null)
-        {
-            await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?groupId={Uri.EscapeDataString(_overrideGroupId)}");
-        }
+        if (overrideGroupId is not null)
+            await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?groupId={Uri.EscapeDataString(overrideGroupId)}");
         else
-        {
             await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
-        }
     }
 
-    private async void OnSettleUpClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.Settlement);
-    }
+    private async void OnSettleUpRequested(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(AppRoutes.Settlement);
 
-    private async void OnAddExpenseClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.AddExpense);
-    }
+    private async void OnAddExpenseRequested(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(AppRoutes.AddExpense);
 
-    private async void OnRecordPaymentClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
-    }
+    private async void OnRecordPaymentRequested(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(AppRoutes.RecordPayment);
 
-    private async void OnExportClicked(object? sender, EventArgs e)
+    private async void OnExportRequested(object? sender, string groupId)
     {
-        var groupId = _overrideGroupId ?? _currentGroupId;
-        if (groupId is null) return;
-
         try
         {
             await GroupExportService.RunExportFlowAsync(this, _dataService, groupId);

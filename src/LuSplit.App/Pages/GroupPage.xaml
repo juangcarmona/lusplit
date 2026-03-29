@@ -4,11 +4,11 @@
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.GroupPage"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
-             Title="{x:Static loc:AppResources.Group_Title}">
+             Title="{Binding GroupName}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{x:Static loc:AppResources.Group_DetailsButton}" Clicked="OnGroupDetailsClicked" />
-        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Clicked="OnExportClicked" />
+        <ToolbarItem Text="{x:Static loc:AppResources.Group_DetailsButton}" Command="{Binding NavigateToGroupDetailsCommand}" />
+        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Command="{Binding RequestExportCommand}" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,Auto">
@@ -41,7 +41,7 @@
                     </Grid>
 
                     <!-- Background image -->
-                    <Image Source="{Binding GroupImageSource}"
+                    <Image Source="{Binding GroupImagePath}"
                             Aspect="AspectFill"
                             IsVisible="{Binding HasGroupImage}" />
 
@@ -93,7 +93,7 @@
                         <Button Text="{x:Static loc:AppResources.Group_SettleUp}"
                                 Style="{StaticResource SecondaryButton}"
                                 HorizontalOptions="Start"
-                                Clicked="OnSettleUpClicked" />
+                                Command="{Binding NavigateToSettleUpCommand}" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -134,11 +134,11 @@
                 <!-- Quick actions (hidden for archived groups) -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0"
                       IsVisible="{Binding CanEdit}">
-                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Group_AddExpense}" Clicked="OnAddExpenseClicked" />
+                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Group_AddExpense}" Command="{Binding NavigateToAddExpenseCommand}" />
                     <Button Grid.Column="1"
                             Text="{x:Static loc:AppResources.Group_RecordPayment}"
                             Style="{StaticResource SecondaryButton}"
-                            Clicked="OnRecordPaymentClicked" />
+                            Command="{Binding NavigateToRecordPaymentCommand}" />
                 </Grid>
 
             </VerticalStackLayout>
