@@ -42,14 +42,17 @@ public partial class ArchivedGroupsPage : ContentPage
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
-    // Navigate to group details in read-only (archived) mode.
-    // We pass the groupId as a query param so GroupDetailsPage loads that specific group
-    // WITHOUT changing the user's currently selected active group.
+    // Push a dedicated ArchivedGroupViewPage onto the navigation stack.
+    // Using a separate page type (not HomePage) is essential — MAUI's Shell URI
+    // resolver sees the same type in two contexts when HomePage is pushed, producing
+    // "Ambiguous routes" and breaking the toolbar back button.
     private async void OnViewGroupClicked(object? sender, EventArgs e)
     {
         if (sender is Button { CommandParameter: string groupId } && !string.IsNullOrWhiteSpace(groupId))
         {
-            await Shell.Current.GoToAsync($"//{AppRoutes.Home}?groupId={Uri.EscapeDataString(groupId)}");
+            var page = App.Services!.GetRequiredService<ArchivedGroupViewPage>();
+            page.PrepareForGroup(groupId);
+            await Navigation.PushAsync(page);
         }
     }
 }

@@ -152,18 +152,6 @@
                         </VerticalStackLayout>
                     </Grid>
 
-                    <!-- Archived group read-only banner -->
-                    <Border IsVisible="{Binding IsArchived}"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 10"
-                            Margin="16,0,16,0"
-                            Padding="12,8">
-                        <Label Text="{x:Static loc:AppResources.GroupDetails_ArchivedStatus}"
-                               Style="{StaticResource BodyMuted}"
-                               HorizontalTextAlignment="Center" />
-                    </Border>
-
                     <!-- tabs -->
                     <Grid Padding="16,0,16,0"
                           ColumnDefinitions="*,*,*"

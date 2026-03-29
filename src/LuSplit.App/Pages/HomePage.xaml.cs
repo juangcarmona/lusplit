@@ -7,7 +7,7 @@ using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App.Pages;
 
-public partial class HomePage : ContentPage, IQueryAttributable
+public partial class HomePage : ContentPage
 {
     private enum WorkspaceTab
     {
@@ -18,12 +18,6 @@ public partial class HomePage : ContentPage, IQueryAttributable
 
     private readonly AppDataService _dataService;
     private WorkspaceTab _selectedTab = WorkspaceTab.Overview;
-    // Set when navigating to this page for a specific archived group, without
-    // changing the user's currently selected active group.
-    private string? _overrideGroupId;
-    // Guards against flyout-tap navigation (which skips ApplyQueryAttributes)
-    // restoring a stale archived override.
-    private bool _pendingQueryApplied;
 
     private const int RecentItemsCount = 5;
 
@@ -33,7 +27,6 @@ public partial class HomePage : ContentPage, IQueryAttributable
     public ObservableCollection<BalanceLineViewModel> WhoOwesWho { get; } = new();
 
     public bool HasGroup { get; private set; } = true;
-    public bool IsArchived { get; private set; }
 
     public string? GroupImagePath { get; private set; }
     public bool HasGroupImage => !string.IsNullOrWhiteSpace(GroupImagePath);
@@ -55,8 +48,8 @@ public partial class HomePage : ContentPage, IQueryAttributable
     public bool ShowOverviewEmptyState => ShowOverview && !HasEvents;
     public bool ShowExpensesEmptyState => ShowExpenses && !HasEvents;
     public bool ShowBalancesEmptyState => ShowBalances && !ShowWhoOwesWhatSection && !ShowBalancesSection;
-    public bool ShowAddExpenseButton => HasGroup && !IsArchived && _selectedTab != WorkspaceTab.Balances;
-    public bool ShowSettleUpButton => HasGroup && !IsArchived && _selectedTab == WorkspaceTab.Balances;
+    public bool ShowAddExpenseButton => HasGroup && _selectedTab != WorkspaceTab.Balances;
+    public bool ShowSettleUpButton => HasGroup && _selectedTab == WorkspaceTab.Balances;
 
     public HomePage(AppDataService dataService)
     {
@@ -71,29 +64,10 @@ public partial class HomePage : ContentPage, IQueryAttributable
 #endif
     }
 
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        _overrideGroupId = query.TryGetValue("groupId", out var id) && !string.IsNullOrWhiteSpace(id?.ToString())
-            ? id.ToString()
-            : null;
-        _pendingQueryApplied = true;
-    }
-
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        // If OnAppearing fires without a preceding ApplyQueryAttributes call
-        // (flyout-item tap), clear any stale archived override.
-        if (!_pendingQueryApplied)
-        {
-            _overrideGroupId = null;
-        }
-        _pendingQueryApplied = false;
-
-        if (_overrideGroupId is null)
-        {
-            await EnsureStartupProfileAsync();
-        }
+        await EnsureStartupProfileAsync();
         await LoadAsync();
     }
 
@@ -128,14 +102,11 @@ public partial class HomePage : ContentPage, IQueryAttributable
         GroupWorkspaceModel workspace;
         try
         {
-            workspace = _overrideGroupId is not null
-                ? await _dataService.GetGroupWorkspaceAsync(_overrideGroupId)
-                : await _dataService.GetGroupWorkspaceAsync();
+            workspace = await _dataService.GetGroupWorkspaceAsync();
         }
         catch (NoGroupsAvailableException)
         {
             HasGroup = false;
-            IsArchived = false;
             GroupName = string.Empty;
             GroupMetaText = string.Empty;
             TotalUnsettledText = string.Empty;
@@ -152,7 +123,6 @@ public partial class HomePage : ContentPage, IQueryAttributable
         }
 
         HasGroup = true;
-        IsArchived = workspace.Overview.Group.Closed;
 
         var overview = workspace.Overview;
         var settlementMode = GroupPresentationMapper.ResolveSettlementMode(overview);
@@ -205,7 +175,6 @@ public partial class HomePage : ContentPage, IQueryAttributable
     {
         OnPropertyChanged(nameof(HasGroup));
         OnPropertyChanged(nameof(ShowNoGroupsEmptyState));
-        OnPropertyChanged(nameof(IsArchived));
 
         OnPropertyChanged(nameof(GroupName));
         OnPropertyChanged(nameof(GroupMetaText));
@@ -228,8 +197,6 @@ public partial class HomePage : ContentPage, IQueryAttributable
 
     private async void OnDataChanged(object? sender, EventArgs e)
     {
-        // Skip refresh when showing a specific archived group override.
-        if (_overrideGroupId is not null) return;
         await MainThread.InvokeOnMainThreadAsync(LoadAsync);
     }
 
@@ -250,14 +217,7 @@ public partial class HomePage : ContentPage, IQueryAttributable
 
     private async void OnOverflowClicked(object? sender, EventArgs e)
     {
-        if (_overrideGroupId is not null)
-        {
-            await Shell.Current.GoToAsync($"{AppRoutes.GroupDetails}?groupId={Uri.EscapeDataString(_overrideGroupId)}");
-        }
-        else
-        {
-            await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
-        }
+        await Shell.Current.GoToAsync(AppRoutes.GroupDetails);
     }
 
     private void OnExpensesTabClicked(object? sender, EventArgs e)

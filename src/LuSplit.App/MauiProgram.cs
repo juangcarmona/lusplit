@@ -19,7 +19,8 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "BrandRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "BrandMedium");
-			});
+				fonts.AddFont("OpenSans-Semibold.ttf", "BrandSemiBold");
+            });
 
 		builder.Services.AddSingleton<AppDataService>();
 		builder.Services.AddTransient<AppShell>();
@@ -32,6 +33,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<RecordPaymentPage>();
 		builder.Services.AddTransient<LanguageSettingsPage>();
 		builder.Services.AddTransient<ArchivedGroupsPage>();
+		builder.Services.AddTransient<ArchivedGroupViewPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();
