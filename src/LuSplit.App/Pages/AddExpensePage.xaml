@@ -94,11 +94,13 @@
                                               CheckedChanged="OnParticipantCheckChanged"
                                               Color="{StaticResource PositiveSoftGreen}"
                                               VerticalOptions="Center"
-                                              MinimumWidthRequest="44"
-                                              MinimumHeightRequest="44" />
+                                              MinimumWidthRequest="24"
+                                              MinimumHeightRequest="24" />
 
                                     <Label Grid.Column="1"
                                            Text="{Binding Name}"
+                                           
+                                           FontSize="16"
                                            VerticalTextAlignment="Center">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnParticipantRowTapped" CommandParameter="{Binding Id}" />
@@ -111,7 +113,8 @@
                                     </Label>
 
                                     <Label Grid.Column="2"
-                                           Text="{Binding DisplayValue}"
+                                           Text="{Binding DisplayValue}"                                           
+                                           FontSize="16"
                                            VerticalTextAlignment="Center"
                                            HorizontalTextAlignment="End"
                                            IsVisible="{Binding IsViewing}">
@@ -126,7 +129,7 @@
                                            Text="{Binding RawInput}"
                                            Keyboard="Numeric"
                                            HorizontalTextAlignment="End"
-                                           FontSize="46"
+                                           FontSize="16"
                                            TextChanged="OnParticipantRawInputChanged"
                                            IsVisible="{Binding IsEditing}" />
 

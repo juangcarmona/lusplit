@@ -33,6 +33,12 @@
              Link="Shared\ParticipantSplitRowViewModel.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\AddExpenseSplitCalculations.cs"
              Link="Shared\AddExpenseSplitCalculations.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyFormatter.cs"
+             Link="Shared\CurrencyFormatter.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseParticipantRowViewModel.cs"
+             Link="Shared\ExpenseParticipantRowViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseDetailsLogic.cs"
+             Link="Shared\ExpenseDetailsLogic.cs" />
   </ItemGroup>
 
 </Project>

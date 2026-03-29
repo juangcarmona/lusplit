@@ -184,4 +184,66 @@ public sealed class ExpenseAmountParserTests
 
         Assert.Equal("12", result);
     }
+
+    // TryParseCommittedAmount
+
+    [Fact]
+    public void TryParseCommittedAmount_ValidDecimal_ReturnsMinorUnits()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount("12.50", out var minor);
+
+        Assert.True(ok);
+        Assert.Equal(1250L, minor);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_WholeNumber_ReturnsMinorUnits()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount("100", out var minor);
+
+        Assert.True(ok);
+        Assert.Equal(10000L, minor);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_WithThousandsSeparator_ReturnsMinorUnits()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount("1,234.56", out var minor);
+
+        Assert.True(ok);
+        Assert.Equal(123456L, minor);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_Zero_ReturnsTrueWithZero()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount("0", out var minor);
+
+        Assert.True(ok);
+        Assert.Equal(0L, minor);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_EmptyString_ReturnsFalse()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount(string.Empty, out _);
+
+        Assert.False(ok);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_Null_ReturnsFalse()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount(null, out _);
+
+        Assert.False(ok);
+    }
+
+    [Fact]
+    public void TryParseCommittedAmount_NegativeValue_ReturnsFalse()
+    {
+        var ok = ExpenseAmountParser.TryParseCommittedAmount("-5", out _);
+
+        Assert.False(ok);
+    }
 }

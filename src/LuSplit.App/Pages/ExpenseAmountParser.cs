@@ -82,6 +82,29 @@ internal static class ExpenseAmountParser
     }
 
     /// <summary>
+    /// Parses a committed (non-transient) amount that accepts thousands separators.
+    /// Returns true when the value parses to a non-negative amount (0 is valid).
+    /// </summary>
+    public static bool TryParseCommittedAmount(string? text, out long amountMinor)
+    {
+        amountMinor = 0;
+        var normalized = NormalizeNumberInput(text);
+        if (string.IsNullOrWhiteSpace(normalized))
+            return false;
+
+        const NumberStyles styles = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands
+            | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite;
+
+        bool parsed = decimal.TryParse(normalized, styles, CultureInfo.InvariantCulture, out var value)
+            || decimal.TryParse(normalized, styles, CultureInfo.CurrentCulture, out value);
+
+        if (!parsed) return false;
+
+        amountMinor = (long)Math.Round(value * 100m, MidpointRounding.AwayFromZero);
+        return amountMinor >= 0;
+    }
+
+    /// <summary>
     /// Parses a total amount from a user-typed string. Returns true only when a positive value is produced.
     /// </summary>
     public static bool TryParseAmountLenient(string? text, out long amountMinor)

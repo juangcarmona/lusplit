@@ -20,12 +20,11 @@
                            MaxLines="1"
                            IsVisible="{Binding IsViewMode}" />
                     <Entry Grid.Column="1"
-                           Text="{Binding ExpenseTitle}"
-                           TextChanged="OnExpenseTitleChanged"
+                           Text="{Binding ExpenseTitle, Mode=TwoWay}"
                            IsVisible="{Binding IsEditMode}" />
                     <Button Grid.Column="2"
                             Text="{Binding EditButtonText}"
-                            Clicked="OnEditClicked"
+                            Command="{Binding ToggleEditModeCommand}"
                             Style="{StaticResource SecondaryButton}" />
                     <Button Grid.Column="3"
                             Text="Delete"
@@ -43,8 +42,7 @@
 
                 <Label Text="Participants" Style="{StaticResource SectionTitle}" />
                 <Picker ItemsSource="{Binding PayerNames}"
-                        SelectedItem="{Binding SelectedPayerName}"
-                        SelectedIndexChanged="OnPayerChanged"
+                        SelectedItem="{Binding SelectedPayerName, Mode=TwoWay}"
                         IsVisible="{Binding IsEditMode}" />
                 <CollectionView ItemsSource="{Binding ParticipantRows}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
@@ -96,7 +94,7 @@
                 StrokeThickness="0"
                 IsVisible="{Binding IsEditMode}">
             <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}"
-                    Clicked="OnSaveClicked"
+                    Command="{Binding SaveCommand}"
                     IsEnabled="{Binding CanSave}" />
         </Border>
     </Grid>
