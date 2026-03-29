@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             xmlns:pages="clr-namespace:LuSplit.App.Pages"
              x:Class="LuSplit.App.Pages.GroupSwitcherPage"
              Title="{x:Static loc:AppResources.GroupSwitcher_Title}"
              Shell.NavBarIsVisible="True">
@@ -35,7 +36,7 @@
                                 <Label Grid.Column="1" Text="{Binding DisplayName}" Style="{StaticResource BodyText}" VerticalOptions="Center" />
                                 <Button Grid.Column="2"
                                         Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
-                                        Clicked="OnSelectGroupClicked"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type pages:GroupSwitcherPage}}, Path=BindingContext.SelectGroupCommand}"
                                         CommandParameter="{Binding GroupId}"
                                         IsEnabled="{Binding CanSelect}" />
                             </Grid>
@@ -43,7 +44,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="{x:Static loc:AppResources.GroupSwitcher_ArchivedToggle}" Style="{StaticResource SecondaryButton}" Clicked="OnToggleArchivedClicked" />
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_ArchivedToggle}" Style="{StaticResource SecondaryButton}" Command="{Binding ToggleArchivedCommand}" />
                 <CollectionView ItemsSource="{Binding ArchivedGroups}" SelectionMode="None" IsVisible="{Binding ShowArchived}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -64,13 +65,13 @@
                                 <Label Grid.Column="1" Text="{Binding Name}" Style="{StaticResource BodyMuted}" VerticalOptions="Center" />
                                 <Button Grid.Column="2"
                                         Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
-                                        Clicked="OnSelectGroupClicked"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type pages:GroupSwitcherPage}}, Path=BindingContext.SelectGroupCommand}"
                                         CommandParameter="{Binding GroupId}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Text="{x:Static loc:AppResources.GroupSwitcher_NewGroup}" Clicked="OnNewGroupClicked" />
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_NewGroup}" Command="{Binding NavigateToNewGroupCommand}" />
             </VerticalStackLayout>
         </ScrollView>
 

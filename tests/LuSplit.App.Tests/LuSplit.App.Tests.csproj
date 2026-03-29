@@ -79,6 +79,11 @@
     <!-- LanguageSettingsViewModel slice -->
     <Compile Include="..\..\src\LuSplit.App\Pages\LanguageSettingsViewModel.cs"
              Link="Shared\LanguageSettingsViewModel.cs" />
+    <!-- GroupSwitcherViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupSwitcherDataService.cs"
+             Link="Shared\IGroupSwitcherDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupSwitcherViewModel.cs"
+             Link="Shared\GroupSwitcherViewModel.cs" />
   </ItemGroup>
 
 </Project>
