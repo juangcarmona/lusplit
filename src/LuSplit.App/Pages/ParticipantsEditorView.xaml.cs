@@ -1,20 +1,21 @@
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using LuSplit.App.Resources.Localization;
-using LuSplit.App.Services;
 
 namespace LuSplit.App.Pages;
 
 public partial class ParticipantsEditorView : ContentView
 {
+    private readonly ParticipantsEditorViewModel _viewModel;
+
     // ── BindableProperties ───────────────────────────────────────────────────
 
     public static readonly BindableProperty ParticipantsProperty =
         BindableProperty.Create(nameof(Participants), typeof(ObservableCollection<ParticipantDraftViewModel>),
-            typeof(ParticipantsEditorView), null);
+            typeof(ParticipantsEditorView), null, propertyChanged: OnParticipantsChanged);
 
     public static readonly BindableProperty CanEditProperty =
-        BindableProperty.Create(nameof(CanEdit), typeof(bool), typeof(ParticipantsEditorView), true);
+        BindableProperty.Create(nameof(CanEdit), typeof(bool), typeof(ParticipantsEditorView), true,
+            propertyChanged: OnCanEditChanged);
 
     public static readonly BindableProperty HostPageProperty =
         BindableProperty.Create(nameof(HostPage), typeof(Page), typeof(ParticipantsEditorView), null);
@@ -37,172 +38,71 @@ public partial class ParticipantsEditorView : ContentView
         set => SetValue(HostPageProperty, value);
     }
 
-    // ── Local state ──────────────────────────────────────────────────────────
-
-    private string _newParticipantName = string.Empty;
-    public string NewParticipantName
-    {
-        get => _newParticipantName;
-        set { _newParticipantName = value; OnPropertyChanged(); }
-    }
-
-    private string _statusText = string.Empty;
-    public string StatusText
-    {
-        get => _statusText;
-        set { _statusText = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasStatusText)); }
-    }
-
-    public bool HasStatusText => !string.IsNullOrWhiteSpace(_statusText);
-
-    // ICommand used by Entry ReturnCommand so Enter key triggers Add
-    public ICommand AddCommand => new Command(_ => TryAddParticipant());
-
-    // ── Events ───────────────────────────────────────────────────────────────
+    // ── Parent-facing events forwarded from the ViewModel ────────────────────
 
     /// <summary>Fired after name validation passes. Host is responsible for appending the participant to the collection.</summary>
-    public event EventHandler<string>? AddParticipantRequested;
+    public event EventHandler<string>? AddParticipantRequested
+    {
+        add => _viewModel.AddParticipantRequested += value;
+        remove => _viewModel.AddParticipantRequested -= value;
+    }
 
     /// <summary>Fired after dependents are cleared. Host is responsible for removing the item from the collection.</summary>
-    public event EventHandler<ParticipantDraftViewModel>? RemoveParticipantRequested;
+    public event EventHandler<ParticipantDraftViewModel>? RemoveParticipantRequested
+    {
+        add => _viewModel.RemoveParticipantRequested += value;
+        remove => _viewModel.RemoveParticipantRequested -= value;
+    }
 
     /// <summary>Fired after the VM's <see cref="ParticipantDraftViewModel.DependsOn"/> has already been updated. Host
     /// persists the change (API call) for edit-mode; create-mode ignores this event.</summary>
-    public event EventHandler<ParticipantDraftViewModel>? DependencyChanged;
+    public event EventHandler<ParticipantDraftViewModel>? DependencyChanged
+    {
+        add => _viewModel.DependencyChanged += value;
+        remove => _viewModel.DependencyChanged -= value;
+    }
 
     // ── Constructor ──────────────────────────────────────────────────────────
 
     public ParticipantsEditorView()
     {
+        _viewModel = new ParticipantsEditorViewModel();
         InitializeComponent();
+        BindingContext = _viewModel;
+
+        _viewModel.DependencySelectionRequested += OnDependencySelectionRequested;
     }
 
-    // ── Handlers ─────────────────────────────────────────────────────────────
+    // ── BindableProperty change callbacks ────────────────────────────────────
 
-    private void OnAddClicked(object? sender, EventArgs e) => TryAddParticipant();
-
-    private void TryAddParticipant()
+    private static void OnParticipantsChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        var name = NewParticipantName.Trim();
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            StatusText = AppResources.Validation_PersonNameRequired;
-            return;
-        }
-
-        if (Participants?.Any(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase)) == true)
-        {
-            StatusText = AppResources.Validation_PersonNameMustBeUnique;
-            return;
-        }
-
-        NewParticipantName = string.Empty;
-        StatusText = string.Empty;
-        AddParticipantRequested?.Invoke(this, name);
+        if (bindable is ParticipantsEditorView view)
+            view._viewModel.Participants = newValue as ObservableCollection<ParticipantDraftViewModel>;
     }
 
-    private async void OnDependencyClicked(object? sender, EventArgs e)
+    private static void OnCanEditChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (sender is not Button { CommandParameter: string participantName }) return;
+        if (bindable is ParticipantsEditorView view && newValue is bool canEdit)
+            view._viewModel.CanEdit = canEdit;
+    }
 
-        var participants = Participants;
-        if (participants is null || HostPage is null) return;
+    // ── Dependency selection dialog (MAUI-specific, stays in code-behind) ────
 
-        var participant = participants.FirstOrDefault(p => string.Equals(p.Name, participantName, StringComparison.Ordinal));
-        if (participant is null) return;
+    private async void OnDependencySelectionRequested(object? sender, DependencySelectionArgs args)
+    {
+        var hostPage = HostPage;
+        if (hostPage is null) return;
 
-        // Only independent participants (no DependsOn) can be selected as responsible
-        var eligibleResponsibles = participants
-            .Where(p => !string.Equals(p.Name, participant.Name, StringComparison.Ordinal)
-                     && string.IsNullOrWhiteSpace(p.DependsOn))
-            .Select(p => p.Name)
-            .OrderBy(n => n, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-
-        var options = new[] { AppResources.GroupDetails_DependencyIndependent }
-            .Concat(eligibleResponsibles)
-            .ToArray();
-
-        var selected = await HostPage.DisplayActionSheetAsync(
+        var selected = await hostPage.DisplayActionSheetAsync(
             AppResources.GroupDetails_DependsOnLabel,
             AppResources.Common_Cancel,
             null,
-            options);
+            args.Options.ToArray());
 
-        if (string.IsNullOrEmpty(selected) || string.Equals(selected, AppResources.Common_Cancel, StringComparison.Ordinal))
+        if (string.IsNullOrEmpty(selected) ||
+            string.Equals(selected, AppResources.Common_Cancel, StringComparison.Ordinal))
             return;
 
-        if (string.Equals(selected, AppResources.GroupDetails_DependencyIndependent, StringComparison.Ordinal))
-        {
-            participant.DependsOn = null;
-        }
-        else
-        {
-            // Guard: selected must still be in the eligible list (race condition safety)
-            var isEligible = eligibleResponsibles.Contains(selected, StringComparer.OrdinalIgnoreCase);
-            if (!isEligible)
-            {
-                StatusText = AppResources.Validation_ResponsiblePersonNotFound;
-                return;
-            }
-
-            if (GroupDetailsDependencyService.WouldCreateCycleDraft(participant.Name, selected, participants))
-            {
-                StatusText = AppResources.Validation_CircularDependency;
-                return;
-            }
-
-            participant.DependsOn = selected;
-        }
-
-        participant.Notify();
-        ReorderParticipants();
-        StatusText = string.Empty;
-        DependencyChanged?.Invoke(this, participant);
-    }
-
-    private void OnRemoveClicked(object? sender, EventArgs e)
-    {
-        if (sender is not Button { CommandParameter: ParticipantDraftViewModel target }) return;
-
-        var participants = Participants;
-        if (participants is null) return;
-
-        // Clear dependents before removal to maintain a valid graph
-        foreach (var p in participants)
-        {
-            if (string.Equals(p.DependsOn, target.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                p.DependsOn = null;
-                p.Notify();
-            }
-        }
-
-        RemoveParticipantRequested?.Invoke(this, target);
-    }
-
-    private void ReorderParticipants()
-    {
-        var participants = Participants;
-        if (participants is null || participants.Count <= 1) return;
-
-        var source = participants.ToList();
-        var roots = source.Where(p => string.IsNullOrWhiteSpace(p.DependsOn)).ToList();
-        var ordered = new List<ParticipantDraftViewModel>();
-        foreach (var root in roots)
-        {
-            ordered.Add(root);
-            ordered.AddRange(source.Where(p =>
-                string.Equals(p.DependsOn, root.Name, StringComparison.OrdinalIgnoreCase)));
-        }
-        // Orphaned dependents at the end
-        foreach (var orphan in source.Except(ordered))
-            ordered.Add(orphan);
-
-        for (var i = 0; i < ordered.Count; i++)
-        {
-            var current = participants.IndexOf(ordered[i]);
-            if (current != i) participants.Move(current, i);
-        }
-    }
+        _viewModel.ApplyDependencySelection(args.ParticipantName, selected);
 }

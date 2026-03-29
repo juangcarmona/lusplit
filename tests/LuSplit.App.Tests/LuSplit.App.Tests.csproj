@@ -101,6 +101,9 @@
              Link="Shared\IArchivedGroupsDataService.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupsViewModel.cs"
              Link="Shared\ArchivedGroupsViewModel.cs" />
+    <!-- ParticipantsEditorViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Pages\ParticipantsEditorViewModel.cs"
+             Link="Shared\ParticipantsEditorViewModel.cs" />
   </ItemGroup>
 
 </Project>
