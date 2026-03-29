@@ -25,6 +25,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<AppDataService>();
 		builder.Services.AddTransient<AppShell>();
 		builder.Services.AddTransient<HomePage>();
+		builder.Services.AddTransient<GroupSwitcherPage>();
 		builder.Services.AddTransient<GroupPage>();
 		builder.Services.AddTransient<GroupDetailsPage>();
 		builder.Services.AddTransient<AddExpensePage>();
