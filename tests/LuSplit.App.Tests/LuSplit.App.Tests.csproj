@@ -39,6 +39,19 @@
              Link="Shared\ExpenseParticipantRowViewModel.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseDetailsLogic.cs"
              Link="Shared\ExpenseDetailsLogic.cs" />
+    <!-- HomeViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\NoGroupsAvailableException.cs"
+             Link="Shared\NoGroupsAvailableException.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\AppDataModels.cs"
+             Link="Shared\AppDataModels.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\IHomeDataService.cs"
+             Link="Shared\IHomeDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\TripPresentationMapper.cs"
+             Link="Shared\TripPresentationMapper.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\HomeBalanceRowViewModel.cs"
+             Link="Shared\HomeBalanceRowViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\HomeViewModel.cs"
+             Link="Shared\HomeViewModel.cs" />
   </ItemGroup>
 
 </Project>

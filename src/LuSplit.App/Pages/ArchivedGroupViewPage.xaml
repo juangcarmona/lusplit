@@ -156,7 +156,16 @@
                             <DataTemplate>
                                 <Grid ColumnDefinitions="*,Auto" Padding="0,3">
                                     <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
-                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" TextColor="{Binding AmountColor}" HorizontalTextAlignment="End" />
+                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsPositive}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource PositiveSoftGreen}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsPositive}" Value="False">
+                                                <Setter Property="TextColor" Value="{StaticResource ErrorSoftRed}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -244,7 +253,16 @@
                             <DataTemplate>
                                 <Grid ColumnDefinitions="*,Auto" Padding="0,3">
                                     <Label Text="{Binding Name}" Style="{StaticResource BodyText}" />
-                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" TextColor="{Binding AmountColor}" HorizontalTextAlignment="End" />
+                                    <Label Grid.Column="1" Text="{Binding AmountText}" Style="{StaticResource BodyText}" HorizontalTextAlignment="End">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsPositive}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource PositiveSoftGreen}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsPositive}" Value="False">
+                                                <Setter Property="TextColor" Value="{StaticResource ErrorSoftRed}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

@@ -76,15 +76,7 @@ public partial class ArchivedGroupViewPage : ContentPage
 
         Balances.Clear();
         foreach (var line in GroupPresentationMapper.BuildNetBalances(overview, settlementMode))
-        {
-            Balances.Add(new HomeBalanceRowViewModel(
-                line.ParticipantId,
-                line.Name,
-                line.AmountText,
-                line.IsPositive
-                    ? (Color)MauiApplication.Current!.Resources["PositiveSoftGreen"]
-                    : (Color)MauiApplication.Current!.Resources["ErrorSoftRed"]));
-        }
+            Balances.Add(new HomeBalanceRowViewModel(line.ParticipantId, line.Name, line.AmountText, line.IsPositive));
 
         Events.Clear();
         foreach (var item in GroupPresentationMapper.BuildCompactEvents(overview, workspace.ExpenseIcons))
