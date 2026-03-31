@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             x:Class="LuSplit.App.Pages.ExpenseDetailsPage"
+             Title="{Binding ExpenseTitle}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,12,16,10" Spacing="10">
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                    <Button Grid.Column="0"
+                            Text="←"
+                            Clicked="OnBackClicked"
+                            Style="{StaticResource SecondaryButton}" />
+                    <Label Grid.Column="1"
+                           Text="{Binding ExpenseTitle}"
+                           Style="{StaticResource SectionTitle}"
+                           VerticalTextAlignment="Center"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1"
+                           IsVisible="{Binding IsViewMode}" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding ExpenseTitle, Mode=TwoWay}"
+                           IsVisible="{Binding IsEditMode}" />
+                    <Button Grid.Column="2"
+                            Text="{Binding EditButtonText}"
+                            Command="{Binding ToggleEditModeCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            IsVisible="{Binding CanEdit}" />
+                    <Button Grid.Column="3"
+                            Text="Delete"
+                            Clicked="OnDeleteClicked"
+                            Style="{StaticResource SecondaryButton}"
+                            IsVisible="{Binding CanDelete}" />
+                </Grid>
+
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="{Binding HeaderLine1}" Style="{StaticResource BodyText}" />
+                    <Label Text="{Binding HeaderLine2}" Style="{StaticResource BodyMuted}" />
+                    <Label Text="{Binding DateText}" Style="{StaticResource BodyMuted}" />
+                    <Label Text="{Binding NoteText}" Style="{StaticResource BodyMuted}" IsVisible="{Binding HasNote}" />
+                    <Label Text="{Binding ExpectedTotalText}" Style="{StaticResource BodyMuted}" IsVisible="{Binding IsEditMode}" />
+                    <Label Text="{x:Static loc:AppResources.Validation_GroupArchivedReadonly}"
+                           Style="{StaticResource BodyMuted}"
+                           IsVisible="{Binding ShowArchivedBanner}" />
+                </VerticalStackLayout>
+
+                <Label Text="Participants" Style="{StaticResource SectionTitle}" />
+                <Picker ItemsSource="{Binding PayerNames}"
+                        SelectedItem="{Binding SelectedPayerName, Mode=TwoWay}"
+                        IsVisible="{Binding IsEditMode}" />
+                <CollectionView ItemsSource="{Binding ParticipantRows}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8" Padding="0,4">
+                                <Label Text="{Binding SelectMark}" VerticalTextAlignment="Center" IsVisible="{Binding IsEditMode}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnParticipantToggleTapped" CommandParameter="{Binding Id}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Grid.Column="1" Text="{Binding NameAndPayer}" Style="{StaticResource BodyText}" VerticalTextAlignment="Center" />
+                                <Label Grid.Column="2"
+                                       Text="{Binding AmountText}"
+                                       Style="{StaticResource BodyText}"
+                                       VerticalTextAlignment="Center"
+                                       IsVisible="{Binding IsViewing}" />
+                                <Entry Grid.Column="2"
+                                       Text="{Binding RawInput}"
+                                       Keyboard="Numeric"
+                                       TextChanged="OnParticipantRawInputChanged"
+                                       IsVisible="{Binding IsEditing}" />
+                                <Button Grid.Column="3"
+                                        Text="✎"
+                                        Clicked="OnParticipantEditClicked"
+                                        CommandParameter="{Binding Id}"
+                                        Style="{StaticResource SecondaryButton}"
+                                        IsVisible="{Binding CanEditAmount}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Text="Settlement preview" Style="{StaticResource SectionTitle}" />
+                <CollectionView ItemsSource="{Binding PreviewRows}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Text}" Style="{StaticResource BodyText}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1"
+                Padding="12,8"
+                BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSnow}, Dark={StaticResource BackgroundDark}}"
+                StrokeThickness="0"
+                IsVisible="{Binding IsEditMode}">
+            <Button Text="{x:Static loc:AppResources.AddEvent_SaveButton}"
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding CanSave}" />
+        </Border>
+    </Grid>
+</ContentPage>

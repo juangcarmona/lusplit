@@ -1,7 +1,7 @@
-using LuSplit.Domain.Balance;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Errors;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
+using LuSplit.Domain.Shared;
 
 namespace LuSplit.Domain.Tests;
 

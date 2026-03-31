@@ -89,40 +89,40 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\GroupDetailsPage.xaml.cs">
+	  <Compile Update="Features\Groups\GroupDetails\GroupDetailsPage.xaml.cs">
 	    <DependentUpon>GroupDetailsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\GroupHeaderView.xaml.cs">
+	  <Compile Update="Features\Groups\Shared\GroupHeaderView.xaml.cs">
 	    <DependentUpon>GroupHeaderView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\GroupPage.xaml.cs">
+	  <Compile Update="Features\Groups\GroupTimeline\GroupPage.xaml.cs">
 	    <DependentUpon>GroupPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\ActivityPage.xaml">
+	  <MauiXaml Update="Features\Activity\ActivityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\LanguageSettingsPage.xaml">
+	  <MauiXaml Update="Features\Settings\LanguageSettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\RecordPaymentPage.xaml">
+	  <MauiXaml Update="Features\Payments\RecordPayment\RecordPaymentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\GroupSwitcherPage.xaml">
+	  <MauiXaml Update="Features\Groups\GroupSwitcher\GroupSwitcherPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateGroupPage.xaml">
+	  <MauiXaml Update="Features\Groups\CreateGroup\CreateGroupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\GroupDetailsPage.xaml">
+	  <MauiXaml Update="Features\Groups\GroupDetails\GroupDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\GroupHeaderView.xaml">
+	  <MauiXaml Update="Features\Groups\Shared\GroupHeaderView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\GroupPage.xaml">
+	  <MauiXaml Update="Features\Groups\GroupTimeline\GroupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

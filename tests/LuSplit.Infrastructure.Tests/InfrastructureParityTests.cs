@@ -1,13 +1,18 @@
-using System.Text.Json;
-using LuSplit.Application.Commands;
-using LuSplit.Application.Models;
-using LuSplit.Application.Queries;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Split;
-using LuSplit.Infrastructure.Client;
-using LuSplit.Infrastructure.Snapshot;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Groups.Models;
+using LuSplit.Application.Groups.Queries;
+using LuSplit.Application.Payments.Commands;
+using LuSplit.Application.Payments.Models;
+using LuSplit.Application.Payments.Queries;
+using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
 using LuSplit.Infrastructure.Sqlite;
 using Microsoft.Data.Sqlite;
+using System.Text.Json;
 
 namespace LuSplit.Infrastructure.Tests;
 
@@ -432,7 +437,7 @@ public sealed class InfrastructureParityTests
             WriteIndented = false
         });
 
-    private sealed class SequentialIdGenerator : LuSplit.Application.Ports.IIdGenerator
+    private sealed class SequentialIdGenerator : IIdGenerator
     {
         private int _current;
 
@@ -443,7 +448,7 @@ public sealed class InfrastructureParityTests
         }
     }
 
-    private sealed class FixedClock : LuSplit.Application.Ports.IClock
+    private sealed class FixedClock : IClock
     {
         private readonly string _nowIso;
 

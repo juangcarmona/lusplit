@@ -9,7 +9,7 @@ The solution is split into four runtime projects:
 - `LuSplit.Infrastructure`
 - `LuSplit.App`
 
-## Layer responsibilities
+## Project responsibilities
 
 ### `LuSplit.Domain`
 
@@ -101,6 +101,22 @@ Code-behind is limited to:
 - `BindingContext`
 - tiny lifecycle handoff
 - strictly view-only behavior
+
+## UI structure inside `LuSplit.App`
+
+`LuSplit.App` is organized by feature and slice, not by top-level technical buckets such as `Pages/`, `ViewModels/`, and `Presentation/`.
+
+Each non-trivial screen should keep its screen-specific artifacts together:
+- page
+- page code-behind
+- viewmodel
+- row viewmodels
+- local parsers
+- local mappers
+- local UI helpers
+- local service interfaces when needed
+
+Cross-feature app-side services stay in shared service areas.
 
 ## Vertical slice canon
 

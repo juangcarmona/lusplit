@@ -1,6 +1,6 @@
 using System.Text;
 using System.Text.Json;
-using LuSplit.Application.Models;
+using LuSplit.Application.Export.Models;
 using LuSplit.Infrastructure.Snapshot;
 using LuSplit.Infrastructure.Sqlite;
 

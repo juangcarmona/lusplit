@@ -1,9 +1,11 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Models;
-using LuSplit.Application.Queries;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Payments.Models;
+using LuSplit.Application.Payments.Queries;
+using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
 
 namespace LuSplit.Application.Tests;
 

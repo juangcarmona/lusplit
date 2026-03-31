@@ -1,7 +1,8 @@
 using System.Globalization;
 using System.IO.Compression;
 using System.Text;
-using LuSplit.Application.Models;
+using LuSplit.Application.Export.Models;
+using LuSplit.Application.Groups.Models;
 
 namespace LuSplit.Infrastructure.Export;
 

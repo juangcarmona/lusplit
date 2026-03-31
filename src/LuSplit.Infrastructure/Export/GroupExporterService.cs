@@ -1,5 +1,5 @@
-using LuSplit.Application.Models;
-using LuSplit.Application.Ports;
+using LuSplit.Application.Export.Models;
+using LuSplit.Application.Export.Ports;
 
 namespace LuSplit.Infrastructure.Export;
 

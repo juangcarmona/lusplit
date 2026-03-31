@@ -1,5 +1,9 @@
-using LuSplit.Application.Ports;
-using LuSplit.Domain.Entities;
+using LuSplit.Application.Expenses.Ports;
+using LuSplit.Application.Groups.Ports;
+using LuSplit.Application.Payments.Ports;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
 
 namespace LuSplit.Application.Tests.Fakes;
 

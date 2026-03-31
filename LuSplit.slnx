@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/LuSplit.App/LuSplit.App.csproj" />
+    <File Path="src/LuSplit.App/Services/IArchivedGroupsDataService.cs" />
+    <Project Path="src/LuSplit.App/LuSplit.App.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
     <Project Path="src/LuSplit.Application/LuSplit.Application.csproj" />
     <Project Path="src/LuSplit.Domain/LuSplit.Domain.csproj" />
     <Project Path="src/LuSplit.Infrastructure/LuSplit.Infrastructure.csproj" />

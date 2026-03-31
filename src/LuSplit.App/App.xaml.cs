@@ -1,5 +1,5 @@
-﻿using LuSplit.App.Services;
-
+﻿using LuSplit.App.Services.Persistence;
+using LuSplit.App.Services.Settings;
 using MauiApplication = Microsoft.Maui.Controls.Application;
 
 namespace LuSplit.App;

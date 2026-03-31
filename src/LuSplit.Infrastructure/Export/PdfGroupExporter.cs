@@ -1,5 +1,5 @@
 using System.Globalization;
-using LuSplit.Application.Models;
+using LuSplit.Application.Export.Models;
 
 namespace LuSplit.Infrastructure.Export;
 

@@ -1,6 +1,7 @@
 using System.Text.Json;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
 
 namespace LuSplit.Infrastructure.Sqlite;
 

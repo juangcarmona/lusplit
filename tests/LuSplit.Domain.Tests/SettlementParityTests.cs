@@ -1,5 +1,5 @@
-using LuSplit.Domain.Errors;
-using LuSplit.Domain.Settlement;
+using LuSplit.Domain.Payments;
+using LuSplit.Domain.Shared;
 
 namespace LuSplit.Domain.Tests;
 

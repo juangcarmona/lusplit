@@ -1,6 +1,6 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Errors;
-using LuSplit.Domain.Errors;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Shared.Errors;
+using LuSplit.Domain.Shared;
 
 namespace LuSplit.Application.Tests;
 

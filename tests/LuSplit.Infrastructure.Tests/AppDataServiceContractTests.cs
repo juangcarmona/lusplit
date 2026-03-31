@@ -1,8 +1,9 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Ports;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Split;
-using LuSplit.Infrastructure.Client;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Infrastructure.Sqlite;
 
 namespace LuSplit.Infrastructure.Tests;
 

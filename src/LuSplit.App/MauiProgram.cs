@@ -1,5 +1,6 @@
 ﻿using LuSplit.App.Pages;
-using LuSplit.App.Services;
+using LuSplit.App.Services.Localization;
+using LuSplit.App.Services.Persistence;
 using Microsoft.Extensions.Logging;
 using Plugin.MauiMtAdmob;
 

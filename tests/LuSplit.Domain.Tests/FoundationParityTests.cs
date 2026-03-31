@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Errors;
-using LuSplit.Domain.Money;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Shared;
 using LuSplit.Domain.Split;
 
 namespace LuSplit.Domain.Tests;

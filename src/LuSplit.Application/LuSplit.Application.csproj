@@ -4,6 +4,10 @@
     <ProjectReference Include="..\LuSplit.Domain\LuSplit.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Expenses\Models\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

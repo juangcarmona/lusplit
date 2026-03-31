@@ -1,4 +1,4 @@
-using LuSplit.Application.Ports;
+using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.Application.Tests.Fakes;
 

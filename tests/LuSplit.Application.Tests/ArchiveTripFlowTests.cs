@@ -1,9 +1,12 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Errors;
-using LuSplit.Application.Models;
-using LuSplit.Application.Queries;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Groups.Queries;
+using LuSplit.Application.Payments.Queries;
+using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
 
 namespace LuSplit.Application.Tests;
 
@@ -120,11 +123,11 @@ public sealed class ArchiveGroupFlowTests
                 Title: "Dinner",
                 PaidByParticipantId: charlie.Id,
                 AmountMinor: 9000,
-                SplitDefinition: new Domain.Split.SplitDefinition(new Domain.Split.SplitComponent[]
+                SplitDefinition: new Domain.Split.SplitDefinition(new SplitComponent[]
                 {
                     new Domain.Split.RemainderSplitComponent(
                         new[] { alice.Id, bob.Id, charlie.Id },
-                        Domain.Split.RemainderMode.Equal)
+                        RemainderMode.Equal)
                 })));
 
         var ownerBalances = await new GetBalancesByEconomicUnitOwnerUseCase(repos, repos, repos, repos, repos)
