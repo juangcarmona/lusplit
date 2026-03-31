@@ -4,7 +4,7 @@ using LuSplit.App.Services.Settings;
 using LuSplit.App.Services.Presentation;
 using MauiApplication = Microsoft.Maui.Controls.Application;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Home.Home;
 
 public partial class HomePage : ContentPage
 {

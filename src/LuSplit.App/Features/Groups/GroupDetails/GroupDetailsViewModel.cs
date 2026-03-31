@@ -7,7 +7,7 @@ using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Settings;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupDetails;
 
 public sealed partial class GroupDetailsViewModel : ObservableObject
 {

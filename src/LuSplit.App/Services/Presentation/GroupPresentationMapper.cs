@@ -1,6 +1,7 @@
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Settings;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Payments.Models;
 using LuSplit.Domain.Expenses;

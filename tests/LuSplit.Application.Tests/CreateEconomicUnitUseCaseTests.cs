@@ -2,7 +2,7 @@ using LuSplit.Application.Groups.Commands;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
+using LuSplit.Domain.Groups;
 
 namespace LuSplit.Application.Tests;
 

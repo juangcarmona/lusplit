@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.GroupSwitcher;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupSwitcher;
 
 public sealed partial class GroupSwitcherViewModel : ObservableObject
 {

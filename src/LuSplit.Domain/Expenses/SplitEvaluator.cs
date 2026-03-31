@@ -4,7 +4,7 @@ using LuSplit.Domain.Shared;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
 
-namespace LuSplit.Domain.Split;
+namespace LuSplit.Domain.Expenses;
 
 public static partial class SplitEvaluator
 {

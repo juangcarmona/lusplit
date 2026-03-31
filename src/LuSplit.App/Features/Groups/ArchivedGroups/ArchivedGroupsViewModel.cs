@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.ArchivedGroups;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.ArchivedGroups;
 
 public sealed partial class ArchivedGroupsViewModel : ObservableObject
 {

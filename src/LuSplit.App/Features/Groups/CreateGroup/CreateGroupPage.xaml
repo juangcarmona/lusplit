@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             xmlns:local="clr-namespace:LuSplit.App.Pages"
-             x:Class="LuSplit.App.Pages.CreateGroupPage"
+             xmlns:local="clr-namespace:LuSplit.App.Features.Groups.CreateGroup"    
+             xmlns:expenses="clr-namespace:LuSplit.App.Features.Expenses.Shared"
+             x:Class="LuSplit.App.Features.Groups.CreateGroup.CreateGroupPage"
              x:Name="PageRoot"
              Title="{x:Static loc:AppResources.CreateGroup_Title}">
     <Grid RowDefinitions="*,Auto">
@@ -30,7 +31,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding IsStep2}" Spacing="8">
-                    <local:ParticipantsEditorView
+                    <expenses:ParticipantsEditorView
                         Participants="{Binding Participants}"
                         CanEdit="True"
                         HostPage="{x:Reference PageRoot}"

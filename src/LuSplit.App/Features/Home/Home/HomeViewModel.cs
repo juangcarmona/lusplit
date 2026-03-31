@@ -1,13 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LuSplit.App.Features.Home;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Errors;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Presentation;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Home.Home;
 
 public sealed partial class HomeViewModel : ObservableObject
 {

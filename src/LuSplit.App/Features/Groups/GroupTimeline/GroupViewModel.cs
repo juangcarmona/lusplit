@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.GroupTimeline;
 using LuSplit.App.Services.Presentation;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupTimeline;
 
 public sealed partial class GroupViewModel : ObservableObject
 {

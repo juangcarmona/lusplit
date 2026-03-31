@@ -4,12 +4,13 @@ using LuSplit.App.Features.Expenses.AddExpense;
 using LuSplit.App.Features.Expenses.ExpenseDetails;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Formatting;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Domain.Expenses;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.ExpenseDetails;
 
 public sealed partial class ExpenseDetailsViewModel : ObservableObject
 {

@@ -1,6 +1,7 @@
+using LuSplit.App.Features.Groups.ArchivedGroupView;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.ArchivedGroups;
 
 public partial class ArchivedGroupsPage : ContentPage
 {

@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.GroupDetails;
 using LuSplit.App.Resources.Localization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.Shared;
 
 public sealed record DependencySelectionArgs(string ParticipantName, IReadOnlyList<string> Options);
 

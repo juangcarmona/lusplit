@@ -1,9 +1,8 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using LuSplit.App.Features.Activity;
 using LuSplit.App.Services.Presentation;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Activity.Activity;
 
 public sealed partial class ActivityViewModel : ObservableObject
 {

@@ -1,9 +1,9 @@
 using LuSplit.App.Features.Expenses.AddExpense;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Persistence;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.AddExpense;
 
 public partial class AddExpensePage : ContentPage
 {

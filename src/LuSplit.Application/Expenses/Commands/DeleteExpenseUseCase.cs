@@ -1,4 +1,3 @@
-using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Expenses.Ports;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Commands;

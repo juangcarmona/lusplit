@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using LuSplit.App.Features.Groups.GroupDetails;
 using LuSplit.App.Resources.Localization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.Shared;
 
 public partial class ParticipantsEditorView : ContentView
 {

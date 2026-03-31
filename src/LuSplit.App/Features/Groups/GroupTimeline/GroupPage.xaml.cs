@@ -2,7 +2,7 @@ using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupTimeline;
 
 public partial class GroupPage : ContentPage, IQueryAttributable
 {

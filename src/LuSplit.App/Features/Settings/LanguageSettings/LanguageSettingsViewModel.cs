@@ -5,7 +5,7 @@ using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Settings;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Settings.LanguageSettings;
 
 public sealed partial class LanguageSettingsViewModel : ObservableObject
 {

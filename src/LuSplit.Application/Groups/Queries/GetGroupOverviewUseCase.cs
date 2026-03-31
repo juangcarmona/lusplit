@@ -1,5 +1,6 @@
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Expenses.Ports;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Payments.Models;

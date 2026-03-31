@@ -2,7 +2,7 @@ using LuSplit.App.Features.Expenses.ExpenseDetails;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.ExpenseDetails;
 
 public partial class ExpenseDetailsPage : ContentPage, IQueryAttributable
 {

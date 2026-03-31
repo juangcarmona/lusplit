@@ -123,9 +123,9 @@ public sealed class ArchiveGroupFlowTests
                 Title: "Dinner",
                 PaidByParticipantId: charlie.Id,
                 AmountMinor: 9000,
-                SplitDefinition: new Domain.Split.SplitDefinition(new SplitComponent[]
+                SplitDefinition: new SplitDefinition(new SplitComponent[]
                 {
-                    new Domain.Split.RemainderSplitComponent(
+                    new RemainderSplitComponent(
                         new[] { alice.Id, bob.Id, charlie.Id },
                         RemainderMode.Equal)
                 })));

@@ -1,4 +1,5 @@
 using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Ports;

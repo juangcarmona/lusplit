@@ -1,5 +1,4 @@
 using LuSplit.Domain.Shared;
-using LuSplit.Domain.Shared;
 
 namespace LuSplit.Domain.Payments;
 

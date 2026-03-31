@@ -10,7 +10,7 @@ using LuSplit.Domain.Expenses;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Expenses.AddExpense;
 
 public sealed partial class AddExpenseViewModel : ObservableObject
 {

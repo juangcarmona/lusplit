@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LuSplit.App.Features.Groups.ArchivedGroupView;
 using LuSplit.App.Features.Home;
+using LuSplit.App.Features.Home.Home;
 using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Presentation;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.ArchivedGroupView;
 
 public sealed partial class ArchivedGroupViewModel : ObservableObject
 {

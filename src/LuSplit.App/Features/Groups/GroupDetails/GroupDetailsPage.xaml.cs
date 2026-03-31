@@ -4,7 +4,7 @@ using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Media;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupDetails;
 
 public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 {

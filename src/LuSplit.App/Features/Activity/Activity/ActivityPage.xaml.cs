@@ -1,6 +1,6 @@
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Activity.Activity;
 
 public partial class ActivityPage : ContentPage
 {

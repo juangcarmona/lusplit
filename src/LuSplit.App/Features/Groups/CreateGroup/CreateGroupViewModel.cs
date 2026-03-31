@@ -10,7 +10,7 @@ using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Settings;
 using LuSplit.Domain.Groups;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.CreateGroup;
 
 public sealed partial class CreateGroupViewModel : ObservableObject
 {

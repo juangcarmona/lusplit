@@ -1,6 +1,6 @@
 using LuSplit.Domain.Expenses;
 
-namespace LuSplit.Application.Groups.Models;
+namespace LuSplit.Application.Expenses.Models;
 
 public sealed record ExpenseModel(
     string Id,

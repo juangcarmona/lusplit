@@ -1,4 +1,4 @@
-using LuSplit.App.Features.Activity;
+using LuSplit.App.Features.Activity.Activity;
 using LuSplit.App.Features.Expenses.AddExpense;
 using LuSplit.App.Features.Expenses.ExpenseDetails;
 using LuSplit.App.Features.Groups.ArchivedGroups;
@@ -7,13 +7,14 @@ using LuSplit.App.Features.Groups.CreateGroup;
 using LuSplit.App.Features.Groups.GroupDetails;
 using LuSplit.App.Features.Groups.GroupSwitcher;
 using LuSplit.App.Features.Groups.GroupTimeline;
-using LuSplit.App.Features.Home;
+using LuSplit.App.Features.Home.Home;
 using LuSplit.App.Features.Payments.RecordPayment;
 using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Errors;
 using LuSplit.App.Services.Presentation;
 using LuSplit.Application.Export.Models;
 using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Groups.Queries;
 using LuSplit.Application.Payments.Models;
@@ -22,6 +23,8 @@ using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
 using LuSplit.Infrastructure.Export;
 using LuSplit.Infrastructure.Sqlite;
+using LuSplit.App.Features.Home;
+using LuSplit.App.Features.Activity;
 
 namespace LuSplit.App.Services.Persistence;
 

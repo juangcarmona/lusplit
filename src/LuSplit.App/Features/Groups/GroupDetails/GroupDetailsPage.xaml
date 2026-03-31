@@ -1,18 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LuSplit.App.Pages.GroupDetailsPage"
+             x:Class="LuSplit.App.Features.Groups.GroupDetails.GroupDetailsPage"
              x:Name="PageRoot"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             xmlns:local="clr-namespace:LuSplit.App.Pages"
+             xmlns:local="clr-namespace:LuSplit.App.Features.Groups.GroupDetails"
+             xmlns:groups="clr-namespace:LuSplit.App.Features.Groups.Shared"
+             xmlns:expenses="clr-namespace:LuSplit.App.Features.Expenses.Shared"
              Title="{x:Static loc:AppResources.GroupDetails_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Spacing="0">
 
                 <!-- Full-width header with image/gradient + group name -->
-                <local:GroupHeaderView
+                <groups:GroupHeaderView
                     GroupName="{Binding GroupName}"
                     ImagePath="{Binding GroupImagePath}" />
 
@@ -63,7 +65,7 @@
                 <!-- 2. People -->
                 <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
 
-                <local:ParticipantsEditorView
+                <expenses:ParticipantsEditorView
                     Participants="{Binding Participants}"
                     CanEdit="{Binding CanEdit}"
                     HostPage="{x:Reference PageRoot}"

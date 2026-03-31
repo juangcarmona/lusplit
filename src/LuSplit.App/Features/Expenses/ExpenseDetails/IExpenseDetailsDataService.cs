@@ -1,3 +1,4 @@
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Domain.Expenses;
 

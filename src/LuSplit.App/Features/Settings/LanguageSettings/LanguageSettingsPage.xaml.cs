@@ -1,6 +1,6 @@
 using LuSplit.App.Resources.Localization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Settings.LanguageSettings;
 
 public partial class LanguageSettingsPage : ContentPage
 {

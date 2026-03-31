@@ -1,8 +1,8 @@
 using LuSplit.Application.Expenses.Queries;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
 using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
 
 namespace LuSplit.Application.Tests;
 

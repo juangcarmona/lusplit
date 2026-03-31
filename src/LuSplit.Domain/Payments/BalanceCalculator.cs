@@ -1,7 +1,6 @@
 using LuSplit.Domain.Shared;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
-using LuSplit.Domain.Split;
 
 namespace LuSplit.Domain.Payments;
 

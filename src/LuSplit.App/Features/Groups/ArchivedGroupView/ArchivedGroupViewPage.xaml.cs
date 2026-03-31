@@ -3,7 +3,7 @@ using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Presentation;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.ArchivedGroupView;
 
 public partial class ArchivedGroupViewPage : ContentPage
 {

@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Pages;
 using LuSplit.App.Services;
 using LuSplit.Application.Models;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 

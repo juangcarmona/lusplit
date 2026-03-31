@@ -2,7 +2,6 @@ using System.Text.Json;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
 using LuSplit.Domain.Payments;
-using LuSplit.Domain.Split;
 using LuSplit.Infrastructure.Sqlite;
 using Microsoft.Data.Sqlite;
 

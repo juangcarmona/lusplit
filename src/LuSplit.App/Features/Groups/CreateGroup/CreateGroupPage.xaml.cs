@@ -1,7 +1,7 @@
 using LuSplit.App.Features.Groups.GroupDetails;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.CreateGroup;
 
 public partial class CreateGroupPage : ContentPage
 {

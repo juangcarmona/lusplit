@@ -2,7 +2,7 @@ using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Presentation;
 using System.Collections.ObjectModel;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Payments.Settlement;
 
 public partial class SettlementPage : ContentPage
 {

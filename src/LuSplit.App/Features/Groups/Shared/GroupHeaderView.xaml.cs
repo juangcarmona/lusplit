@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.Shared;
 
 public partial class GroupHeaderView : ContentView
 {

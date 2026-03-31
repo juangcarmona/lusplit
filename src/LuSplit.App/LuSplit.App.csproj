@@ -101,10 +101,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Features\Activity\ActivityPage.xaml">
+	  <MauiXaml Update="Features\Activity\Activity\ActivityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Features\Settings\LanguageSettingsPage.xaml">
+	  <MauiXaml Update="Features\Settings\LanguageSettings\LanguageSettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Payments\RecordPayment\RecordPaymentPage.xaml">

@@ -1,11 +1,11 @@
 using LuSplit.Application.Expenses.Ports;
+using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Shared.Ports;
 using LuSplit.Domain.Expenses;
-using LuSplit.Domain.Split;
 
 namespace LuSplit.Application.Expenses.Commands;
 

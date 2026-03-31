@@ -1,7 +1,7 @@
 using System.Globalization;
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Payments.RecordPayment;
 
 public partial class RecordPaymentPage : ContentPage, IQueryAttributable
 {

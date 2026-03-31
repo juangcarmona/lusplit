@@ -7,7 +7,7 @@ using LuSplit.Application.Groups.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Payments.RecordPayment;
 
 public sealed partial class RecordPaymentViewModel : ObservableObject
 {

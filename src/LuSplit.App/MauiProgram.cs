@@ -1,4 +1,14 @@
-﻿using LuSplit.App.Pages;
+﻿using LuSplit.App.Features.Expenses.AddExpense;
+using LuSplit.App.Features.Expenses.ExpenseDetails;
+using LuSplit.App.Features.Groups.ArchivedGroups;
+using LuSplit.App.Features.Groups.ArchivedGroupView;
+using LuSplit.App.Features.Groups.GroupDetails;
+using LuSplit.App.Features.Groups.GroupSwitcher;
+using LuSplit.App.Features.Groups.GroupTimeline;
+using LuSplit.App.Features.Home.Home;
+using LuSplit.App.Features.Payments.RecordPayment;
+using LuSplit.App.Features.Payments.Settlement;
+using LuSplit.App.Features.Settings.LanguageSettings;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Persistence;
 using Microsoft.Extensions.Logging;
@@ -24,7 +34,7 @@ public static class MauiProgram
             });
 
 		builder.Services.AddSingleton<AppDataService>();
-		builder.Services.AddSingleton<AppShell>();
+		builder.Services.AddTransient<AppShell>();
 		builder.Services.AddTransient<HomePage>();
 		builder.Services.AddTransient<GroupSwitcherPage>();
 		builder.Services.AddTransient<GroupPage>();

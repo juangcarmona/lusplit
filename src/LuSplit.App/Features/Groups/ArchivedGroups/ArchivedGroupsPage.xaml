@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             xmlns:pages="clr-namespace:LuSplit.App.Pages"
-             x:Class="LuSplit.App.Pages.ArchivedGroupsPage"
+             xmlns:archivedgroups="clr-namespace:LuSplit.App.Features.Groups.ArchivedGroups"
+             x:Class="LuSplit.App.Features.Groups.ArchivedGroups.ArchivedGroupsPage"
              Title="{x:Static loc:AppResources.Archived_Title}">
     <Grid RowDefinitions="*,Auto">
 
@@ -47,7 +47,7 @@
                                     </Grid>
                                     <Button Text="{x:Static loc:AppResources.Groups_Open}"
                                             Style="{StaticResource SecondaryButton}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type pages:ArchivedGroupsPage}}, Path=BindingContext.ViewGroupCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type archivedgroups:ArchivedGroupsPage}}, Path=BindingContext.ViewGroupCommand}"
                                             CommandParameter="{Binding GroupId}" />
                                 </VerticalStackLayout>
                             </Border>

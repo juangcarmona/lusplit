@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             x:Class="LuSplit.App.Pages.HomePage"
+             x:Class="LuSplit.App.Features.Home.Home.HomePage"
              Title="{x:Static loc:AppResources.Home_Title}"
              Shell.NavBarIsVisible="False">
 

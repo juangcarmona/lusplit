@@ -1,6 +1,6 @@
 using LuSplit.App.Services.Persistence;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupSwitcher;
 
 public partial class GroupSwitcherPage : ContentPage
 {
