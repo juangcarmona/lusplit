@@ -3,7 +3,10 @@
     x:Class="LuSplit.App.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:pages="clr-namespace:LuSplit.App.Pages"
+    xmlns:home="clr-namespace:LuSplit.App.Features.Home.Home"
+    xmlns:groupswitcher="clr-namespace:LuSplit.App.Features.Groups.GroupSwitcher"
+    xmlns:archivedgroups="clr-namespace:LuSplit.App.Features.Groups.ArchivedGroups"
+    xmlns:languagesettings="clr-namespace:LuSplit.App.Features.Settings.LanguageSettings"
     xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
     Title="LuSplit"
     FlyoutBehavior="Flyout">
@@ -11,23 +14,23 @@
     <ShellContent
         Title="{x:Static loc:AppResources.Home_Title}"
         Route="home"
-        ContentTemplate="{DataTemplate pages:HomePage}" />
+        ContentTemplate="{DataTemplate home:HomePage}" />
 
     <FlyoutItem Title="{x:Static loc:AppResources.Groups_Title}" Route="groups">
         <ShellContent
-            ContentTemplate="{DataTemplate pages:GroupSwitcherPage}"
+            ContentTemplate="{DataTemplate groupswitcher:GroupSwitcherPage}"
             Route="group-switcher" />
     </FlyoutItem>
 
     <FlyoutItem Title="{x:Static loc:AppResources.Groups_ViewArchived}" Route="archived-groups-menu">
         <ShellContent
-            ContentTemplate="{DataTemplate pages:ArchivedGroupsPage}"
+            ContentTemplate="{DataTemplate archivedgroups:ArchivedGroupsPage}"
             Route="archived-groups" />
     </FlyoutItem>
 
     <FlyoutItem Title="{x:Static loc:AppResources.Settings_Title}" Route="settings">
         <ShellContent
-            ContentTemplate="{DataTemplate pages:LanguageSettingsPage}"
+            ContentTemplate="{DataTemplate languagesettings:LanguageSettingsPage}"
             Route="language-settings" />
     </FlyoutItem>
 

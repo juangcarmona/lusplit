@@ -340,6 +340,12 @@
   <data name="Common_Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
   <data name="Export_DialogTitle" xml:space="preserve">
     <value>Exportar este grupo</value>
   </data>
@@ -827,6 +833,9 @@
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>Una persona no puede depender de sí misma.</value>
   </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>No se puede hacer dependiente a esta persona mientras sea responsable de otras.</value>
+  </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
     <value>La dependencia circular no está permitida.</value>
   </data>
@@ -878,8 +887,29 @@
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
     <value>Eliminar</value>
   </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Total fijo: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Gasto no encontrado.</value>
+  </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
     <value>Responsabilidad de {0}</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Cambiar foto</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Foto del grupo</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Cámara</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Eliminar foto</value>
   </data>
 
 </root>

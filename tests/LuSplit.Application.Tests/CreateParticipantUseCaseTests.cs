@@ -1,7 +1,8 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Errors;
+using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
+using LuSplit.Domain.Groups;
 
 namespace LuSplit.Application.Tests;
 
@@ -109,5 +110,26 @@ public sealed class CreateParticipantUseCaseTests
             ConsumptionCategory: ConsumptionCategory.Full)));
 
         Assert.Equal("Group not found: missing", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncThrowsWhenIdGenerationIsExhausted()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.EconomicUnits.Add(new EconomicUnit("u1", "g1", "p1"));
+        // Pre-seed the owner participant so the generator must produce a new unique ID.
+        repos.Participants.Add(new Participant("p1", "g1", "u1", "Alice", ConsumptionCategory.Full));
+
+        // Generator always returns "p1" which is already taken → exhausts all 100 attempts.
+        var useCase = new CreateParticipantUseCase(repos, repos, repos, new CollisionIdGenerator("p1"));
+
+        var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new CreateParticipantInput(
+            GroupId: "g1",
+            EconomicUnitId: "u1",
+            Name: "Bob",
+            ConsumptionCategory: ConsumptionCategory.Full)));
+
+        Assert.Equal("Unable to generate a unique participant id", error.Message);
     }
 }

@@ -340,6 +340,12 @@
   <data name="Common_Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
   <data name="Export_DialogTitle" xml:space="preserve">
     <value>Esporta questo gruppo</value>
   </data>
@@ -806,8 +812,9 @@
   </data>
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>Una persona non può dipendere da se stessa.</value>
-  </data>
-  <data name="Validation_CircularDependency" xml:space="preserve">
+  </data>  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Non è possibile rendere dipendente questa persona mentre è responsabile di altre.</value>
+  </data>  <data name="Validation_CircularDependency" xml:space="preserve">
     <value>La dipendenza circolare non è consentita.</value>
   </data>
   <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
@@ -858,8 +865,29 @@
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
     <value>Elimina</value>
   </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Totale fisso: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Spesa non trovata.</value>
+  </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
     <value>Responsabilità di {0}</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Cambia foto</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Foto del gruppo</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Fotocamera</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Galleria</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Rimuovi foto</value>
   </data>
 
 </root>

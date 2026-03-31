@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LuSplit.App.Features.Groups.GroupDetails.GroupDetailsPage"
+             x:Name="PageRoot"
+             xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             xmlns:local="clr-namespace:LuSplit.App.Features.Groups.GroupDetails"
+             xmlns:groups="clr-namespace:LuSplit.App.Features.Groups.Shared"
+             xmlns:expenses="clr-namespace:LuSplit.App.Features.Expenses.Shared"
+             Title="{x:Static loc:AppResources.GroupDetails_Title}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Full-width header with image/gradient + group name -->
+                <groups:GroupHeaderView
+                    GroupName="{Binding GroupName}"
+                    ImagePath="{Binding GroupImagePath}" />
+
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="14">
+
+                <!-- Change photo (edit mode only) -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ChangePhotoButton}"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding CanEdit}"
+                        Margin="0,0,0,4"
+                        AutomationId="ChangePhotoButton"
+                        Command="{Binding RequestPhotoChangeCommand}" />
+
+                <!-- Archived group banner -->
+                <Border IsVisible="{Binding IsArchived}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="12,8">
+                    <Label Text="{x:Static loc:AppResources.GroupDetails_ArchivedStatus}"
+                           Style="{StaticResource BodyMuted}"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
+                <!-- 1. Basics -->
+                <Border Style="{StaticResource FormFieldBorder}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_GroupNameLabel}" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding GroupName}"
+                               Placeholder="{x:Static loc:AppResources.GroupDetails_GroupNamePlaceholder}"
+                               ClearButtonVisibility="WhileEditing"
+                               IsEnabled="{Binding CanEdit}"
+                               AutomationId="GroupNameEntry" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource FormFieldBorder}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="{x:Static loc:AppResources.GroupDetails_CurrencyLabel}" Style="{StaticResource FieldLabel}" />
+                        <Picker ItemsSource="{Binding CurrencyOptions}"
+                                ItemDisplayBinding="{Binding DisplayLabel}"
+                                SelectedItem="{Binding SelectedCurrencyOption}"
+                                IsEnabled="{Binding CanEdit}"
+                                AutomationId="CurrencyPicker" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. People -->
+                <Label Text="{x:Static loc:AppResources.GroupDetails_PeopleSection}" Style="{StaticResource SectionTitle}" />
+
+                <expenses:ParticipantsEditorView
+                    Participants="{Binding Participants}"
+                    CanEdit="{Binding CanEdit}"
+                    HostPage="{x:Reference PageRoot}"
+                    AddParticipantRequested="OnParticipantAddRequested"
+                    DependencyChanged="OnDependencyChanged"
+                    AutomationId="ParticipantsEditor" />
+
+                <!-- 3. Actions -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ExportButton}"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,4,0,0"
+                        AutomationId="ExportButton"
+                        Command="{Binding RequestExportCommand}" />
+
+                <Button Text="{x:Static loc:AppResources.GroupDetails_ArchiveButton}"
+                        IsVisible="{Binding CanArchive}"
+                        Style="{StaticResource SecondaryButton}"
+                        AutomationId="ArchiveButton"
+                        Command="{Binding RequestArchiveCommand}" />
+
+                <!-- 4. Save -->
+                <Button Text="{x:Static loc:AppResources.GroupDetails_SaveButton}"
+                        IsVisible="{Binding CanEdit}"
+                        AutomationId="SaveButton"
+                        Command="{Binding SaveCommand}" />
+
+                <Label Text="{Binding StatusText}" Style="{StaticResource BodyMuted}" />
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1"
+            BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+            StrokeThickness="0"
+            HeightRequest="56"
+            Padding="0,4">
+            <admob:MTAdView
+            x:Name="BottomBanner"
+            HorizontalOptions="Center" />
+        </Border>
+    </Grid>
+</ContentPage>

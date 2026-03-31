@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             x:Class="LuSplit.App.Features.Expenses.Shared.ParticipantsEditorView"
+             x:Name="Self">
+    <!-- BindingContext=ParticipantsEditorViewModel is set on InnerLayout in code-behind.
+         The ContentView itself inherits the page's BindingContext so that parent bindings
+         like Participants="{Binding Participants}" resolve against the page's ViewModel. -->
+    <VerticalStackLayout x:Name="InnerLayout" Spacing="10">
+
+        <!-- Add participant row: entry + button, visible only when editing is allowed -->
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" IsVisible="{Binding CanEdit}">
+            <Border Style="{StaticResource FormFieldBorder}">
+                <Entry x:Name="NameEntry"
+                       Text="{Binding NewParticipantName, Mode=TwoWay}"
+                       Placeholder="{x:Static loc:AppResources.CreateGroup_ParticipantPlaceholder}"
+                       ClearButtonVisibility="WhileEditing"
+                       AutomationId="ParticipantNameEntry"
+                       SemanticProperties.Description="{x:Static loc:AppResources.CreateGroup_ParticipantPlaceholder}"
+                       ReturnType="Done"
+                       ReturnCommand="{Binding AddCommand}" />
+            </Border>
+            <Button Grid.Column="1"
+                    Text="{x:Static loc:AppResources.CreateGroup_AddParticipant}"
+                    AutomationId="AddParticipantButton"
+                    Command="{Binding AddCommand}" />
+        </Grid>
+
+        <!-- Inline validation feedback -->
+        <Label Text="{Binding StatusText}"
+               Style="{StaticResource BodyMuted}"
+               IsVisible="{Binding HasStatusText}" />
+
+        <!-- Participant list -->
+        <CollectionView x:Name="ParticipantsList" SelectionMode="None" AutomationId="ParticipantsList">
+            <CollectionView.EmptyView>
+                <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}"
+                       Style="{StaticResource BodyMuted}"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,8" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,Auto,Auto"
+                          ColumnSpacing="8"
+                          Padding="0,6">
+                        <VerticalStackLayout Spacing="2" Margin="{Binding TreeIndent}">
+                            <Label Text="{Binding DisplayName}" Style="{StaticResource CardTitle}" />
+                        </VerticalStackLayout>
+
+                        <!-- Dependency chip: text shows current state, tap to change -->
+                        <Button Grid.Column="1"
+                                Text="{Binding DependsOnLabel}"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.RequestDependencySelectionCommand}"
+                                CommandParameter="{Binding Name}"
+                                AutomationId="DependencyButton"
+                                IsVisible="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.CanEdit}" />
+
+                        <!-- Remove button: only visible when item is removable (create-mode drafts) -->
+                        <Button Grid.Column="2"
+                                Text="&#x2715;"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.RemoveCommand}"
+                                CommandParameter="{Binding .}"
+                                AutomationId="RemoveParticipantButton"
+                                IsVisible="{Binding CanRemove}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentView>

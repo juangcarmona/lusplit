@@ -529,6 +529,12 @@
   <data name="Common_Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 
   <!-- Export -->
   <data name="Export_DialogTitle" xml:space="preserve">
@@ -611,6 +617,9 @@
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>A person cannot depend on themselves.</value>
   </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Cannot make this person a dependent while they are responsible for others.</value>
+  </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
     <value>Circular dependency is not allowed.</value>
   </data>
@@ -687,6 +696,12 @@
   </data>
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Total fixed: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Expense not found.</value>
   </data>
 
   <!-- Settings -->

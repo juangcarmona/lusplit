@@ -1,6 +1,9 @@
-using LuSplit.Application.Commands;
-using LuSplit.Application.Ports;
-using LuSplit.Domain.Entities;
+using LuSplit.Application.Expenses.Ports;
+using LuSplit.Application.Groups.Ports;
+using LuSplit.Application.Payments.Ports;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
 
 namespace LuSplit.Application.Tests.Fakes;
 
@@ -91,8 +94,11 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
         return Task.CompletedTask;
     }
 
-    public Task AddAsync(AddExpenseCommand command, CancellationToken cancellationToken)
-        => Task.CompletedTask;
+    public Task DeleteEconomicUnitAsync(string economicUnitId, CancellationToken cancellationToken)
+    {
+        EconomicUnits.RemoveAll(candidate => string.Equals(candidate.Id, economicUnitId, StringComparison.Ordinal));
+        return Task.CompletedTask;
+    }
 
     public Task<IReadOnlyList<Expense>> ListExpensesByGroupIdAsync(string groupId, CancellationToken cancellationToken)
     {

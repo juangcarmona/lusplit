@@ -1,9 +1,8 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Errors;
-using LuSplit.Domain.Money;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Shared;
 
 namespace LuSplit.Domain.Tests;
 
@@ -13,6 +12,12 @@ public sealed class FoundationParityTests
     public void RejectsFractionalMinorUnits()
     {
         Assert.Throws<DomainInvariantException>(() => MoneyAmount.FromMinorUnitsDecimal(12.5m));
+    }
+
+    [Fact]
+    public void FromMinorUnitsRejectsNegativeValues()
+    {
+        Assert.Throws<DomainInvariantException>(() => MoneyAmount.FromMinorUnits(-1));
     }
 
     [Fact]

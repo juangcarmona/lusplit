@@ -1,10 +1,10 @@
-using LuSplit.Application.Errors;
-using LuSplit.Application.Models;
-using LuSplit.Application.Queries;
+using LuSplit.Application.Payments.Models;
+using LuSplit.Application.Payments.Queries;
+using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Tests.Fakes;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Errors;
-using LuSplit.Domain.Split;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Shared;
 
 namespace LuSplit.Application.Tests;
 

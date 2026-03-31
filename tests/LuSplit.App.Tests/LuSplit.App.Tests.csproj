@@ -1,0 +1,109 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LuSplit.Domain\LuSplit.Domain.csproj" />
+    <ProjectReference Include="..\..\src\LuSplit.Application\LuSplit.Application.csproj" />
+  </ItemGroup>
+
+  <!-- Non-MAUI source files compiled directly from LuSplit.App -->
+  <ItemGroup>
+    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseAmountParser.cs"
+             Link="Shared\ExpenseAmountParser.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ParticipantSplitRowViewModel.cs"
+             Link="Shared\ParticipantSplitRowViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\AddExpenseSplitCalculations.cs"
+             Link="Shared\AddExpenseSplitCalculations.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyFormatter.cs"
+             Link="Shared\CurrencyFormatter.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseParticipantRowViewModel.cs"
+             Link="Shared\ExpenseParticipantRowViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseDetailsLogic.cs"
+             Link="Shared\ExpenseDetailsLogic.cs" />
+    <!-- HomeViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\NoGroupsAvailableException.cs"
+             Link="Shared\NoGroupsAvailableException.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\AppDataModels.cs"
+             Link="Shared\AppDataModels.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\IHomeDataService.cs"
+             Link="Shared\IHomeDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\TripPresentationMapper.cs"
+             Link="Shared\TripPresentationMapper.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\HomeBalanceRowViewModel.cs"
+             Link="Shared\HomeBalanceRowViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\HomeViewModel.cs"
+             Link="Shared\HomeViewModel.cs" />
+    <!-- RecordPaymentViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IRecordPaymentDataService.cs"
+             Link="Shared\IRecordPaymentDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\RecordPaymentViewModel.cs"
+             Link="Shared\RecordPaymentViewModel.cs" />
+    <!-- GroupDetailsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupDetailsDataService.cs"
+             Link="Shared\IGroupDetailsDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyCatalog.cs"
+             Link="Shared\CurrencyCatalog.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsParticipantSorter.cs"
+             Link="Shared\GroupDetailsParticipantSorter.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsViewModel.cs"
+             Link="Shared\GroupDetailsViewModel.cs" />
+    <!-- ArchivedGroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupDataService.cs"
+             Link="Shared\IArchivedGroupDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupViewModel.cs"
+             Link="Shared\ArchivedGroupViewModel.cs" />
+    <!-- CreateGroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\ICreateGroupDataService.cs"
+             Link="Shared\ICreateGroupDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\CreateGroupViewModel.cs"
+             Link="Shared\CreateGroupViewModel.cs" />
+    <!-- LanguageSettingsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Pages\LanguageSettingsViewModel.cs"
+             Link="Shared\LanguageSettingsViewModel.cs" />
+    <!-- GroupSwitcherViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupSwitcherDataService.cs"
+             Link="Shared\IGroupSwitcherDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupSwitcherViewModel.cs"
+             Link="Shared\GroupSwitcherViewModel.cs" />
+    <!-- GroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IGroupPageDataService.cs"
+             Link="Shared\IGroupPageDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\GroupViewModel.cs"
+             Link="Shared\GroupViewModel.cs" />
+    <!-- ActivityViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IActivityDataService.cs"
+             Link="Shared\IActivityDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityCompactDayGroupViewModel.cs"
+             Link="Shared\ActivityCompactDayGroupViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityViewModel.cs"
+             Link="Shared\ActivityViewModel.cs" />
+    <!-- ArchivedGroupsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupsDataService.cs"
+             Link="Shared\IArchivedGroupsDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupsViewModel.cs"
+             Link="Shared\ArchivedGroupsViewModel.cs" />
+    <!-- ParticipantsEditorViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Pages\ParticipantsEditorViewModel.cs"
+             Link="Shared\ParticipantsEditorViewModel.cs" />
+  </ItemGroup>
+
+</Project>

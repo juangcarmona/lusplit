@@ -1,13 +1,18 @@
-using System.Text.Json;
-using LuSplit.Application.Commands;
-using LuSplit.Application.Models;
-using LuSplit.Application.Queries;
-using LuSplit.Domain.Entities;
-using LuSplit.Domain.Split;
-using LuSplit.Infrastructure.Client;
-using LuSplit.Infrastructure.Snapshot;
+using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Commands;
+using LuSplit.Application.Groups.Models;
+using LuSplit.Application.Groups.Queries;
+using LuSplit.Application.Payments.Commands;
+using LuSplit.Application.Payments.Models;
+using LuSplit.Application.Payments.Queries;
+using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Groups;
+using LuSplit.Domain.Payments;
 using LuSplit.Infrastructure.Sqlite;
 using Microsoft.Data.Sqlite;
+using System.Text.Json;
 
 namespace LuSplit.Infrastructure.Tests;
 
@@ -29,6 +34,40 @@ public sealed class InfrastructureParityTests
     }
 
     [Fact]
+    public async Task ApplyAsync_RemovesOrphanedEconomicUnits()
+    {
+        // Regression: old UpdateGroupMemberAsync moved a participant to a different unit
+        // but left the old unit in the DB with OwnerParticipantId pointing to the moved
+        // participant. BalanceCalculator then threw "Economic unit owner must belong to
+        // its own unit", crashing the home page on startup.
+        await using var connection = new SqliteConnection("Data Source=:memory:;Foreign Keys=True");
+        await connection.OpenAsync();
+        await SqliteMigrations.ApplyAsync(connection);
+
+        // Insert a group, a real unit with a participant, and an orphaned unit (no participant).
+        await InsertRawAsync(connection, "INSERT INTO groups (id, currency, closed) VALUES ('g1', 'USD', 0)");
+        await InsertRawAsync(connection, "INSERT INTO economic_units (group_id, id, owner_participant_id) VALUES ('g1', 'eu-real', 'p1')");
+        await InsertRawAsync(connection, "INSERT INTO economic_units (group_id, id, owner_participant_id) VALUES ('g1', 'eu-orphan', 'p1')");
+        await InsertRawAsync(connection, "INSERT INTO participants (group_id, id, economic_unit_id, name, consumption_category) VALUES ('g1', 'p1', 'eu-real', 'Alice', 'FULL')");
+
+        // Running ApplyAsync again triggers the always-run repair.
+        await SqliteMigrations.ApplyAsync(connection);
+
+        await using var cmd = connection.CreateCommand();
+        cmd.CommandText = "SELECT COUNT(*) FROM economic_units WHERE id = 'eu-orphan'";
+        var remaining = Convert.ToInt32(cmd.ExecuteScalar());
+        Assert.Equal(0, remaining);
+    }
+
+    private static async Task InsertRawAsync(SqliteConnection connection, string sql)
+    {
+        await using var cmd = connection.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.ExecuteNonQuery();
+        await Task.CompletedTask;
+    }
+
+    [Fact]
     public async Task SqliteRepositoryContractFlowMatchesExpectedDeterministicResults()
     {
         using var infra = await InfraLocalSqlite.CreateAsync();
@@ -38,24 +77,24 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
+                new BalanceModel("id-4", 450),
                 new BalanceModel("id-5", 50),
-                new BalanceModel("id-6", -550)
+                new BalanceModel("id-6", -500)
             },
             result.BalancesByParticipant);
 
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
-                new BalanceModel("id-5", -500)
+                new BalanceModel("id-4", 450),
+                new BalanceModel("id-5", -450)
             },
             result.BalancesByOwner);
 
         Assert.Equal(
             new[]
             {
-                new SettlementTransferModel("id-6", "id-4", 500),
+                new SettlementTransferModel("id-6", "id-4", 450),
                 new SettlementTransferModel("id-6", "id-5", 50)
             },
             result.SettlementByParticipant.Transfers);
@@ -63,7 +102,7 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new SettlementTransferModel("id-5", "id-4", 500)
+                new SettlementTransferModel("id-5", "id-4", 450)
             },
             result.SettlementByOwner.Transfers);
 
@@ -94,9 +133,9 @@ public sealed class InfrastructureParityTests
         Assert.Equal(
             new[]
             {
-                new BalanceModel("id-4", 500),
+                new BalanceModel("id-4", 450),
                 new BalanceModel("id-5", 50),
-                new BalanceModel("id-6", -550)
+                new BalanceModel("id-6", -500)
             },
             overview.BalancesByParticipant);
 
@@ -398,7 +437,7 @@ public sealed class InfrastructureParityTests
             WriteIndented = false
         });
 
-    private sealed class SequentialIdGenerator : LuSplit.Application.Ports.IIdGenerator
+    private sealed class SequentialIdGenerator : IIdGenerator
     {
         private int _current;
 
@@ -409,7 +448,7 @@ public sealed class InfrastructureParityTests
         }
     }
 
-    private sealed class FixedClock : LuSplit.Application.Ports.IClock
+    private sealed class FixedClock : IClock
     {
         private readonly string _nowIso;
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             xmlns:groupswitcher="clr-namespace:LuSplit.App.Features.Groups.GroupSwitcher"
+             x:Class="LuSplit.App.Features.Groups.GroupSwitcher.GroupSwitcherPage"
+             Title="{x:Static loc:AppResources.GroupSwitcher_Title}"
+             Shell.NavBarIsVisible="True">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
+                <CollectionView ItemsSource="{Binding ActiveGroups}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="0,4">
+                                <!-- Circular thumbnail / avatar -->
+                                <Border WidthRequest="40" HeightRequest="40"
+                                        StrokeShape="Ellipse"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{StaticResource PanelLeftTeal}"
+                                        VerticalOptions="Center">
+                                    <Grid>
+                                        <Label Text="{Binding AvatarInitial}"
+                                               TextColor="White"
+                                               FontFamily="BrandMedium"
+                                               FontSize="16"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               IsVisible="{Binding HasNoImage}" />
+                                        <Image Source="{Binding ThumbnailSource}"
+                                               Aspect="AspectFill"
+                                               IsVisible="{Binding HasImage}" />
+                                    </Grid>
+                                </Border>
+                                <Label Grid.Column="1" Text="{Binding DisplayName}" Style="{StaticResource BodyText}" VerticalOptions="Center" />
+                                <Button Grid.Column="2"
+                                        Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type groupswitcher:GroupSwitcherPage}}, Path=BindingContext.SelectGroupCommand}"
+                                        CommandParameter="{Binding GroupId}"
+                                        IsEnabled="{Binding CanSelect}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_ArchivedToggle}" Style="{StaticResource SecondaryButton}" Command="{Binding ToggleArchivedCommand}" />
+                <CollectionView ItemsSource="{Binding ArchivedGroups}" SelectionMode="None" IsVisible="{Binding ShowArchived}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" Padding="0,4">
+                                <!-- Circular thumbnail / avatar -->
+                                <Border WidthRequest="36" HeightRequest="36"
+                                        StrokeShape="Ellipse"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{StaticResource TextMutedGray}"
+                                        VerticalOptions="Center">
+                                    <Label Text="{Binding AvatarInitial}"
+                                           TextColor="White"
+                                           FontFamily="BrandMedium"
+                                           FontSize="14"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+                                <Label Grid.Column="1" Text="{Binding Name}" Style="{StaticResource BodyMuted}" VerticalOptions="Center" />
+                                <Button Grid.Column="2"
+                                        Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type groupswitcher:GroupSwitcherPage}}, Path=BindingContext.SelectGroupCommand}"
+                                        CommandParameter="{Binding GroupId}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Text="{x:Static loc:AppResources.GroupSwitcher_NewGroup}" Command="{Binding NavigateToNewGroupCommand}" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                StrokeThickness="0"
+                HeightRequest="56"
+                Padding="0,4">
+            <admob:MTAdView
+                x:Name="BottomBanner"
+                HorizontalOptions="Center" />
+        </Border>
+    </Grid>
+</ContentPage>

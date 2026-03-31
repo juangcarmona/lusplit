@@ -1,4 +1,13 @@
-﻿namespace LuSplit.App;
+﻿using LuSplit.App.Features.Expenses.AddExpense;
+using LuSplit.App.Features.Expenses.ExpenseDetails;
+using LuSplit.App.Features.Groups.ArchivedGroups;
+using LuSplit.App.Features.Groups.CreateGroup;
+using LuSplit.App.Features.Groups.GroupDetails;
+using LuSplit.App.Features.Groups.GroupTimeline;
+using LuSplit.App.Features.Payments.RecordPayment;
+using LuSplit.App.Features.Payments.Settlement;
+
+namespace LuSplit.App;
 
 public partial class AppShell : Shell
 {
@@ -16,17 +25,17 @@ public partial class AppShell : Shell
 				return;
 			}
 
-			TryRegisterRoute(AppRoutes.Home, typeof(Pages.HomePage));
-			TryRegisterRoute(AppRoutes.GroupSwitcher, typeof(Pages.GroupSwitcherPage));
-			TryRegisterRoute(AppRoutes.CreateGroup, typeof(Pages.CreateGroupPage));
-			TryRegisterRoute(AppRoutes.GroupTimeline, typeof(Pages.GroupPage));
-			TryRegisterRoute(AppRoutes.GroupDetails, typeof(Pages.GroupDetailsPage));
-			TryRegisterRoute(AppRoutes.AddExpense, typeof(Pages.AddExpensePage));
-			TryRegisterRoute(AppRoutes.ExpenseDetails, typeof(Pages.ExpenseDetailsPage));
-			TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
-			TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
-			TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
-			TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(Pages.ArchivedGroupsPage));
+			//TryRegisterRoute(AppRoutes.Home, typeof(HomePage));
+			//TryRegisterRoute(AppRoutes.GroupSwitcher, typeof(GroupSwitcherPage));
+			TryRegisterRoute(AppRoutes.CreateGroup, typeof(CreateGroupPage));
+			TryRegisterRoute(AppRoutes.GroupTimeline, typeof(GroupPage));
+			TryRegisterRoute(AppRoutes.GroupDetails, typeof(GroupDetailsPage));
+			TryRegisterRoute(AppRoutes.AddExpense, typeof(AddExpensePage));
+			TryRegisterRoute(AppRoutes.ExpenseDetails, typeof(ExpenseDetailsPage));
+			TryRegisterRoute(AppRoutes.RecordPayment, typeof(RecordPaymentPage));
+			TryRegisterRoute(AppRoutes.Settlement, typeof(SettlementPage));
+			//TryRegisterRoute(AppRoutes.LanguageSettings, typeof(LanguageSettingsPage));
+			//TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(ArchivedGroupsPage));
 			_routesRegistered = true;
 		}
 	}

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
+             x:Class="LuSplit.App.Features.Groups.GroupTimeline.GroupPage"
+             xmlns:admob="clr-namespace:Plugin.MauiMtAdmob.Controls;assembly=Plugin.MauiMtAdmob"
+             Title="{Binding GroupName}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{x:Static loc:AppResources.Group_DetailsButton}" Command="{Binding NavigateToGroupDetailsCommand}" />
+        <ToolbarItem Text="{x:Static loc:AppResources.GroupDetails_ExportButton}" Command="{Binding RequestExportCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
+
+                <!-- Archived group banner (hidden for active groups) -->
+                <Border IsVisible="{Binding IsArchived}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="12,8">
+                    <Label Text="{x:Static loc:AppResources.GroupDetails_ArchivedStatus}"
+                           Style="{StaticResource BodyMuted}"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
+                <!-- Group header with background image -->
+                <Grid HeightRequest="180"
+                        Margin="-20,-16,-20,0">
+
+                    <!-- Fallback gradient -->
+                    <Grid IsVisible="{Binding HasNoGroupImage}">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#2CB1A1" Offset="0" />
+                                <GradientStop Color="#5A74FF" Offset="1" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+
+                    <!-- Background image -->
+                    <Image Source="{Binding GroupImagePath}"
+                            Aspect="AspectFill"
+                            IsVisible="{Binding HasGroupImage}" />
+
+                    <!-- Dark overlay -->
+                    <Grid>
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#22000000" Offset="0.0" />
+                                <GradientStop Color="#AA000000" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+
+                    <!-- Header content -->
+                    <VerticalStackLayout Padding="20,16,20,16"
+                         Spacing="6"
+                         VerticalOptions="End">
+                        <Label Text="{Binding GroupName}"
+                            TextColor="White"
+                            Style="{StaticResource DisplayTitle}" />
+
+                        <Label Text="{Binding GroupSummaryText}"
+                            TextColor="#E6FFFFFF"
+                            Style="{StaticResource BodyMuted}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Balance summary card -->
+                <Border Style="{StaticResource ExpenseItemBorder}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}" Style="{StaticResource SectionTitle}" />
+                        <CollectionView ItemsSource="{Binding BalanceLines}"
+                                        SelectionMode="None">
+                            <CollectionView.EmptyView>
+                                <Label Text="{x:Static loc:AppResources.Group_EveryoneEven}" Style="{StaticResource BodyText}" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="0,0,0,6">
+                                        <Label Text="{Binding Text}" Style="{StaticResource BodyText}" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding AmountText}"
+                                               Style="{StaticResource CardAmount}"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Button Text="{x:Static loc:AppResources.Group_SettleUp}"
+                                Style="{StaticResource SecondaryButton}"
+                                HorizontalOptions="Start"
+                                Command="{Binding NavigateToSettleUpCommand}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Events section -->
+                <Label Text="{x:Static loc:AppResources.Group_Events}" Style="{StaticResource SectionTitle}" Margin="0,4,0,0" />
+
+                <CollectionView ItemsSource="{Binding TimelineItems}"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="0,16,0,0" Spacing="8">
+                            <Label Text="{x:Static loc:AppResources.Group_EmptyTitle}"
+                                   Style="{StaticResource SectionTitle}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{x:Static loc:AppResources.Group_EmptySubtitle}"
+                                   Style="{StaticResource BodyMuted}"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource ExpenseItemBorder}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto">
+                                    <Label Grid.RowSpan="3"
+                                           Text="{Binding Icon}"
+                                           FontSize="28"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="1" Text="{Binding Title}" Style="{StaticResource CardTitle}" />
+                                    <Label Grid.Column="2" Text="{Binding AmountText}" Style="{StaticResource CardAmount}" HorizontalTextAlignment="End" />
+                                    <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PrimaryText}" Style="{StaticResource BodyText}" />
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding SecondaryText}" Style="{StaticResource BodyMuted}" />
+                                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding DateText}" Style="{StaticResource BodyMuted}" HorizontalTextAlignment="End" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Quick actions (hidden for archived groups) -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0"
+                      IsVisible="{Binding CanEdit}">
+                    <Button Grid.Column="0" Text="{x:Static loc:AppResources.Group_AddExpense}" Command="{Binding NavigateToAddExpenseCommand}" />
+                    <Button Grid.Column="1"
+                            Text="{x:Static loc:AppResources.Group_RecordPayment}"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding NavigateToRecordPaymentCommand}" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Ad banner -->
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                StrokeThickness="0"
+                HeightRequest="56"
+                Padding="0,4">
+            <admob:MTAdView
+                x:Name="BottomBanner"
+                HorizontalOptions="Center" />
+        </Border>
+    </Grid>
+</ContentPage>
