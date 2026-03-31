@@ -642,4 +642,37 @@ public sealed class GroupDetailsViewModelTests
 
         Assert.Equal("g-xyz", vm.GroupId);
     }
+
+    // ── Regression: Participants visible state after load ─────────────────────
+
+    [Fact]
+    public async Task LoadAsync_Participants_ContainsCorrectNames()
+    {
+        // Regression: participants persisted after creation were not projected into
+        // the visible Participants collection on LoadAsync.
+        var members = new[] { Owner("p1", "Alice", "Alice"), Owner("p2", "Bob", "Bob") };
+        var vm = new GroupDetailsViewModel(ServiceReturning(Details(members: members)));
+
+        await vm.LoadAsync();
+
+        var names = vm.Participants.Select(p => p.Name).OrderBy(n => n).ToArray();
+        Assert.Equal(["Alice", "Bob"], names);
+    }
+
+    [Fact]
+    public async Task LoadAsync_SecondLoad_ReplacesParticipants()
+    {
+        // Regression: a reload (e.g. after AddMemberAsync) must replace stale data.
+        var svc = Substitute.For<IGroupDetailsDataService>();
+        svc.GetGroupDetailsAsync()
+            .Returns(
+                Details(members: [Owner("p1", "Alice", "Alice")]),
+                Details(members: [Owner("p1", "Alice", "Alice"), Owner("p2", "Bob", "Bob")]));
+        var vm = new GroupDetailsViewModel(svc);
+
+        await vm.LoadAsync(); // first: 1 member
+        await vm.LoadAsync(); // second: 2 members
+
+        Assert.Equal(2, vm.Participants.Count);
+    }
 }

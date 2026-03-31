@@ -4,8 +4,10 @@
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
              x:Class="LuSplit.App.Pages.ParticipantsEditorView"
              x:Name="Self">
-    <!-- Inner layout inherits BindingContext=ParticipantsEditorViewModel from the ContentView. -->
-    <VerticalStackLayout Spacing="10">
+    <!-- BindingContext=ParticipantsEditorViewModel is set on InnerLayout in code-behind.
+         The ContentView itself inherits the page's BindingContext so that parent bindings
+         like Participants="{Binding Participants}" resolve against the page's ViewModel. -->
+    <VerticalStackLayout x:Name="InnerLayout" Spacing="10">
 
         <!-- Add participant row: entry + button, visible only when editing is allowed -->
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" IsVisible="{Binding CanEdit}">
@@ -31,7 +33,7 @@
                IsVisible="{Binding HasStatusText}" />
 
         <!-- Participant list -->
-        <CollectionView ItemsSource="{Binding Participants}" SelectionMode="None" AutomationId="ParticipantsList">
+        <CollectionView x:Name="ParticipantsList" SelectionMode="None" AutomationId="ParticipantsList">
             <CollectionView.EmptyView>
                 <Label Text="{x:Static loc:AppResources.GroupDetails_NoPeopleTitle}"
                        Style="{StaticResource BodyMuted}"
@@ -51,16 +53,16 @@
                         <Button Grid.Column="1"
                                 Text="{Binding DependsOnLabel}"
                                 Style="{StaticResource SecondaryButton}"
-                                Command="{Binding Source={x:Reference Self}, Path=BindingContext.RequestDependencySelectionCommand}"
+                                Command="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.RequestDependencySelectionCommand}"
                                 CommandParameter="{Binding Name}"
                                 AutomationId="DependencyButton"
-                                IsVisible="{Binding Source={x:Reference Self}, Path=BindingContext.CanEdit}" />
+                                IsVisible="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.CanEdit}" />
 
                         <!-- Remove button: only visible when item is removable (create-mode drafts) -->
                         <Button Grid.Column="2"
                                 Text="&#x2715;"
                                 Style="{StaticResource SecondaryButton}"
-                                Command="{Binding Source={x:Reference Self}, Path=BindingContext.RemoveCommand}"
+                                Command="{Binding Source={x:Reference InnerLayout}, Path=BindingContext.RemoveCommand}"
                                 CommandParameter="{Binding .}"
                                 AutomationId="RemoveParticipantButton"
                                 IsVisible="{Binding CanRemove}" />

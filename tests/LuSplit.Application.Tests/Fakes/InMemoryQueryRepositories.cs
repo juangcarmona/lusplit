@@ -90,6 +90,12 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
         return Task.CompletedTask;
     }
 
+    public Task DeleteEconomicUnitAsync(string economicUnitId, CancellationToken cancellationToken)
+    {
+        EconomicUnits.RemoveAll(candidate => string.Equals(candidate.Id, economicUnitId, StringComparison.Ordinal));
+        return Task.CompletedTask;
+    }
+
     public Task<IReadOnlyList<Expense>> ListExpensesByGroupIdAsync(string groupId, CancellationToken cancellationToken)
     {
         IReadOnlyList<Expense> expenses = Expenses

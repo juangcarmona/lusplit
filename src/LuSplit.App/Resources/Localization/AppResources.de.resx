@@ -813,6 +813,9 @@
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>Eine Person kann nicht von sich selbst abhängen.</value>
   </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Diese Person kann nicht zum Abhängigen gemacht werden, solange sie für andere verantwortlich ist.</value>
+  </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
     <value>Zirkuläre Abhängigkeit ist nicht erlaubt.</value>
   </data>

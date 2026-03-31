@@ -16,8 +16,8 @@ public partial class AppShell : Shell
 				return;
 			}
 
-			TryRegisterRoute(AppRoutes.Home, typeof(Pages.HomePage));
-			TryRegisterRoute(AppRoutes.GroupSwitcher, typeof(Pages.GroupSwitcherPage));
+			//TryRegisterRoute(AppRoutes.Home, typeof(Pages.HomePage));
+			//TryRegisterRoute(AppRoutes.GroupSwitcher, typeof(Pages.GroupSwitcherPage));
 			TryRegisterRoute(AppRoutes.CreateGroup, typeof(Pages.CreateGroupPage));
 			TryRegisterRoute(AppRoutes.GroupTimeline, typeof(Pages.GroupPage));
 			TryRegisterRoute(AppRoutes.GroupDetails, typeof(Pages.GroupDetailsPage));
@@ -25,8 +25,8 @@ public partial class AppShell : Shell
 			TryRegisterRoute(AppRoutes.ExpenseDetails, typeof(Pages.ExpenseDetailsPage));
 			TryRegisterRoute(AppRoutes.RecordPayment, typeof(Pages.RecordPaymentPage));
 			TryRegisterRoute(AppRoutes.Settlement, typeof(Pages.SettlementPage));
-			TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
-			TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(Pages.ArchivedGroupsPage));
+			//TryRegisterRoute(AppRoutes.LanguageSettings, typeof(Pages.LanguageSettingsPage));
+			//TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(Pages.ArchivedGroupsPage));
 			_routesRegistered = true;
 		}
 	}

@@ -617,6 +617,9 @@
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
     <value>A person cannot depend on themselves.</value>
   </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Cannot make this person a dependent while they are responsible for others.</value>
+  </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
     <value>Circular dependency is not allowed.</value>
   </data>

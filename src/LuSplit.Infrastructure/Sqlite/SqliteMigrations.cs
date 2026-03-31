@@ -35,41 +35,54 @@ public static class SqliteMigrations
         using var query = connection.CreateCommand();
         query.CommandText = "SELECT version FROM schema_version WHERE version = 1";
         var existing = query.ExecuteScalar();
-        if (existing is long version && version == 1)
+        if (existing is not long || (long)existing != 1)
         {
-            return Task.CompletedTask;
-        }
+            using var begin = connection.CreateCommand();
+            begin.CommandText = "BEGIN";
+            begin.ExecuteNonQuery();
 
-        using var begin = connection.CreateCommand();
-        begin.CommandText = "BEGIN";
-        begin.ExecuteNonQuery();
-
-        try
-        {
-            foreach (var statement in MigrationV1Sql)
+            try
             {
-                using var command = connection.CreateCommand();
-                command.CommandText = statement;
-                command.ExecuteNonQuery();
+                foreach (var statement in MigrationV1Sql)
+                {
+                    using var command = connection.CreateCommand();
+                    command.CommandText = statement;
+                    command.ExecuteNonQuery();
+                }
+
+                using var insert = connection.CreateCommand();
+                insert.CommandText = "INSERT INTO schema_version (version, applied_at) VALUES (1, $appliedAt)";
+                insert.Parameters.AddWithValue("$appliedAt", DateTimeOffset.UtcNow.ToString("O"));
+                insert.ExecuteNonQuery();
+
+                using var commit = connection.CreateCommand();
+                commit.CommandText = "COMMIT";
+                commit.ExecuteNonQuery();
             }
-
-            using var insert = connection.CreateCommand();
-            insert.CommandText = "INSERT INTO schema_version (version, applied_at) VALUES (1, $appliedAt)";
-            insert.Parameters.AddWithValue("$appliedAt", DateTimeOffset.UtcNow.ToString("O"));
-            insert.ExecuteNonQuery();
-
-            using var commit = connection.CreateCommand();
-            commit.CommandText = "COMMIT";
-            commit.ExecuteNonQuery();
+            catch
+            {
+                using var rollback = connection.CreateCommand();
+                rollback.CommandText = "ROLLBACK";
+                rollback.ExecuteNonQuery();
+                throw;
+            }
         }
-        catch
-        {
-            using var rollback = connection.CreateCommand();
-            rollback.CommandText = "ROLLBACK";
-            rollback.ExecuteNonQuery();
-            throw;
-        }
+
+        // Always-run idempotent repair: remove orphaned economic units (units whose
+        // owner participant was moved to a different unit by a previous bug, leaving
+        // the unit with no members). Without this, BalanceCalculator throws a
+        // DomainInvariantException at startup if a group has such stale data.
+        RepairOrphanedEconomicUnits(connection);
 
         return Task.CompletedTask;
+    }
+
+    private static void RepairOrphanedEconomicUnits(SqliteConnection connection)
+    {
+        using var command = connection.CreateCommand();
+        command.CommandText =
+            "DELETE FROM economic_units " +
+            "WHERE id NOT IN (SELECT DISTINCT economic_unit_id FROM participants WHERE economic_unit_id IS NOT NULL)";
+        command.ExecuteNonQuery();
     }
 }

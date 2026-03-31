@@ -30,20 +30,10 @@ public partial class ArchivedGroupViewPage : ContentPage
         await _viewModel.LoadAsync();
     }
 
-    private async void OnEventSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void OnEventSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (sender is not CollectionView collectionView) return;
-
-        if (e.CurrentSelection.FirstOrDefault() is not CompactEventEntryViewModel selected
-            || !selected.IsExpense
-            || string.IsNullOrWhiteSpace(selected.SourceId))
-        {
+        if (sender is CollectionView collectionView)
             collectionView.SelectedItem = null;
-            return;
-        }
-
-        await Shell.Current.GoToAsync($"{AppRoutes.ExpenseDetails}?expenseId={Uri.EscapeDataString(selected.SourceId)}");
-        collectionView.SelectedItem = null;
     }
 
     private async void OnExportRequested(object? sender, string groupId)

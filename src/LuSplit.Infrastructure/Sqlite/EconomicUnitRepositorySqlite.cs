@@ -75,4 +75,14 @@ ON CONFLICT(id) DO UPDATE SET
             command.ExecuteNonQuery();
             await Task.CompletedTask;
         });
+
+    public Task DeleteEconomicUnitAsync(string economicUnitId, CancellationToken cancellationToken)
+        => _transactionRunner.RunInTransactionAsync(async () =>
+        {
+            using var command = _connection.CreateCommand();
+            command.CommandText = "DELETE FROM economic_units WHERE id = $id";
+            command.Parameters.AddWithValue("$id", economicUnitId);
+            command.ExecuteNonQuery();
+            await Task.CompletedTask;
+        });
 }

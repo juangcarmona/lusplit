@@ -9,4 +9,6 @@ public interface IEconomicUnitRepository
     Task<EconomicUnit?> GetEconomicUnitByIdAsync(string economicUnitId, CancellationToken cancellationToken);
 
     Task SaveEconomicUnitAsync(EconomicUnit economicUnit, CancellationToken cancellationToken);
+
+    Task DeleteEconomicUnitAsync(string economicUnitId, CancellationToken cancellationToken);
 }

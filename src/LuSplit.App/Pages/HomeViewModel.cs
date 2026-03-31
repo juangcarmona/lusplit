@@ -85,6 +85,23 @@ public sealed partial class HomeViewModel : ObservableObject
             NotifyTabState();
             return;
         }
+        catch (Exception ex)
+        {
+            // An unexpected error (e.g. data-integrity violation) must not crash the
+            // app via async-void OnAppearing. Surface it as status text so the user
+            // can still navigate away or switch groups.
+            GroupName = string.Empty;
+            GroupMetaText = ex.Message;
+            TotalUnsettledText = string.Empty;
+            GroupImagePath = null;
+            Balances.Clear();
+            Events.Clear();
+            RecentEvents.Clear();
+            WhoOwesWho.Clear();
+            NotifyCollectionDerivedState();
+            NotifyTabState();
+            return;
+        }
 
         HasGroup = true;
         var overview = workspace.Overview;

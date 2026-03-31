@@ -312,4 +312,35 @@ public class ParticipantsEditorViewModelTests
         var ex = Record.Exception(() => vm.ReorderParticipants());
         Assert.Null(ex);
     }
+
+    // ── Regression: Participants injection (binding fix) ─────────────────────
+
+    [Fact]
+    public void Participants_WhenSet_IsStoredAndVisibleToValidation()
+    {
+        // Regression: the collection injected from the parent page's ViewModel must
+        // be seen by duplicate-name validation. Previously, due to the BindingContext
+        // bug, validation always ran against null and never caught duplicates.
+        var vm = new ParticipantsEditorViewModel();
+        vm.Participants = List(P("Alice"));
+        vm.NewParticipantName = "Alice";
+
+        vm.AddCommand.Execute(null);
+
+        Assert.Equal(AppResources.Validation_PersonNameMustBeUnique, vm.StatusText);
+    }
+
+    [Fact]
+    public void Participants_WhenSet_CollectionIsReflectedInValidation()
+    {
+        // Regression: after injection of a real collection from the host ViewModel,
+        // duplicate-name validation must see the injected items.
+        var vm = new ParticipantsEditorViewModel();
+        vm.Participants = List(P("Alice"));
+        vm.NewParticipantName = "Alice";
+
+        vm.AddCommand.Execute(null);
+
+        Assert.Equal(AppResources.Validation_PersonNameMustBeUnique, vm.StatusText);
+    }
 }

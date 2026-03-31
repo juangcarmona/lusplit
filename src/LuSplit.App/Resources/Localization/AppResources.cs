@@ -231,6 +231,7 @@ public static class AppResources
     public static string Validation_PersonNotFound => Get(nameof(Validation_PersonNotFound));
     public static string Validation_ResponsiblePersonNotFound => Get(nameof(Validation_ResponsiblePersonNotFound));
     public static string Validation_PersonCannotDependOnSelf => Get(nameof(Validation_PersonCannotDependOnSelf));
+    public static string Validation_CannotMakeDependentWhileOwningOthers => Get(nameof(Validation_CannotMakeDependentWhileOwningOthers));
     public static string Validation_CircularDependency => Get(nameof(Validation_CircularDependency));
 
     // --- Group switcher ---

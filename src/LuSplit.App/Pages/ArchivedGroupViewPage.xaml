@@ -191,7 +191,7 @@
                            IsVisible="{Binding HasEvents}" />
 
                     <CollectionView ItemsSource="{Binding RecentEvents}"
-                                    SelectionMode="Single"
+                                    SelectionMode="None"
                                     Margin="0,6,0,0"
                                     SelectionChanged="OnEventSelectionChanged"
                                     IsVisible="{Binding HasEvents}">

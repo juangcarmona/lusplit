@@ -188,15 +188,39 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
             string.Equals(unit.Id, participant.EconomicUnitId, StringComparison.Ordinal))
             ?? throw new InvalidOperationException(AppResources.Validation_PersonNotFound);
 
-        var destinationUnit = currentUnit;
-        if (!string.IsNullOrWhiteSpace(normalizedDependsOnParticipantId))
+        var isCurrentlyOwner = string.Equals(currentUnit.OwnerParticipantId, participant.Id, StringComparison.Ordinal);
+
+        EconomicUnit destinationUnit;
+        string? unitToDeleteId = null;
+
+        if (string.IsNullOrWhiteSpace(normalizedDependsOnParticipantId))
         {
+            // Clearing dependency: participant should own their own unit.
+            if (isCurrentlyOwner)
+            {
+                // Already in their own unit — nothing to change structurally.
+                destinationUnit = currentUnit;
+            }
+            else
+            {
+                // Was a dependent: create a new solo unit for them.
+                var newUnit = new EconomicUnit(
+                    _idGenerator.NextId(),
+                    groupId,
+                    participant.Id,
+                    null);
+                await infra.EconomicUnitRepository.SaveEconomicUnitAsync(newUnit, CancellationToken.None);
+                destinationUnit = newUnit;
+            }
+        }
+        else
+        {
+            // Setting a new responsible: participant becomes a dependent.
             var responsibleParticipant = participants.FirstOrDefault(candidate =>
                 string.Equals(candidate.Id, normalizedDependsOnParticipantId, StringComparison.Ordinal))
                 ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
 
-            if (string.Equals(responsibleParticipant.Id, participant.Id, StringComparison.Ordinal)
-                && !string.Equals(currentUnit.OwnerParticipantId, participant.Id, StringComparison.Ordinal))
+            if (string.Equals(responsibleParticipant.Id, participant.Id, StringComparison.Ordinal))
             {
                 throw new InvalidOperationException(AppResources.Validation_PersonCannotDependOnSelf);
             }
@@ -204,6 +228,22 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
             destinationUnit = economicUnits.FirstOrDefault(unit =>
                 string.Equals(unit.Id, responsibleParticipant.EconomicUnitId, StringComparison.Ordinal))
                 ?? throw new InvalidOperationException(AppResources.Validation_ResponsiblePersonNotFound);
+
+            // If participant owned their own unit, check no other participants are still in it.
+            if (isCurrentlyOwner)
+            {
+                var othersInOldUnit = participants.Any(p =>
+                    !string.Equals(p.Id, participant.Id, StringComparison.Ordinal)
+                    && string.Equals(p.EconomicUnitId, currentUnit.Id, StringComparison.Ordinal));
+
+                if (othersInOldUnit)
+                {
+                    throw new InvalidOperationException(AppResources.Validation_CannotMakeDependentWhileOwningOthers);
+                }
+
+                // Mark old unit for deletion after participant is moved out.
+                unitToDeleteId = currentUnit.Id;
+            }
         }
 
         var updatedParticipant = participant with
@@ -212,6 +252,11 @@ ON CONFLICT(group_id) DO UPDATE SET image_path = excluded.image_path;";
             EconomicUnitId = destinationUnit.Id
         };
         await infra.ParticipantRepository.SaveParticipantAsync(updatedParticipant, CancellationToken.None);
+
+        if (unitToDeleteId is not null)
+        {
+            await infra.EconomicUnitRepository.DeleteEconomicUnitAsync(unitToDeleteId, CancellationToken.None);
+        }
     }
 
     internal async Task AddMembersAsync(string groupId, IReadOnlyList<GroupDraftMember> members)

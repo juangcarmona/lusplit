@@ -68,7 +68,11 @@ public partial class ParticipantsEditorView : ContentView
     {
         _viewModel = new ParticipantsEditorViewModel();
         InitializeComponent();
-        BindingContext = _viewModel;
+        // Set BindingContext on the inner layout, NOT on the ContentView.
+        // The ContentView must inherit the page's BindingContext so that
+        // parent XAML bindings like Participants="{Binding Participants}" resolve
+        // against the page's ViewModel rather than the inner ViewModel.
+        InnerLayout.BindingContext = _viewModel;
 
         _viewModel.DependencySelectionRequested += OnDependencySelectionRequested;
     }
@@ -78,7 +82,11 @@ public partial class ParticipantsEditorView : ContentView
     private static void OnParticipantsChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is ParticipantsEditorView view)
-            view._viewModel.Participants = newValue as ObservableCollection<ParticipantDraftViewModel>;
+        {
+            var collection = newValue as ObservableCollection<ParticipantDraftViewModel>;
+            view._viewModel.Participants = collection;
+            view.ParticipantsList.ItemsSource = collection;
+        }
     }
 
     private static void OnCanEditChanged(BindableObject bindable, object oldValue, object newValue)
@@ -105,4 +113,5 @@ public partial class ParticipantsEditorView : ContentView
             return;
 
         _viewModel.ApplyDependencySelection(args.ParticipantName, selected);
+    }
 }

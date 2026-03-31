@@ -52,6 +52,13 @@ public sealed class HomeViewModelTests
         return svc;
     }
 
+    private static IHomeDataService ServiceThrowing(Exception ex)
+    {
+        var svc = Substitute.For<IHomeDataService>();
+        svc.GetGroupWorkspaceAsync().ThrowsAsync(ex);
+        return svc;
+    }
+
     // ---- LoadAsync: no group ----
 
     [Fact]
@@ -355,4 +362,41 @@ public sealed class HomeViewModelTests
 
         Assert.Contains(nameof(vm.HasGroup), raised);
     }
-}
+    // ── Regression: unhandled exception safety (prevents Android async-void crash) ─
+
+    [Fact]
+    public async Task LoadAsync_UnexpectedException_DoesNotThrow()
+    {
+        // Regression: when BalanceCalculator throws DomainInvariantException due to
+        // corrupted economic-unit data (orphaned units from old UpdateGroupMemberAsync
+        // bug), the async-void OnAppearing path propagated the exception and crashed
+        // the Android process. LoadAsync must now catch all exceptions.
+        var vm = new HomeViewModel(ServiceThrowing(new InvalidOperationException("Economic unit owner must belong to its own unit: abc")));
+
+        var ex = await Record.ExceptionAsync(() => vm.LoadAsync());
+
+        Assert.Null(ex);
+    }
+
+    [Fact]
+    public async Task LoadAsync_UnexpectedException_SurfacesMessageInGroupMetaText()
+    {
+        const string errorMsg = "Economic unit owner must belong to its own unit: abc";
+        var vm = new HomeViewModel(ServiceThrowing(new InvalidOperationException(errorMsg)));
+
+        await vm.LoadAsync();
+
+        Assert.Equal(errorMsg, vm.GroupMetaText);
+    }
+
+    [Fact]
+    public async Task LoadAsync_UnexpectedException_ClearsCollections()
+    {
+        var vm = new HomeViewModel(ServiceThrowing(new InvalidOperationException("bad data")));
+
+        await vm.LoadAsync();
+
+        Assert.Empty(vm.Events);
+        Assert.Empty(vm.Balances);
+        Assert.Empty(vm.WhoOwesWho);
+    }}

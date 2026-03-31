@@ -29,6 +29,40 @@ public sealed class InfrastructureParityTests
     }
 
     [Fact]
+    public async Task ApplyAsync_RemovesOrphanedEconomicUnits()
+    {
+        // Regression: old UpdateGroupMemberAsync moved a participant to a different unit
+        // but left the old unit in the DB with OwnerParticipantId pointing to the moved
+        // participant. BalanceCalculator then threw "Economic unit owner must belong to
+        // its own unit", crashing the home page on startup.
+        await using var connection = new SqliteConnection("Data Source=:memory:;Foreign Keys=True");
+        await connection.OpenAsync();
+        await SqliteMigrations.ApplyAsync(connection);
+
+        // Insert a group, a real unit with a participant, and an orphaned unit (no participant).
+        await InsertRawAsync(connection, "INSERT INTO groups (id, currency, closed) VALUES ('g1', 'USD', 0)");
+        await InsertRawAsync(connection, "INSERT INTO economic_units (group_id, id, owner_participant_id) VALUES ('g1', 'eu-real', 'p1')");
+        await InsertRawAsync(connection, "INSERT INTO economic_units (group_id, id, owner_participant_id) VALUES ('g1', 'eu-orphan', 'p1')");
+        await InsertRawAsync(connection, "INSERT INTO participants (group_id, id, economic_unit_id, name, consumption_category) VALUES ('g1', 'p1', 'eu-real', 'Alice', 'FULL')");
+
+        // Running ApplyAsync again triggers the always-run repair.
+        await SqliteMigrations.ApplyAsync(connection);
+
+        await using var cmd = connection.CreateCommand();
+        cmd.CommandText = "SELECT COUNT(*) FROM economic_units WHERE id = 'eu-orphan'";
+        var remaining = Convert.ToInt32(cmd.ExecuteScalar());
+        Assert.Equal(0, remaining);
+    }
+
+    private static async Task InsertRawAsync(SqliteConnection connection, string sql)
+    {
+        await using var cmd = connection.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.ExecuteNonQuery();
+        await Task.CompletedTask;
+    }
+
+    [Fact]
     public async Task SqliteRepositoryContractFlowMatchesExpectedDeterministicResults()
     {
         using var infra = await InfraLocalSqlite.CreateAsync();
