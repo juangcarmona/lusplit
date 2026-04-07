@@ -102,10 +102,13 @@ internal sealed class CsvGroupExporter
     private static string BuildBalances(GroupOverviewModel o)
     {
         var byId = o.Participants.ToDictionary(p => p.Id, p => p.Name, StringComparer.Ordinal);
+        // Use the same mode the app screens use so the CSV reflects the same final state.
+        var balances = o.ResolveBalances();
         var sb = new StringBuilder();
         sb.AppendLine(Row("person", "balance", "currency", "direction"));
-        foreach (var b in o.BalancesByParticipant.OrderBy(b => b.EntityId, StringComparer.Ordinal))
+        foreach (var b in balances.OrderBy(b => b.EntityId, StringComparer.Ordinal))
         {
+            // Entity IDs are always participant IDs (owner IDs in EconomicUnitOwner mode).
             var name = byId.GetValueOrDefault(b.EntityId, b.EntityId);
             var direction = b.AmountMinor > 0 ? "is owed" : b.AmountMinor < 0 ? "owes" : "even";
             sb.AppendLine(Row(name, Money(b.AmountMinor), o.Group.Currency, direction));

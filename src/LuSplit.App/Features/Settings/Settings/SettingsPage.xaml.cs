@@ -1,14 +1,14 @@
 using LuSplit.App.Resources.Localization;
 
-namespace LuSplit.App.Features.Settings.LanguageSettings;
+namespace LuSplit.App.Features.Settings.Settings;
 
-public partial class LanguageSettingsPage : ContentPage
+public partial class SettingsPage : ContentPage
 {
-    private readonly LanguageSettingsViewModel _viewModel;
+    private readonly SettingsViewModel _viewModel;
 
-    public LanguageSettingsPage()
+    public SettingsPage()
     {
-        _viewModel = new LanguageSettingsViewModel();
+        _viewModel = new SettingsViewModel();
         InitializeComponent();
         BindingContext = _viewModel;
         _viewModel.ProfileSaved += OnProfileSaved;
@@ -23,4 +23,3 @@ public partial class LanguageSettingsPage : ContentPage
         _viewModel.SelectLanguage(culture);
     }
 }
-

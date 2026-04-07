@@ -1,15 +1,15 @@
-using LuSplit.App.Pages;
+using LuSplit.App.Features.Settings.Settings;
 
 namespace LuSplit.App.Tests;
 
-public class LanguageSettingsViewModelTests
+public class SettingsViewModelTests
 {
     // ── Initial state ──────────────────────────────────────────────────────
 
     [Fact]
     public void InitialState_ShowsProfileTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         Assert.True(vm.ShowProfileTab);
         Assert.False(vm.ShowLanguageTab);
@@ -18,7 +18,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void InitialState_CurrencyOptionsPopulated()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         Assert.NotEmpty(vm.CurrencyOptions);
     }
@@ -26,7 +26,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void InitialState_SelectedCurrencyOptionNotNull()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         Assert.NotNull(vm.SelectedCurrencyOption);
     }
@@ -34,7 +34,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void InitialState_LanguagesPopulated()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         // Stub returns 5 languages
         Assert.Equal(5, vm.Languages.Count);
@@ -44,7 +44,7 @@ public class LanguageSettingsViewModelTests
     public void InitialState_IsDarkThemeEnabled_MatchesStub()
     {
         // Stub returns false
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         Assert.False(vm.IsDarkThemeEnabled);
     }
@@ -53,7 +53,7 @@ public class LanguageSettingsViewModelTests
     public void InitialState_PreferredName_FromStub()
     {
         // UserProfilePreferencesStub returns empty string
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         Assert.Equal(string.Empty, vm.PreferredName);
     }
@@ -63,7 +63,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectLanguageTabCommand_ShowsLanguageTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         vm.SelectLanguageTabCommand.Execute(null);
 
@@ -74,7 +74,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectProfileTabCommand_FromLanguageTab_RestoresProfileTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         vm.SelectLanguageTabCommand.Execute(null);
 
         vm.SelectProfileTabCommand.Execute(null);
@@ -86,7 +86,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectProfileTabCommand_AlreadyOnProfile_RemainsProfileTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         vm.SelectProfileTabCommand.Execute(null);
 
@@ -96,7 +96,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectLanguageTabCommand_CalledTwice_StaysOnLanguageTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         vm.SelectLanguageTabCommand.Execute(null);
 
         vm.SelectLanguageTabCommand.Execute(null);
@@ -107,7 +107,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectLanguageTabCommand_RaisesPropertyChanged_ForShowProfileTab()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         var changed = new List<string?>();
         vm.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
 
@@ -123,7 +123,7 @@ public class LanguageSettingsViewModelTests
     public void BuildLanguageList_EmptySavedCode_MarksSystemDefaultSelected()
     {
         // Stub GetSavedLanguageCode returns ""
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         var systemDefault = vm.Languages.FirstOrDefault(l => l.Culture == "");
 
@@ -134,7 +134,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void BuildLanguageList_EmptySavedCode_NonDefaultLanguagesNotSelected()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         var nonDefault = vm.Languages.Where(l => l.Culture != "");
 
@@ -144,7 +144,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void BuildLanguageList_LanguageOptionsHaveExpectedCultures()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         var cultures = vm.Languages.Select(l => l.Culture).ToList();
 
@@ -156,7 +156,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void BuildLanguageList_DisplayLabelContainsFlag()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         // All language options from the stub have a flag prefix
         Assert.All(vm.Languages, l => Assert.False(string.IsNullOrWhiteSpace(l.DisplayLabel)));
@@ -167,7 +167,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SaveProfileCommand_FiresProfileSaved()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         var fired = false;
         vm.ProfileSaved += (_, _) => fired = true;
 
@@ -179,7 +179,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SaveProfileCommand_CurrencyOptionsRemainPopulated()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         var countBefore = vm.CurrencyOptions.Count;
 
         vm.SaveProfileCommand.Execute(null);
@@ -190,7 +190,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SaveProfileCommand_SelectedCurrencyOptionRemains()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         var originalCode = vm.SelectedCurrencyOption?.Code;
 
         vm.SaveProfileCommand.Execute(null);
@@ -201,7 +201,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SaveProfileCommand_IsDarkThemeEnabled_ReadBackFromStub()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
         vm.IsDarkThemeEnabled = true;
 
         vm.SaveProfileCommand.Execute(null);
@@ -215,7 +215,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectLanguage_ValidCulture_DoesNotThrow()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         var ex = Record.Exception(() => vm.SelectLanguage("en"));
 
@@ -225,7 +225,7 @@ public class LanguageSettingsViewModelTests
     [Fact]
     public void SelectLanguage_EmptyString_DoesNotThrow()
     {
-        var vm = new LanguageSettingsViewModel();
+        var vm = new SettingsViewModel();
 
         var ex = Record.Exception(() => vm.SelectLanguage(string.Empty));
 
@@ -250,5 +250,33 @@ public class LanguageSettingsViewModelTests
         var option = new LanguageOptionViewModel("de", "🇩🇪 German", false);
 
         Assert.False(option.IsSelected);
+    }
+
+    // ── AppVersion ─────────────────────────────────────────────────────────
+
+    [Fact]
+    public void AppVersion_IsNotNullOrEmpty()
+    {
+        var vm = new SettingsViewModel();
+
+        Assert.False(string.IsNullOrWhiteSpace(vm.AppVersion));
+    }
+
+    [Fact]
+    public void AppVersion_ContainsVersionStringFromProvider()
+    {
+        // AppInfoProviderStub returns "1.0.0" and "0"
+        var vm = new SettingsViewModel();
+
+        Assert.Contains("1.0.0", vm.AppVersion);
+    }
+
+    [Fact]
+    public void AppVersion_ContainsBuildStringFromProvider()
+    {
+        // AppInfoProviderStub returns build "0"
+        var vm = new SettingsViewModel();
+
+        Assert.Contains("0", vm.AppVersion);
     }
 }

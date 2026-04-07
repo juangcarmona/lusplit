@@ -121,6 +121,7 @@ internal static class AppResources
     // Used by LanguageSettingsPage code-behind (DisplayAlert)
     public static string Settings_Title => nameof(Settings_Title);
     public static string Settings_ProfileSaved => nameof(Settings_ProfileSaved);
+    public static string Settings_VersionLabel => nameof(Settings_VersionLabel);
 
     // Used by GroupSwitcherItemViewModel
     public static string GroupSwitcher_CurrentSuffix => nameof(GroupSwitcher_CurrentSuffix);

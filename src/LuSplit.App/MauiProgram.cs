@@ -8,7 +8,7 @@ using LuSplit.App.Features.Groups.GroupTimeline;
 using LuSplit.App.Features.Home.Home;
 using LuSplit.App.Features.Payments.RecordPayment;
 using LuSplit.App.Features.Payments.Settlement;
-using LuSplit.App.Features.Settings.LanguageSettings;
+using LuSplit.App.Features.Settings.Settings;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Persistence;
 using Microsoft.Extensions.Logging;
@@ -43,7 +43,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ExpenseDetailsPage>();
 		builder.Services.AddTransient<SettlementPage>();
 		builder.Services.AddTransient<RecordPaymentPage>();
-		builder.Services.AddTransient<LanguageSettingsPage>();
+		builder.Services.AddTransient<SettingsPage>();
 		builder.Services.AddTransient<ArchivedGroupsPage>();
 		builder.Services.AddTransient<ArchivedGroupViewPage>();
 

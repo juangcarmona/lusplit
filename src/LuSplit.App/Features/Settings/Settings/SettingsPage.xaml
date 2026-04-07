@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
-             x:Class="LuSplit.App.Features.Settings.LanguageSettings.LanguageSettingsPage"
+             x:Class="LuSplit.App.Features.Settings.Settings.SettingsPage"
              Title="{x:Static loc:AppResources.Settings_Title}">
     <Grid RowDefinitions="*,Auto" RowSpacing="0">
         <ScrollView>
@@ -56,6 +56,19 @@
 
                     <Button Text="{x:Static loc:AppResources.Settings_SaveProfileButton}"
                             Command="{Binding SaveProfileCommand}" />
+
+                    <Border Style="{StaticResource FormFieldBorder}">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Label Text="{x:Static loc:AppResources.Settings_VersionLabel}"
+                                   Style="{StaticResource BodyText}"
+                                   VerticalTextAlignment="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding AppVersion}"
+                                   Style="{StaticResource BodyMuted}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="End" />
+                        </Grid>
+                    </Border>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding ShowLanguageTab}" Spacing="10">

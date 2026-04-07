@@ -11,6 +11,6 @@ public static class AppRoutes
     public const string ExpenseDetails = "expense-details";
     public const string RecordPayment = "record-payment";
     public const string Settlement = "settle-up";
-    public const string LanguageSettings = "language-settings";
+    public const string Settings = "settings";
     public const string ArchivedGroups = "archived-groups";
 }

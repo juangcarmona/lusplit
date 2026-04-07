@@ -5,9 +5,9 @@ using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Settings;
 
-namespace LuSplit.App.Features.Settings.LanguageSettings;
+namespace LuSplit.App.Features.Settings.Settings;
 
-public sealed partial class LanguageSettingsViewModel : ObservableObject
+public sealed partial class SettingsViewModel : ObservableObject
 {
     private bool _isProfileTabSelected = true;
 
@@ -18,12 +18,19 @@ public sealed partial class LanguageSettingsViewModel : ObservableObject
     public bool ShowProfileTab => _isProfileTabSelected;
     public bool ShowLanguageTab => !_isProfileTabSelected;
 
+    /// <summary>
+    /// Display version of the installed app, sourced from package metadata at runtime.
+    /// Set by the pipeline via <c>ApplicationDisplayVersion</c> (e.g. "1.0.18").
+    /// </summary>
+    public string AppVersion { get; } =
+        $"{AppInfoProvider.VersionString} ({AppInfoProvider.BuildString})";
+
     public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public ObservableCollection<LanguageOptionViewModel> Languages { get; } = new();
 
     public event EventHandler? ProfileSaved;
 
-    public LanguageSettingsViewModel()
+    public SettingsViewModel()
     {
         PreferredName = UserProfilePreferences.GetPreferredName();
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();

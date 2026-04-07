@@ -260,6 +260,7 @@ public static class AppResources
 
     // --- Settings ---
     public static string Settings_Title => Get(nameof(Settings_Title));
+    public static string Settings_VersionLabel => Get(nameof(Settings_VersionLabel));
     public static string Settings_ProfileSection => Get(nameof(Settings_ProfileSection));
     public static string Settings_ProfileHint => Get(nameof(Settings_ProfileHint));
     public static string Settings_MyNameLabel => Get(nameof(Settings_MyNameLabel));

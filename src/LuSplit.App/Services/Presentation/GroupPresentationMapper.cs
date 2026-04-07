@@ -287,24 +287,11 @@ public static class GroupPresentationMapper
 
     /// <summary>
     /// Picks the settlement mode that best reflects the group's participant structure.
-    /// When all participants have their own economic unit (no dependents), participant-level
-    /// and owner-level settlement are identical - either works. When some participants are
-    /// dependents (share an economic unit with another participant), owner mode aggregates their
-    /// balances under the responsible participant.
+    /// Delegates to <see cref="GroupOverviewExtensions.ResolveSettlementMode"/> so that
+    /// the app UI and export adapters always use the same rule.
     /// </summary>
     public static SettlementMode ResolveSettlementMode(GroupOverviewModel overview)
-    {
-        // If the number of economic units equals the number of participants, every person
-        // has their own independent unit - both modes produce the same result.
-        if (overview.EconomicUnits.Count >= overview.Participants.Count)
-        {
-            return SettlementMode.Participant;
-        }
-
-        // At least one economic unit has multiple participants (dependents exist).
-        // Use owner mode so the responsible participant surfaces as the settlement entity.
-        return SettlementMode.EconomicUnitOwner;
-    }
+        => overview.ResolveSettlementMode();
 
     private static TimelineEntryViewModel BuildExpenseTimelineEntry(
         ExpenseModel expense,
