@@ -20,6 +20,7 @@ public sealed partial class ExpenseDetailsViewModel : ObservableObject
     private string? _contextGroupId;
     private string _currency = "USD";
     private long _fixedTotalMinor;
+    private DateTimeOffset? _expenseDate;
 
     public ObservableCollection<ExpenseParticipantRowViewModel> ParticipantRows { get; } = new();
     public ObservableCollection<PreviewRowViewModel> PreviewRows { get; } = new();
@@ -130,7 +131,21 @@ public sealed partial class ExpenseDetailsViewModel : ObservableObject
             .Count();
 
         HeaderLine2 = string.Format(AppResources.Mapper_PeopleCountFormat, payerName, participantCount);
-        DateText = expense.Date;
+        
+        if (DateTimeOffset.TryParse(
+        expense.Date,
+        CultureInfo.InvariantCulture,
+        DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+        out var parsedExpenseDate))
+        {
+            _expenseDate = parsedExpenseDate.ToLocalTime();
+            DateText = _expenseDate?.ToString("g", CultureInfo.CurrentCulture) ?? string.Empty;
+        }
+        else
+        {
+            _expenseDate = null;
+        }
+
         NoteText = expense.Notes ?? string.Empty;
         SelectedPayerName = payerName;
 
