@@ -412,6 +412,9 @@
   <data name="Settings_Title" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>Version</value>
+  </data>
   <data name="Settings_LanguageSection" xml:space="preserve">
     <value>Sprache</value>
   </data>

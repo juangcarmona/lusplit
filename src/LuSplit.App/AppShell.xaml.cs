@@ -34,7 +34,7 @@ public partial class AppShell : Shell
 			TryRegisterRoute(AppRoutes.ExpenseDetails, typeof(ExpenseDetailsPage));
 			TryRegisterRoute(AppRoutes.RecordPayment, typeof(RecordPaymentPage));
 			TryRegisterRoute(AppRoutes.Settlement, typeof(SettlementPage));
-			//TryRegisterRoute(AppRoutes.LanguageSettings, typeof(LanguageSettingsPage));
+			//TryRegisterRoute(AppRoutes.Settings, typeof(SettingsPage));
 			//TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(ArchivedGroupsPage));
 			_routesRegistered = true;
 		}

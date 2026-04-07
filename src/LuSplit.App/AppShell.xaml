@@ -6,7 +6,7 @@
     xmlns:home="clr-namespace:LuSplit.App.Features.Home.Home"
     xmlns:groupswitcher="clr-namespace:LuSplit.App.Features.Groups.GroupSwitcher"
     xmlns:archivedgroups="clr-namespace:LuSplit.App.Features.Groups.ArchivedGroups"
-    xmlns:languagesettings="clr-namespace:LuSplit.App.Features.Settings.LanguageSettings"
+    xmlns:settings="clr-namespace:LuSplit.App.Features.Settings.Settings"
     xmlns:loc="clr-namespace:LuSplit.App.Resources.Localization"
     Title="LuSplit"
     FlyoutBehavior="Flyout">
@@ -30,8 +30,8 @@
 
     <FlyoutItem Title="{x:Static loc:AppResources.Settings_Title}" Route="settings">
         <ShellContent
-            ContentTemplate="{DataTemplate languagesettings:LanguageSettingsPage}"
-            Route="language-settings" />
+            ContentTemplate="{DataTemplate settings:SettingsPage}"
+            Route="settings" />
     </FlyoutItem>
 
 </Shell>

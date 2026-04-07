@@ -76,9 +76,9 @@
              Link="Shared\ICreateGroupDataService.cs" />
     <Compile Include="..\..\src\LuSplit.App\Pages\CreateGroupViewModel.cs"
              Link="Shared\CreateGroupViewModel.cs" />
-    <!-- LanguageSettingsViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Pages\LanguageSettingsViewModel.cs"
-             Link="Shared\LanguageSettingsViewModel.cs" />
+    <!-- SettingsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Settings\Settings\SettingsViewModel.cs"
+             Link="Shared\SettingsViewModel.cs" />
     <!-- GroupSwitcherViewModel slice -->
     <Compile Include="..\..\src\LuSplit.App\Services\IGroupSwitcherDataService.cs"
              Link="Shared\IGroupSwitcherDataService.cs" />
