@@ -28,8 +28,6 @@ public sealed partial class SettingsViewModel : ObservableObject
     public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public ObservableCollection<LanguageOptionViewModel> Languages { get; } = new();
 
-    public event EventHandler? ProfileSaved;
-
     public SettingsViewModel()
     {
         PreferredName = UserProfilePreferences.GetPreferredName();
@@ -66,8 +64,6 @@ public sealed partial class SettingsViewModel : ObservableObject
         PreferredName = UserProfilePreferences.GetPreferredName();
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();
         BuildCurrencyList(AppPreferences.GetPreferredCurrency());
-
-        ProfileSaved?.Invoke(this, EventArgs.Empty);
     }
 
     public void SelectLanguage(string culture)
@@ -95,19 +91,5 @@ public sealed partial class SettingsViewModel : ObservableObject
                 option.DisplayLabel,
                 string.Equals(option.Culture, saved, StringComparison.OrdinalIgnoreCase)));
         }
-    }
-}
-
-public sealed class LanguageOptionViewModel
-{
-    public string Culture { get; }
-    public string DisplayLabel { get; }
-    public bool IsSelected { get; }
-
-    public LanguageOptionViewModel(string culture, string displayLabel, bool isSelected)
-    {
-        Culture = culture;
-        DisplayLabel = displayLabel;
-        IsSelected = isSelected;
     }
 }

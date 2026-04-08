@@ -1,5 +1,3 @@
-using LuSplit.App.Resources.Localization;
-
 namespace LuSplit.App.Features.Settings.Settings;
 
 public partial class SettingsPage : ContentPage
@@ -11,11 +9,7 @@ public partial class SettingsPage : ContentPage
         _viewModel = new SettingsViewModel();
         InitializeComponent();
         BindingContext = _viewModel;
-        _viewModel.ProfileSaved += OnProfileSaved;
     }
-
-    private async void OnProfileSaved(object? sender, EventArgs e)
-        => await DisplayAlert(AppResources.Settings_Title, AppResources.Settings_ProfileSaved, AppResources.Common_Cancel);
 
     private void OnLanguageTapped(object? sender, TappedEventArgs e)
     {
