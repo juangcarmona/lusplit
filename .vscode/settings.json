@@ -1,14 +1,23 @@
 {
-	"testing.defaultGutterClickAction": "run",
-	"testing.automaticallyOpenPeekView": "never",
-	"testing.coverageToolbarEnabled": true,
-	"testing.showCoverageInExplorer": true,
-	"testing.gutterEnabled": true,
-	"testing.followRunningTest": false,
-	"chat.tools.terminal.autoApprove": {
-		"/^dotnet --version$/": {
-			"approve": true,
-			"matchCommandLine": true
-		}
-	}
+    "testing.defaultGutterClickAction": "run",
+    "testing.automaticallyOpenPeekView": "never",
+    "testing.coverageToolbarEnabled": true,
+    "testing.showCoverageInExplorer": true,
+    "testing.gutterEnabled": true,
+    "testing.followRunningTest": false,
+    "chat.tools.terminal.autoApprove": {
+        "/^dotnet --version$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        ".specify/scripts/bash/": true,
+        ".specify/scripts/powershell/": true
+    },
+    "chat.promptFilesRecommendations": {
+        "speckit.constitution": true,
+        "speckit.specify": true,
+        "speckit.plan": true,
+        "speckit.tasks": true,
+        "speckit.implement": true
+    }
 }
