@@ -1,12 +1,12 @@
-# LuSplit MVP Scope
+# LuSplit Product Phases
 
-Version 1.0 - Scope Definition
+## Phase 1: MVP (Completed)
 
-## Product Intent
+### Product Intent
 
 LuSplit is a shared-expense clarity tool for families and friends.
 
-## In Scope (MVP)
+### Delivered
 
 - Group-level shared expense tracking
 - Home view with group summary + expenses list
@@ -22,20 +22,58 @@ LuSplit is a shared-expense clarity tool for families and friends.
   - Responsive text scaling
   - `4.5:1` contrast minimum
 
-## Experience Constraints (MVP)
+### Experience Constraints (permanent)
 
 - Calm, minimal interface with low visual noise
 - Soft rounded component system
 - Subtle motion only (`120–180ms`, ease-out cubic)
 - No gamification mechanics
 
-## Out of Scope (MVP)
+### Success Signal
+
+Users can quickly log and split shared expenses, understand who owes what,
+and reach a calm "all settled" resolution.
+
+## Phase 2: Collaborative LuSplit
+
+### Intent
+
+Extend LuSplit from a single-device coordinator to a collaborative,
+multi-device system without compromising local-first guarantees or calm UX.
+
+### In Scope
+
+- Optional accounts / device identity for sync participation
+- Shared groups across devices
+- Sync model: local-first with eventual consistency
+- Offline remains fully functional — sync is additive
+- Export formats remain unchanged
+
+### Out of Scope (Phase 2)
+
+- Real-time co-editing or presence
+- Social features (profiles, avatars, activity feeds)
+- Push notifications for expense updates
+- Web client (deferred)
+
+### Constraints
+
+- Accounts must not gate core expense tracking
+- Sync must not alter domain logic or balance computation
+- Collaboration UX must preserve calm, low-noise interaction
+- No fintech, budgeting, or banking positioning
+
+### Success Signal
+
+Multiple devices can share a group, add expenses independently, and converge
+to the same balances without manual coordination.
+
+## Permanent Exclusions
+
+These are out of scope regardless of phase:
 
 - Fintech positioning
 - Budgeting workflows
 - Banking features
 - Heavy finance jargon and terminology
-
-## Success Signal (MVP)
-
-Users can quickly log and split shared expenses, understand who owes what, and reach a calm “all settled” resolution.
+- Gamification mechanics

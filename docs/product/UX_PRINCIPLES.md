@@ -63,3 +63,19 @@ Design for:
 - Fully responsive text scaling
 - Dark mode is first-class (not an afterthought)
 - Maintain at least `4.5:1` contrast
+
+## Collaboration UX Principles
+
+Sync and multi-device collaboration must not introduce visual noise or
+anxiety.
+
+- Sync status must be ambient, not attention-seeking (subtle icon, not a
+  banner)
+- Conflict resolution must feel like a calm correction, not an error state
+- Shared groups must look and behave identically to local groups —
+  collaboration is invisible when it works
+- Account creation must be optional, low-friction, and never interrupt the
+  core expense flow
+- No real-time presence indicators, typing dots, or activity feeds
+- "Offline" is not an error state — it is the default, always-functional
+  mode

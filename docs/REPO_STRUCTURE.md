@@ -84,12 +84,14 @@ Contains:
 * SQLite repositories
 * export adapters
 * snapshot services
+* sync adapters (Phase 2)
 * local client/integration code
 
 Rules:
 
 * implements Application ports
 * no UI logic
+* sync adapters follow the same port pattern as local adapters
 
 ## Presentation slice direction
 

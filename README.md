@@ -50,16 +50,16 @@ If I ever introduce ads, it will only be to sustain optional backend infrastruct
 
 ## Architecture
 
-LuSplit is a Turborepo monorepo.
+LuSplit is a .NET solution centered on an offline-first MAUI app.
 
-- `packages/core ` - Domain model (deterministic split & settlement logic)
-- `packages/application ` - CQRS handlers
-- `packages/infra-local ` - SQLite + export adapters
-- `apps/mobile ` - React Native app
-- `apps/web ` - Web client (planned)
+- `src/LuSplit.Domain` - Deterministic business rules and invariants
+- `src/LuSplit.Application` - Use cases, queries, ports, and application models
+- `src/LuSplit.Infrastructure` - SQLite, export, and snapshot adapters
+- `src/LuSplit.App` - MAUI presentation layer, navigation, dialogs, and viewmodels
 
-Domain rules are defined in:
-`/packages/core/DOMAIN.md`
+Architecture and repository structure are defined in:
+- `docs/ARCHITECTURE.md`
+- `docs/REPO_STRUCTURE.md`
 
 ---
 

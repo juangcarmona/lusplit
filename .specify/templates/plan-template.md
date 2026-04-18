@@ -31,7 +31,22 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- Approved spec (`spec.md`) exists and is the governing source for this plan.
+- Architecture docs in `docs/` reviewed for layer context and terminology.
+- Owning project(s) identified from `LuSplit.App`, `LuSplit.Application`,
+  `LuSplit.Domain`, and `LuSplit.Infrastructure`.
+- Planned dependency direction preserves current layer ownership with no UI concerns in
+  Domain/Application and no business rules moved into App code-behind.
+- If the feature touches sync, identity, or networked behavior, the plan states how
+  offline use remains first-class and how connectivity failures degrade gracefully.
+- Planned calculations, balances, settlements, and exports reuse canonical domain logic
+  rather than introducing a parallel sync-specific path.
+- Existing slice or pattern identified; any new abstraction is justified in
+  `Complexity Tracking`.
+- Test plan covers every new or changed logic slice and names the required
+  `dotnet build` / `dotnet test` validation scope.
+- Product and UX constraints remain aligned with the current local-first,
+  collaboration-capable guidance in `docs/product/`.
 
 ## Project Structure
 
@@ -48,51 +63,31 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── LuSplit.App/
+├── LuSplit.Application/
+├── LuSplit.Domain/
+└── LuSplit.Infrastructure/
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+├── LuSplit.App.Tests/
+├── LuSplit.Application.Tests/
+├── LuSplit.Domain.Tests/
+└── LuSplit.Infrastructure.Tests/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+docs/
+├── ARCHITECTURE.md
+├── REPO_STRUCTURE.md
+├── product/
+└── brand/
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Record the specific project and feature slice touched by the
+change. For presentation work, identify the affected screen/viewmodel slice inside
+`LuSplit.App`; for business or persistence work, identify the corresponding application,
+domain, or infrastructure area and the matching test project.
 
 ## Complexity Tracking
 

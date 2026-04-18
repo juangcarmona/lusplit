@@ -37,3 +37,17 @@ Avoid:
 
 - “You owe Alex €12”
 - “All settled. Nice.”
+## Collaboration Vocabulary
+
+Use:
+
+- `Shared group` (not `synced group` or `collaborative group`)
+- `Join` (not `connect` or `link`)
+- `Up to date` (not `synced` or `synchronized`)
+- `Offline` (not `disconnected` — offline is normal, not broken)
+
+Avoid:
+
+- `Sync failed` (prefer `Will update when online`)
+- `Conflict` (prefer `Updated by [name]`)
+- `Account required` (accounts are never required for core use)

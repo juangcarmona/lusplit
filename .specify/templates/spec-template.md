@@ -5,6 +5,9 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
+**Governance**: This spec, once approved, is the source of truth for feature intent
+and scope. Architecture docs in `docs/` provide layer context and terminology.
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--
@@ -100,6 +103,14 @@
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
+## Impacted Areas *(mandatory for non-trivial changes)*
+
+- **Owning Project(s)**: [Choose from `LuSplit.App`, `LuSplit.Application`,
+  `LuSplit.Domain`, `LuSplit.Infrastructure`]
+- **Impacted Docs**: [List docs to update or explicitly state "None"]
+- **Validation Scope**: [State the `dotnet build` and `dotnet test` scope needed to
+  verify this feature]
+
 ## Success Criteria *(mandatory)*
 
 <!--
@@ -126,3 +137,5 @@
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+- [Assumption confirming how offline/local-first behavior is preserved, whether
+  identity is optional or required for this slice, and how network failure degrades]
