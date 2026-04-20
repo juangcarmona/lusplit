@@ -34,13 +34,17 @@ MUST be resolved explicitly before work continues.
 
 ### II. Local-First Runtime Boundaries
 LuSplit MUST remain local-first even as it becomes collaboration-capable. The four
-runtime projects remain fixed: `LuSplit.Domain` owns rules and invariants,
+on-device runtime projects remain fixed: `LuSplit.Domain` owns rules and invariants,
 `LuSplit.Application` owns use cases, queries, ports, and conflict policies,
 `LuSplit.Infrastructure` owns SQLite, export, snapshot, and sync adapters, and
-`LuSplit.App` owns MAUI presentation. Core expense tracking, balance reading,
-settlement planning, and export generation MUST continue to work without connectivity.
-Network features MUST degrade gracefully; connectivity loss is a supported runtime
-state, not a broken mode.
+`LuSplit.App` owns MAUI presentation. A server-side control plane (e.g.,
+`LuSplit.Functions`) MAY exist as a separate deployment boundary for authorization,
+key distribution, and token issuance, but MUST NOT own business rules, domain
+calculations, or group content. Shared DTOs between the app and control plane live in
+a contracts library (e.g., `LuSplit.Contracts`) that contains no behavior. Core
+expense tracking, balance reading, settlement planning, and export generation MUST
+continue to work without connectivity. Network features MUST degrade gracefully;
+connectivity loss is a supported runtime state, not a broken mode.
 
 ### III. Domain Calculations Are Canonical
 Balances, settlements, split evaluation, and money invariants MUST be deterministic and
@@ -108,4 +112,4 @@ This constitution supersedes ad hoc local practice.
 - Compliance review MUST check layer ownership, local-first behavior, canonical domain
   calculations, MVVM boundaries, and required build/test validation.
 
-**Version**: 2.1.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-18
+**Version**: 2.2.0 | **Ratified**: 2026-04-18 | **Last Amended**: 2026-04-20
