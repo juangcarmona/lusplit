@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LuSplit.App.Features.Members.MemberListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Members">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <ActivityIndicator
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                HorizontalOptions="Center"
+                Margin="0,8" />
+
+            <Label
+                Text="{Binding ErrorMessage}"
+                TextColor="Red"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+                HorizontalTextAlignment="Center"
+                Margin="16,8" />
+
+            <CollectionView
+                ItemsSource="{Binding Members}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,Auto,Auto" Padding="16,12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding DisplayName}" FontAttributes="Bold" />
+                                <Label Text="{Binding Role}" FontSize="Small" TextColor="{StaticResource SecondaryText}" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="1"
+                                Text="Owner"
+                                IsVisible="{Binding IsOwner}"
+                                FontSize="Small"
+                                TextColor="{StaticResource PrimaryColor}"
+                                VerticalOptions="Center"
+                                Margin="8,0" />
+                            <Button
+                                Grid.Column="2"
+                                Text="Revoke"
+                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IsOwner}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RevokeMemberCommand}"
+                                CommandParameter="{Binding .}"
+                                Style="{StaticResource SecondaryButton}" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Pending invitations (owner only) -->
+            <VerticalStackLayout
+                IsVisible="{Binding IsOwner}"
+                Spacing="8">
+                <Label Text="Pending Invitations" FontAttributes="Bold" FontSize="16" />
+                <CollectionView ItemsSource="{Binding PendingInvitations}">
+                    <CollectionView.EmptyView>
+                        <Label Text="No pending invitations." TextColor="{StaticResource SecondaryText}" FontSize="Small" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,Auto" Padding="8,8">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding InvitationCode}" FontSize="Small" />
+                                    <Label Text="{Binding ExpiresAt, StringFormat='Expires: {0:g}'}" FontSize="Micro" TextColor="{StaticResource SecondaryText}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Status}" FontSize="Small" VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -7,7 +7,7 @@ using LuSplit.Domain.Payments;
 
 namespace LuSplit.Application.Tests.Fakes;
 
-internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipantRepository, IEconomicUnitRepository, IExpenseRepository, ITransferRepository
+public sealed class InMemoryQueryRepositories : IGroupRepository, IParticipantRepository, IEconomicUnitRepository, IExpenseRepository, ITransferRepository
 {
     public List<Group> Groups { get; } = new();
 
@@ -160,6 +160,12 @@ internal sealed class InMemoryQueryRepositories : IGroupRepository, IParticipant
             Transfers.Add(transfer);
         }
 
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteTransferAsync(string groupId, string transferId, CancellationToken cancellationToken)
+    {
+        Transfers.RemoveAll(t => t.Id == transferId && t.GroupId == groupId);
         return Task.CompletedTask;
     }
 }

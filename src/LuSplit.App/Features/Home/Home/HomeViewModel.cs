@@ -41,6 +41,9 @@ public sealed partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private string _totalUnsettledText = string.Empty;
 
+    [ObservableProperty]
+    private bool _isCurrentGroupShared;
+
     public bool HasGroupImage => !string.IsNullOrWhiteSpace(GroupImagePath);
     public bool HasNoGroupImage => !HasGroupImage;
 
@@ -112,6 +115,7 @@ public sealed partial class HomeViewModel : ObservableObject
 
         GroupName = workspace.GroupName;
         GroupImagePath = workspace.ImagePath;
+        IsCurrentGroupShared = workspace.IsShared;
         GroupMetaText = GroupPresentationMapper.FormatCompactPeopleAndEvents(overview);
         TotalUnsettledText = whoOwesWho.Count == 0
             ? AppResources.Home_AllSettled

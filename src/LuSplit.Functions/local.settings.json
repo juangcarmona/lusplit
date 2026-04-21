@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "StorageAccountName": "",
+    "TableStorageConnectionString": "UseDevelopmentStorage=true",
+    "EntraAuthority": "https://login.microsoftonline.com/",
+    "EntraTenantId": "",
+    "EntraAudience": ""
+  }
+}

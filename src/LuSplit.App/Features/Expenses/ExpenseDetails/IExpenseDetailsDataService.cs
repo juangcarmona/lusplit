@@ -10,6 +10,7 @@ public interface IExpenseDetailsDataService
     Task<GroupOverviewModel> GetOverviewAsync(string groupId);
     Task<ExpenseModel?> GetExpenseAsync(string expenseId);
     Task<ExpenseModel?> GetExpenseAsync(string expenseId, string groupId);
+    Task<bool> IsGroupReadOnlyAsync(string groupId, CancellationToken ct = default);
     Task DeleteExpenseAsync(string expenseId);
     Task UpdateExpenseAsync(
         string expenseId,

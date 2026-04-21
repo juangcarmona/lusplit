@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LuSplit.App.Features.Devices.DeviceManagementPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="My Devices">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <ActivityIndicator
+            Grid.Row="0"
+            IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
+            HorizontalOptions="Center"
+            Margin="0,8" />
+
+        <Label
+            Grid.Row="0"
+            Text="{Binding ErrorMessage}"
+            TextColor="Red"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+            HorizontalTextAlignment="Center"
+            Margin="16,8" />
+
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Devices}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,Auto" Padding="16,12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="{Binding DeviceName}" FontAttributes="Bold" />
+                            <Label Text="{Binding Platform}" FontSize="Small" TextColor="{StaticResource SecondaryText}" />
+                        </VerticalStackLayout>
+                        <Button
+                            Grid.Column="1"
+                            Text="Revoke"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RevokeDeviceCommand}"
+                            CommandParameter="{Binding .}"
+                            Style="{StaticResource SecondaryButton}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

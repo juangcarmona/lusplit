@@ -458,5 +458,6 @@ public sealed class InfrastructureParityTests
         }
 
         public string NowIso() => _nowIso;
+        public DateTimeOffset UtcNow => DateTimeOffset.Parse(_nowIso);
     }
 }

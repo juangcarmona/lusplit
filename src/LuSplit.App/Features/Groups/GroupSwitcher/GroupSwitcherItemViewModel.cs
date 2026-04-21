@@ -8,6 +8,7 @@ public sealed class GroupSwitcherItemViewModel
     public string Name { get; }
     public bool IsCurrent { get; }
     public string? ImagePath { get; }
+    public bool IsShared { get; }
 
     public bool CanSelect => !IsCurrent;
     public string DisplayName => IsCurrent ? $"{Name} {AppResources.GroupSwitcher_CurrentSuffix}" : Name;
@@ -17,12 +18,13 @@ public sealed class GroupSwitcherItemViewModel
     public bool HasNoImage => !HasImage;
     public ImageSource? ThumbnailSource { get; }
 
-    public GroupSwitcherItemViewModel(string groupId, string name, bool isCurrent, string? imagePath = null)
+    public GroupSwitcherItemViewModel(string groupId, string name, bool isCurrent, string? imagePath = null, bool isShared = false)
     {
         GroupId = groupId;
         Name = name;
         IsCurrent = isCurrent;
         ImagePath = imagePath;
+        IsShared = isShared;
         HasImage = !string.IsNullOrEmpty(imagePath) && File.Exists(imagePath);
         ThumbnailSource = HasImage ? ImageSource.FromFile(imagePath!) : null;
     }

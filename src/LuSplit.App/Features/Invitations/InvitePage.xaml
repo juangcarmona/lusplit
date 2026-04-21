@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LuSplit.App.Features.Invitations.InvitePage"
+             Title="Invite Member">
+
+    <VerticalStackLayout Padding="24" Spacing="16">
+
+        <Label Text="Share this invitation link with the person you want to invite."
+               HorizontalTextAlignment="Center" />
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="Center" />
+
+        <Label Text="{Binding ErrorMessage}"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+               TextColor="Red" />
+
+        <Label Text="{Binding GeneratedLink}"
+               IsVisible="{Binding GeneratedLink, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+               HorizontalTextAlignment="Center"
+               FontFamily="Monospace" />
+
+        <Button Text="Generate Invite Link"
+                Command="{Binding GenerateInviteLinkCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                HorizontalOptions="Fill" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

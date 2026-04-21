@@ -103,6 +103,7 @@ public static class AppResources
     public static string GroupDetails_ArchiveConfirmMessage => Get(nameof(GroupDetails_ArchiveConfirmMessage));
     public static string GroupDetails_ArchiveConfirmYes => Get(nameof(GroupDetails_ArchiveConfirmYes));
     public static string GroupDetails_ArchivedStatus => Get(nameof(GroupDetails_ArchivedStatus));
+    public static string GroupTimeline_ReadOnlyBanner => Get(nameof(GroupTimeline_ReadOnlyBanner));
     public static string GroupDetails_ConsumptionCategoryLabel => Get(nameof(GroupDetails_ConsumptionCategoryLabel));
     public static string GroupDetails_ConsumptionFull => Get(nameof(GroupDetails_ConsumptionFull));
     public static string GroupDetails_ConsumptionHalf => Get(nameof(GroupDetails_ConsumptionHalf));

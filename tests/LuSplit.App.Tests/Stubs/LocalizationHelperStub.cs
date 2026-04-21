@@ -1,4 +1,4 @@
-namespace LuSplit.App.Services;
+namespace LuSplit.App.Services.Localization;
 
 /// <summary>
 /// Test stub for LocalizationHelper. Returns stable values without MAUI runtime dependencies.

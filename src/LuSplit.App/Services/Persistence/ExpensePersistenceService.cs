@@ -191,4 +191,5 @@ internal sealed class GuidIdGenerator : IIdGenerator
 internal sealed class UtcClock : IClock
 {
     public string NowIso() => DateTimeOffset.UtcNow.ToString("O");
+    public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
 }

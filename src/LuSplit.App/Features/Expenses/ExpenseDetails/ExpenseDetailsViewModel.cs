@@ -15,6 +15,7 @@ namespace LuSplit.App.Features.Expenses.ExpenseDetails;
 public sealed partial class ExpenseDetailsViewModel : ObservableObject
 {
     private readonly IExpenseDetailsDataService _dataService;
+    private readonly ConflictReviewPromptViewModel? _conflictPrompt;
     private readonly List<ParticipantModel> _participants = new();
     private string _expenseId = string.Empty;
     private string? _contextGroupId;
@@ -63,20 +64,25 @@ public sealed partial class ExpenseDetailsViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ShowArchivedBanner))]
     private bool _isArchived;
 
+    private bool _isGroupReadOnly;
+
     public bool HasNote => !string.IsNullOrWhiteSpace(NoteText);
     public bool IsViewMode => !IsEditMode;
-    public bool IsReadOnly => IsArchived;
-    public bool CanEdit => !IsArchived;
-    public bool CanDelete => !IsArchived;
+    public bool IsReadOnly => IsArchived || _isGroupReadOnly;
+    public bool CanEdit => !IsReadOnly;
+    public bool CanDelete => !IsReadOnly;
     public bool ShowArchivedBanner => IsArchived;
     public string EditButtonText => IsEditMode ? AppResources.Common_Cancel : AppResources.Common_Edit;
     public string ExpectedTotalText => string.Format(AppResources.ExpenseDetails_TotalFixed, CurrencyFormatter.FormatMinor(_fixedTotalMinor, _currency));
 
     public event EventHandler? ExpenseDeleted;
 
-    public ExpenseDetailsViewModel(IExpenseDetailsDataService dataService)
+    public ConflictReviewPromptViewModel? ConflictPrompt => _conflictPrompt;
+
+    public ExpenseDetailsViewModel(IExpenseDetailsDataService dataService, ConflictReviewPromptViewModel? conflictPrompt = null)
     {
         _dataService = dataService;
+        _conflictPrompt = conflictPrompt;
     }
 
     public void SetExpenseId(string expenseId) => _expenseId = expenseId;
@@ -92,6 +98,8 @@ public sealed partial class ExpenseDetailsViewModel : ObservableObject
         {
             expense = await _dataService.GetExpenseAsync(_expenseId, _contextGroupId);
             overview = await _dataService.GetOverviewAsync(_contextGroupId);
+            _isGroupReadOnly = await _dataService.IsGroupReadOnlyAsync(_contextGroupId);
+            _conflictPrompt?.Load(_expenseId);
         }
         else
         {

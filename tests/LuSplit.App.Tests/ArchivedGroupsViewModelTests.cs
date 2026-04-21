@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using LuSplit.App.Pages;
-using LuSplit.App.Services;
 using NSubstitute;
 
 namespace LuSplit.App.Tests;

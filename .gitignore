@@ -122,3 +122,9 @@ apps/maui/src/LuSplit.App/.idea/
 /apps/maui/.vs
 /apps/maui/.github/copilot-instructions.md
 src/LuSplit.App/LuSplit.App.secrets.props
+
+
+infra/parameters/*.local.bicepparam
+src/LuSplit.App/*.secrets.props
+src/LuSplit.App/appsettings.Development.local.json
+infra/*.local.md

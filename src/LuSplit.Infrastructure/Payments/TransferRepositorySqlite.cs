@@ -70,4 +70,15 @@ ON CONFLICT(id) DO UPDATE SET
             command.ExecuteNonQuery();
             await Task.CompletedTask;
         });
+
+    public Task DeleteTransferAsync(string groupId, string transferId, CancellationToken cancellationToken)
+        => _transactionRunner.RunInTransactionAsync(async () =>
+        {
+            using var command = _connection.CreateCommand();
+            command.CommandText = "DELETE FROM transfers WHERE id = $id AND group_id = $groupId";
+            command.Parameters.AddWithValue("$id", transferId);
+            command.Parameters.AddWithValue("$groupId", groupId);
+            command.ExecuteNonQuery();
+            await Task.CompletedTask;
+        });
 }

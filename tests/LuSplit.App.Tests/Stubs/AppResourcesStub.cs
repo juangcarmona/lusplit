@@ -131,4 +131,10 @@ internal static class AppResources
     public static string Validation_PersonNameMustBeUnique => nameof(Validation_PersonNameMustBeUnique);
     public static string Validation_ResponsiblePersonNotFound => nameof(Validation_ResponsiblePersonNotFound);
     public static string Validation_CircularDependency => nameof(Validation_CircularDependency);
+
+    // Used by ExpenseDetailsViewModel
+    public static string Common_Edit => nameof(Common_Edit);
+    public static string ExpenseDetails_TotalFixed => nameof(ExpenseDetails_TotalFixed);
+    public static string ExpenseDetails_NotFound => nameof(ExpenseDetails_NotFound);
+    public static string Validation_TotalMustMatchAmount => nameof(Validation_TotalMustMatchAmount);
 }

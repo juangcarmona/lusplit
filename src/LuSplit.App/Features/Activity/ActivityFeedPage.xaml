@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LuSplit.App.Features.Activity.ActivityFeedPage"
+             Title="Activity">
+    <Grid RowDefinitions="*">
+        <CollectionView ItemsSource="{Binding Entries}"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="No activity yet."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Margin="16" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="16,8" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Description}"
+                                   FontSize="14" />
+                            <Label Text="{Binding OccurredAt, StringFormat='{0:g}'}"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1"
+                               Text="{Binding EntryType}"
+                               FontSize="11"
+                               VerticalOptions="Start"
+                               TextColor="{AppThemeBinding Light=#999999, Dark=#888888}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+    </Grid>
+</ContentPage>

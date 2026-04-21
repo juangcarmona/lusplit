@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.GroupTimeline;
+using LuSplit.App.Services;
 using LuSplit.App.Services.Presentation;
 
 namespace LuSplit.App.Features.Groups.GroupTimeline;
@@ -9,6 +10,7 @@ namespace LuSplit.App.Features.Groups.GroupTimeline;
 public sealed partial class GroupViewModel : ObservableObject
 {
     private readonly IGroupPageDataService _dataService;
+    private readonly SyncOrchestrationService? _syncOrchestration;
     private string? _overrideGroupId;
     private string? _currentGroupId;
 
@@ -24,9 +26,40 @@ public sealed partial class GroupViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(CanEdit))]
     private bool _isArchived;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanEdit))]
+    private bool _isReadOnly;
+
+    [ObservableProperty] private string? _accessRemovedMessage;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SyncStatusText))]
+    [NotifyPropertyChangedFor(nameof(ShowSyncIndicator))]
+    private SyncState _groupSyncState = SyncState.Unknown;
+
+    public bool ShowSyncIndicator => GroupSyncState != SyncState.Unknown;
+
+    public string SyncStatusText => GroupSyncState switch
+    {
+        SyncState.UpToDate => "Up to date",
+        SyncState.Syncing => "Syncing…",
+        SyncState.Error => "Sync error",
+        _ => string.Empty
+    };
+
+    // Aliases used by SyncStatusIndicator control
+    public string StatusText => SyncStatusText;
+    public string StatusIconGlyph => GroupSyncState switch
+    {
+        SyncState.UpToDate => "\uf00c",
+        SyncState.Syncing => "\uf021",
+        SyncState.Error => "\uf071",
+        _ => string.Empty
+    };
+
     public bool HasGroupImage => !string.IsNullOrWhiteSpace(GroupImagePath);
     public bool HasNoGroupImage => !HasGroupImage;
-    public bool CanEdit => !IsArchived;
+    public bool CanEdit => !IsArchived && !IsReadOnly;
 
     public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
     public ObservableCollection<BalanceLineViewModel> BalanceLines { get; } = new();
@@ -37,9 +70,12 @@ public sealed partial class GroupViewModel : ObservableObject
     public event EventHandler? RecordPaymentRequested;
     public event EventHandler<string>? ExportRequested;
 
-    public GroupViewModel(IGroupPageDataService dataService)
+    public GroupViewModel(IGroupPageDataService dataService, SyncOrchestrationService? syncOrchestration = null)
     {
         _dataService = dataService;
+        _syncOrchestration = syncOrchestration;
+        if (_syncOrchestration is not null)
+            _syncOrchestration.SyncStateChanged += OnSyncStateChanged;
     }
 
     public void SetOverrideGroupId(string? groupId)
@@ -56,8 +92,15 @@ public sealed partial class GroupViewModel : ObservableObject
         GroupName = workspace.GroupName;
         GroupSummaryText = GroupPresentationMapper.BuildGroupSummary(workspace.Overview);
         IsArchived = workspace.Overview.Group.Closed;
+        var wasReadOnly = IsReadOnly;
+        IsReadOnly = workspace.IsReadOnly;
+        if (workspace.IsReadOnly && !wasReadOnly)
+            AccessRemovedMessage = "You no longer have access to this group.";
         GroupImagePath = workspace.ImagePath;
         _currentGroupId = workspace.GroupId;
+
+        if (_syncOrchestration is not null && _currentGroupId is not null)
+            GroupSyncState = _syncOrchestration.GetState(_currentGroupId);
 
         TimelineItems.Clear();
         foreach (var item in GroupPresentationMapper.BuildTimeline(workspace.Overview, workspace.ExpenseIcons))
@@ -74,6 +117,12 @@ public sealed partial class GroupViewModel : ObservableObject
     {
         if (_overrideGroupId is null)
             await LoadAsync();
+    }
+
+    private void OnSyncStateChanged(object? sender, SyncStateChangedArgs e)
+    {
+        if (string.Equals(e.GroupId, _currentGroupId, StringComparison.Ordinal))
+            GroupSyncState = e.State;
     }
 
     [RelayCommand]

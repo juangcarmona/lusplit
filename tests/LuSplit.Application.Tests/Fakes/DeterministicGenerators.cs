@@ -2,7 +2,7 @@ using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.Application.Tests.Fakes;
 
-internal sealed class SequentialIdGenerator : IIdGenerator
+public sealed class SequentialIdGenerator : IIdGenerator
 {
     private int _current;
 
@@ -23,6 +23,7 @@ internal sealed class FixedClock : IClock
     }
 
     public string NowIso() => _nowIso;
+    public DateTimeOffset UtcNow => DateTimeOffset.Parse(_nowIso);
 }
 
 internal sealed class CollisionIdGenerator : IIdGenerator

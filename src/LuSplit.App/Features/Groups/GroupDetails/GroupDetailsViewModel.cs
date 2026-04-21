@@ -42,7 +42,19 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
     public bool CanEdit => !IsArchived;
     public bool CanArchive => !IsArchived;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SharedIndicatorVisible))]
+    private bool _isShared;
+
+    public bool SharedIndicatorVisible => IsShared;
+
+    /// <summary>Fires when the VM needs to navigate to the member list.</summary>
+    public event EventHandler<string>? NavigateToMembersRequested;
+
     // ── Events raised for UI-only concerns (dialogs, navigation, media) ──
+
+    /// <summary>Fires when the VM needs to navigate to the share-group flow.</summary>
+    public event EventHandler? NavigateToShareRequested;
 
     /// <summary>Fires when the group was saved. Code-behind navigates back.</summary>
     public event EventHandler? SaveCompleted;
@@ -174,6 +186,13 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
     {
         if (_groupId is null) return;
         PhotoChangeRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void NavigateToMembers()
+    {
+        if (_groupId is null || !IsShared) return;
+        NavigateToMembersRequested?.Invoke(this, _groupId);
     }
 
     /// <summary>Called by code-behind after a successful photo pick/capture.</summary>

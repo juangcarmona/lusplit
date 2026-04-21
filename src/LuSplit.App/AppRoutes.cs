@@ -13,4 +13,12 @@ public static class AppRoutes
     public const string Settlement = "settle-up";
     public const string Settings = "settings";
     public const string ArchivedGroups = "archived-groups";
+
+    // Shared group flows
+    public const string InvitationLanding = "invite";
+    public const string Authentication = "auth";
+    public const string ShareGroup = "share-group";
+    public const string MemberList = "member-list";
+    public const string DeviceManagement = "device-management";
+    public const string ActivityFeed = "activity-feed";
 }

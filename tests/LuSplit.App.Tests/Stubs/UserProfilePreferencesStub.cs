@@ -1,4 +1,4 @@
-namespace LuSplit.App.Services;
+namespace LuSplit.App.Services.Settings;
 
 /// <summary>
 /// Test-only stub for UserProfilePreferences.

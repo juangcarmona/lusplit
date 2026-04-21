@@ -28,5 +28,17 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<!-- Custom URL scheme for deep-linked invitations: lusplit://invite/{token} -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>lusplit.invite</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>lusplit</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

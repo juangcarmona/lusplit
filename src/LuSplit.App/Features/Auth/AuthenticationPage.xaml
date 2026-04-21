@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LuSplit.App.Features.Auth.AuthenticationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Sign In">
+
+    <VerticalStackLayout Padding="24" Spacing="16" VerticalOptions="Center">
+
+        <Image
+            Source="logo.png"
+            HeightRequest="80"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="LuSplit"
+            FontSize="Title"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center" />
+
+        <Label
+            Text="Sign in to sync your groups across devices"
+            FontSize="Body"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center" />
+
+        <ActivityIndicator
+            IsRunning="{Binding IsSigningIn}"
+            IsVisible="{Binding IsSigningIn}"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="{Binding ErrorMessage}"
+            TextColor="Red"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+            HorizontalTextAlignment="Center" />
+
+        <Button
+            Text="Sign In"
+            Command="{Binding SignInCommand}"
+            IsEnabled="{Binding IsSigningIn, Converter={StaticResource InvertedBoolConverter}}"
+            HorizontalOptions="Fill" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

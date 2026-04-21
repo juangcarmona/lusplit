@@ -1,4 +1,4 @@
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupDetails;
 
 /// <summary>
 /// Test stub for ParticipantDraftViewModel. Removes MAUI BindableObject and Thickness dependencies

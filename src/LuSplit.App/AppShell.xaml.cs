@@ -1,11 +1,17 @@
-﻿using LuSplit.App.Features.Expenses.AddExpense;
+﻿using LuSplit.App.Features.Activity;
+using LuSplit.App.Features.Auth;
+using LuSplit.App.Features.Devices;
+using LuSplit.App.Features.Expenses.AddExpense;
 using LuSplit.App.Features.Expenses.ExpenseDetails;
 using LuSplit.App.Features.Groups.ArchivedGroups;
 using LuSplit.App.Features.Groups.CreateGroup;
 using LuSplit.App.Features.Groups.GroupDetails;
 using LuSplit.App.Features.Groups.GroupTimeline;
+using LuSplit.App.Features.Invitations;
+using LuSplit.App.Features.Members;
 using LuSplit.App.Features.Payments.RecordPayment;
 using LuSplit.App.Features.Payments.Settlement;
+using LuSplit.App.Features.SharedGroups;
 
 namespace LuSplit.App;
 
@@ -36,6 +42,12 @@ public partial class AppShell : Shell
 			TryRegisterRoute(AppRoutes.Settlement, typeof(SettlementPage));
 			//TryRegisterRoute(AppRoutes.Settings, typeof(SettingsPage));
 			//TryRegisterRoute(AppRoutes.ArchivedGroups, typeof(ArchivedGroupsPage));
+			TryRegisterRoute(AppRoutes.InvitationLanding, typeof(InvitationLandingPage));
+			TryRegisterRoute(AppRoutes.Authentication, typeof(AuthenticationPage));
+			TryRegisterRoute(AppRoutes.ShareGroup, typeof(ShareGroupPage));
+			TryRegisterRoute(AppRoutes.MemberList, typeof(MemberListPage));
+			TryRegisterRoute(AppRoutes.DeviceManagement, typeof(DeviceManagementPage));
+			TryRegisterRoute(AppRoutes.ActivityFeed, typeof(ActivityFeedPage));
 			_routesRegistered = true;
 		}
 	}

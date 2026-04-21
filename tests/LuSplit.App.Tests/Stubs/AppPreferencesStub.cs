@@ -1,4 +1,4 @@
-namespace LuSplit.App.Services;
+namespace LuSplit.App.Services.Settings;
 
 /// <summary>
 /// Test stub for AppPreferences. Returns stable defaults without MAUI runtime dependencies.

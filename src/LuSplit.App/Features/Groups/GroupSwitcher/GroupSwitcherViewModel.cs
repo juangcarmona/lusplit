@@ -31,7 +31,7 @@ public sealed partial class GroupSwitcherViewModel : ObservableObject
         ActiveGroups.Clear();
         foreach (var group in groups)
         {
-            ActiveGroups.Add(new GroupSwitcherItemViewModel(group.GroupId, group.Name, group.IsCurrent, group.ImagePath));
+            ActiveGroups.Add(new GroupSwitcherItemViewModel(group.GroupId, group.Name, group.IsCurrent, group.ImagePath, group.IsShared));
         }
 
         ArchivedGroups.Clear();

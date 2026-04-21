@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LuSplit.App.Features.Invitations.InvitationLandingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="You've been invited">
+
+    <VerticalStackLayout Padding="24" Spacing="16" VerticalOptions="Center">
+
+        <ActivityIndicator
+            IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="{Binding GroupName}"
+            FontSize="Title"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center" />
+
+        <Label
+            Text="{Binding InvitedByDisplayName, StringFormat='Invited by {0}'}"
+            FontSize="Subtitle"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center" />
+
+        <Label
+            Text="{Binding ErrorMessage}"
+            TextColor="Red"
+            IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+            HorizontalTextAlignment="Center" />
+
+        <Button
+            Text="Accept"
+            Command="{Binding AcceptCommand}"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            HorizontalOptions="Fill" />
+
+        <Button
+            Text="Decline"
+            Command="{Binding DeclineCommand}"
+            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+            Style="{StaticResource SecondaryButton}"
+            HorizontalOptions="Fill" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

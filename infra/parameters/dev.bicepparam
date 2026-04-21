@@ -1,0 +1,12 @@
+using '../main.bicep'
+
+param location = 'spaincentral'
+param environmentName = 'dev'
+param appName = 'lusplit'
+param externalTenantId = '01e17b96-b362-4149-a88c-5bd6cd6cb3fc'
+param apiClientId = 'e0d25e23-9a8c-4bbd-b473-327eaf53fa16'
+param mobileClientId = '5eb3052d-6a84-4314-829e-f88c39a35210'
+param authority = 'https://lusplitdevexternal.ciamlogin.com/lusplitdevexternal.onmicrosoft.com'
+param apiAudience = 'api://lusplit-dev-api'
+param requiredScope = 'api://lusplit-dev-api/access_as_user'
+param inviteBaseUrl = 'lusplit://invite'

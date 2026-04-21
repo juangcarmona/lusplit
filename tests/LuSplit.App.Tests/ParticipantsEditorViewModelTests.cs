@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using LuSplit.App.Pages;
 using LuSplit.App.Resources.Localization;
 
 namespace LuSplit.App.Tests;

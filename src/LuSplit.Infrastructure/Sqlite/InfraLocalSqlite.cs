@@ -1,7 +1,9 @@
+using LuSplit.Infrastructure.Activity;
 using LuSplit.Infrastructure.Expenses;
 using LuSplit.Infrastructure.Groups;
 using LuSplit.Infrastructure.Payments;
 using LuSplit.Infrastructure.Snapshot;
+using LuSplit.Infrastructure.Sync;
 using Microsoft.Data.Sqlite;
 
 namespace LuSplit.Infrastructure.Sqlite;
@@ -22,6 +24,16 @@ public sealed class InfraLocalSqlite : IDisposable
 
     public TransferRepositorySqlite TransferRepository { get; }
 
+    public SharedGroupStateRepositorySqlite SharedGroupStateRepository { get; }
+
+    public OperationRepositorySqlite OperationRepository { get; }
+
+    public SyncCursorRepositorySqlite SyncCursorRepository { get; }
+
+    public ActivityEntryRepository ActivityEntryRepository { get; }
+
+    public GroupMembershipRepositorySqlite GroupMembershipRepository { get; }
+
     private InfraLocalSqlite(SqliteConnection db)
     {
         Db = db;
@@ -31,6 +43,11 @@ public sealed class InfraLocalSqlite : IDisposable
         EconomicUnitRepository = new EconomicUnitRepositorySqlite(Db, _transactionRunner);
         ExpenseRepository = new ExpenseRepositorySqlite(Db, _transactionRunner);
         TransferRepository = new TransferRepositorySqlite(Db, _transactionRunner);
+        SharedGroupStateRepository = new SharedGroupStateRepositorySqlite(Db, _transactionRunner);
+        OperationRepository = new OperationRepositorySqlite(Db, _transactionRunner);
+        SyncCursorRepository = new SyncCursorRepositorySqlite(Db, _transactionRunner);
+        ActivityEntryRepository = new ActivityEntryRepository(Db, _transactionRunner);
+        GroupMembershipRepository = new GroupMembershipRepositorySqlite(Db, _transactionRunner);
     }
 
     public static async Task<InfraLocalSqlite> CreateAsync(string? databasePath = null)

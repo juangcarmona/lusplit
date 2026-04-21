@@ -1,4 +1,3 @@
-using LuSplit.App.Pages;
 
 namespace LuSplit.App.Tests;
 

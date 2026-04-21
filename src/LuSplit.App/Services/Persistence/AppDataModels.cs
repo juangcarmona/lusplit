@@ -11,7 +11,9 @@ public sealed record GroupWorkspaceModel(
     GroupOverviewModel Overview,
     IReadOnlyDictionary<string, string> ExpenseIcons,
     DateTimeOffset? LastOpenedUtc,
-    string? ImagePath = null);
+    string? ImagePath = null,
+    bool IsShared = false,
+    bool IsReadOnly = false);
 
 public sealed record GroupListItemModel(
     string GroupId,
@@ -22,7 +24,8 @@ public sealed record GroupListItemModel(
     string BalancePreviewText,
     string StatusText,
     DateTimeOffset RankDate,
-    string? ImagePath = null)
+    string? ImagePath = null,
+    bool IsShared = false)
 {
     public string AvatarInitial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpperInvariant();
 }

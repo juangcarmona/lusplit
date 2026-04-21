@@ -382,5 +382,6 @@ WHERE expenses.group_id = $groupId AND expense_ui_metadata.icon IS NOT NULL;";
         private readonly string _nowIso;
         public FixedClock(string nowIso) => _nowIso = nowIso;
         public string NowIso() => _nowIso;
+        public DateTimeOffset UtcNow => DateTimeOffset.Parse(_nowIso);
     }
 }

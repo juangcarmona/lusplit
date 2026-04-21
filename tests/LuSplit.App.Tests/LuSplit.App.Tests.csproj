@@ -23,87 +23,118 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\LuSplit.Domain\LuSplit.Domain.csproj" />
     <ProjectReference Include="..\..\src\LuSplit.Application\LuSplit.Application.csproj" />
+    <ProjectReference Include="..\..\src\LuSplit.Contracts\LuSplit.Contracts.csproj" />
+    <ProjectReference Include="..\LuSplit.Application.Tests\LuSplit.Application.Tests.csproj" />
   </ItemGroup>
 
   <!-- Non-MAUI source files compiled directly from LuSplit.App -->
   <ItemGroup>
-    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseAmountParser.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\AddExpense\ExpenseAmountParser.cs"
              Link="Shared\ExpenseAmountParser.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ParticipantSplitRowViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\AddExpense\ParticipantSplitRowViewModel.cs"
              Link="Shared\ParticipantSplitRowViewModel.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\AddExpenseSplitCalculations.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\AddExpense\AddExpenseSplitCalculations.cs"
              Link="Shared\AddExpenseSplitCalculations.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyFormatter.cs"
+    <Compile Include="..\..\src\LuSplit.App\Services\Formatting\CurrencyFormatter.cs"
              Link="Shared\CurrencyFormatter.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseParticipantRowViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\ExpenseDetails\ExpenseParticipantRowViewModel.cs"
              Link="Shared\ExpenseParticipantRowViewModel.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ExpenseDetailsLogic.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\ExpenseDetails\ExpenseDetailsLogic.cs"
              Link="Shared\ExpenseDetailsLogic.cs" />
     <!-- HomeViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\NoGroupsAvailableException.cs"
+    <Compile Include="..\..\src\LuSplit.App\Services\Errors\NoGroupsAvailableException.cs"
              Link="Shared\NoGroupsAvailableException.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Services\AppDataModels.cs"
+    <Compile Include="..\..\src\LuSplit.App\Services\Persistence\AppDataModels.cs"
              Link="Shared\AppDataModels.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Services\IHomeDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Home\Home\IHomeDataService.cs"
              Link="Shared\IHomeDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Services\TripPresentationMapper.cs"
-             Link="Shared\TripPresentationMapper.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\HomeBalanceRowViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Services\Presentation\GroupPresentationMapper.cs"
+             Link="Shared\GroupPresentationMapper.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Features\Home\Home\HomeBalanceRowViewModel.cs"
              Link="Shared\HomeBalanceRowViewModel.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\HomeViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Home\Home\HomeViewModel.cs"
              Link="Shared\HomeViewModel.cs" />
     <!-- RecordPaymentViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IRecordPaymentDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Payments\RecordPayment\IRecordPaymentDataService.cs"
              Link="Shared\IRecordPaymentDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\RecordPaymentViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Payments\RecordPayment\RecordPaymentViewModel.cs"
              Link="Shared\RecordPaymentViewModel.cs" />
     <!-- GroupDetailsViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IGroupDetailsDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupDetails\IGroupDetailsDataService.cs"
              Link="Shared\IGroupDetailsDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Services\CurrencyCatalog.cs"
+    <Compile Include="..\..\src\LuSplit.App\Services\Formatting\CurrencyCatalog.cs"
              Link="Shared\CurrencyCatalog.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsParticipantSorter.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupDetails\GroupDetailsParticipantSorter.cs"
              Link="Shared\GroupDetailsParticipantSorter.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\GroupDetailsViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupDetails\GroupDetailsViewModel.cs"
              Link="Shared\GroupDetailsViewModel.cs" />
     <!-- ArchivedGroupViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\ArchivedGroupView\IArchivedGroupDataService.cs"
              Link="Shared\IArchivedGroupDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\ArchivedGroupView\ArchivedGroupViewModel.cs"
              Link="Shared\ArchivedGroupViewModel.cs" />
     <!-- CreateGroupViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\ICreateGroupDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\CreateGroup\ICreateGroupDataService.cs"
              Link="Shared\ICreateGroupDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\CreateGroupViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\CreateGroup\CreateGroupViewModel.cs"
              Link="Shared\CreateGroupViewModel.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\ExpenseDetails\IExpenseDetailsDataService.cs"
+             Link="Shared\IExpenseDetailsDataService.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\ExpenseDetails\ExpenseDetailsViewModel.cs"
+             Link="Shared\ExpenseDetailsViewModel.cs" />
     <!-- SettingsViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Settings\Settings\LanguageOptionViewModel.cs"
+             Link="Shared\LanguageOptionViewModel.cs" />
     <Compile Include="..\..\src\LuSplit.App\Features\Settings\Settings\SettingsViewModel.cs"
              Link="Shared\SettingsViewModel.cs" />
-    <!-- GroupSwitcherViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IGroupSwitcherDataService.cs"
+    <!-- GroupSwitcherViewModel slice (GroupSwitcherItemViewModel provided by stub) -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupSwitcher\IGroupSwitcherDataService.cs"
              Link="Shared\IGroupSwitcherDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\GroupSwitcherViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupSwitcher\GroupSwitcherViewModel.cs"
              Link="Shared\GroupSwitcherViewModel.cs" />
     <!-- GroupViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IGroupPageDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupTimeline\IGroupPageDataService.cs"
              Link="Shared\IGroupPageDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\GroupViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\GroupTimeline\GroupViewModel.cs"
              Link="Shared\GroupViewModel.cs" />
     <!-- ActivityViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IActivityDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Activity\Activity\IActivityDataService.cs"
              Link="Shared\IActivityDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityCompactDayGroupViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Activity\Activity\ActivityCompactDayGroupViewModel.cs"
              Link="Shared\ActivityCompactDayGroupViewModel.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ActivityViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Activity\Activity\ActivityViewModel.cs"
              Link="Shared\ActivityViewModel.cs" />
     <!-- ArchivedGroupsViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Services\IArchivedGroupsDataService.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\ArchivedGroups\IArchivedGroupsDataService.cs"
              Link="Shared\IArchivedGroupsDataService.cs" />
-    <Compile Include="..\..\src\LuSplit.App\Pages\ArchivedGroupsViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Groups\ArchivedGroups\ArchivedGroupsViewModel.cs"
              Link="Shared\ArchivedGroupsViewModel.cs" />
     <!-- ParticipantsEditorViewModel slice -->
-    <Compile Include="..\..\src\LuSplit.App\Pages\ParticipantsEditorViewModel.cs"
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\Shared\ParticipantsEditorViewModel.cs"
              Link="Shared\ParticipantsEditorViewModel.cs" />
+    <!-- ShareGroupViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\SharedGroups\ShareGroupViewModel.cs"
+             Link="Shared\ShareGroupViewModel.cs" />
+    <!-- InviteViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Invitations\InviteViewModel.cs"
+             Link="Shared\InviteViewModel.cs" />
+    <!-- InvitationLandingViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Invitations\InvitationLandingViewModel.cs"
+             Link="Shared\InvitationLandingViewModel.cs" />
+    <!-- DeviceManagementViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Devices\DeviceManagementViewModel.cs"
+             Link="Shared\DeviceManagementViewModel.cs" />
+    <!-- SyncStatusViewModel slice -->
+    <Compile Include="..\..\src\LuSplit.App\Features\Sync\SyncStatusViewModel.cs"
+             Link="Shared\SyncStatusViewModel.cs" />
+    <!-- SyncOrchestrationService (needed by GroupViewModel) -->
+    <Compile Include="..\..\src\LuSplit.App\Services\SyncOrchestrationService.cs"
+             Link="Shared\SyncOrchestrationService.cs" />
+    <!-- ConflictFlagStore + ConflictReviewPromptViewModel -->
+    <Compile Include="..\..\src\LuSplit.App\Services\ConflictFlagStore.cs"
+             Link="Shared\ConflictFlagStore.cs" />
+    <Compile Include="..\..\src\LuSplit.App\Features\Expenses\ConflictReviewPromptViewModel.cs"
+             Link="Shared\ConflictReviewPromptViewModel.cs" />
   </ItemGroup>
 
 </Project>

@@ -19,6 +19,10 @@ using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Groups.Queries;
 using LuSplit.Application.Payments.Models;
 using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Application.Sync;
+using LuSplit.Application.Sync.Ports;
+using LuSplit.Application.Sync.UseCases;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
 using LuSplit.Infrastructure.Export;
@@ -82,6 +86,13 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
     public async Task<GroupOverviewModel> GetOverviewAsync(string groupId)
         => (await GetGroupWorkspaceAsync(groupId)).Overview;
 
+    public async Task<bool> IsGroupReadOnlyAsync(string groupId, CancellationToken ct = default)
+    {
+        var infra = await GetInfraAsync();
+        var state = await infra.SharedGroupStateRepository.GetByGroupIdAsync(groupId, ct);
+        return state is { IsReadOnly: true };
+    }
+
     public async Task<GroupWorkspaceModel> GetGroupWorkspaceAsync()
         => await GetGroupWorkspaceAsync(await GetSelectedGroupIdAsync());
 
@@ -89,13 +100,19 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
     {
         var overview = await GetGroupOverviewAsync(groupId);
         var metadata = await _group.GetGroupMetadataAsync(groupId);
+        var infra = await GetInfraAsync();
+        var sharedState = await infra.SharedGroupStateRepository.GetByGroupIdAsync(groupId, CancellationToken.None);
+        var isShared = sharedState is { IsShared: true };
+        var isReadOnly = sharedState is { IsReadOnly: true };
         return new GroupWorkspaceModel(
             groupId,
             ResolveGroupName(metadata.Name, overview),
             overview,
             await _expenses.GetExpenseIconsAsync(groupId),
             metadata.LastOpenedUtc,
-            metadata.ImagePath);
+            metadata.ImagePath,
+            isShared,
+            isReadOnly);
     }
 
     public async Task<IReadOnlyList<ParticipantModel>> GetParticipantsAsync()
@@ -388,6 +405,50 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
     {
         await InitializeAsync();
         return _infra ?? throw new InvalidOperationException("Infrastructure not initialized.");
+    }
+
+    /// <summary>
+    /// Returns IDs of all groups that are flagged as shared. Used to scope background sync.
+    /// </summary>
+    internal async Task<IReadOnlyList<string>> GetSharedGroupIdsAsync(CancellationToken ct)
+    {
+        var infra = await GetInfraAsync();
+        var groupIds = await _group.ListGroupIdsAsync();
+        var sharedIds = new List<string>();
+        foreach (var groupId in groupIds)
+        {
+            var state = await infra.SharedGroupStateRepository.GetByGroupIdAsync(groupId, ct);
+            if (state is { IsShared: true })
+                sharedIds.Add(groupId);
+        }
+        return sharedIds;
+    }
+
+    /// <summary>Exposes the underlying SQLite infrastructure for composition of sync services.</summary>
+    internal async Task<InfraLocalSqlite> GetLocalInfraAsync() => await GetInfraAsync();
+
+    /// <summary>
+    /// Builds a <see cref="SyncGroupUseCase"/> using the locally initialized SQLite repositories.
+    /// Intended for use by <c>MauiProgram</c> when registering <see cref="Services.SyncOrchestrationService"/>.
+    /// </summary>
+    internal async Task<SyncGroupUseCase> BuildSyncGroupUseCaseAsync(
+        ISyncPort syncPort,
+        IEncryptionPort encryption,
+        IGroupKeyProvider keyProvider)
+    {
+        var infra = await GetInfraAsync();
+        var applicator = new OperationApplicator(
+            infra.ExpenseRepository,
+            infra.ParticipantRepository,
+            infra.TransferRepository);
+        return new SyncGroupUseCase(
+            syncPort,
+            infra.OperationRepository,
+            infra.SyncCursorRepository,
+            infra.SharedGroupStateRepository,
+            encryption,
+            keyProvider,
+            applicator);
     }
 
     private async Task<GroupOverviewModel> GetGroupOverviewAsync(string groupId)

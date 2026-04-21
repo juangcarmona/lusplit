@@ -1,6 +1,6 @@
 using LuSplit.App.Resources.Localization;
 
-namespace LuSplit.App.Pages;
+namespace LuSplit.App.Features.Groups.GroupSwitcher;
 
 /// <summary>
 /// Test stub for GroupSwitcherItemViewModel. Strips MAUI ImageSource and File.Exists dependencies
@@ -12,6 +12,7 @@ public sealed class GroupSwitcherItemViewModel
     public string Name { get; }
     public bool IsCurrent { get; }
     public string? ImagePath { get; }
+    public bool IsShared { get; }
 
     public bool CanSelect => !IsCurrent;
     public string DisplayName => IsCurrent ? $"{Name} {AppResources.GroupSwitcher_CurrentSuffix}" : Name;
@@ -20,11 +21,12 @@ public sealed class GroupSwitcherItemViewModel
     public bool HasImage => false;
     public bool HasNoImage => true;
 
-    public GroupSwitcherItemViewModel(string groupId, string name, bool isCurrent, string? imagePath = null)
+    public GroupSwitcherItemViewModel(string groupId, string name, bool isCurrent, string? imagePath = null, bool isShared = false)
     {
         GroupId = groupId;
         Name = name;
         IsCurrent = isCurrent;
         ImagePath = imagePath;
+        IsShared = isShared;
     }
 }

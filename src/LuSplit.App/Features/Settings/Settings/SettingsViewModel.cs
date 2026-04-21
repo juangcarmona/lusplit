@@ -15,6 +15,8 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private CurrencyOption? _selectedCurrencyOption;
     [ObservableProperty] private bool _isDarkThemeEnabled;
 
+    public event EventHandler? ProfileSaved;
+
     public bool ShowProfileTab => _isProfileTabSelected;
     public bool ShowLanguageTab => !_isProfileTabSelected;
 
@@ -64,6 +66,8 @@ public sealed partial class SettingsViewModel : ObservableObject
         PreferredName = UserProfilePreferences.GetPreferredName();
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();
         BuildCurrencyList(AppPreferences.GetPreferredCurrency());
+
+        ProfileSaved?.Invoke(this, EventArgs.Empty);
     }
 
     public void SelectLanguage(string culture)
