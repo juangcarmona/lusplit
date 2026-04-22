@@ -44,9 +44,11 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SharedIndicatorVisible))]
+    [NotifyPropertyChangedFor(nameof(CanConvertToShared))]
     private bool _isShared;
 
     public bool SharedIndicatorVisible => IsShared;
+    public bool CanConvertToShared => !IsShared && CanEdit;
 
     /// <summary>Fires when the VM needs to navigate to the member list.</summary>
     public event EventHandler<string>? NavigateToMembersRequested;
@@ -55,6 +57,9 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
 
     /// <summary>Fires when the VM needs to navigate to the share-group flow.</summary>
     public event EventHandler? NavigateToShareRequested;
+
+    /// <summary>Fires when the VM needs to navigate to the convert-to-shared flow.</summary>
+    public event EventHandler? NavigateToConvertRequested;
 
     /// <summary>Fires when the group was saved. Code-behind navigates back.</summary>
     public event EventHandler? SaveCompleted;
@@ -193,6 +198,20 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
     {
         if (_groupId is null || !IsShared) return;
         NavigateToMembersRequested?.Invoke(this, _groupId);
+    }
+
+    [RelayCommand]
+    private void NavigateToShare()
+    {
+        if (_groupId is null || !IsShared) return;
+        NavigateToShareRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void NavigateToConvert()
+    {
+        if (_groupId is null || IsShared) return;
+        NavigateToConvertRequested?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Called by code-behind after a successful photo pick/capture.</summary>

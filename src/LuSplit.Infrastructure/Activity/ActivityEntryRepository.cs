@@ -1,3 +1,4 @@
+using LuSplit.Application.Shared.Ports;
 using LuSplit.Domain.Activity;
 using LuSplit.Infrastructure.Sqlite;
 using Microsoft.Data.Sqlite;
@@ -7,7 +8,7 @@ namespace LuSplit.Infrastructure.Activity;
 /// <summary>
 /// Local-only activity log. The <c>activity_entries</c> table is created by SQLite migration V3.
 /// </summary>
-public sealed class ActivityEntryRepository
+public sealed class ActivityEntryRepository : IActivityEntryPort
 {
     private readonly SqliteConnection _connection;
     private readonly SqliteTransactionRunner _transactionRunner;

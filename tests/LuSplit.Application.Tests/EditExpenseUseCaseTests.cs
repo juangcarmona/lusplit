@@ -1,9 +1,12 @@
 using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Errors;
+using LuSplit.Application.Sync.Ports;
 using LuSplit.Application.Tests.Fakes;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
+using LuSplit.Domain.Sync;
 
 namespace LuSplit.Application.Tests;
 
@@ -166,5 +169,49 @@ public sealed class EditExpenseUseCaseTests
             PaidByParticipantId: "outsider")));
 
         Assert.Equal("Payer is not in group g1", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncEnqueuesOperationWhenGroupIsShared()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.Participants.Add(new Participant("p1", "g1", "u1", "P1", ConsumptionCategory.Full));
+        repos.Expenses.Add(new Expense("e1", "g1", "Original", "p1", 100, "2026-01-01",
+            new SplitDefinition(new SplitComponent[] { new RemainderSplitComponent(new[] { "p1" }, RemainderMode.Equal) })));
+
+        var opRepo = new InMemoryOperationRepository();
+        var sharedRepo = new InMemorySharedGroupStateRepository();
+        await sharedRepo.SaveAsync("g1", new SharedGroupState(true, "container", "owner", 1, SyncStatus.UpToDate, false), default);
+
+        var useCase = new EditExpenseUseCase(repos, repos, repos,
+            new SequentialIdGenerator(), new FixedClock("2026-01-01T00:00:00.000Z"),
+            opRepo, sharedRepo);
+
+        await useCase.ExecuteAsync(new EditExpenseInput(GroupId: "g1", ExpenseId: "e1", Title: "Edited"));
+
+        Assert.Single(opRepo.SavedOperations);
+        Assert.Equal(OperationType.EditExpense, opRepo.SavedOperations[0].OperationType);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncSkipsEnqueueWhenGroupIsNotShared()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.Participants.Add(new Participant("p1", "g1", "u1", "P1", ConsumptionCategory.Full));
+        repos.Expenses.Add(new Expense("e1", "g1", "Original", "p1", 100, "2026-01-01",
+            new SplitDefinition(new SplitComponent[] { new RemainderSplitComponent(new[] { "p1" }, RemainderMode.Equal) })));
+
+        var opRepo = new InMemoryOperationRepository();
+        var sharedRepo = new InMemorySharedGroupStateRepository();
+
+        var useCase = new EditExpenseUseCase(repos, repos, repos,
+            new SequentialIdGenerator(), new FixedClock("2026-01-01T00:00:00.000Z"),
+            opRepo, sharedRepo);
+
+        await useCase.ExecuteAsync(new EditExpenseInput(GroupId: "g1", ExpenseId: "e1", Title: "Edited"));
+
+        Assert.Empty(opRepo.SavedOperations);
     }
 }

@@ -8,10 +8,10 @@
                FontFamily="FARegular"
                FontSize="12"
                VerticalOptions="Center"
-               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+               TextColor="{AppThemeBinding Light={StaticResource TextMutedGray}, Dark={StaticResource TextMutedOnDark}}" />
         <Label Text="{Binding StatusText}"
                FontSize="11"
                VerticalOptions="Center"
-               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}" />
+               TextColor="{AppThemeBinding Light={StaticResource TextMutedGray}, Dark={StaticResource TextMutedOnDark}}" />
     </HorizontalStackLayout>
 </ContentView>

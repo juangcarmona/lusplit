@@ -9,6 +9,8 @@ public partial class SettingsPage : ContentPage
         _viewModel = new SettingsViewModel();
         InitializeComponent();
         BindingContext = _viewModel;
+        _viewModel.NavigateToAuthRequested += OnNavigateToAuth;
+        _viewModel.NavigateToDevicesRequested += OnNavigateToDevices;
     }
 
     private void OnLanguageTapped(object? sender, TappedEventArgs e)
@@ -16,4 +18,10 @@ public partial class SettingsPage : ContentPage
         if (e.Parameter is not string culture) return;
         _viewModel.SelectLanguage(culture);
     }
+
+    private async void OnNavigateToAuth(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(AppRoutes.Authentication);
+
+    private async void OnNavigateToDevices(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(AppRoutes.DeviceManagement);
 }

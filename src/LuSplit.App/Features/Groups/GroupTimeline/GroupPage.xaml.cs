@@ -1,4 +1,5 @@
 using LuSplit.App.Resources.Localization;
+using LuSplit.App.Services;
 using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Persistence;
 
@@ -9,10 +10,10 @@ public partial class GroupPage : ContentPage, IQueryAttributable
     private readonly GroupViewModel _viewModel;
     private readonly AppDataService _dataService;
 
-    public GroupPage(AppDataService dataService)
+    public GroupPage(AppDataService dataService, SyncOrchestrationService syncOrchestration)
     {
         _dataService = dataService;
-        _viewModel = new GroupViewModel(dataService);
+        _viewModel = new GroupViewModel(dataService, syncOrchestration);
         InitializeComponent();
         BindingContext = _viewModel;
 

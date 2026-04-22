@@ -1,10 +1,14 @@
+using System.Text.Json;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Payments.Ports;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Ports;
 using LuSplit.Application.Payments.Models;
+using LuSplit.Application.Sync.Ports;
+using LuSplit.Contracts.Sync.Payloads;
 using LuSplit.Domain.Payments;
+using LuSplit.Domain.Sync;
 
 namespace LuSplit.Application.Payments.Commands;
 
@@ -15,19 +19,25 @@ public sealed class AddManualTransferUseCase
     private readonly ITransferRepository _transferRepository;
     private readonly IIdGenerator _idGenerator;
     private readonly IClock _clock;
+    private readonly IOperationRepository? _operationRepository;
+    private readonly ISharedGroupStateRepository? _sharedGroupStateRepository;
 
     public AddManualTransferUseCase(
         IGroupRepository groupRepository,
         IParticipantRepository participantRepository,
         ITransferRepository transferRepository,
         IIdGenerator idGenerator,
-        IClock clock)
+        IClock clock,
+        IOperationRepository? operationRepository = null,
+        ISharedGroupStateRepository? sharedGroupStateRepository = null)
     {
         _groupRepository = groupRepository;
         _participantRepository = participantRepository;
         _transferRepository = transferRepository;
         _idGenerator = idGenerator;
         _clock = clock;
+        _operationRepository = operationRepository;
+        _sharedGroupStateRepository = sharedGroupStateRepository;
     }
 
     public async Task<TransferModel> ExecuteAsync(AddManualTransferInput input, CancellationToken cancellationToken = default)
@@ -78,6 +88,8 @@ public sealed class AddManualTransferUseCase
 
         await _transferRepository.SaveTransferAsync(transfer, cancellationToken);
 
+        await EnqueueOperationIfSharedAsync(transfer, cancellationToken);
+
         return new TransferModel(
             transfer.Id,
             transfer.GroupId,
@@ -87,5 +99,25 @@ public sealed class AddManualTransferUseCase
             transfer.Date,
             transfer.Type == TransferType.Manual ? "MANUAL" : "GENERATED",
             transfer.Note);
+    }
+
+    private async Task EnqueueOperationIfSharedAsync(Transfer transfer, CancellationToken ct)
+    {
+        if (_operationRepository is null || _sharedGroupStateRepository is null) return;
+        var sharedState = await _sharedGroupStateRepository.GetByGroupIdAsync(transfer.GroupId, ct);
+        if (sharedState is null || !sharedState.IsShared) return;
+
+        var payload = new AddTransferPayload(
+            transfer.Id, transfer.FromParticipantId, transfer.ToParticipantId,
+            transfer.AmountMinor / 100m, _clock.UtcNow);
+        var payloadBytes = JsonSerializer.SerializeToUtf8Bytes(payload);
+
+        var operation = new Operation(
+            _idGenerator.NextId(), transfer.GroupId, "", "",
+            _clock.UtcNow.Ticks.ToString("D20"),
+            OperationType.AddTransfer, transfer.Id,
+            payloadBytes, sharedState.CurrentKeyVersion, _clock.UtcNow);
+
+        await _operationRepository.SaveAsync(operation, ct);
     }
 }

@@ -23,12 +23,15 @@ using LuSplit.Application.Groups.Queries;
 using LuSplit.Application.Invitations.Queries;
 using LuSplit.Application.KeyManagement.Ports;
 using LuSplit.Application.KeyManagement.UseCases;
+using LuSplit.Application.Revocation.UseCases;
 using LuSplit.Application.Shared.Ports;
 using LuSplit.Infrastructure.ControlPlane;
 using LuSplit.Infrastructure.Crypto;
 using LuSplit.Infrastructure.Groups;
+using LuSplit.Infrastructure.Identity;
 using LuSplit.Infrastructure.Sync;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using Plugin.MauiMtAdmob;
 
 namespace LuSplit.App;
@@ -76,6 +79,17 @@ public static class MauiProgram
                 sp.GetRequiredService<LuSplit.Application.Shared.Ports.IAuthPort>(),
                 DeviceInfo.Current.Idiom.ToString()));
 
+        // Authentication (MSAL)
+        builder.Services.AddSingleton<IPublicClientApplication>(sp =>
+            PublicClientApplicationBuilder
+                .Create("lusplit-client-id")
+                .WithRedirectUri("lusplit://auth")
+                .Build());
+        builder.Services.AddSingleton<IAuthPort>(sp =>
+            new MsalAuthAdapter(
+                sp.GetRequiredService<IPublicClientApplication>(),
+                new[] { "api://lusplit/.default" }));
+
         // Sync infrastructure
         builder.Services.AddSingleton<AesGcmEncryptionAdapter>();
         builder.Services.AddSingleton<RsaKeyWrapAdapter>();
@@ -87,8 +101,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ControlPlaneHttpClient>(sp =>
         {
             var httpClient = new HttpClient();
-            // Auth token provider — wired up when IAuthPort is registered in a later phase.
-            return new ControlPlaneHttpClient(httpClient, _ => Task.FromResult<string?>(null));
+            var authPort = sp.GetRequiredService<IAuthPort>();
+            return new ControlPlaneHttpClient(httpClient, ct => authPort.GetAccessTokenAsync(ct));
         });
         builder.Services.AddSingleton<SasTokenProvider>();
         builder.Services.AddSingleton<BlobSyncAdapter>();
@@ -121,7 +135,33 @@ public static class MauiProgram
         // Conflict + activity
         builder.Services.AddSingleton<ConflictFlagStore>();
         builder.Services.AddTransient<Features.Expenses.ConflictReviewPromptViewModel>();
-        builder.Services.AddTransient<ActivityFeedViewModel>();
+        builder.Services.AddTransient<IActivityFeedDataService, ActivityFeedDataService>();
+
+        // Application ports backed by SQLite (resolved via AppDataService)
+        builder.Services.AddSingleton<IIdGenerator>(new GuidIdGenerator());
+        builder.Services.AddSingleton<IClock>(new UtcClock());
+
+        // Lazy proxies for SQLite-backed ports (needed because SQLite is initialized async)
+        builder.Services.AddSingleton<SharedGroupStateRepositoryProxy>(sp =>
+            new SharedGroupStateRepositoryProxy(sp.GetRequiredService<AppDataService>()));
+        builder.Services.AddSingleton<ISharedGroupStateRepository>(sp =>
+            sp.GetRequiredService<SharedGroupStateRepositoryProxy>());
+        builder.Services.AddSingleton<ActivityEntryPortProxy>(sp =>
+            new ActivityEntryPortProxy(sp.GetRequiredService<AppDataService>()));
+        builder.Services.AddSingleton<IActivityEntryPort>(sp =>
+            sp.GetRequiredService<ActivityEntryPortProxy>());
+        builder.Services.AddTransient<ActivityFeedViewModel>(sp =>
+            new ActivityFeedViewModel(sp.GetRequiredService<IActivityFeedDataService>()));
+
+        // Revocation
+        builder.Services.AddTransient<RevokeMemberUseCase>(sp =>
+            new RevokeMemberUseCase(
+                sp.GetRequiredService<LuSplit.Application.Revocation.Ports.IRevocationPort>(),
+                sp.GetRequiredService<ISharedGroupStateRepository>(),
+                sp.GetRequiredService<IActivityEntryPort>(),
+                sp.GetRequiredService<IIdGenerator>(),
+                sp.GetRequiredService<IClock>(),
+                sp.GetRequiredService<RotateGroupKeyUseCase>()));
 
         // New pages
         builder.Services.AddTransient<ShareGroupPage>();
@@ -131,6 +171,9 @@ public static class MauiProgram
         builder.Services.AddTransient<DeviceManagementPage>();
         builder.Services.AddTransient<DeviceManagementViewModel>();
         builder.Services.AddTransient<ActivityFeedPage>();
+        builder.Services.AddTransient<InvitePage>();
+        builder.Services.AddTransient<InviteViewModel>();
+        builder.Services.AddTransient<ConvertGroupViewModel>();
 
         return builder.Build();
     }

@@ -190,4 +190,16 @@ public sealed class SyncGroupUseCaseTests
         // No new ops → cursor NOT saved (latestHlc == afterCursor AND cursor already exists)
         await _cursorRepository.DidNotReceive().SaveAsync(Arg.Any<SyncCursor>(), Arg.Any<CancellationToken>());
     }
+
+    [Fact]
+    public async Task ExecuteAsync_ReadOnlyGroup_DoesNotCallSyncPort()
+    {
+        var sharedState = new SharedGroupState(true, "container1", "owner1", 1, SyncStatus.UpToDate, true);
+        _sharedStateRepository.GetByGroupIdAsync(GroupId, Arg.Any<CancellationToken>())
+            .Returns(sharedState);
+
+        await CreateSut().ExecuteAsync(GroupId, DeviceId);
+
+        await _syncPort.DidNotReceive().RequestSyncTokenAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
 }

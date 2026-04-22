@@ -196,8 +196,10 @@ Features/
   Settings/
   SharedGroups/      ShareGroupPage, ShareGroupViewModel
   Sync/              SyncStatusViewModel, sync state bindings
+  Activity/          ActivityFeedPage, ActivityFeedViewModel, ActivityFeedDataService
+  Devices/           DeviceManagementPage, DeviceManagementViewModel
 Services/
-  Persistence/       AppDataService (SQLite composition root for App layer)
+  Persistence/       AppDataService, SqlitePortProxies (lazy DI proxies)
   SyncOrchestrationService
   ConflictFlagStore
 ```
@@ -206,7 +208,9 @@ Services/
 
 **ConflictFlagStore** is an in-memory singleton tracking entity IDs whose last sync cycle produced a conflict. `ConflictReviewPromptViewModel` reads it when `ExpenseDetailsPage` loads to surface a lightweight review prompt.
 
-> **Current limitation**: `AppDataService.BuildSyncGroupUseCaseAsync` does not wire `IActivityEntryPort`, `IIdGenerator`, or `IClock` into `SyncGroupUseCase` or `OperationApplicator`. Activity logging and conflict `ActivityEntry` writing are therefore inactive at runtime despite being implemented in the use cases.
+**Lazy proxies** (`SharedGroupStateRepositoryProxy`, `ActivityEntryPortProxy` in `Services/Persistence/SqlitePortProxies.cs`) bridge DI registration and SQLite's async initialisation. They resolve the concrete repository from `AppDataService.GetLocalInfraAsync()` on first use, allowing ports to be injected into use cases before the database is open.
+
+`AppDataService.BuildSyncGroupUseCaseAsync` wires `IActivityEntryPort`, `IIdGenerator` (`GuidIdGenerator`), and `IClock` (`UtcClock`) into both `OperationApplicator` and `SyncGroupUseCase`, so activity logging and conflict entry writing are active at runtime.
 
 **Rules**: Depends on Application. Code-behind contains only `InitializeComponent`, `BindingContext`, and minimal lifecycle wiring. No business rules, no persistence orchestration in pages or code-behind.
 

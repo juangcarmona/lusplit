@@ -1,10 +1,15 @@
+using System.Text.Json;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Expenses.Ports;
 using LuSplit.Application.Expenses.Models;
 using LuSplit.Application.Groups.Models;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Commands;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Application.Sync.Ports;
+using LuSplit.Contracts.Sync.Payloads;
 using LuSplit.Domain.Expenses;
+using LuSplit.Domain.Sync;
 
 namespace LuSplit.Application.Expenses.Commands;
 
@@ -13,15 +18,27 @@ public sealed class EditExpenseUseCase
     private readonly IGroupRepository _groupRepository;
     private readonly IParticipantRepository _participantRepository;
     private readonly IExpenseRepository _expenseRepository;
+    private readonly IIdGenerator? _idGenerator;
+    private readonly IClock? _clock;
+    private readonly IOperationRepository? _operationRepository;
+    private readonly ISharedGroupStateRepository? _sharedGroupStateRepository;
 
     public EditExpenseUseCase(
         IGroupRepository groupRepository,
         IParticipantRepository participantRepository,
-        IExpenseRepository expenseRepository)
+        IExpenseRepository expenseRepository,
+        IIdGenerator? idGenerator = null,
+        IClock? clock = null,
+        IOperationRepository? operationRepository = null,
+        ISharedGroupStateRepository? sharedGroupStateRepository = null)
     {
         _groupRepository = groupRepository;
         _participantRepository = participantRepository;
         _expenseRepository = expenseRepository;
+        _idGenerator = idGenerator;
+        _clock = clock;
+        _operationRepository = operationRepository;
+        _sharedGroupStateRepository = sharedGroupStateRepository;
     }
 
     public async Task<ExpenseModel> ExecuteAsync(EditExpenseInput input, CancellationToken cancellationToken = default)
@@ -70,8 +87,10 @@ public sealed class EditExpenseUseCase
             throw new ValidationError($"Payer is not in group {input.GroupId}");
         }
 
-        _ = SplitEvaluator.EvaluateSplit(nextExpense, participants);
+        var evaluatedShares = SplitEvaluator.EvaluateSplit(nextExpense, participants);
         await _expenseRepository.SaveAsync(nextExpense, cancellationToken);
+
+        await EnqueueOperationIfSharedAsync(nextExpense, evaluatedShares, cancellationToken);
 
         return new ExpenseModel(
             nextExpense.Id,
@@ -84,4 +103,25 @@ public sealed class EditExpenseUseCase
             nextExpense.Notes);
     }
 
+    private async Task EnqueueOperationIfSharedAsync(
+        Expense expense, IReadOnlyDictionary<string, long> shares, CancellationToken ct)
+    {
+        if (_operationRepository is null || _sharedGroupStateRepository is null || _idGenerator is null || _clock is null) return;
+        var sharedState = await _sharedGroupStateRepository.GetByGroupIdAsync(expense.GroupId, ct);
+        if (sharedState is null || !sharedState.IsShared) return;
+
+        var splits = shares.Select(kvp => new SplitLinePayload(kvp.Key, kvp.Value / 100m)).ToList();
+        var payload = new EditExpensePayload(
+            expense.Id, expense.Title, expense.AmountMinor / 100m, "",
+            expense.PaidByParticipantId, _clock.UtcNow, splits);
+        var payloadBytes = JsonSerializer.SerializeToUtf8Bytes(payload);
+
+        var operation = new Operation(
+            _idGenerator.NextId(), expense.GroupId, "", "",
+            _clock.UtcNow.Ticks.ToString("D20"),
+            OperationType.EditExpense, expense.Id,
+            payloadBytes, sharedState.CurrentKeyVersion, _clock.UtcNow);
+
+        await _operationRepository.SaveAsync(operation, ct);
+    }
 }

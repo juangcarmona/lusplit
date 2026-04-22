@@ -30,7 +30,7 @@
                     <Grid ColumnDefinitions="*,Auto" Padding="16,12">
                         <VerticalStackLayout Grid.Column="0" Spacing="2">
                             <Label Text="{Binding DeviceName}" FontAttributes="Bold" />
-                            <Label Text="{Binding Platform}" FontSize="Small" TextColor="{StaticResource SecondaryText}" />
+                            <Label Text="{Binding Platform}" FontSize="Small" TextColor="{StaticResource TextMutedGray}" />
                         </VerticalStackLayout>
                         <Button
                             Grid.Column="1"

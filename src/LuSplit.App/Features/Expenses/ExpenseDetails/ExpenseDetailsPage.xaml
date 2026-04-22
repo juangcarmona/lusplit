@@ -7,6 +7,18 @@
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,12,16,10" Spacing="10">
+
+                <!-- Conflict review prompt -->
+                <Border IsVisible="{Binding ConflictPrompt.HasConflict}"
+                        BackgroundColor="{AppThemeBinding Light=#FFF3CD, Dark=#664D03}"
+                        StrokeThickness="1"
+                        Stroke="{AppThemeBinding Light=#FFE69C, Dark=#997404}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="12,8">
+                    <Label Text="{Binding ConflictPrompt.Message}"
+                           Style="{StaticResource BodyMuted}" />
+                </Border>
+
                 <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">                
                     <Label Grid.Column="0"
                            Text="{Binding ExpenseTitle}"

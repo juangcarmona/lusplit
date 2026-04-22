@@ -97,6 +97,19 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </VerticalStackLayout>
+
+                <!-- Account & Devices -->
+                <VerticalStackLayout Spacing="8" Margin="0,16,0,0">
+                    <Label Text="Account &amp; Devices" Style="{StaticResource SectionTitle}" />
+                    <Button Text="Account"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding NavigateToAuthCommand}"
+                            AutomationId="AccountButton" />
+                    <Button Text="Devices"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding NavigateToDevicesCommand}"
+                            AutomationId="DevicesButton" />
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 

@@ -59,6 +59,9 @@ public sealed class SyncGroupUseCase
         if (sharedState is null || !sharedState.IsShared)
             return; // Not a shared group — nothing to sync.
 
+        if (sharedState.IsReadOnly)
+            return; // Group is read-only (membership revoked) — skip sync to avoid futile retries.
+
         // 1. Request SAS token — a 403/404 means membership was revoked; mark group read-only.
         LuSplit.Contracts.ControlPlane.SyncTokenResponse tokenResponse;
         try
@@ -145,7 +148,8 @@ public sealed class SyncGroupUseCase
         {
             foreach (var op in pendingOps)
             {
-                var plaintext = JsonSerializer.SerializeToUtf8Bytes(op);
+                var enriched = op with { DeviceId = op.DeviceId == "" ? deviceId : op.DeviceId };
+                var plaintext = JsonSerializer.SerializeToUtf8Bytes(enriched);
                 var ciphertextWithTag = _encryption.Encrypt(plaintext, groupKey1, out var nonce);
                 var authTag = ciphertextWithTag[^16..];
                 var ciphertextOnly = ciphertextWithTag[..^16];

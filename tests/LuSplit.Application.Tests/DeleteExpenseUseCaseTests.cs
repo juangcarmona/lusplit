@@ -1,9 +1,12 @@
 using LuSplit.Application.Expenses.Commands;
+using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Commands;
 using LuSplit.Application.Shared.Errors;
+using LuSplit.Application.Sync.Ports;
 using LuSplit.Application.Tests.Fakes;
 using LuSplit.Domain.Expenses;
 using LuSplit.Domain.Groups;
+using LuSplit.Domain.Sync;
 
 namespace LuSplit.Application.Tests;
 
@@ -63,5 +66,47 @@ public sealed class DeleteExpenseUseCaseTests
         var error = await Assert.ThrowsAsync<ValidationError>(() => useCase.ExecuteAsync(new DeleteExpenseInput("g1", "  ")));
 
         Assert.Equal("expenseId is required", error.Message);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncEnqueuesOperationWhenGroupIsShared()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.Expenses.Add(new Expense("e1", "g1", "Dinner", "p1", 100, "2026-01-01",
+            new SplitDefinition(Array.Empty<SplitComponent>())));
+
+        var opRepo = new InMemoryOperationRepository();
+        var sharedRepo = new InMemorySharedGroupStateRepository();
+        await sharedRepo.SaveAsync("g1", new SharedGroupState(true, "container", "owner", 1, SyncStatus.UpToDate, false), default);
+
+        var useCase = new DeleteExpenseUseCase(repos, repos,
+            new SequentialIdGenerator(), new FixedClock("2026-01-01T00:00:00.000Z"),
+            opRepo, sharedRepo);
+
+        await useCase.ExecuteAsync(new DeleteExpenseInput("g1", "e1"));
+
+        Assert.Single(opRepo.SavedOperations);
+        Assert.Equal(OperationType.DeleteExpense, opRepo.SavedOperations[0].OperationType);
+    }
+
+    [Fact]
+    public async Task ExecuteAsyncSkipsEnqueueWhenGroupIsNotShared()
+    {
+        var repos = new InMemoryQueryRepositories();
+        repos.Groups.Add(new Group("g1", "USD", false));
+        repos.Expenses.Add(new Expense("e1", "g1", "Dinner", "p1", 100, "2026-01-01",
+            new SplitDefinition(Array.Empty<SplitComponent>())));
+
+        var opRepo = new InMemoryOperationRepository();
+        var sharedRepo = new InMemorySharedGroupStateRepository();
+
+        var useCase = new DeleteExpenseUseCase(repos, repos,
+            new SequentialIdGenerator(), new FixedClock("2026-01-01T00:00:00.000Z"),
+            opRepo, sharedRepo);
+
+        await useCase.ExecuteAsync(new DeleteExpenseInput("g1", "e1"));
+
+        Assert.Empty(opRepo.SavedOperations);
     }
 }

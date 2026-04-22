@@ -437,10 +437,15 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
         IGroupKeyProvider keyProvider)
     {
         var infra = await GetInfraAsync();
+        var idGen = new GuidIdGenerator();
+        var clock = new UtcClock();
         var applicator = new OperationApplicator(
             infra.ExpenseRepository,
             infra.ParticipantRepository,
-            infra.TransferRepository);
+            infra.TransferRepository,
+            infra.ActivityEntryRepository,
+            idGen,
+            clock);
         return new SyncGroupUseCase(
             syncPort,
             infra.OperationRepository,
@@ -448,7 +453,10 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
             infra.SharedGroupStateRepository,
             encryption,
             keyProvider,
-            applicator);
+            applicator,
+            infra.ActivityEntryRepository,
+            idGen,
+            clock);
     }
 
     private async Task<GroupOverviewModel> GetGroupOverviewAsync(string groupId)

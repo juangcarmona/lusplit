@@ -17,6 +17,12 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     public event EventHandler? ProfileSaved;
 
+    /// <summary>Raised when the user taps the Account/Auth row.</summary>
+    public event EventHandler? NavigateToAuthRequested;
+
+    /// <summary>Raised when the user taps the Devices row.</summary>
+    public event EventHandler? NavigateToDevicesRequested;
+
     public bool ShowProfileTab => _isProfileTabSelected;
     public bool ShowLanguageTab => !_isProfileTabSelected;
 
@@ -96,4 +102,12 @@ public sealed partial class SettingsViewModel : ObservableObject
                 string.Equals(option.Culture, saved, StringComparison.OrdinalIgnoreCase)));
         }
     }
+
+    [RelayCommand]
+    private void NavigateToAuth()
+        => NavigateToAuthRequested?.Invoke(this, EventArgs.Empty);
+
+    [RelayCommand]
+    private void NavigateToDevices()
+        => NavigateToDevicesRequested?.Invoke(this, EventArgs.Empty);
 }

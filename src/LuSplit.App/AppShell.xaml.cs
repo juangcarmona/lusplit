@@ -48,6 +48,8 @@ public partial class AppShell : Shell
 			TryRegisterRoute(AppRoutes.MemberList, typeof(MemberListPage));
 			TryRegisterRoute(AppRoutes.DeviceManagement, typeof(DeviceManagementPage));
 			TryRegisterRoute(AppRoutes.ActivityFeed, typeof(ActivityFeedPage));
+			TryRegisterRoute(AppRoutes.Invite, typeof(InvitePage));
+			TryRegisterRoute(AppRoutes.ConvertGroup, typeof(ShareGroupPage));
 			_routesRegistered = true;
 		}
 	}

@@ -21,4 +21,6 @@ public static class AppRoutes
     public const string MemberList = "member-list";
     public const string DeviceManagement = "device-management";
     public const string ActivityFeed = "activity-feed";
+    public const string Invite = "invite-create";
+    public const string ConvertGroup = "convert-group";
 }

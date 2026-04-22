@@ -459,6 +459,96 @@
 
 ---
 
+## Phase 13: Feature Closure — Wiring, Reachability & Runtime Gaps
+
+**Purpose**: Connect implemented infrastructure to the UI. No new architectural layers or abstractions. Every task wires existing code or adds minimal XAML/code-behind to make features user-reachable.
+
+### CRITICAL — Sync Operation Enqueuing
+
+- [x] T153 [US3] Update `AddExpenseUseCase` to enqueue an `Operation` after `SaveAsync` when the group is shared using `IOperationRepository`, `ISharedGroupStateRepository`, `IIdGenerator`, `IClock`, `IEncryptionPort`, and `IGroupKeyProvider` in `src/LuSplit.Application/Expenses/Commands/AddExpenseUseCase.cs`
+- [x] T154 Add unit tests for operation enqueuing in `AddExpenseUseCase` (shared group creates operation, non-shared group skips) in `tests/LuSplit.Application.Tests/AddExpenseUseCaseTests.cs`
+
+- [x] T155 [P] [US3] Update `EditExpenseUseCase` to enqueue an `Operation` after `SaveAsync` when the group is shared in `src/LuSplit.Application/Expenses/Commands/EditExpenseUseCase.cs`
+- [x] T156 [P] Add unit tests for operation enqueuing in `EditExpenseUseCase` in `tests/LuSplit.Application.Tests/EditExpenseUseCaseTests.cs`
+
+- [x] T157 [P] [US3] Update `DeleteExpenseUseCase` to enqueue an `Operation` after deletion when the group is shared in `src/LuSplit.Application/Expenses/Commands/DeleteExpenseUseCase.cs`
+- [x] T158 [P] Add unit tests for operation enqueuing in `DeleteExpenseUseCase` in `tests/LuSplit.Application.Tests/DeleteExpenseUseCaseTests.cs`
+
+- [x] T159 [US3] Update `AddManualTransferUseCase` to enqueue an `Operation` after `SaveAsync` when the group is shared in `src/LuSplit.Application/Payments/Commands/AddManualTransferUseCase.cs`
+- [x] T160 Add unit tests for operation enqueuing in `AddManualTransferUseCase` in `tests/LuSplit.Application.Tests/AddManualTransferUseCaseTests.cs`
+
+### CRITICAL — Auth & Bearer Token
+
+- [x] T161 Register `IPublicClientApplication` and `MsalAuthAdapter` as `IAuthPort` in DI in `src/LuSplit.App/MauiProgram.cs`
+- [x] T162 Update `ControlPlaneHttpClient` registration to use `IAuthPort.GetAccessTokenAsync` as the bearer token provider in `src/LuSplit.App/MauiProgram.cs`
+
+### CRITICAL — Navigation Entry Points
+
+- [x] T163 Add shared indicator badge and "Members" / "Share" buttons bound to `IsShared` in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsPage.xaml`
+- [x] T164 Subscribe to `NavigateToMembersRequested` and `NavigateToShareRequested` and navigate via `Shell.Current.GoToAsync` in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsPage.xaml.cs`
+
+- [x] T165 Add "Convert to Shared" button bound to `NavigateToConvertRequested` in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsPage.xaml`
+- [x] T166 Add `NavigateToConvertRequested` event and `NavigateToConvertCommand` in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsViewModel.cs`
+- [x] T167 Subscribe to `NavigateToConvertRequested` and navigate to ConvertGroup route in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsPage.xaml.cs`
+
+### HIGH — Routes & DI Registration
+
+- [x] T168 Add `Invite` route constant in `src/LuSplit.App/AppRoutes.cs`
+- [x] T169 Register `InvitePage` shell route in `src/LuSplit.App/AppShell.xaml.cs`
+- [x] T170 Register `InviteViewModel` and `InvitePage` in DI in `src/LuSplit.App/MauiProgram.cs`
+
+- [x] T171 Add `ConvertGroup` route constant in `src/LuSplit.App/AppRoutes.cs`
+- [x] T172 Register `ConvertGroupViewModel` and `ConvertGroupPage` in DI in `src/LuSplit.App/MauiProgram.cs`
+- [x] T172a Register `ConvertGroup` shell route in `src/LuSplit.App/AppShell.xaml.cs`
+
+### HIGH — Activity Infrastructure Wiring
+
+- [x] T173 Make `ActivityEntryRepository` implement `IActivityEntryPort` in `src/LuSplit.Infrastructure/Activity/ActivityEntryRepository.cs`
+- [x] T174 Register `IActivityEntryPort` in DI using `ActivityEntryRepository` in `src/LuSplit.App/MauiProgram.cs`
+- [x] T175 Create `ActivityFeedDataService` delegating to `ActivityEntryRepository.ListByGroupAsync` in `src/LuSplit.App/Features/Activity/ActivityFeedDataService.cs`
+- [x] T176 Register `IActivityFeedDataService` in DI in `src/LuSplit.App/MauiProgram.cs`
+- [x] T177 Update `SyncGroupUseCase` to require non-null `IActivityEntryPort` in constructor in `src/LuSplit.Application/Sync/UseCases/SyncGroupUseCase.cs`
+
+### HIGH — RevokeMemberUseCase DI
+
+- [x] T178 Register `RevokeMemberUseCase` in DI and verify all constructor dependencies resolve in `src/LuSplit.App/MauiProgram.cs`
+- [x] T178a Add DI resolution test for `RevokeMemberUseCase` and `MemberListViewModel` in `tests/LuSplit.App.Tests/RevokeMemberDiResolutionTests.cs`
+
+### HIGH — SyncOrchestration → UI Wiring
+
+- [x] T179 Pass `SyncOrchestrationService` from DI into `GroupViewModel` construction in `src/LuSplit.App/Features/Groups/GroupTimeline/GroupPage.xaml.cs`
+- [x] T179a Update `GroupViewModel` to subscribe to `SyncOrchestrationService.SyncStateChanged` and update `SyncStatus` in `src/LuSplit.App/Features/Groups/GroupTimeline/GroupViewModel.cs`
+- [x] T179b Add `GroupViewModelSyncStatusUpdateTests` validating `SyncStatus` updates on event in `tests/LuSplit.App.Tests/GroupViewModelSyncStatusUpdateTests.cs`
+
+### MEDIUM — Sync Retry Suppression
+
+- [x] T180 Add early return in `SyncGroupUseCase.ExecuteAsync` when `SharedGroupState.IsReadOnly` is true in `src/LuSplit.Application/Sync/UseCases/SyncGroupUseCase.cs`
+- [x] T181 Add unit test validating no sync execution when group is read-only in `tests/LuSplit.Application.Tests/SyncGroupUseCaseTests.cs`
+
+### MEDIUM — Conflict Review Prompt UI
+
+- [x] T182 Add conflict review prompt banner bound to `ConflictPrompt.HasConflict` in `src/LuSplit.App/Features/Expenses/ExpenseDetails/ExpenseDetailsPage.xaml`
+
+### MEDIUM — XAML Resource Fixes
+
+- [x] T183 [P] Replace invalid resource keys in `src/LuSplit.App/Features/Sync/SyncStatusIndicator.xaml`
+- [x] T184 [P] Replace invalid resource keys in `src/LuSplit.App/Features/Members/MemberListPage.xaml`
+- [x] T185 [P] Replace invalid resource keys in `src/LuSplit.App/Features/Devices/DeviceManagementPage.xaml`
+
+### MEDIUM — Settings Reachability
+
+- [x] T188 Add `NavigateToAuthCommand` in `src/LuSplit.App/Features/Settings/Settings/SettingsViewModel.cs`
+- [x] T189 Add `NavigateToDevicesCommand` in `src/LuSplit.App/Features/Settings/Settings/SettingsViewModel.cs`
+- [x] T190 Add Auth and Devices navigation rows in `src/LuSplit.App/Features/Settings/Settings/SettingsPage.xaml`
+- [x] T191 Wire navigation via `Shell.Current.GoToAsync` in `src/LuSplit.App/Features/Settings/Settings/SettingsPage.xaml.cs`
+
+### VALIDATION
+
+- [x] T186 Run `dotnet build LuSplit.slnx` — fix all compilation errors
+- [x] T187 Run `dotnet test LuSplit.slnx` — ensure all tests pass
+
+---
+
 ## Final Phase: Polish & Cross-Cutting Concerns
 
 **Purpose**: Complete the Bicep orchestrator, wire remaining cross-cutting concerns, update docs, and perform required build/test validation.
@@ -475,8 +565,11 @@
 - [x] T150 Run `dotnet build LuSplit.slnx` — fix all compilation errors before proceeding
 - [x] T151 Run `dotnet test LuSplit.slnx` — fix all failing tests before marking work done
 - [x] T152 [P] Run `az bicep build --file infra/main.bicep` — fix all Bicep validation errors
+- [x] T192 Update `docs/ARCHITECTURE.md` with Phase 13 wiring changes if any new data flow paths were added
+- [x] T193 Run `dotnet build LuSplit.slnx` — confirm clean
+- [x] T194 Run `dotnet test LuSplit.slnx` — confirm all green
 
-**Final Checkpoint**: `dotnet build` clean, `dotnet test` all green, `az bicep build` validates. All 10 user stories independently testable per their acceptance criteria.
+**Final Checkpoint**: `dotnet build` clean, `dotnet test` all green, `az bicep build` validates. All user stories independently testable per their acceptance criteria. All shared-group pages reachable from existing UI. Sync pipeline end-to-end functional for shared groups.
 
 ---
 
@@ -497,7 +590,8 @@ Phase 1 (Setup)
         ├─► Phase 10 (US8 P3) ─── soft dependency on Phase 8 (membership after revocation)
         ├─► Phase 11 (US9 P3) ─── depends on Phase 5 (conflicts are sync-layer behavior)
         └─► Phase 12 (US10 P3) ── depends on Phase 8 (rotation triggered by revocation)
-              └─► Final Phase (Polish)
+              └─► Phase 13 (Feature Closure) ── depends on Phases 3–12 where wiring/reachability is required
+                    └─► Final Phase (Docs + Validation)
 ```
 
 ### User Story Dependencies
@@ -514,6 +608,8 @@ Phase 1 (Setup)
 | US8 View Membership (P3) | US6 (MemberListPage scaffolded) | After US6 |
 | US9 Handle Conflicts (P3) | US3 (SyncGroupUseCase) | After US3 |
 | US10 Key Rotation (P3) | US6 (RevokeMemberUseCase) | After US6 |
+
+**Phase 13 note**: Phase 13 is a cross-cutting closure phase. It does not introduce new user stories; it completes runtime wiring, DI composition, navigation reachability, shared-group write enqueuing, and final UI exposure across US1–US10.
 
 ### Within Each User Story
 
@@ -554,6 +650,22 @@ Track B: Phase 4 (US2) — T045..T056
 Track C: Phase 5 (US3) — T057..T070
 ```
 
+### Phase 13 (Feature Closure) — grouped execution
+
+```
+Sequential group A (sync write pipeline): T153 → T154, T155, T156, T157, T158, T159, T160
+Sequential group B (auth/token wiring): T161 → T162
+Sequential group C (group details reachability): 
+T163 → T164
+T165 → T166 → T167
+Parallel group D (route / DI wiring): T168, T169, T170, T171, T172
+Sequential group E (activity wiring): T173 → T174 → T175 → T176 → T177
+Sequential group F (remaining runtime closure): T178 → T179 → T180 → T181 → T182
+Parallel group G (XAML resource fixes): T183, T184, T185
+Sequential group H (settings reachability): T188 → T189 → T190 → T191
+Validation: T186 → T187
+```
+
 ---
 
 ## Implementation Strategy
@@ -579,6 +691,12 @@ Add US4 (accept invite), US5 (device management), US6 (revoke member), US7 (sync
 
 Add US8 (membership view), US9 (conflict handling), US10 (key rotation) and complete infrastructure and documentation.
 
+### Increment 4 — Feature Closure (Phase 13 + Final Validation)
+
+Complete Phase 13 to close runtime wiring, navigation reachability, auth/token flow, shared-group operation enqueuing, and remaining UI exposure gaps. Then run the Final Phase validation and documentation tasks.
+
+**Increment 4 delivers**: A user-complete shared-group feature where invite, join, sync, revoke, membership, devices, and activity are reachable and executable from the app UI.
+
 ---
 
 ## Summary
@@ -587,19 +705,20 @@ Add US8 (membership view), US9 (conflict handling), US10 (key rotation) and comp
 |-------|-------|-------|----------|
 | Phase 1: Setup | T001–T008 | — | Blocking |
 | Phase 2: Foundational | T009–T030 | — | Blocking |
-| Phase 3: US1 Create Shared Group | T031–T044 | US1 | P1 🎯 |
+| Phase 3: US1 Create Shared Group | T031–T044c | US1 | P1 🎯 |
 | Phase 4: US2 Invite User | T045–T056 | US2 | P1 🎯 |
 | Phase 5: US3 Sync Expenses | T057–T070 | US3 | P1 🎯 |
 | Phase 6: US4 Accept/Reject Invitation | T071–T082 | US4 | P2 |
 | Phase 7: US5 Register Device | T083–T094 | US5 | P2 |
-| Phase 8: US6 Revoke Member | T095–T104 | US6 | P2 |
+| Phase 8: US6 Revoke Member | T095–T104e | US6 | P2 |
 | Phase 9: US7 View Sync Status | T105–T112 | US7 | P2 |
 | Phase 10: US8 View Membership | T113–T120 | US8 | P3 |
 | Phase 11: US9 Handle Conflicts | T121–T130 | US9 | P3 |
 | Phase 12: US10 Key Rotation | T131–T140 | US10 | P3 |
-| Final: Polish & Validation | T141–T152 | — | Required |
-| **Total** | **163 tasks** | | |
+| Phase 13: Wiring & Navigation Gaps | T153–T191 | — | Required before merge |
+| Final: Polish & Validation | T141–T152, T192–T194 | — | Required |
+| **Total** | **194 tasks** | | |
 
-**Parallel opportunities**: 82 tasks marked `[P]` — over 50% can run in parallel within their phase.
+**Parallel opportunities**: Significant parallelism remains in Phases 2–12 and selected Phase 13 XAML / DI / validation tasks.
 **Test tasks per story**: US1: 4, US2: 3, US3: 3, US4: 3, US5: 3, US6: 4, US7: 2, US8: 2, US9: 3, US10: 3 — 30 focused test tasks total.
-**Suggested MVP scope**: Phases 1–5 (T001–T070, T044a–T044c) + T150–T152 = 78 tasks.
+**Suggested current completion scope**: Finish Phase 13 and Final validation before merge.

@@ -39,6 +39,37 @@
                            HorizontalTextAlignment="Center" />
                 </Border>
 
+                <!-- Shared indicator badge -->
+                <Border IsVisible="{Binding SharedIndicatorVisible}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="12,8">
+                    <Label Text="Shared Group"
+                           Style="{StaticResource BodyMuted}"
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
+                <!-- Shared group actions -->
+                <Button Text="Members"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding IsShared}"
+                        Command="{Binding NavigateToMembersCommand}"
+                        AutomationId="MembersButton" />
+
+                <Button Text="Share"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding IsShared}"
+                        Command="{Binding NavigateToShareCommand}"
+                        AutomationId="ShareButton" />
+
+                <!-- Convert to shared (only for local groups) -->
+                <Button Text="Convert to Shared Group"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding CanConvertToShared}"
+                        Command="{Binding NavigateToConvertCommand}"
+                        AutomationId="ConvertToSharedButton" />
+
                 <!-- 1. Basics -->
                 <Border Style="{StaticResource FormFieldBorder}">
                     <VerticalStackLayout Spacing="6">

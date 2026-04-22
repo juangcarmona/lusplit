@@ -24,6 +24,9 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         _viewModel.ArchiveCompleted += OnArchiveCompleted;
         _viewModel.ExportRequested += OnExportRequested;
         _viewModel.PhotoChangeRequested += OnPhotoChangeRequested;
+        _viewModel.NavigateToMembersRequested += OnNavigateToMembers;
+        _viewModel.NavigateToShareRequested += OnNavigateToShare;
+        _viewModel.NavigateToConvertRequested += OnNavigateToConvert;
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
@@ -113,4 +116,13 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
             _viewModel.StatusText = ex.Message;
         }
     }
+
+    private async void OnNavigateToMembers(object? sender, string groupId)
+        => await Shell.Current.GoToAsync($"{AppRoutes.MemberList}?groupId={groupId}");
+
+    private async void OnNavigateToShare(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync($"{AppRoutes.ShareGroup}?groupId={_viewModel.GroupId}");
+
+    private async void OnNavigateToConvert(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync($"{AppRoutes.ConvertGroup}?groupId={_viewModel.GroupId}");
 }

@@ -28,14 +28,14 @@
                         <Grid ColumnDefinitions="*,Auto,Auto" Padding="16,12">
                             <VerticalStackLayout Grid.Column="0" Spacing="2">
                                 <Label Text="{Binding DisplayName}" FontAttributes="Bold" />
-                                <Label Text="{Binding Role}" FontSize="Small" TextColor="{StaticResource SecondaryText}" />
+                                <Label Text="{Binding Role}" FontSize="Small" TextColor="{StaticResource TextMutedGray}" />
                             </VerticalStackLayout>
                             <Label
                                 Grid.Column="1"
                                 Text="Owner"
                                 IsVisible="{Binding IsOwner}"
                                 FontSize="Small"
-                                TextColor="{StaticResource PrimaryColor}"
+                                TextColor="{StaticResource TextPrimaryNavy}"
                                 VerticalOptions="Center"
                                 Margin="8,0" />
                             <Button
@@ -57,14 +57,14 @@
                 <Label Text="Pending Invitations" FontAttributes="Bold" FontSize="16" />
                 <CollectionView ItemsSource="{Binding PendingInvitations}">
                     <CollectionView.EmptyView>
-                        <Label Text="No pending invitations." TextColor="{StaticResource SecondaryText}" FontSize="Small" />
+                        <Label Text="No pending invitations." TextColor="{StaticResource TextMutedGray}" FontSize="Small" />
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="*,Auto" Padding="8,8">
                                 <VerticalStackLayout Grid.Column="0" Spacing="2">
                                     <Label Text="{Binding InvitationCode}" FontSize="Small" />
-                                    <Label Text="{Binding ExpiresAt, StringFormat='Expires: {0:g}'}" FontSize="Micro" TextColor="{StaticResource SecondaryText}" />
+                                    <Label Text="{Binding ExpiresAt, StringFormat='Expires: {0:g}'}" FontSize="Micro" TextColor="{StaticResource TextMutedGray}" />
                                 </VerticalStackLayout>
                                 <Label Grid.Column="1" Text="{Binding Status}" FontSize="Small" VerticalOptions="Center" />
                             </Grid>

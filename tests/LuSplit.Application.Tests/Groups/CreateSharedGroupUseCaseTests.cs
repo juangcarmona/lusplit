@@ -88,20 +88,3 @@ public sealed class CreateSharedGroupUseCaseTests
             sut.ExecuteAsync("EUR", "device-1", CancellationToken.None));
     }
 }
-
-internal sealed class InMemorySharedGroupStateRepository : ISharedGroupStateRepository
-{
-    private readonly Dictionary<string, SharedGroupState> _store = new();
-
-    public Task<SharedGroupState?> GetByGroupIdAsync(string groupId, CancellationToken ct)
-    {
-        _store.TryGetValue(groupId, out var state);
-        return Task.FromResult(state);
-    }
-
-    public Task SaveAsync(string groupId, SharedGroupState state, CancellationToken ct)
-    {
-        _store[groupId] = state;
-        return Task.CompletedTask;
-    }
-}
