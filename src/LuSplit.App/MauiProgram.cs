@@ -82,13 +82,20 @@ public static class MauiProgram
         // Authentication (MSAL)
         builder.Services.AddSingleton<IPublicClientApplication>(sp =>
             PublicClientApplicationBuilder
-                .Create("lusplit-client-id")
-                .WithRedirectUri("lusplit://auth")
+                .Create(AuthConfig.MobileClientId)
+                .WithAuthority(AuthConfig.Authority)
+                .WithRedirectUri($"msal{AuthConfig.MobileClientId}://auth")
                 .Build());
         builder.Services.AddSingleton<IAuthPort>(sp =>
             new MsalAuthAdapter(
                 sp.GetRequiredService<IPublicClientApplication>(),
-                new[] { "api://lusplit/.default" }));
+                new[] { AuthConfig.RequiredScope },
+#if ANDROID
+                () => Platform.CurrentActivity
+#else
+                null
+#endif
+            ));
 
         // Sync infrastructure
         builder.Services.AddSingleton<AesGcmEncryptionAdapter>();
@@ -128,6 +135,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IKeyWrapPort>(sp => sp.GetRequiredService<RsaKeyWrapAdapter>());
         builder.Services.AddSingleton<IKeyRotationPort, KeyRotationAdapter>();
         builder.Services.AddSingleton<IEncryptionPort>(sp => sp.GetRequiredService<AesGcmEncryptionAdapter>());
+        builder.Services.AddSingleton<ISecureKeyStoragePort>(sp => sp.GetRequiredService<SecureKeyStorageAdapter>());
         builder.Services.AddTransient<RotateGroupKeyUseCase>();
 
         // Group membership (requires IGroupMembershipRepository from AppDataService — wired via factory)
@@ -150,6 +158,10 @@ public static class MauiProgram
             new ActivityEntryPortProxy(sp.GetRequiredService<AppDataService>()));
         builder.Services.AddSingleton<IActivityEntryPort>(sp =>
             sp.GetRequiredService<ActivityEntryPortProxy>());
+        builder.Services.AddSingleton<GroupRepositoryProxy>(sp =>
+            new GroupRepositoryProxy(sp.GetRequiredService<AppDataService>()));
+        builder.Services.AddSingleton<IGroupRepository>(sp =>
+            sp.GetRequiredService<GroupRepositoryProxy>());
         builder.Services.AddTransient<ActivityFeedViewModel>(sp =>
             new ActivityFeedViewModel(sp.GetRequiredService<IActivityFeedDataService>()));
 
@@ -165,6 +177,7 @@ public static class MauiProgram
 
         // New pages
         builder.Services.AddTransient<ShareGroupPage>();
+        builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.CreateSharedGroupUseCase>();
         builder.Services.AddTransient<ShareGroupViewModel>();
         builder.Services.AddTransient<MemberListPage>();
         builder.Services.AddTransient<MemberListViewModel>();

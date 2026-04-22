@@ -20,6 +20,15 @@ public sealed partial class AuthenticationViewModel : ObservableObject
     [ObservableProperty]
     private bool _isAuthenticated;
 
+    [ObservableProperty]
+    private string? _username;
+
+    [ObservableProperty]
+    private string? _displayName;
+
+    [ObservableProperty]
+    private string? _userId;
+
     public event EventHandler? SignInCompleted;
     public event EventHandler? SignOutCompleted;
 
@@ -37,14 +46,21 @@ public sealed partial class AuthenticationViewModel : ObservableObject
         try
         {
             await _authPort.SignInAsync(CancellationToken.None);
-            var userId = await _authPort.GetCurrentUserIdAsync(CancellationToken.None);
-            IsAuthenticated = userId is not null;
+            var user = await _authPort.GetCurrentUserAsync(CancellationToken.None);
+            IsAuthenticated = user is not null;
+            Username = user?.Username;
+            DisplayName = user?.DisplayName;
+            UserId = user?.UserId;
             if (IsAuthenticated)
                 SignInCompleted?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
+#if DEBUG
             ErrorMessage = ex.Message;
+#else
+            ErrorMessage = "Sign-in could not be started. Please try again.";
+#endif
         }
         finally
         {
@@ -59,6 +75,9 @@ public sealed partial class AuthenticationViewModel : ObservableObject
         {
             await _authPort.SignOutAsync(CancellationToken.None);
             IsAuthenticated = false;
+            Username = null;
+            DisplayName = null;
+            UserId = null;
             SignOutCompleted?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)

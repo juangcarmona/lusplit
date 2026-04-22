@@ -19,7 +19,7 @@
             HorizontalTextAlignment="Center" />
 
         <Label
-            Text="Sign in to sync your groups across devices"
+            Text="Keep your groups in sync across all your devices. You can also share groups with friends — everything stays private and encrypted."
             FontSize="Body"
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center" />
@@ -39,7 +39,38 @@
             Text="Sign In"
             Command="{Binding SignInCommand}"
             IsEnabled="{Binding IsSigningIn, Converter={StaticResource InvertedBoolConverter}}"
+            IsVisible="{Binding IsAuthenticated, Converter={StaticResource InvertedBoolConverter}}"
             HorizontalOptions="Fill" />
+
+        <!-- Signed-in user info panel -->
+        <VerticalStackLayout
+            IsVisible="{Binding IsAuthenticated}"
+            Spacing="4"
+            HorizontalOptions="Fill">
+            <Label
+                Text="Signed in"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="{Binding DisplayName}"
+                IsVisible="{Binding DisplayName, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="{Binding Username}"
+                TextColor="{StaticResource TextMutedGray}"
+                FontSize="Small"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="{Binding UserId}"
+                TextColor="{StaticResource TextMutedGray}"
+                FontSize="Small"
+                HorizontalTextAlignment="Center" />
+            <Button
+                Text="Sign Out"
+                Command="{Binding SignOutCommand}"
+                HorizontalOptions="Fill"
+                Margin="0,8,0,0" />
+        </VerticalStackLayout>
 
     </VerticalStackLayout>
 

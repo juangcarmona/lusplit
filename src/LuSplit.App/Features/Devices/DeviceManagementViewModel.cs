@@ -18,6 +18,11 @@ public sealed partial class DeviceManagementViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
+    [ObservableProperty]
+    private bool _isSignedIn;
+
+    public bool NotSignedIn => !IsSignedIn;
+
     public ObservableCollection<DeviceDto> Devices { get; } = new();
 
     public DeviceManagementViewModel(IDeviceRegistrationPort registrationPort, IAuthPort authPort)
@@ -37,9 +42,13 @@ public sealed partial class DeviceManagementViewModel : ObservableObject
             var userId = await _authPort.GetCurrentUserIdAsync(CancellationToken.None);
             if (userId is null)
             {
-                ErrorMessage = "Not authenticated.";
+                IsSignedIn = false;
+                OnPropertyChanged(nameof(NotSignedIn));
                 return;
             }
+
+            IsSignedIn = true;
+            OnPropertyChanged(nameof(NotSignedIn));
 
             var response = await _registrationPort.ListDevicesAsync(userId, CancellationToken.None);
             Devices.Clear();

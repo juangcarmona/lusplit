@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="My Devices">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*">
 
         <ActivityIndicator
             Grid.Row="0"
@@ -22,8 +22,25 @@
             HorizontalTextAlignment="Center"
             Margin="16,8" />
 
-        <CollectionView
+        <!-- Sign-in required banner -->
+        <VerticalStackLayout
             Grid.Row="1"
+            IsVisible="{Binding NotSignedIn}"
+            Padding="24,16"
+            Spacing="8">
+            <Label
+                Text="Sign in to see your devices"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center" />
+            <Label
+                Text="Your trusted devices are listed here once you sign in. Sign in from Settings to continue."
+                HorizontalTextAlignment="Center"
+                TextColor="{StaticResource TextMutedGray}" />
+        </VerticalStackLayout>
+
+        <CollectionView
+            Grid.Row="2"
+            IsVisible="{Binding IsSignedIn}"
             ItemsSource="{Binding Devices}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

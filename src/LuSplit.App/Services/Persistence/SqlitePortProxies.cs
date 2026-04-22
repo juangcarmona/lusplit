@@ -50,3 +50,29 @@ internal sealed class ActivityEntryPortProxy : IActivityEntryPort
         await infra.ActivityEntryRepository.InsertAsync(entry, ct);
     }
 }
+
+/// <summary>
+/// Lazy proxy that resolves <see cref="IGroupRepository"/> from
+/// <see cref="AppDataService"/> on first use.
+/// </summary>
+internal sealed class GroupRepositoryProxy : IGroupRepository
+{
+    private readonly AppDataService _dataService;
+
+    public GroupRepositoryProxy(AppDataService dataService)
+    {
+        _dataService = dataService;
+    }
+
+    public async Task<Group?> GetByIdAsync(string groupId, CancellationToken cancellationToken)
+    {
+        var infra = await _dataService.GetLocalInfraAsync();
+        return await infra.GroupRepository.GetByIdAsync(groupId, cancellationToken);
+    }
+
+    public async Task SaveGroupAsync(Group group, CancellationToken cancellationToken)
+    {
+        var infra = await _dataService.GetLocalInfraAsync();
+        await infra.GroupRepository.SaveGroupAsync(group, cancellationToken);
+    }
+}
