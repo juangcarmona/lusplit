@@ -1,6 +1,7 @@
 ﻿using LuSplit.App.Features.Activity;
 using LuSplit.App.Features.Auth;
 using LuSplit.App.Features.Devices;
+using LuSplit.App.Services;
 using LuSplit.App.Features.Expenses.AddExpense;
 using LuSplit.App.Features.Expenses.ExpenseDetails;
 using LuSplit.App.Features.Groups.ArchivedGroups;
@@ -69,9 +70,15 @@ public static class MauiProgram
         builder.Services.AddTransient<InvitationLandingPage>();
         builder.Services.AddTransient<AuthenticationPage>();
 
+        // Register device use case (needed for post-sign-in device registration)
+        builder.Services.AddTransient<LuSplit.Application.Identity.UseCases.RegisterDeviceUseCase>();
+
+        // Session service — single app-level source of truth for auth state
+        builder.Services.AddSingleton<SessionService>();
+
         // Invitation + Auth ViewModels
         builder.Services.AddTransient<AuthenticationViewModel>(sp =>
-            new AuthenticationViewModel(sp.GetRequiredService<LuSplit.Application.Shared.Ports.IAuthPort>()));
+            new AuthenticationViewModel(sp.GetRequiredService<SessionService>()));
         builder.Services.AddTransient<InvitationLandingViewModel>(sp =>
             new InvitationLandingViewModel(
                 sp.GetRequiredService<LuSplit.Application.Invitations.UseCases.AcceptInvitationUseCase>(),
@@ -108,6 +115,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ControlPlaneHttpClient>(sp =>
         {
             var httpClient = new HttpClient();
+            if (!string.IsNullOrWhiteSpace(AuthConfig.FunctionsBaseUrl))
+                httpClient.BaseAddress = new Uri(AuthConfig.FunctionsBaseUrl);
             var authPort = sp.GetRequiredService<IAuthPort>();
             return new ControlPlaneHttpClient(httpClient, ct => authPort.GetAccessTokenAsync(ct));
         });
@@ -178,6 +187,7 @@ public static class MauiProgram
         // New pages
         builder.Services.AddTransient<ShareGroupPage>();
         builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.CreateSharedGroupUseCase>();
+        builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.ConvertGroupToSharedUseCase>();
         builder.Services.AddTransient<ShareGroupViewModel>();
         builder.Services.AddTransient<MemberListPage>();
         builder.Services.AddTransient<MemberListViewModel>();

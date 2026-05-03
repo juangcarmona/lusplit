@@ -27,7 +27,6 @@ yarn.lock
 !pnpm-lock.yaml
 
 .vs/
-.vscode/
 
 # =========================
 # Turborepo

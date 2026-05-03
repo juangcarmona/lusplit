@@ -20,7 +20,10 @@ public partial class SettingsPage : ContentPage
     }
 
     private async void OnNavigateToAuth(object? sender, EventArgs e)
-        => await Shell.Current.GoToAsync(AppRoutes.Authentication);
+    {
+        await Shell.Current.GoToAsync(AppRoutes.Authentication);
+        _viewModel.RefreshAccountState();
+    }
 
     private async void OnNavigateToDevices(object? sender, EventArgs e)
         => await Shell.Current.GoToAsync(AppRoutes.DeviceManagement);

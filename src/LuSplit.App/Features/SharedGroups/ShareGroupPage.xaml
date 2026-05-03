@@ -11,8 +11,8 @@
             HorizontalTextAlignment="Center"
             TextColor="{StaticResource TextMutedGray}" />
 
-        <Label Text="Currency" />
-        <Entry Text="{Binding Currency}" Placeholder="EUR" />
+        <Label Text="Currency" IsVisible="{Binding IsCreateMode}" />
+        <Entry Text="{Binding Currency}" Placeholder="EUR" IsVisible="{Binding IsCreateMode}" />
 
         <ActivityIndicator IsRunning="{Binding IsLoading}"
                            IsVisible="{Binding IsLoading}" />
@@ -22,6 +22,12 @@
                TextColor="Red" />
 
         <Button Text="Start Sharing"
+                IsVisible="{Binding IsCreateMode}"
+                Command="{Binding CreateSharedGroupCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+        <Button Text="Convert to Shared Group"
+                IsVisible="{Binding IsConvertMode}"
                 Command="{Binding CreateSharedGroupCommand}"
                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
 

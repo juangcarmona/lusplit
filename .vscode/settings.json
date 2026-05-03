@@ -19,5 +19,11 @@
         "speckit.plan": true,
         "speckit.tasks": true,
         "speckit.implement": true
-    }
+    },
+    "azureFunctions.projectSubpath": "src\\LuSplit.Functions",
+    "azureFunctions.deploySubpath": "src\\LuSplit.Functions/bin/Release/net10.0/publish",
+    "azureFunctions.projectLanguage": "C#",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "publish (functions)"
 }

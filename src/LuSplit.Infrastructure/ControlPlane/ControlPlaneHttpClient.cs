@@ -22,6 +22,9 @@ public sealed class ControlPlaneHttpClient
         if (token is not null)
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
+        // Log outgoing request (absolute URI after BaseAddress resolution)
+        System.Diagnostics.Debug.WriteLine($"[ControlPlane] {request.Method} {request.RequestUri}");
+
         HttpResponseMessage? response = null;
         for (var attempt = 0; attempt <= RetryDelaysMs.Length; attempt++)
         {
@@ -37,7 +40,14 @@ public sealed class ControlPlaneHttpClient
                 response = await _httpClient.SendAsync(request, ct);
 
                 if (!IsTransient(response.StatusCode))
+                {
+                    if ((int)response.StatusCode >= 400)
+                    {
+                        var body = await response.Content.ReadAsStringAsync(ct);
+                        System.Diagnostics.Debug.WriteLine($"[ControlPlane] {request.Method} {request.RequestUri} → {response.StatusCode}: {body}");
+                    }
                     return response;
+                }
 
                 if (attempt == RetryDelaysMs.Length)
                     return response; // Exhausted retries

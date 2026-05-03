@@ -1,19 +1,27 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LuSplit.App.Services;
 using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LuSplit.App.Features.Settings.Settings;
 
 public sealed partial class SettingsViewModel : ObservableObject
 {
     private bool _isProfileTabSelected = true;
+    private readonly SessionService? _session;
 
     [ObservableProperty] private string _preferredName = string.Empty;
     [ObservableProperty] private CurrencyOption? _selectedCurrencyOption;
     [ObservableProperty] private bool _isDarkThemeEnabled;
+
+    // Linked-account state — forwarded from SessionService.
+    public bool IsSignedIn => _session?.IsSignedIn ?? LinkedAccountStore.HasLinkedAccount;
+    public string? AccountDisplayName => _session?.DisplayName ?? LinkedAccountStore.DisplayName;
+    public string? AccountUsername => _session?.Username ?? LinkedAccountStore.Username;
 
     public event EventHandler? ProfileSaved;
 
@@ -42,6 +50,31 @@ public sealed partial class SettingsViewModel : ObservableObject
         IsDarkThemeEnabled = AppPreferences.IsDarkThemeEnabled();
         BuildCurrencyList(AppPreferences.GetPreferredCurrency());
         BuildLanguageList();
+
+        // Resolve singleton SessionService for live auth state updates.
+        _session = App.Services?.GetService<SessionService>();
+        if (_session is not null)
+        {
+            _session.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName is nameof(SessionService.IsSignedIn)
+                    or nameof(SessionService.DisplayName)
+                    or nameof(SessionService.Username))
+                {
+                    RefreshAccountState();
+                }
+            };
+        }
+    }
+
+    /// <summary>
+    /// Raises property-changed notifications for account state so the Settings UI updates.
+    /// </summary>
+    public void RefreshAccountState()
+    {
+        OnPropertyChanged(nameof(IsSignedIn));
+        OnPropertyChanged(nameof(AccountDisplayName));
+        OnPropertyChanged(nameof(AccountUsername));
     }
 
     [RelayCommand]

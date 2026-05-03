@@ -13,6 +13,9 @@ internal static class AuthConfig
     public static string RequiredScope =>
         Meta("LuSplitRequiredScope") ?? string.Empty;
 
+    public static string FunctionsBaseUrl =>
+        Meta("LuSplitFunctionsBaseUrl") ?? string.Empty;
+
     private static string? Meta(string key) =>
         typeof(AuthConfig).Assembly
             .GetCustomAttributes<AssemblyMetadataAttribute>()

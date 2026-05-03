@@ -7,7 +7,9 @@ namespace LuSplit.App.Features.SharedGroups;
 public sealed partial class ShareGroupViewModel : ObservableObject
 {
     private readonly CreateSharedGroupUseCase _createSharedGroupUseCase;
+    private readonly ConvertGroupToSharedUseCase? _convertUseCase;
     private string? _deviceId;
+    private string? _existingGroupId;
 
     [ObservableProperty]
     private string _currency = "EUR";
@@ -18,35 +20,58 @@ public sealed partial class ShareGroupViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
-    public event EventHandler<string>? GroupCreated;
+    [ObservableProperty]
+    private bool _isConvertMode;
 
-    public ShareGroupViewModel(CreateSharedGroupUseCase createSharedGroupUseCase)
+    public bool IsCreateMode => !IsConvertMode;
+
+    public event EventHandler<string>? GroupCreated;
+    public event EventHandler? ConvertCompleted;
+
+    public ShareGroupViewModel(CreateSharedGroupUseCase createSharedGroupUseCase, ConvertGroupToSharedUseCase? convertUseCase = null)
     {
         _createSharedGroupUseCase = createSharedGroupUseCase;
+        _convertUseCase = convertUseCase;
     }
 
-    public void Initialize(string deviceId)
+    public void Initialize(string deviceId, string? existingGroupId = null)
     {
         _deviceId = deviceId;
+        _existingGroupId = existingGroupId;
+        IsConvertMode = !string.IsNullOrWhiteSpace(existingGroupId) && _convertUseCase is not null;
+        OnPropertyChanged(nameof(IsCreateMode));
     }
 
     [RelayCommand]
     private async Task CreateSharedGroupAsync()
     {
         if (string.IsNullOrWhiteSpace(_deviceId))
+        {
+            ErrorMessage = "Device identifier is missing.";
             return;
+        }
 
         IsLoading = true;
         ErrorMessage = null;
 
         try
         {
-            var groupId = await _createSharedGroupUseCase.ExecuteAsync(
-                Currency,
-                _deviceId,
-                CancellationToken.None);
-
-            GroupCreated?.Invoke(this, groupId);
+            if (IsConvertMode)
+            {
+                await _convertUseCase!.ExecuteAsync(
+                    _existingGroupId!,
+                    _deviceId,
+                    CancellationToken.None);
+                ConvertCompleted?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                var groupId = await _createSharedGroupUseCase.ExecuteAsync(
+                    Currency,
+                    _deviceId,
+                    CancellationToken.None);
+                GroupCreated?.Invoke(this, groupId);
+            }
         }
         catch (Exception ex)
         {

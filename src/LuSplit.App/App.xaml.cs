@@ -35,6 +35,9 @@ public partial class App : Microsoft.Maui.Controls.Application
 	protected override void OnResume()
 	{
 		base.OnResume();
+		// Rehydrate auth state — catches browser-redirect returns after process death.
+		var session = _services.GetRequiredService<SessionService>();
+		_ = session.RefreshAsync();
 		_syncCts = new CancellationTokenSource();
 		_ = TriggerBackgroundSyncAsync(_syncCts.Token);
 	}
@@ -49,8 +52,20 @@ public partial class App : Microsoft.Maui.Controls.Application
 
 	private async Task InitializeAsync()
 	{
-		var dataService = _services.GetRequiredService<AppDataService>();
-		await dataService.InitializeAsync();
+		try
+		{
+			var dataService = _services.GetRequiredService<AppDataService>();
+			await dataService.InitializeAsync();
+
+			// Rehydrate auth session from MSAL token cache + local store.
+			// Handles process-death recovery after Android browser redirect.
+			var session = _services.GetRequiredService<SessionService>();
+			await session.RefreshAsync();
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"[LuSplit] InitializeAsync failed: {ex}");
+		}
 	}
 
 	private async Task TriggerBackgroundSyncAsync(CancellationToken ct)
@@ -67,6 +82,10 @@ public partial class App : Microsoft.Maui.Controls.Application
 		catch (OperationCanceledException)
 		{
 			// App went to sleep — expected.
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"[LuSplit] Background sync failed: {ex}");
 		}
 	}
 }

@@ -43,9 +43,10 @@
 			</intent-filter>
 		</activity>
 
-		<!-- MSAL browser redirect callback -->
+		<!-- MSAL browser redirect callback — handled by MsalActivity -->
 		<activity
-			android:name="microsoft.identity.client.BrowserTabActivity"
+			android:name="com.jgcarmona.lusplit.MsalActivity"
+			android:noHistory="true"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />

@@ -101,10 +101,40 @@
                 <!-- Account & Devices -->
                 <VerticalStackLayout Spacing="8" Margin="0,16,0,0">
                     <Label Text="Account &amp; Devices" Style="{StaticResource SectionTitle}" />
-                    <Button Text="Account"
-                            Style="{StaticResource SecondaryButton}"
-                            Command="{Binding NavigateToAuthCommand}"
-                            AutomationId="AccountButton" />
+
+                    <!-- Signed-in account summary -->
+                    <Border Style="{StaticResource FormFieldBorder}" IsVisible="{Binding IsSignedIn}">
+                        <VerticalStackLayout Spacing="2">
+                            <Label
+                                Text="{Binding AccountDisplayName}"
+                                IsVisible="{Binding AccountDisplayName, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+                                FontAttributes="Bold" />
+                            <Label
+                                Text="{Binding AccountUsername}"
+                                FontSize="Small"
+                                TextColor="{StaticResource TextMutedGray}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Not signed in hint -->
+                    <Label
+                        Text="Not signed in"
+                        IsVisible="{Binding IsSignedIn, Converter={StaticResource InvertedBoolConverter}}"
+                        TextColor="{StaticResource TextMutedGray}"
+                        FontSize="Small" />
+
+                    <Button
+                        Text="Account"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding IsSignedIn}"
+                        Command="{Binding NavigateToAuthCommand}"
+                        AutomationId="AccountButton" />
+                    <Button
+                        Text="Sign In"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding IsSignedIn, Converter={StaticResource InvertedBoolConverter}}"
+                        Command="{Binding NavigateToAuthCommand}"
+                        AutomationId="SignInButton" />
                     <Button Text="Devices"
                             Style="{StaticResource SecondaryButton}"
                             Command="{Binding NavigateToDevicesCommand}"

@@ -1,15 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LuSplit.Application.Shared.Ports;
+using LuSplit.App.Services;
 
 namespace LuSplit.App.Features.Auth;
 
 /// <summary>
-/// Orchestrates MSAL interactive sign-in, silent token refresh, and sign-out.
+/// Thin UI surface for the authentication page.
+/// All durable session state lives in <see cref="SessionService"/>;
+/// this ViewModel exposes it for data-binding and handles sign-in / sign-out
+/// commands.
 /// </summary>
 public sealed partial class AuthenticationViewModel : ObservableObject
 {
-    private readonly IAuthPort _authPort;
+    private readonly SessionService _session;
 
     [ObservableProperty]
     private bool _isSigningIn;
@@ -17,24 +20,36 @@ public sealed partial class AuthenticationViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
-    [ObservableProperty]
-    private bool _isAuthenticated;
+    public bool IsAuthenticated => _session.IsSignedIn;
+    public string? Username => _session.Username;
+    public string? DisplayName => _session.DisplayName;
+    public string? UserId => _session.UserId;
 
-    [ObservableProperty]
-    private string? _username;
-
-    [ObservableProperty]
-    private string? _displayName;
-
-    [ObservableProperty]
-    private string? _userId;
-
-    public event EventHandler? SignInCompleted;
     public event EventHandler? SignOutCompleted;
 
-    public AuthenticationViewModel(IAuthPort authPort)
+    public AuthenticationViewModel(SessionService session)
     {
-        _authPort = authPort;
+        _session = session;
+        _session.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(SessionService.IsSignedIn))
+                OnPropertyChanged(nameof(IsAuthenticated));
+            else if (e.PropertyName is nameof(SessionService.Username))
+                OnPropertyChanged(nameof(Username));
+            else if (e.PropertyName is nameof(SessionService.DisplayName))
+                OnPropertyChanged(nameof(DisplayName));
+            else if (e.PropertyName is nameof(SessionService.UserId))
+                OnPropertyChanged(nameof(UserId));
+        };
+    }
+
+    /// <summary>
+    /// Refresh from MSAL / local store on page appear.
+    /// </summary>
+    [RelayCommand]
+    private async Task TrySilentRefreshAsync()
+    {
+        await _session.RefreshAsync();
     }
 
     [RelayCommand]
@@ -45,14 +60,7 @@ public sealed partial class AuthenticationViewModel : ObservableObject
 
         try
         {
-            await _authPort.SignInAsync(CancellationToken.None);
-            var user = await _authPort.GetCurrentUserAsync(CancellationToken.None);
-            IsAuthenticated = user is not null;
-            Username = user?.Username;
-            DisplayName = user?.DisplayName;
-            UserId = user?.UserId;
-            if (IsAuthenticated)
-                SignInCompleted?.Invoke(this, EventArgs.Empty);
+            await _session.SignInAsync(CancellationToken.None);
         }
         catch (Exception ex)
         {
@@ -73,11 +81,7 @@ public sealed partial class AuthenticationViewModel : ObservableObject
     {
         try
         {
-            await _authPort.SignOutAsync(CancellationToken.None);
-            IsAuthenticated = false;
-            Username = null;
-            DisplayName = null;
-            UserId = null;
+            await _session.SignOutAsync(CancellationToken.None);
             SignOutCompleted?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
