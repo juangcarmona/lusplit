@@ -9,6 +9,7 @@ using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Settings;
 using LuSplit.Application.Groups;
+using LuSplit.Application.Groups.UseCases;
 using LuSplit.Domain.Groups;
 
 namespace LuSplit.App.Features.Groups.CreateGroup;
@@ -16,6 +17,9 @@ namespace LuSplit.App.Features.Groups.CreateGroup;
 public sealed partial class CreateGroupViewModel : ObservableObject
 {
     private readonly ICreateGroupDataService _dataService;
+    private readonly ConvertGroupToSharedUseCase? _convertUseCase;
+    private readonly RefreshSharedGroupContextUseCase? _refreshUseCase;
+    private readonly Func<string>? _deviceIdProvider;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStep1))]
@@ -48,9 +52,16 @@ public sealed partial class CreateGroupViewModel : ObservableObject
     /// <summary>Raised when a shared group was created. Navigate to invite flow. Arg = groupId.</summary>
     public event EventHandler<string>? SharedGroupCreated;
 
-    public CreateGroupViewModel(ICreateGroupDataService dataService)
+    public CreateGroupViewModel(
+        ICreateGroupDataService dataService,
+        ConvertGroupToSharedUseCase? convertUseCase = null,
+        RefreshSharedGroupContextUseCase? refreshUseCase = null,
+        Func<string>? deviceIdProvider = null)
     {
         _dataService = dataService;
+        _convertUseCase = convertUseCase;
+        _refreshUseCase = refreshUseCase;
+        _deviceIdProvider = deviceIdProvider;
         BuildCurrencyList(AppPreferences.GetPreferredCurrency());
     }
 
@@ -107,6 +118,17 @@ public sealed partial class CreateGroupViewModel : ObservableObject
 
             if (CollaborationMode == GroupCollaborationMode.Shared)
             {
+                // Convert the just-created local group to shared, then refresh
+                // authoritative state so the invite flow has valid shared metadata.
+                var deviceId = _deviceIdProvider?.Invoke() ?? "Phone";
+                await _convertUseCase!.ExecuteAsync(groupId, deviceId, CancellationToken.None);
+
+                if (_refreshUseCase is not null)
+                {
+                    try { await _refreshUseCase.ExecuteAsync(groupId); }
+                    catch { /* Best-effort refresh; shared state was already persisted by convert */ }
+                }
+
                 SharedGroupCreated?.Invoke(this, groupId);
             }
             else

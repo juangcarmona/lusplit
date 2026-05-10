@@ -2,45 +2,90 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuSplit.App.Features.Invitations.InvitePage"
-             Title="Invite Member">
+             Title="Invite people">
 
-    <VerticalStackLayout Padding="24" Spacing="16">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
 
-        <Label Text="Share this invitation link with the person you want to invite."
-               HorizontalTextAlignment="Center" />
+            <!-- Post-create context text -->
+            <Label Text="Your shared group is ready! Invite people to start splitting expenses together."
+                   IsVisible="{Binding IsPostCreate}"
+                   HorizontalTextAlignment="Center"
+                   Style="{StaticResource BodyMuted}" />
 
-        <ActivityIndicator IsRunning="{Binding IsLoading}"
-                           IsVisible="{Binding IsLoading}"
-                           HorizontalOptions="Center" />
+            <!-- Default context text -->
+            <Label Text="Generate an invitation and share it with the person you want to invite."
+                   IsVisible="{Binding IsPostCreate, Converter={StaticResource InvertedBoolConverter}}"
+                   HorizontalTextAlignment="Center"
+                   Style="{StaticResource BodyMuted}" />
 
-        <Label Text="{Binding ErrorMessage}"
-               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
-               TextColor="Red" />
+            <!-- Loading indicator -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               HorizontalOptions="Center" />
 
-        <Label Text="{Binding GeneratedLink}"
-               IsVisible="{Binding GeneratedLink, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
-               HorizontalTextAlignment="Center"
-               FontFamily="Monospace" />
+            <!-- Error message -->
+            <Label Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyToBoolConverter}}"
+                   TextColor="Red"
+                   HorizontalTextAlignment="Center" />
 
-        <Button Text="Generate Invite Link"
-                Command="{Binding GenerateInviteLinkCommand}"
-                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                HorizontalOptions="Fill" />
+            <!-- Primary action: Invite people (generates link + opens share sheet) -->
+            <Button Text="Invite people"
+                    Command="{Binding InviteCommand}"
+                    IsEnabled="{Binding CanInvite}"
+                    HorizontalOptions="Fill"
+                    AutomationId="InvitePeopleButton" />
 
-        <!-- Post-create onboarding actions -->
-        <Button Text="Do this later"
-                Style="{StaticResource SecondaryButton}"
-                IsVisible="{Binding IsPostCreate}"
-                Command="{Binding SkipCommand}"
-                AutomationId="SkipInviteButton"
-                HorizontalOptions="Fill" />
+            <!-- Fallback actions (visible after share completes, cancels, or fails) -->
+            <VerticalStackLayout IsVisible="{Binding ShowFallbackActions}" Spacing="12">
 
-        <Button Text="Done"
-                IsVisible="{Binding IsPostCreate}"
-                Command="{Binding DoneCommand}"
-                AutomationId="DoneInviteButton"
-                HorizontalOptions="Fill" />
+                <Label Text="Invitation link created."
+                       HorizontalTextAlignment="Center"
+                       Style="{StaticResource SectionTitle}" />
 
-    </VerticalStackLayout>
+                <Button Text="Share again"
+                        Command="{Binding ShareAgainCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        HorizontalOptions="Fill"
+                        AutomationId="ShareAgainButton" />
+
+                <Button Text="Copy link"
+                        Command="{Binding CopyInviteLinkCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        HorizontalOptions="Fill"
+                        AutomationId="CopyLinkButton" />
+
+                <!-- Compact link disclosure (secondary, not primary content) -->
+                <Border IsVisible="{Binding ShowLinkSection}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="12,8">
+                    <Label Text="{Binding GeneratedLink}"
+                           FontFamily="Monospace"
+                           FontSize="11"
+                           LineBreakMode="CharacterWrap"
+                           MaxLines="3" />
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- Post-create onboarding actions -->
+            <Button Text="Do this later"
+                    Style="{StaticResource SecondaryButton}"
+                    IsVisible="{Binding IsPostCreate}"
+                    Command="{Binding SkipCommand}"
+                    AutomationId="SkipInviteButton"
+                    HorizontalOptions="Fill" />
+
+            <Button Text="Done"
+                    IsVisible="{Binding IsPostCreate}"
+                    Command="{Binding DoneCommand}"
+                    AutomationId="DoneInviteButton"
+                    HorizontalOptions="Fill" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

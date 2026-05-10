@@ -378,6 +378,20 @@ The app MUST adapt all group surfaces based on four mutually exclusive group sta
 - **FR-043g**: The group list and group switcher MUST make shared/local and owner/member visually distinguishable to the user.
 - **FR-043h**: Empty states in shared groups (no expenses, no members beyond the owner) MUST use contextual copy that mentions inviting people or waiting for sync, as appropriate.
 
+#### Invite UX & Shared-State Integrity (Refinement Patch — 2026-05-10)
+
+> **Context**: Runtime validation revealed that Phase 14 closure was premature.
+> The create-shared-to-invite flow, invitation delivery UX, and post-create state hydration
+> do not honor the existing spec contract at runtime. These requirements tighten the
+> boundary between "unit-tested" and "runtime-correct."
+
+- **FR-015b**: After successful invitation creation, the app MUST invoke the platform system share sheet immediately. Showing the raw link as the primary content of the invitation screen is not acceptable. The raw link may exist only as a secondary fallback action.
+- **FR-015c**: If the share sheet is unavailable, dismissed, or fails, the user MUST be able to copy the invitation link and retry sharing from the same screen.
+- **FR-043i**: After creating or converting a shared group, the app MUST NOT navigate into any screen that still depends on stale local shared-state detection. The app MUST seed or refresh authoritative shared-group state before the invite flow is rendered.
+- **FR-043j**: The invite surface MUST repair missing local shared metadata by fetching current group info before showing an error. "This group is not shared yet" is only valid after authoritative verification.
+- **FR-043k**: Any task marked as end-to-end complete for create-shared, convert-to-shared, or invite flows MUST be validated with runtime device/emulator checks, not only unit tests.
+- **FR-043l**: The invite flow MUST expose three explicit outcomes: **Share now**, **Copy link**, **Done / Do this later**.
+
 #### Monorepo & Solution Structure
 
 - **FR-043**: The solution MUST live in the existing monorepo structure with clear project boundaries.

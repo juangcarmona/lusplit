@@ -201,6 +201,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ShareGroupPage>();
         builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.CreateSharedGroupUseCase>();
         builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.ConvertGroupToSharedUseCase>();
+        builder.Services.AddTransient<LuSplit.Application.Groups.UseCases.RefreshSharedGroupContextUseCase>();
         builder.Services.AddTransient<ShareGroupViewModel>();
         builder.Services.AddTransient<MemberListPage>();
         builder.Services.AddTransient<MemberListViewModel>();
@@ -210,6 +211,8 @@ public static class MauiProgram
         builder.Services.AddTransient<InvitePage>();
         builder.Services.AddTransient<InviteViewModel>();
         builder.Services.AddTransient<ConvertGroupViewModel>();
+        builder.Services.AddSingleton<LuSplit.Application.Shared.Ports.IShareSheetPort, LuSplit.App.Services.MauiShareSheetAdapter>();
+        builder.Services.AddSingleton<LuSplit.Application.Shared.Ports.IClipboardPort, LuSplit.App.Services.MauiClipboardAdapter>();
 
         return builder.Build();
     }

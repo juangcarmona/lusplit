@@ -1,6 +1,11 @@
 using LuSplit.App.Features.Groups.CreateGroup;
 using LuSplit.App.Services.Persistence;
 using LuSplit.Application.Groups;
+using LuSplit.Application.Groups.Ports;
+using LuSplit.Application.Groups.UseCases;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Contracts.ControlPlane;
+using LuSplit.Domain.Groups;
 using NSubstitute;
 
 namespace LuSplit.App.Tests.Groups;
@@ -16,7 +21,27 @@ public sealed class SharedGroupPostCreateNavigationTests
     }
 
     private static CreateGroupViewModel BuildVm(ICreateGroupDataService? dataService = null)
-        => new(dataService ?? MockDataService());
+    {
+        var ds = dataService ?? MockDataService();
+        var groupRepo = Substitute.For<IGroupRepository>();
+        groupRepo.GetByIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new Group("g-123", "EUR", false));
+        var regPort = Substitute.For<IGroupRegistrationPort>();
+        regPort.RegisterGroupAsync(Arg.Any<CreateGroupRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new CreateGroupResponse("g-123", "c-1"));
+        regPort.GetGroupInfoAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(new GroupInfoResponse("g-123", "owner-1", 1, DateTimeOffset.UtcNow));
+        var stateRepo = Substitute.For<ISharedGroupStateRepository>();
+        var memberRepo = Substitute.For<IGroupMembershipRepository>();
+        memberRepo.GetByGroupIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Array.Empty<GroupMembership>());
+        var keyStorage = Substitute.For<ISecureKeyStoragePort>();
+        var auth = Substitute.For<IAuthPort>();
+        auth.GetCurrentUserIdAsync(Arg.Any<CancellationToken>()).Returns("owner-1");
+        var convert = new ConvertGroupToSharedUseCase(groupRepo, regPort, stateRepo, memberRepo, keyStorage, auth);
+        var refresh = new RefreshSharedGroupContextUseCase(regPort, stateRepo, memberRepo);
+        return new CreateGroupViewModel(ds, convert, refresh, deviceIdProvider: () => "Phone");
+    }
 
     [Fact]
     public async Task SharedMode_Create_RaisesSharedGroupCreated_NotGroupCreated()

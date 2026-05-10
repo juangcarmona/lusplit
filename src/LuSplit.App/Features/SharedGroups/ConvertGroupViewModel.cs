@@ -7,6 +7,7 @@ namespace LuSplit.App.Features.SharedGroups;
 public sealed partial class ConvertGroupViewModel : ObservableObject
 {
     private readonly ConvertGroupToSharedUseCase _convertUseCase;
+    private readonly RefreshSharedGroupContextUseCase? _refreshUseCase;
 
     [ObservableProperty]
     private bool _isConverting;
@@ -23,9 +24,12 @@ public sealed partial class ConvertGroupViewModel : ObservableObject
     /// <summary>Raised when the group is already shared and no conversion is needed.</summary>
     public event EventHandler? AlreadySharedDetected;
 
-    public ConvertGroupViewModel(ConvertGroupToSharedUseCase convertUseCase)
+    public ConvertGroupViewModel(
+        ConvertGroupToSharedUseCase convertUseCase,
+        RefreshSharedGroupContextUseCase? refreshUseCase = null)
     {
         _convertUseCase = convertUseCase;
+        _refreshUseCase = refreshUseCase;
     }
 
     public void CheckAlreadyShared(bool isShared)
@@ -51,6 +55,14 @@ public sealed partial class ConvertGroupViewModel : ObservableObject
         {
             var deviceId = DeviceInfo.Current.Idiom.ToString();
             await _convertUseCase.ExecuteAsync(groupId, deviceId, CancellationToken.None);
+
+            // FR-043i: Refresh authoritative state before navigation
+            if (_refreshUseCase is not null)
+            {
+                try { await _refreshUseCase.ExecuteAsync(groupId); }
+                catch { /* Best-effort; convert already persisted state */ }
+            }
+
             ConvertCompleted?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)

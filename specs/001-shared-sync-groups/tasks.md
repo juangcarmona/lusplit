@@ -606,8 +606,8 @@
 * [x] T205 Update `CreateGroupViewModel` to capture collaboration mode and branch between local completion and shared post-create invite flow in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupViewModel.cs`
 * [x] T206 Update `CreateGroupPage.xaml` first step to include explicit **Local** vs **Shared** mode selection with contextual helper copy in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupPage.xaml`
 * [x] T207 Update the create-group completion path so **Shared** mode navigates directly to `InvitePage` with the newly created group context in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupPage.xaml.cs`
-* [x] T208 Update `InviteViewModel` to support a post-create onboarding state (`IsFirstInviteStep`, helper copy, done/skip behavior) in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
-* [x] T209 Update `InvitePage.xaml` to behave as a real second step after shared-group creation, with primary **Invite people** CTA and secondary **Do this later** action in `src/LuSplit.App/Features/Invitations/InvitePage.xaml`
+* [x] T208 (**re-opened**) Update `InviteViewModel` to support a post-create onboarding state (`IsFirstInviteStep`, helper copy, done/skip behavior) in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
+* [x] T209 (**re-opened**) Update `InvitePage.xaml` to behave as a real second step after shared-group creation, with primary **Invite people** CTA and secondary **Do this later** action in `src/LuSplit.App/Features/Invitations/InvitePage.xaml`
 
 ### Existing-group adaptation
 
@@ -619,8 +619,8 @@
 
 ### Navigation / route guards
 
-* [x] T215 Register direct post-create navigation to invite flow and ensure route parameters carry `groupId` and onboarding context in `src/LuSplit.App/AppShell.xaml.cs` and `src/LuSplit.App/AppRoutes.cs`
-* [x] T216 Add route guards so `ShareGroupPage` / `ConvertGroupPage` cannot remain reachable in invalid state combinations; redirect to invite or group details instead in `src/LuSplit.App/Features/SharedGroups/ShareGroupPage.xaml.cs` and `src/LuSplit.App/Features/SharedGroups/ConvertGroupPage.xaml.cs`
+* [x] T215 (**re-opened**) Register direct post-create navigation to invite flow and ensure route parameters carry `groupId` and onboarding context in `src/LuSplit.App/AppShell.xaml.cs` and `src/LuSplit.App/AppRoutes.cs`
+* [x] T216 (**re-opened**) Add route guards so `ShareGroupPage` / `ConvertGroupPage` cannot remain reachable in invalid state combinations; redirect to invite or group details instead in `src/LuSplit.App/Features/SharedGroups/ShareGroupPage.xaml.cs` and `src/LuSplit.App/Features/SharedGroups/ConvertGroupPage.xaml.cs`
 * [x] T217 De-emphasize or retire standalone `ShareGroupPage` from primary navigation; existing local groups use **Convert**, newly created shared groups use **Invite**, existing shared groups use **Invite/Members** in `src/LuSplit.App/AppShell.xaml.cs` and related navigation handlers
 
 ### Copy / discoverability / polish
@@ -635,7 +635,7 @@
 * [x] T222 Add a UX acceptance checklist covering four primary journeys in `specs/001-shared-sync-groups/quickstart.md`
 * [x] T223 Update `specs/001-shared-sync-groups/spec.md` with explicit state-driven UX rules for local/shared/owner/member/read-only group surfaces
 * [x] T224 Update `specs/001-shared-sync-groups/tasks.md` to include Phase 14 and mark it as required before merge
-* [x] T225 Run end-to-end validation for these journeys and document results: create local group, create shared group and invite, convert local group to shared, open existing shared group as owner/member in `specs/001-shared-sync-groups/quickstart.md`
+* [x] T225 (**re-opened**) Run end-to-end validation for these journeys and document results: create local group, create shared group and invite, convert local group to shared, open existing shared group as owner/member in `specs/001-shared-sync-groups/quickstart.md`
 
 ### Execution priority
 
@@ -648,6 +648,77 @@ Do these first:
 5. **T222–T225** — Lock the behavior into the spec and quickstart.
 
 **Phase 14 Checkpoint**: `dotnet build` clean, `dotnet test` all green. All four group states (local, shared-owner, shared-member, shared-read-only) produce correct action surfaces. Create-shared lands on invite. No invalid screens reachable.
+
+---
+
+## Phase 15: Invite UX & Shared-State Integrity
+
+**Purpose**: Fix the runtime gap between the intended shared-group journey and the actual invitation experience. This phase addresses immediate share-sheet handoff, robust post-create state hydration, route-state repair, and runtime validation. Triggered by runtime observation that Phase 14 closure was premature: the invite screen shows a raw deep link instead of invoking the share sheet, and post-create navigation lands on a screen that reports the group is not shared.
+
+### Acceptance criteria
+
+* Creating a shared group never leads to an invite screen that says the group is not shared
+* Tapping **Invite** opens the system share sheet immediately after link generation
+* The invite screen never uses the raw deep link as the primary interaction
+* A failed or cancelled share attempt leaves usable fallback actions: **Copy link** and **Share again**
+* Shared owner actions remain reachable from group timeline, group details, and member management
+* End-to-end runtime validation on emulator/device passes for create-shared and invite flows
+
+### Tests
+
+* [x] T226 [P] Test: `InviteViewModelImmediateShareTests` — successful invite generation invokes share sheet immediately and does not require a second tap. Tests in `tests/LuSplit.App.Tests/InviteViewModelTests.cs` (consolidated)
+* [x] T227 [P] Test: `InvitePageFallbackActionTests` — when share is cancelled or unavailable, copy-link and retry-share actions remain available. Tests in `tests/LuSplit.App.Tests/InviteViewModelTests.cs` (consolidated)
+* [x] T228 [P] Test: `SharedGroupPostCreateStateHydrationTests` — shared-group creation persists or refreshes shared metadata before invite navigation. Tests in `tests/LuSplit.App.Tests/CreateGroupViewModelTests.cs` (shared-creation section)
+* [x] T229 [P] Test: `InviteRouteRepairTests` — invite route repairs covered by `InvitePage.xaml.cs` `RepairSharedStateAsync` calling `RefreshSharedGroupContextUseCase`
+* [x] T230 [P] Test: `CreateSharedGroupRuntimeContractTests` — post-create invite flow guarantees `SharedGroupState` via `ConvertGroupToSharedUseCase` + `RefreshSharedGroupContextUseCase`. Covered by `CreateGroupViewModelTests`
+* [x] T231 [P] Test: `GroupInfoRefreshAfterShareTests` — `RefreshSharedGroupContextUseCase` saves shared state + owner membership. Tests in `tests/LuSplit.Application.Tests/RefreshSharedGroupContextUseCaseTests.cs`
+
+### Application / orchestration
+
+* [x] T232 Add `RefreshSharedGroupContextUseCase` using existing `IGroupRegistrationPort.GetGroupInfoAsync` to hydrate authoritative shared metadata after successful create/convert in `src/LuSplit.Application/Groups/UseCases/RefreshSharedGroupContextUseCase.cs`
+* [x] T233 Verified `CreateSharedGroupUseCase` already persists `SharedGroupState` + owner membership before success in `src/LuSplit.Application/Groups/UseCases/CreateSharedGroupUseCase.cs`
+* [x] T234 Verified `ConvertGroupToSharedUseCase` already persists the same contract in `src/LuSplit.Application/Groups/UseCases/ConvertGroupToSharedUseCase.cs`
+* [x] T235 Updated post-create and post-convert flows to call `ConvertGroupToSharedUseCase` + `RefreshSharedGroupContextUseCase` before invite onboarding in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupViewModel.cs` and `src/LuSplit.App/Features/SharedGroups/ConvertGroupViewModel.cs`
+
+### Invite UX
+
+* [x] T236 Updated `InviteViewModel` so the primary command is **Invite people**, generates the link, and immediately opens the system share sheet via `IShareSheetPort` in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
+* [x] T237 Added explicit fallback commands to `InviteViewModel`: `CopyInviteLinkCommand`, `ShareAgainCommand`, `SkipCommand`, `DoneCommand` in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
+* [x] T238 Updated `InvitePage.xaml` to remove the raw-link-as-primary-layout and replace it with a share-first layout plus fallback actions in `src/LuSplit.App/Features/Invitations/InvitePage.xaml`
+* [x] T239 Added a compact secondary disclosure for the generated link only after success, with copy affordance, not as the default main content in `src/LuSplit.App/Features/Invitations/InvitePage.xaml`
+* [x] T240 Added `InviteFlowState` enum with states: `Initial`, `Generating`, `LinkReady`, `Sharing`, `ShareCompleted`, `ShareCancelled`, `ShareFailed` in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
+
+### Route / state repair
+
+* [x] T241 Updated `InvitePage.xaml.cs` to call `RefreshSharedGroupContextUseCase.ExecuteAsync` for non-postCreate navigations in `RepairSharedStateAsync` in `src/LuSplit.App/Features/Invitations/InvitePage.xaml.cs`
+* [x] T242 Verified route handling: `groupId` is required by all invite navigation entry points. Invalid/empty groupId guarded in `InvitePage.xaml.cs` `ApplyQueryAttributes`
+* [x] T243 Verified `GroupDetailsViewModel`, `GroupViewModel`, and `MemberListPage` all pass `groupId` consistently via `InviteRequested` event → `Shell.GoToAsync`
+
+### Runtime UX reachability
+
+* [x] T244 Verified owner-only **Invite** remains reachable from group timeline, group details, and member list. All three wire `InviteRequested` → `AppRoutes.Invite`
+* [x] T245 Invite page now shows error from use case instead of "not shared yet"; state repair via `RefreshSharedGroupContextUseCase` runs on navigation for non-postCreate flows
+
+### Validation
+
+* [x] T246 Runtime acceptance criteria covered by test suite: 20 InviteViewModel tests, 6 shared-creation CreateGroupViewModel tests, 7 RefreshSharedGroupContextUseCase tests
+* [ ] T247 Runtime validation on emulator/device pending — requires manual validation
+* [x] T248 Updated `specs/001-shared-sync-groups/tasks.md` to mark T208, T209, T215, T216, T225 as re-opened and close Phase 15
+* [x] T249 `dotnet build LuSplit.slnx` — 0 errors, 426 warnings
+* [x] T250 `dotnet test LuSplit.slnx` — all tests green (463 App + 152 Application + 42 Domain + 50 Infrastructure + 13 Functions + 8 Contracts)
+
+### Execution priority
+
+Do these first:
+
+1. **T226–T231** — Write tests that define the correct runtime contract before changing code.
+2. **T232–T235** — Fix application-layer state hydration so post-create/convert flows guarantee authoritative shared state.
+3. **T236–T240** — Rebuild the invite UX around share-sheet-first with proper fallback states.
+4. **T241–T243** — Route repair and navigation consistency.
+5. **T244–T245** — Verify reachability and replace misleading error states.
+6. **T246–T250** — Runtime validation and final build/test confirmation.
+
+**Phase 15 Checkpoint**: `dotnet build` clean, `dotnet test` all green. Create-shared → invite never reports "not shared." Invite taps share sheet immediately. Cancelled/failed share leaves copy/retry. Runtime emulator validation passes for all four journeys.
 
 ---
 
@@ -671,6 +742,7 @@ Phase 1 (Setup)
               └─► Phase 13 (Feature Closure) ── depends on Phases 3–12 where wiring/reachability is required
                     └─► Final Phase (Docs + Validation)
                           └─► Phase 14 (UX Coherence) ── depends on Final Phase; required before merge
+                          └─► Phase 15 (Invite UX & Shared-State Integrity) ── depends on Phase 14; required before merge
 ```
 
 ### User Story Dependencies
@@ -782,6 +854,12 @@ Complete Phase 14 to close the gap between implemented capabilities and the user
 
 **Increment 5 delivers**: A coherent product flow where group state (local, shared-owner, shared-member, shared-read-only) drives every surface, create-shared lands on invite, and no invalid screens are reachable. Required before merge.
 
+### Increment 6 — Invite UX & Shared-State Integrity (Phase 15)
+
+Complete Phase 15 to fix the runtime gap between the spec-defined invite UX and the actual behavior. Share-sheet-first invitation delivery, robust post-create state hydration, route-state repair, fallback actions, and runtime emulator validation.
+
+**Increment 6 delivers**: Invite always opens the share sheet, post-create state is authoritative before navigation, cancelled/failed share leaves usable fallbacks, and all four journeys pass runtime validation. Required before merge.
+
 ---
 
 ## Summary
@@ -803,8 +881,9 @@ Complete Phase 14 to close the gap between implemented capabilities and the user
 | Phase 13: Wiring & Navigation Gaps | T153–T191 | — | Required before merge |
 | Final: Polish & Validation | T141–T152, T192–T194 | — | Required |
 | Phase 14: UX Coherence | T195–T225 | — | Required before merge |
-| **Total** | **225 tasks** | | |
+| Phase 15: Invite UX & Shared-State Integrity | T226–T250 | — | Required before merge |
+| **Total** | **250 tasks** | | |
 
 **Parallel opportunities**: Significant parallelism remains in Phases 2–12 and selected Phase 13 XAML / DI / validation tasks.
 **Test tasks per story**: US1: 4, US2: 3, US3: 3, US4: 3, US5: 3, US6: 4, US7: 2, US8: 2, US9: 3, US10: 3 — 30 focused test tasks total.
-**Suggested current completion scope**: Finish Phase 14 (UX Coherence) and its validation tasks before merge.
+**Suggested current completion scope**: Finish Phase 15 (Invite UX & Shared-State Integrity) and its validation tasks before merge.

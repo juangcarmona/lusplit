@@ -1,3 +1,8 @@
+using LuSplit.Application.Groups.Ports;
+using LuSplit.Application.Groups.UseCases;
+using LuSplit.Application.Shared.Ports;
+using LuSplit.Contracts.ControlPlane;
+using LuSplit.Domain.Groups;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 
@@ -360,5 +365,153 @@ public class CreateGroupViewModelTests
         var charlie = capturedDrafts!.FirstOrDefault(d => d.Name == "Charlie");
         Assert.NotNull(charlie);
         Assert.Equal("Alice", charlie!.HouseholdName);
+    }
+
+    // ── Shared group creation (T228) ───────────────────────────────────────
+
+    private static (CreateGroupViewModel vm, ICreateGroupDataService dataService,
+        ConvertGroupToSharedUseCase convertUseCase,
+        IGroupRegistrationPort registrationPort,
+        ISharedGroupStateRepository stateRepo,
+        IGroupMembershipRepository membershipRepo) BuildShared()
+    {
+        var dataService = MockDataService();
+        dataService.CreateGroupAsync(default!, default!, default!).ReturnsForAnyArgs("new-group-id");
+
+        var groupRepo = Substitute.For<IGroupRepository>();
+        groupRepo.GetByIdAsync("new-group-id", Arg.Any<CancellationToken>())
+            .Returns(new Group("new-group-id", "EUR", false));
+
+        var registrationPort = Substitute.For<IGroupRegistrationPort>();
+        registrationPort.RegisterGroupAsync(Arg.Any<CreateGroupRequest>(), Arg.Any<CancellationToken>())
+            .Returns(new CreateGroupResponse("new-group-id", "container-1"));
+        registrationPort.GetGroupInfoAsync("new-group-id", Arg.Any<CancellationToken>())
+            .Returns(new GroupInfoResponse("new-group-id", "owner-1", 1, DateTimeOffset.UtcNow));
+
+        var stateRepo = Substitute.For<ISharedGroupStateRepository>();
+        stateRepo.GetByGroupIdAsync("new-group-id", Arg.Any<CancellationToken>())
+            .Returns((SharedGroupState?)null);
+
+        var membershipRepo = Substitute.For<IGroupMembershipRepository>();
+        membershipRepo.GetByGroupIdAsync("new-group-id", Arg.Any<CancellationToken>())
+            .Returns(Array.Empty<GroupMembership>());
+
+        var keyStorage = Substitute.For<ISecureKeyStoragePort>();
+        var authPort = Substitute.For<IAuthPort>();
+        authPort.GetCurrentUserIdAsync(Arg.Any<CancellationToken>()).Returns("owner-1");
+
+        var convertUseCase = new ConvertGroupToSharedUseCase(
+            groupRepo, registrationPort, stateRepo, membershipRepo, keyStorage, authPort);
+
+        var refreshUseCase = new RefreshSharedGroupContextUseCase(
+            registrationPort, stateRepo, membershipRepo);
+
+        var vm = new CreateGroupViewModel(
+            dataService, convertUseCase, refreshUseCase,
+            deviceIdProvider: () => "Phone");
+
+        return (vm, dataService, convertUseCase, registrationPort, stateRepo, membershipRepo);
+    }
+
+    [Fact]
+    public async Task CreateCommand_SharedMode_CallsConvertAndRegistersWithControlPlane()
+    {
+        var (vm, _, _, registrationPort, _, _) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        vm.SelectModeCommand.Execute("Shared");
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        await registrationPort.Received(1).RegisterGroupAsync(
+            Arg.Any<CreateGroupRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task CreateCommand_SharedMode_PersistsSharedGroupState()
+    {
+        var (vm, _, _, _, stateRepo, _) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        vm.SelectModeCommand.Execute("Shared");
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        // ConvertGroupToSharedUseCase saves state, then RefreshSharedGroupContextUseCase saves again
+        await stateRepo.Received().SaveAsync(
+            "new-group-id",
+            Arg.Is<SharedGroupState>(s => s.IsShared),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task CreateCommand_SharedMode_FiresSharedGroupCreated()
+    {
+        var (vm, _, _, _, _, _) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        vm.SelectModeCommand.Execute("Shared");
+
+        string? firedGroupId = null;
+        vm.SharedGroupCreated += (_, gid) => firedGroupId = gid;
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        Assert.Equal("new-group-id", firedGroupId);
+    }
+
+    [Fact]
+    public async Task CreateCommand_SharedMode_DoesNotFireGroupCreated()
+    {
+        var (vm, _, _, _, _, _) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        vm.SelectModeCommand.Execute("Shared");
+
+        bool localFired = false;
+        vm.GroupCreated += (_, _) => localFired = true;
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        Assert.False(localFired);
+    }
+
+    [Fact]
+    public async Task CreateCommand_SharedMode_PersistsOwnerMembership()
+    {
+        var (vm, _, _, _, _, membershipRepo) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        vm.SelectModeCommand.Execute("Shared");
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        // Both convert and refresh use cases may upsert membership
+        await membershipRepo.Received().UpsertAsync(
+            Arg.Is<GroupMembership>(m =>
+                m.GroupId == "new-group-id"
+                && m.UserId == "owner-1"
+                && m.Role == MemberRole.Owner),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task CreateCommand_LocalMode_DoesNotCallControlPlane()
+    {
+        var (vm, _, _, registrationPort, _, _) = BuildShared();
+        vm.GroupName = "Trip";
+        vm.SelectedCurrencyOption = vm.CurrencyOptions.First();
+        vm.AddParticipant("Alice");
+        // Default mode is Local — don't call SelectModeCommand("Shared")
+
+        await vm.CreateCommand.ExecuteAsync(null);
+
+        await registrationPort.DidNotReceive().RegisterGroupAsync(
+            Arg.Any<CreateGroupRequest>(), Arg.Any<CancellationToken>());
     }
 }
