@@ -3,12 +3,18 @@ using System.Text.Json;
 using LuSplit.Contracts.ControlPlane;
 using LuSplit.Functions.Services;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace LuSplit.Functions.Functions;
 
 public sealed class GroupFunctions
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
     private readonly IGroupMetadataStore _store;
     private readonly ILogger<GroupFunctions> _logger;
 
@@ -24,24 +30,36 @@ public sealed class GroupFunctions
         CancellationToken ct)
     {
         CreateGroupRequest? request;
+
         try
         {
             request = await JsonSerializer.DeserializeAsync<CreateGroupRequest>(
-                await req.Body.ToMemoryStreamAsync(), default, ct);
+                req.Body,
+                JsonOptions,
+                ct);
         }
         catch
         {
-            return CreateJsonResponse(HttpStatusCode.BadRequest, "Invalid request body.");
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return CreateJsonResponse(HttpStatusCode.BadRequest, "Request body is required.");
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "Request body is required.");
+
+        if (string.IsNullOrWhiteSpace(request.GroupId))
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "GroupId is required.");
+
+        if (string.IsNullOrWhiteSpace(request.OwnerId))
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "OwnerId is required.");
+
+        if (string.IsNullOrWhiteSpace(request.OwnerDeviceId))
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "OwnerDeviceId is required.");
 
         await _store.EnsureTableExistsAsync(ct);
 
         var existing = await _store.GetGroupAsync(request.GroupId, ct);
         if (existing is not null)
-            return CreateJsonResponse(HttpStatusCode.Conflict, $"Group {request.GroupId} already exists.");
+            return await CreateJsonResponseAsync(req, HttpStatusCode.Conflict, $"Group {request.GroupId} already exists.");
 
         await _store.SaveGroupAsync(
             request.GroupId,
@@ -54,9 +72,12 @@ public sealed class GroupFunctions
         var containerName = GroupMetadataStore.GroupContainerName(request.GroupId);
         var response = new CreateGroupResponse(request.GroupId, containerName);
 
-        _logger.LogInformation("Group {GroupId} registered for owner {OwnerId}", request.GroupId, request.OwnerId);
+        _logger.LogInformation(
+            "Group {GroupId} registered for owner {OwnerId}",
+            request.GroupId,
+            request.OwnerId);
 
-        return CreateJsonResponse(HttpStatusCode.Created, response);
+        return await CreateJsonResponseAsync(req, HttpStatusCode.Created, response);
     }
 
     [Function("GetGroupInfo")]
@@ -65,9 +86,12 @@ public sealed class GroupFunctions
         string groupId,
         CancellationToken ct)
     {
+        if (string.IsNullOrWhiteSpace(groupId))
+            return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "GroupId is required.");
+
         var entity = await _store.GetGroupAsync(groupId, ct);
         if (entity is null)
-            return CreateJsonResponse(HttpStatusCode.NotFound, $"Group {groupId} not found.");
+            return await CreateJsonResponseAsync(req, HttpStatusCode.NotFound, $"Group {groupId} not found.");
 
         var response = new GroupInfoResponse(
             GroupId: groupId,
@@ -75,18 +99,22 @@ public sealed class GroupFunctions
             CurrentKeyVersion: entity.GetInt32("CurrentKeyVersion") ?? 1,
             CreatedAt: entity.GetDateTimeOffset("CreatedAt") ?? DateTimeOffset.MinValue);
 
-        return CreateJsonResponse(HttpStatusCode.OK, response);
+        return await CreateJsonResponseAsync(req, HttpStatusCode.OK, response);
     }
 
-    private static HttpResponseData CreateJsonResponse(HttpStatusCode status, object? value = null)
+    private static async Task<HttpResponseData> CreateJsonResponseAsync(
+        HttpRequestData req,
+        HttpStatusCode status,
+        object? value = null)
     {
-        var response = Microsoft.Azure.Functions.Worker.Http.HttpResponseData.CreateResponse((int)status);
+        var response = req.CreateResponse(status);
+
         if (value is not null)
         {
-            response.Headers["Content-Type"] = "application/json";
-            response.WriteString(JsonSerializer.Serialize(value));
+            response.Headers.Add("Content-Type", "application/json");
+            await response.WriteStringAsync(JsonSerializer.Serialize(value, JsonOptions));
         }
+
         return response;
     }
 }
-

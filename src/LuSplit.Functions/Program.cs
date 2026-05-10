@@ -1,20 +1,40 @@
 using Azure.Data.Tables;
+using Azure.Identity;
 using LuSplit.Functions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var builder = FunctionsApplication.CreateBuilder(args);
+var host = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults()
+    .ConfigureServices(services =>
+    {
+        var tableServiceUri = Environment.GetEnvironmentVariable("AzureWebJobsStorage__tableServiceUri");
+        var connectionString = Environment.GetEnvironmentVariable("TableStorageConnectionString");
 
-builder.Services.AddSingleton(sp =>
-{
-    var connectionString = builder.Configuration["TableStorageConnectionString"]
-        ?? "UseDevelopmentStorage=true";
-    return new TableServiceClient(connectionString);
-});
+        TableServiceClient tableServiceClient;
 
-builder.Services.AddSingleton<GroupMetadataStore>();
-builder.Services.AddSingleton<InvitationStore>();
-builder.Services.AddSingleton<IDeviceStore, DeviceStore>();
-builder.Services.AddSingleton<IKeyStore, KeyStore>();
+        if (!string.IsNullOrWhiteSpace(tableServiceUri))
+        {
+            tableServiceClient = new TableServiceClient(
+                new Uri(tableServiceUri),
+                new DefaultAzureCredential());
+        }
+        else if (!string.IsNullOrWhiteSpace(connectionString))
+        {
+            tableServiceClient = new TableServiceClient(connectionString);
+        }
+        else
+        {
+            throw new InvalidOperationException(
+                "Table storage is not configured. Set AzureWebJobsStorage__tableServiceUri or TableStorageConnectionString.");
+        }
 
-builder.Build().Run();
+        services.AddSingleton(tableServiceClient);
+        services.AddSingleton<IGroupMetadataStore, GroupMetadataStore>();
+        services.AddSingleton<IInvitationStore, InvitationStore>();
+        services.AddSingleton<IDeviceStore, DeviceStore>();
+        services.AddSingleton<IKeyStore, KeyStore>();
+    })
+    .Build();
+
+host.Run();

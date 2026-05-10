@@ -41,10 +41,16 @@ public sealed class GroupMetadataStore : IGroupMetadataStore
 
     public async Task<TableEntity?> GetGroupAsync(string groupId, CancellationToken ct)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(groupId);
+
         try
         {
-            var response = await _tableClient.GetEntityAsync<TableEntity>("groups", groupId, cancellationToken: ct);
-            return response.Value;
+            var response = await _tableClient.GetEntityIfExistsAsync<TableEntity>(
+                partitionKey: "groups",
+                rowKey: groupId,
+                cancellationToken: ct);
+
+            return response.HasValue ? response.Value : null;
         }
         catch (Azure.RequestFailedException ex) when (ex.Status == 404)
         {

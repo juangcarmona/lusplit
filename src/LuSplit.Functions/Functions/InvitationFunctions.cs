@@ -1,11 +1,11 @@
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using LuSplit.Contracts.ControlPlane;
 using LuSplit.Functions.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace LuSplit.Functions.Functions;
@@ -26,32 +26,31 @@ public sealed class InvitationFunctions
     }
 
     [Function("CreateInvitation")]
-    public async Task<IActionResult> CreateInvitation(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/invitations")] HttpRequest req,
+    public async Task<HttpResponseData> CreateInvitation(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/invitations")] HttpRequestData req,
         string groupId,
         CancellationToken ct)
     {
         CreateInvitationRequest? request;
         try
         {
-            request = await req.ReadFromJsonAsync<CreateInvitationRequest>(ct);
+            request = await JsonSerializer.DeserializeAsync<CreateInvitationRequest>(req.Body, (JsonSerializerOptions?)null, ct);
         }
         catch
         {
-            return new BadRequestObjectResult("Invalid request body.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return new BadRequestObjectResult("Request body is required.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Request body is required.");
 
         var group = await _groupStore.GetGroupAsync(groupId, ct);
         if (group is null)
-            return new NotFoundObjectResult($"Group {groupId} not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, $"Group {groupId} not found.");
 
-        // Verify owner
         var ownerId = group.GetString("OwnerId");
         if (ownerId != request.InvitedByUserId)
-            return new ObjectResult("Only the group owner may create invitations.") { StatusCode = 403 };
+            return await CreateTextResponse(req, (HttpStatusCode)403, "Only the group owner may create invitations.");
 
         var invitationId = Guid.NewGuid().ToString("N");
         var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))
@@ -67,30 +66,29 @@ public sealed class InvitationFunctions
 
         _logger.LogInformation("Invitation {InvitationId} created for group {GroupId}", invitationId, groupId);
 
-        var response = new CreateInvitationResponse(invitationId, token, expiresAt);
-        return new ObjectResult(response) { StatusCode = (int)HttpStatusCode.Created };
+        return await CreateJsonResponse(req, HttpStatusCode.Created, new CreateInvitationResponse(invitationId, token, expiresAt));
     }
 
     [Function("CancelInvitation")]
-    public async Task<IActionResult> CancelInvitation(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "groups/{groupId}/invitations/{invitationId}")] HttpRequest req,
+    public async Task<HttpResponseData> CancelInvitation(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "groups/{groupId}/invitations/{invitationId}")] HttpRequestData req,
         string groupId,
         string invitationId,
         CancellationToken ct)
     {
         var entity = await _store.GetInvitationAsync(groupId, invitationId, ct);
         if (entity is null)
-            return new NotFoundObjectResult($"Invitation {invitationId} not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, $"Invitation {invitationId} not found.");
 
         await _store.UpdateStatusAsync(groupId, invitationId, "Cancelled", ct);
 
         _logger.LogInformation("Invitation {InvitationId} cancelled", invitationId);
-        return new NoContentResult();
+        return req.CreateResponse(HttpStatusCode.NoContent);
     }
 
     [Function("GetInvitationInfo")]
-    public async Task<IActionResult> GetInvitationInfo(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invitations/{token}/info")] HttpRequest req,
+    public async Task<HttpResponseData> GetInvitationInfo(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invitations/{token}/info")] HttpRequestData req,
         string token,
         CancellationToken ct)
     {
@@ -98,7 +96,7 @@ public sealed class InvitationFunctions
         await _store.EnsureTableExistsAsync(ct);
         var entity = await _store.GetInvitationByTokenHashAsync(tokenHash, ct);
         if (entity is null)
-            return new NotFoundObjectResult("Invitation not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, "Invitation not found.");
 
         var status = entity.GetString("Status") ?? "Unknown";
         var expiresAt = entity.GetDateTimeOffset("ExpiresAt") ?? DateTimeOffset.MinValue;
@@ -116,50 +114,49 @@ public sealed class InvitationFunctions
             expiresAt,
             status);
 
-        return new OkObjectResult(response);
+        return await CreateJsonResponse(req, HttpStatusCode.OK, response);
     }
 
     [Function("AcceptInvitation")]
-    public async Task<IActionResult> AcceptInvitation(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invitations/{token}/accept")] HttpRequest req,
+    public async Task<HttpResponseData> AcceptInvitation(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invitations/{token}/accept")] HttpRequestData req,
         string token,
         CancellationToken ct)
     {
         AcceptInvitationRequest? request;
         try
         {
-            request = await req.ReadFromJsonAsync<AcceptInvitationRequest>(ct);
+            request = await JsonSerializer.DeserializeAsync<AcceptInvitationRequest>(req.Body, (JsonSerializerOptions?)null, ct);
         }
         catch
         {
-            return new BadRequestObjectResult("Invalid request body.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return new BadRequestObjectResult("Request body is required.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Request body is required.");
 
         var tokenHash = HashToken(token);
         await _store.EnsureTableExistsAsync(ct);
         var entity = await _store.GetInvitationByTokenHashAsync(tokenHash, ct);
         if (entity is null)
-            return new NotFoundObjectResult("Invitation not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, "Invitation not found.");
 
         var status = entity.GetString("Status");
         if (!string.Equals(status, "Pending", StringComparison.OrdinalIgnoreCase))
-            return new ConflictObjectResult($"Invitation is no longer pending. Status: {status}");
+            return await CreateTextResponse(req, HttpStatusCode.Conflict, $"Invitation is no longer pending. Status: {status}");
 
         var expiresAt = entity.GetDateTimeOffset("ExpiresAt") ?? DateTimeOffset.MinValue;
         if (expiresAt < DateTimeOffset.UtcNow)
-            return new ObjectResult("Invitation has expired.") { StatusCode = 410 };
+            return await CreateTextResponse(req, (HttpStatusCode)410, "Invitation has expired.");
 
         var groupId = entity.PartitionKey;
         var invitationId = entity.RowKey;
 
         var group = await _groupStore.GetGroupAsync(groupId, ct);
         if (group is null)
-            return new NotFoundObjectResult($"Group {groupId} not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, $"Group {groupId} not found.");
 
-        // Atomically mark invitation as consumed
         await _store.UpdateStatusAsync(groupId, invitationId, "Accepted", ct);
 
         _logger.LogInformation("Invitation {InvitationId} accepted by user {UserId} on device {DeviceId}",
@@ -167,19 +164,17 @@ public sealed class InvitationFunctions
 
         var containerName = group.GetString("ContainerName") ?? string.Empty;
 
-        // Wrapped keys are distributed by the key rotation flow (T103).
-        // For Phase 6, return the container name so the client can begin syncing.
         var response = new AcceptInvitationResponse(
             groupId,
             containerName,
             Array.Empty<WrappedKeyEntryDto>());
 
-        return new OkObjectResult(response);
+        return await CreateJsonResponse(req, HttpStatusCode.OK, response);
     }
 
     [Function("DeclineInvitation")]
-    public async Task<IActionResult> DeclineInvitation(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invitations/{token}/decline")] HttpRequest req,
+    public async Task<HttpResponseData> DeclineInvitation(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invitations/{token}/decline")] HttpRequestData req,
         string token,
         CancellationToken ct)
     {
@@ -187,12 +182,28 @@ public sealed class InvitationFunctions
         await _store.EnsureTableExistsAsync(ct);
         var entity = await _store.GetInvitationByTokenHashAsync(tokenHash, ct);
         if (entity is null)
-            return new NotFoundObjectResult("Invitation not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, "Invitation not found.");
 
         await _store.UpdateStatusAsync(entity.PartitionKey, entity.RowKey, "Declined", ct);
 
         _logger.LogInformation("Invitation {InvitationId} declined", entity.RowKey);
-        return new NoContentResult();
+        return req.CreateResponse(HttpStatusCode.NoContent);
+    }
+
+    private static async Task<HttpResponseData> CreateJsonResponse(HttpRequestData req, HttpStatusCode status, object value)
+    {
+        var response = req.CreateResponse(status);
+        response.Headers.Add("Content-Type", "application/json");
+        await response.WriteStringAsync(JsonSerializer.Serialize(value));
+        return response;
+    }
+
+    private static async Task<HttpResponseData> CreateTextResponse(HttpRequestData req, HttpStatusCode status, string text)
+    {
+        var response = req.CreateResponse(status);
+        response.Headers.Add("Content-Type", "text/plain");
+        await response.WriteStringAsync(text);
+        return response;
     }
 
     private static string HashToken(string token)

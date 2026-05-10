@@ -1,9 +1,9 @@
 using System.Net;
+using System.Text.Json;
 using LuSplit.Contracts.ControlPlane;
 using LuSplit.Functions.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace LuSplit.Functions.Functions;
@@ -20,27 +20,26 @@ public sealed class DeviceFunctions
     }
 
     [Function("RegisterDevice")]
-    public async Task<IActionResult> RegisterDevice(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "devices/register")] HttpRequest req,
+    public async Task<HttpResponseData> RegisterDevice(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "devices/register")] HttpRequestData req,
         CancellationToken ct)
     {
         RegisterDeviceRequest? request;
         try
         {
-            request = await req.ReadFromJsonAsync<RegisterDeviceRequest>(ct);
+            request = await JsonSerializer.DeserializeAsync<RegisterDeviceRequest>(req.Body, (JsonSerializerOptions?)null, ct);
         }
         catch
         {
-            return new BadRequestObjectResult("Invalid request body.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return new BadRequestObjectResult("Request body is required.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "Request body is required.");
 
-        // Extract userId from claims (placeholder — proper auth in T103+)
-        var userId = req.Headers["X-User-Id"].FirstOrDefault();
+        var userId = GetHeader(req, "X-User-Id");
         if (string.IsNullOrWhiteSpace(userId))
-            return new ObjectResult("X-User-Id header is required.") { StatusCode = (int)HttpStatusCode.Unauthorized };
+            return await CreateTextResponse(req, HttpStatusCode.Unauthorized, "X-User-Id header is required.");
 
         await _deviceStore.EnsureTableExistsAsync(ct);
         await _deviceStore.SaveDeviceAsync(
@@ -48,19 +47,19 @@ public sealed class DeviceFunctions
 
         _logger.LogInformation("Device {DeviceId} registered for user {UserId}", request.DeviceId, userId);
 
-        return new ObjectResult(new RegisterDeviceResponse(request.DeviceId)) { StatusCode = (int)HttpStatusCode.Created };
+        return await CreateJsonResponse(req, HttpStatusCode.Created, new RegisterDeviceResponse(request.DeviceId));
     }
 
     [Function("ListDevices")]
-    public async Task<IActionResult> ListDevices(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "devices")] HttpRequest req,
+    public async Task<HttpResponseData> ListDevices(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "devices")] HttpRequestData req,
         CancellationToken ct)
     {
-        var userId = req.Query["userId"].FirstOrDefault()
-            ?? req.Headers["X-User-Id"].FirstOrDefault();
+        var userId = GetQueryParameter(req, "userId")
+            ?? GetHeader(req, "X-User-Id");
 
         if (string.IsNullOrWhiteSpace(userId))
-            return new BadRequestObjectResult("userId query parameter or X-User-Id header is required.");
+            return await CreateTextResponse(req, HttpStatusCode.BadRequest, "userId query parameter or X-User-Id header is required.");
 
         await _deviceStore.EnsureTableExistsAsync(ct);
         var entities = await _deviceStore.ListDevicesAsync(userId, ct);
@@ -72,27 +71,64 @@ public sealed class DeviceFunctions
             e.GetDateTimeOffset("RegisteredAt") ?? DateTimeOffset.MinValue,
             e.GetBoolean("IsRevoked") ?? false)).ToList();
 
-        return new OkObjectResult(new ListDevicesResponse(devices));
+        return await CreateJsonResponse(req, HttpStatusCode.OK, new ListDevicesResponse(devices));
     }
 
     [Function("RevokeDevice")]
-    public async Task<IActionResult> RevokeDevice(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "devices/{deviceId}/revoke")] HttpRequest req,
+    public async Task<HttpResponseData> RevokeDevice(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "devices/{deviceId}/revoke")] HttpRequestData req,
         string deviceId,
         CancellationToken ct)
     {
-        var userId = req.Headers["X-User-Id"].FirstOrDefault();
+        var userId = GetHeader(req, "X-User-Id");
         if (string.IsNullOrWhiteSpace(userId))
-            return new ObjectResult("X-User-Id header is required.") { StatusCode = (int)HttpStatusCode.Unauthorized };
+            return await CreateTextResponse(req, HttpStatusCode.Unauthorized, "X-User-Id header is required.");
 
         await _deviceStore.EnsureTableExistsAsync(ct);
         var entity = await _deviceStore.GetDeviceAsync(userId, deviceId, ct);
         if (entity is null)
-            return new NotFoundObjectResult($"Device {deviceId} not found.");
+            return await CreateTextResponse(req, HttpStatusCode.NotFound, $"Device {deviceId} not found.");
 
         await _deviceStore.RevokeDeviceAsync(userId, deviceId, ct);
 
         _logger.LogInformation("Device {DeviceId} revoked for user {UserId}", deviceId, userId);
-        return new NoContentResult();
+        return req.CreateResponse(HttpStatusCode.NoContent);
+    }
+
+    private static async Task<HttpResponseData> CreateJsonResponse(HttpRequestData req, HttpStatusCode status, object value)
+    {
+        var response = req.CreateResponse(status);
+        response.Headers.Add("Content-Type", "application/json");
+        await response.WriteStringAsync(JsonSerializer.Serialize(value));
+        return response;
+    }
+
+    private async Task<HttpResponseData> CreateTextResponse(HttpRequestData req, HttpStatusCode status, string text)
+    {
+        var response = req.CreateResponse(status);
+        response.Headers.Add("Content-Type", "text/plain");
+        await response.WriteStringAsync(text);
+        return response;
+    }
+
+    private static string? GetHeader(HttpRequestData req, string name)
+    {
+        foreach (var kvp in req.Headers)
+            if (kvp.Key.Equals(name, System.StringComparison.OrdinalIgnoreCase))
+                return kvp.Value.FirstOrDefault();
+        return null;
+    }
+
+    private static string? GetQueryParameter(HttpRequestData req, string name)
+    {
+        if (!req.Url.Query.StartsWith("?")) return null;
+        var query = req.Url.Query.Substring(1);
+        foreach (var param in query.Split('&'))
+        {
+            var parts = param.Split('=');
+            if (parts.Length == 2 && System.Net.WebUtility.UrlDecode(parts[0]) == name)
+                return System.Net.WebUtility.UrlDecode(parts[1]);
+        }
+        return null;
     }
 }

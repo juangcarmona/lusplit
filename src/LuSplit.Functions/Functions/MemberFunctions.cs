@@ -1,9 +1,9 @@
 using System.Net;
+using System.Text.Json;
 using LuSplit.Contracts.ControlPlane;
 using LuSplit.Functions.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace LuSplit.Functions.Functions;
@@ -20,8 +20,8 @@ public sealed class MemberFunctions
     }
 
     [Function("RevokeMember")]
-    public async Task<IActionResult> RevokeMember(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/members/{userId}/revoke")] HttpRequest req,
+    public async Task<HttpResponseData> RevokeMember(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/members/{userId}/revoke")] HttpRequestData req,
         string groupId,
         string userId,
         CancellationToken ct)
@@ -29,67 +29,74 @@ public sealed class MemberFunctions
         RevokeMemberRequest? request;
         try
         {
-            request = await req.ReadFromJsonAsync<RevokeMemberRequest>(ct);
+            request = await JsonSerializer.DeserializeAsync<RevokeMemberRequest>(req.Body, (JsonSerializerOptions?)null, ct);
         }
         catch
         {
-            return new BadRequestObjectResult("Invalid request body.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return new BadRequestObjectResult("Request body is required.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "Request body is required.");
 
         var group = await _groupStore.GetGroupAsync(groupId, ct);
         if (group is null)
-            return new NotFoundObjectResult($"Group {groupId} not found.");
+            return CreateTextResponse(req, HttpStatusCode.NotFound, $"Group {groupId} not found.");
 
         var ownerId = group.GetString("OwnerId");
         if (!string.Equals(ownerId, request.RevokedByUserId, StringComparison.OrdinalIgnoreCase))
-            return new ObjectResult("Only the group owner can revoke members.") { StatusCode = (int)HttpStatusCode.Forbidden };
+            return CreateTextResponse(req, HttpStatusCode.Forbidden, "Only the group owner can revoke members.");
 
         if (string.Equals(userId, request.RevokedByUserId, StringComparison.OrdinalIgnoreCase))
-            return new BadRequestObjectResult("The owner cannot revoke themselves.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "The owner cannot revoke themselves.");
 
-        // Mark key rotation required (will be handled by KeyRotationFunctions in T103+)
         await _groupStore.SetKeyRotationRequiredAsync(groupId, ct);
 
         _logger.LogInformation("Member {UserId} revoked from group {GroupId} by {OwnerId}", userId, groupId, request.RevokedByUserId);
-        return new NoContentResult();
+        return req.CreateResponse(HttpStatusCode.NoContent);
     }
 
     [Function("TransferOwnership")]
-    public async Task<IActionResult> TransferOwnership(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/transfer-ownership")] HttpRequest req,
+    public async Task<HttpResponseData> TransferOwnership(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "groups/{groupId}/transfer-ownership")] HttpRequestData req,
         string groupId,
         CancellationToken ct)
     {
         TransferOwnershipRequest? request;
         try
         {
-            request = await req.ReadFromJsonAsync<TransferOwnershipRequest>(ct);
+            request = await JsonSerializer.DeserializeAsync<TransferOwnershipRequest>(req.Body, (JsonSerializerOptions?)null, ct);
         }
         catch
         {
-            return new BadRequestObjectResult("Invalid request body.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
-            return new BadRequestObjectResult("Request body is required.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "Request body is required.");
 
         var group = await _groupStore.GetGroupAsync(groupId, ct);
         if (group is null)
-            return new NotFoundObjectResult($"Group {groupId} not found.");
+            return CreateTextResponse(req, HttpStatusCode.NotFound, $"Group {groupId} not found.");
 
         var ownerId = group.GetString("OwnerId");
         if (!string.Equals(ownerId, request.CallerUserId, StringComparison.OrdinalIgnoreCase))
-            return new ObjectResult("Only the current owner can transfer ownership.") { StatusCode = (int)HttpStatusCode.Forbidden };
+            return CreateTextResponse(req, HttpStatusCode.Forbidden, "Only the current owner can transfer ownership.");
 
         if (string.Equals(request.NewOwnerUserId, request.CallerUserId, StringComparison.OrdinalIgnoreCase))
-            return new BadRequestObjectResult("New owner must be a different user.");
+            return CreateTextResponse(req, HttpStatusCode.BadRequest, "New owner must be a different user.");
 
         await _groupStore.UpdateOwnerAsync(groupId, request.NewOwnerUserId, ct);
 
         _logger.LogInformation("Ownership of group {GroupId} transferred to {NewOwner}", groupId, request.NewOwnerUserId);
-        return new NoContentResult();
+        return req.CreateResponse(HttpStatusCode.NoContent);
+    }
+
+    private static HttpResponseData CreateTextResponse(HttpRequestData req, HttpStatusCode status, string text)
+    {
+        var response = req.CreateResponse(status);
+        response.Headers.Add("Content-Type", "text/plain");
+        _ = response.WriteStringAsync(text);
+        return response;
     }
 }
