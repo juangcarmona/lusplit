@@ -58,7 +58,7 @@
 
                 <!-- Compact link disclosure (secondary, not primary content) -->
                 <Border IsVisible="{Binding ShowLinkSection}"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                        BackgroundColor="#1A000000"
                         StrokeThickness="0"
                         StrokeShape="RoundRectangle 8"
                         Padding="12,8">
