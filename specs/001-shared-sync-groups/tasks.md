@@ -573,6 +573,84 @@
 
 ---
 
+## Phase 14: UX Coherence — Shared Group Journey
+
+**Purpose**: Close the gap between implemented shared-group capabilities and the actual user journey. No new sync architecture. This phase is state-driven UI adaptation, flow repair, reachability, copy cleanup, and acceptance validation.
+
+### Acceptance criteria
+
+* A shared group never shows **Convert to Shared Group**
+* A newly created shared group lands on an **Invite people** step
+* A shared owner can reach **Invite** in one tap from the group
+* A shared member never sees owner-only actions
+* Invalid screens short-circuit to the correct destination instead of showing broken actions
+
+### Tests
+
+* [ ] T195 [P] Test: `CreateGroupModeSelectionTests` — local/shared choice changes create flow behavior and post-create navigation in `tests/LuSplit.App.Tests/Groups/CreateGroupModeSelectionTests.cs`
+* [ ] T196 [P] Test: `GroupDetailsActionVisibilityTests` — local/shared/owner/member/read-only combinations expose correct actions in `tests/LuSplit.App.Tests/Groups/GroupDetailsActionVisibilityTests.cs`
+* [ ] T197 [P] Test: `InviteEntryPointReachabilityTests` — shared owner can reach invite from group details and group timeline; local/member cannot in `tests/LuSplit.App.Tests/Invitations/InviteEntryPointReachabilityTests.cs`
+* [ ] T198 [P] Test: `ConvertGroupAlreadySharedTests` — already shared groups do not attempt conversion and redirect to sharing management in `tests/LuSplit.App.Tests/Groups/ConvertGroupAlreadySharedTests.cs`
+* [ ] T199 [P] Test: `SharedGroupPostCreateNavigationTests` — creating a shared group navigates to invite flow instead of stopping at group details in `tests/LuSplit.App.Tests/Groups/SharedGroupPostCreateNavigationTests.cs`
+* [ ] T200 [P] Test: `OwnerMembershipSeedTests` — shared-group creation and conversion seed local owner membership immediately so role-aware UI works before next sync in `tests/LuSplit.Application.Tests/Groups/OwnerMembershipSeedTests.cs`
+
+### Application / state shaping
+
+* [ ] T201 Add `GroupCollaborationMode` enum (`Local`, `Shared`) for create-flow orchestration in `src/LuSplit.Application/Groups/GroupCollaborationMode.cs`
+* [ ] T202 Update shared-group creation and conversion flows to persist local owner membership immediately after success in `src/LuSplit.Application/Groups/UseCases/CreateSharedGroupUseCase.cs` and `src/LuSplit.Application/Groups/UseCases/ConvertGroupToSharedUseCase.cs`
+* [ ] T203 Add state-derived UI policy flags (`CanConvertToShared`, `CanInviteMembers`, `CanManageMembers`, `CanManageSharing`, `CanEditGroupSettings`) in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsViewModel.cs`
+* [ ] T204 Add state-derived group-surface flags (`ShowInviteAction`, `ShowMembersAction`, `ShowOwnerActions`) in `src/LuSplit.App/Features/Groups/GroupTimeline/GroupViewModel.cs`
+
+### Create group flow
+
+* [ ] T205 Update `CreateGroupViewModel` to capture collaboration mode and branch between local completion and shared post-create invite flow in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupViewModel.cs`
+* [ ] T206 Update `CreateGroupPage.xaml` first step to include explicit **Local** vs **Shared** mode selection with contextual helper copy in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupPage.xaml`
+* [ ] T207 Update the create-group completion path so **Shared** mode navigates directly to `InvitePage` with the newly created group context in `src/LuSplit.App/Features/Groups/CreateGroup/CreateGroupPage.xaml.cs`
+* [ ] T208 Update `InviteViewModel` to support a post-create onboarding state (`IsFirstInviteStep`, helper copy, done/skip behavior) in `src/LuSplit.App/Features/Invitations/InviteViewModel.cs`
+* [ ] T209 Update `InvitePage.xaml` to behave as a real second step after shared-group creation, with primary **Invite people** CTA and secondary **Do this later** action in `src/LuSplit.App/Features/Invitations/InvitePage.xaml`
+
+### Existing-group adaptation
+
+* [ ] T210 Update `GroupDetailsPage.xaml` to hide **Convert to Shared Group** for shared groups and show **Invite people** / **Members** actions only when appropriate in `src/LuSplit.App/Features/Groups/GroupDetails/GroupDetailsPage.xaml`
+* [ ] T211 Update `GroupPage.xaml` header or action area to expose a visible **Invite** entry point for shared owners and a visible **Members** entry point for all shared groups in `src/LuSplit.App/Features/Groups/GroupTimeline/GroupPage.xaml`
+* [ ] T212 Update `ConvertGroupViewModel` so already-shared groups short-circuit to sharing management instead of showing an actionable conversion screen in `src/LuSplit.App/Features/SharedGroups/ConvertGroupViewModel.cs`
+* [ ] T213 Update `ConvertGroupPage.xaml` to replace the broken "already shared" error + active convert button with an informational state and a navigation action to invite/member management in `src/LuSplit.App/Features/SharedGroups/ConvertGroupPage.xaml`
+* [ ] T214 Add owner-only **Invite people** entry point to `MemberListPage` so group access management is reachable from the members surface too in `src/LuSplit.App/Features/Members/MemberListPage.xaml` and `src/LuSplit.App/Features/Members/MemberListViewModel.cs`
+
+### Navigation / route guards
+
+* [ ] T215 Register direct post-create navigation to invite flow and ensure route parameters carry `groupId` and onboarding context in `src/LuSplit.App/AppShell.xaml.cs` and `src/LuSplit.App/AppRoutes.cs`
+* [ ] T216 Add route guards so `ShareGroupPage` / `ConvertGroupPage` cannot remain reachable in invalid state combinations; redirect to invite or group details instead in `src/LuSplit.App/Features/SharedGroups/ShareGroupPage.xaml.cs` and `src/LuSplit.App/Features/SharedGroups/ConvertGroupPage.xaml.cs`
+* [ ] T217 De-emphasize or retire standalone `ShareGroupPage` from primary navigation; existing local groups use **Convert**, newly created shared groups use **Invite**, existing shared groups use **Invite/Members** in `src/LuSplit.App/AppShell.xaml.cs` and related navigation handlers
+
+### Copy / discoverability / polish
+
+* [ ] T218 Update group list and group switcher templates so shared/local and owner/member are visibly distinguishable beyond a subtle badge in `src/LuSplit.App/Features/Home/Home/HomePage.xaml`, `src/LuSplit.App/Features/Home/Home/HomeViewModel.cs`, `src/LuSplit.App/Features/Groups/GroupSwitcher/GroupSwitcherPage.xaml`, and `src/LuSplit.App/Features/Groups/GroupSwitcher/GroupSwitcherViewModel.cs`
+* [ ] T219 Update empty states in Overview / Expenses / Balances for shared groups so they mention inviting people or waiting for sync where relevant in `src/LuSplit.App/Features/Groups/GroupTimeline/GroupPage.xaml` and `src/LuSplit.App/Features/Groups/GroupTimeline/GroupViewModel.cs`
+* [ ] T220 Normalize terminology across the app so the user sees one consistent concept: **Local group**, **Shared group**, **Share this group**, **Invite people** in `src/LuSplit.App/`
+* [ ] T221 Review the **Independent** participant label and replace it if it collides semantically with local/shared collaboration language in `src/LuSplit.App/Features/Groups/CreateGroup/` and `src/LuSplit.App/Features/Groups/GroupDetails/`
+
+### Validation / docs
+
+* [ ] T222 Add a UX acceptance checklist covering four primary journeys in `specs/001-shared-sync-groups/quickstart.md`
+* [ ] T223 Update `specs/001-shared-sync-groups/spec.md` with explicit state-driven UX rules for local/shared/owner/member/read-only group surfaces
+* [x] T224 Update `specs/001-shared-sync-groups/tasks.md` to include Phase 14 and mark it as required before merge
+* [ ] T225 Run end-to-end validation for these journeys and document results: create local group, create shared group and invite, convert local group to shared, open existing shared group as owner/member in `specs/001-shared-sync-groups/quickstart.md`
+
+### Execution priority
+
+Do these first:
+
+1. **T205–T209** — Make local/shared explicit in the create flow and land shared creation on invite.
+2. **T210–T213** — Fix invalid shared/local state handling on existing-group screens.
+3. **T215–T217** — Repair route reachability so the app cannot land on nonsense states.
+4. **T218–T221** — Make the state legible and the copy coherent.
+5. **T222–T225** — Lock the behavior into the spec and quickstart.
+
+**Phase 14 Checkpoint**: `dotnet build` clean, `dotnet test` all green. All four group states (local, shared-owner, shared-member, shared-read-only) produce correct action surfaces. Create-shared lands on invite. No invalid screens reachable.
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -592,6 +670,7 @@ Phase 1 (Setup)
         └─► Phase 12 (US10 P3) ── depends on Phase 8 (rotation triggered by revocation)
               └─► Phase 13 (Feature Closure) ── depends on Phases 3–12 where wiring/reachability is required
                     └─► Final Phase (Docs + Validation)
+                          └─► Phase 14 (UX Coherence) ── depends on Final Phase; required before merge
 ```
 
 ### User Story Dependencies
@@ -697,6 +776,12 @@ Complete Phase 13 to close runtime wiring, navigation reachability, auth/token f
 
 **Increment 4 delivers**: A user-complete shared-group feature where invite, join, sync, revoke, membership, devices, and activity are reachable and executable from the app UI.
 
+### Increment 5 — UX Coherence (Phase 14)
+
+Complete Phase 14 to close the gap between implemented capabilities and the user-facing journey. State-driven UI adaptation, create-flow branching, invite reachability, route guards, copy normalization, and acceptance validation.
+
+**Increment 5 delivers**: A coherent product flow where group state (local, shared-owner, shared-member, shared-read-only) drives every surface, create-shared lands on invite, and no invalid screens are reachable. Required before merge.
+
 ---
 
 ## Summary
@@ -717,8 +802,9 @@ Complete Phase 13 to close runtime wiring, navigation reachability, auth/token f
 | Phase 12: US10 Key Rotation | T131–T140 | US10 | P3 |
 | Phase 13: Wiring & Navigation Gaps | T153–T191 | — | Required before merge |
 | Final: Polish & Validation | T141–T152, T192–T194 | — | Required |
-| **Total** | **194 tasks** | | |
+| Phase 14: UX Coherence | T195–T225 | — | Required before merge |
+| **Total** | **225 tasks** | | |
 
 **Parallel opportunities**: Significant parallelism remains in Phases 2–12 and selected Phase 13 XAML / DI / validation tasks.
 **Test tasks per story**: US1: 4, US2: 3, US3: 3, US4: 3, US5: 3, US6: 4, US7: 2, US8: 2, US9: 3, US10: 3 — 30 focused test tasks total.
-**Suggested current completion scope**: Finish Phase 13 and Final validation before merge.
+**Suggested current completion scope**: Finish Phase 14 (UX Coherence) and its validation tasks before merge.

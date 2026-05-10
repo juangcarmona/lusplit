@@ -343,6 +343,41 @@ After a member is revoked, the group owner's device triggers a key rotation. New
 - **FR-041**: The sharing and invitation flow MUST be understandable to non-technical users. No jargon, no technical identifiers exposed.
 - **FR-042**: Offline state MUST be presented as normal ("will update when online"), not as an error.
 
+#### State-Driven Group UX
+
+The app MUST adapt all group surfaces based on four mutually exclusive group states. Each state determines which actions are visible, reachable, and disabled.
+
+**Group states**:
+
+| State | Condition |
+|-------|-----------|
+| **Local** | `IsShared == false` |
+| **Shared, owner** | `IsShared == true` and current user is the group owner |
+| **Shared, member** | `IsShared == true` and current user is a non-owner member |
+| **Shared, read-only** | `IsShared == true` and `IsReadOnly == true` (owner left without transferring ownership) |
+
+**Action visibility by state**:
+
+| Action | Local | Shared owner | Shared member | Shared read-only |
+|--------|-------|--------------|---------------|------------------|
+| Edit group settings | Yes | Yes | No | No |
+| Manage participants locally | Yes | — | — | — |
+| Convert / share group | Yes | No | No | No |
+| Invite people | No | Yes | No | No |
+| View / manage members | No | Yes | View only | View only |
+| Manage sharing | No | Yes | No | No |
+| Add / edit / delete expenses | Yes | Yes | Yes | No |
+| Leave group | No | No | Future | No |
+
+- **FR-043a**: A shared group MUST NOT expose the **Convert to Shared Group** action. The conversion action is only valid for local groups.
+- **FR-043b**: The group creation flow MUST present **Local** and **Shared** as an explicit first-class choice, not as an afterthought or secondary action.
+- **FR-043c**: When a user creates a shared group, the app MUST navigate directly to an **Invite people** step after group creation completes. The invite step MUST offer a primary **Invite people** action and a secondary **Do this later** action.
+- **FR-043d**: A shared group owner MUST be able to reach the **Invite** action in one tap from the group detail screen and the group timeline screen.
+- **FR-043e**: A shared group member MUST NOT see owner-only actions (invite, revoke, manage sharing, transfer ownership).
+- **FR-043f**: Screens that are invalid for the current group state (e.g., conversion screen for an already-shared group) MUST short-circuit to the correct destination (e.g., invite or member management) instead of displaying broken or misleading actions.
+- **FR-043g**: The group list and group switcher MUST make shared/local and owner/member visually distinguishable to the user.
+- **FR-043h**: Empty states in shared groups (no expenses, no members beyond the owner) MUST use contextual copy that mentions inviting people or waiting for sync, as appropriate.
+
 #### Monorepo & Solution Structure
 
 - **FR-043**: The solution MUST live in the existing monorepo structure with clear project boundaries.

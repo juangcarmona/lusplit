@@ -19,14 +19,15 @@ LuSplit gains the ability to share expense groups across users and devices. A gr
 
 ## How It Works (User Perspective)
 
-### Create a shared group
-1. Sign in (optional — only needed for sharing)
-2. Create a new group or open an existing one
-3. Tap "Share this group"
-4. The group is now shared — you're the owner
+### Create a group
+1. Tap **Create group**
+2. Choose **Local** or **Shared**
+3. If **Local**: name the group, add participants, done
+4. If **Shared**: sign in (if not already), name the group, group is created as shared — you land on **Invite people**
+5. Invite friends now or tap **Do this later**
 
-### Invite someone
-1. Open the shared group → Settings → Invite
+### Invite someone (shared owner)
+1. Open the shared group — tap **Invite** (visible in group header or group details)
 2. A link is generated and the share sheet opens
 3. Send the link via any messaging app
 4. The friend taps the link, signs in, and joins
@@ -112,3 +113,49 @@ az deployment group create \
 - Web client
 - In-app invitation by email/phone (share sheet only)
 - Platform attestation (Play Integrity / App Attest) — deferred to hardening phase
+
+---
+
+## UX Acceptance Checklist
+
+Four primary journeys that must work end-to-end before merge.
+
+### Journey 1: Create a local group
+
+- [ ] User taps **Create group**, selects **Local**
+- [ ] User names the group, adds participants, completes creation
+- [ ] Group appears in group list with a **Local** indicator
+- [ ] Group details show local-only actions (edit, manage participants, convert/share)
+- [ ] No shared-group actions visible (invite, members, manage sharing)
+
+### Journey 2: Create a shared group and invite
+
+- [ ] User taps **Create group**, selects **Shared**
+- [ ] User signs in (if not already authenticated)
+- [ ] User names the group, completes creation
+- [ ] App navigates directly to **Invite people** step
+- [ ] User can invite via share sheet or tap **Do this later**
+- [ ] Group appears in group list with a **Shared** indicator and owner badge
+- [ ] Group details show owner actions (invite, members, manage sharing)
+- [ ] **Convert to Shared Group** is NOT visible
+- [ ] Owner can reach **Invite** in one tap from group timeline and group details
+
+### Journey 3: Convert a local group to shared
+
+- [ ] User opens an existing local group
+- [ ] User taps **Convert to Shared Group** / **Share this group** from group details
+- [ ] User signs in (if not already authenticated)
+- [ ] Group is converted; existing data is encrypted and uploaded
+- [ ] App navigates to **Invite people** step
+- [ ] Group now behaves as shared-owner (same as Journey 2 post-creation)
+- [ ] **Convert to Shared Group** is no longer visible
+- [ ] If user navigates to the convert screen again, they are redirected to invite/member management
+
+### Journey 4: Open an existing shared group as owner / member
+
+- [ ] **Owner** sees: invite, members, manage sharing, edit settings, add/edit/delete expenses
+- [ ] **Member** sees: view members, add/edit/delete expenses
+- [ ] **Member** does NOT see: invite, revoke, manage sharing, transfer ownership
+- [ ] **Read-only** group: no write actions, view-only members, no owner actions
+- [ ] Empty shared group (no expenses yet) shows contextual copy about inviting people or waiting for sync
+- [ ] Group list and group switcher distinguish shared/local and owner/member visually
