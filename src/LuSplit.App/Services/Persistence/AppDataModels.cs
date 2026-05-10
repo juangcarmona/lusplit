@@ -13,7 +13,8 @@ public sealed record GroupWorkspaceModel(
     DateTimeOffset? LastOpenedUtc,
     string? ImagePath = null,
     bool IsShared = false,
-    bool IsReadOnly = false);
+    bool IsReadOnly = false,
+    string? OwnerId = null);
 
 public sealed record GroupListItemModel(
     string GroupId,
@@ -36,7 +37,9 @@ public sealed record GroupDetailsModel(
     string Currency,
     bool IsArchived,
     IReadOnlyList<GroupMemberModel> Members,
-    string? ImagePath = null);
+    string? ImagePath = null,
+    bool IsShared = false,
+    string? OwnerId = null);
 
 public sealed record GroupMemberModel(
     string ParticipantId,

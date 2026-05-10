@@ -50,6 +50,13 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <!-- Invite button (owner only) -->
+            <Button Text="Invite people"
+                    IsVisible="{Binding IsOwner}"
+                    Command="{Binding NavigateToInviteCommand}"
+                    AutomationId="InviteFromMembersButton"
+                    HorizontalOptions="Fill" />
+
             <!-- Pending invitations (owner only) -->
             <VerticalStackLayout
                 IsVisible="{Binding IsOwner}"

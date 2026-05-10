@@ -34,6 +34,13 @@
                                     </Grid>
                                 </Border>
                                 <Label Grid.Column="1" Text="{Binding DisplayName}" Style="{StaticResource BodyText}" VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="Shared"
+                                       FontSize="Micro"
+                                       TextColor="{StaticResource TextMutedGray}"
+                                       IsVisible="{Binding IsShared}"
+                                       VerticalOptions="End"
+                                       Margin="0,22,0,0" />
                                 <Button Grid.Column="2"
                                         Text="{x:Static loc:AppResources.GroupSwitcher_Select}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type groupswitcher:GroupSwitcherPage}}, Path=BindingContext.SelectGroupCommand}"

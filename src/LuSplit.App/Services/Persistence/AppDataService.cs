@@ -112,7 +112,8 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
             metadata.LastOpenedUtc,
             metadata.ImagePath,
             isShared,
-            isReadOnly);
+            isReadOnly,
+            sharedState?.OwnerId);
     }
 
     public async Task<IReadOnlyList<ParticipantModel>> GetParticipantsAsync()
@@ -193,6 +194,10 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
     {
         var overview = await GetGroupOverviewAsync(groupId);
         var metadata = await _group.GetGroupMetadataAsync(groupId);
+        var infra = await GetInfraAsync();
+        var sharedState = await infra.SharedGroupStateRepository.GetByGroupIdAsync(groupId, CancellationToken.None);
+        var isShared = sharedState is { IsShared: true };
+        var ownerId = sharedState?.OwnerId;
         var householdNames = BuildHouseholdLookup(overview);
         var ownerIdsByUnit = overview.EconomicUnits
             .ToDictionary(unit => unit.Id, unit => unit.OwnerParticipantId, StringComparer.Ordinal);
@@ -208,12 +213,14 @@ public sealed class AppDataService : IAsyncDisposable, IAddExpenseDataService, I
                     participant.Id,
                     participant.Name,
                     householdNames.TryGetValue(participant.EconomicUnitId, out var householdName) ? householdName : participant.Name,
-                    ownerIdsByUnit.TryGetValue(participant.EconomicUnitId, out var ownerId) &&
-                        string.Equals(ownerId, participant.Id, StringComparison.Ordinal),
+                    ownerIdsByUnit.TryGetValue(participant.EconomicUnitId, out var unitOwnerId) &&
+                        string.Equals(unitOwnerId, participant.Id, StringComparison.Ordinal),
                     participant.ConsumptionCategory.ToString().ToUpperInvariant(),
                     participant.CustomConsumptionWeight))
                 .ToArray(),
-            metadata.ImagePath);
+            metadata.ImagePath,
+            isShared,
+            ownerId);
     }
 
     /// <summary>Archives a group. Archived groups are read-only - the domain blocks new expenses and participants on closed groups.</summary>

@@ -39,6 +39,7 @@ public sealed class ConvertGroupToSharedUseCaseTests
             repos,
             registration,
             sharedState,
+            Substitute.For<IGroupMembershipRepository>(),
             keyStorage,
             auth);
 

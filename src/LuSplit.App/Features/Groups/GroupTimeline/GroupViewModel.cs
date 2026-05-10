@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using LuSplit.App.Features.Groups.GroupTimeline;
 using LuSplit.App.Services;
 using LuSplit.App.Services.Presentation;
+using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.App.Features.Groups.GroupTimeline;
 
@@ -11,8 +12,10 @@ public sealed partial class GroupViewModel : ObservableObject
 {
     private readonly IGroupPageDataService _dataService;
     private readonly SyncOrchestrationService? _syncOrchestration;
+    private readonly IAuthPort? _authPort;
     private string? _overrideGroupId;
     private string? _currentGroupId;
+    private string? _ownerId;
 
     [ObservableProperty] private string _groupName = string.Empty;
     [ObservableProperty] private string _groupSummaryText = string.Empty;
@@ -61,6 +64,30 @@ public sealed partial class GroupViewModel : ObservableObject
     public bool HasNoGroupImage => !HasGroupImage;
     public bool CanEdit => !IsArchived && !IsReadOnly;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowInviteAction))]
+    [NotifyPropertyChangedFor(nameof(ShowMembersAction))]
+    [NotifyPropertyChangedFor(nameof(ShowOwnerActions))]
+    [NotifyPropertyChangedFor(nameof(SharedEmptyStateHint))]
+    private bool _isShared;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowInviteAction))]
+    [NotifyPropertyChangedFor(nameof(ShowOwnerActions))]
+    [NotifyPropertyChangedFor(nameof(SharedEmptyStateHint))]
+    private bool _isCurrentUserOwner;
+
+    public bool ShowInviteAction => IsShared && IsCurrentUserOwner;
+    public bool ShowMembersAction => IsShared;
+    public bool ShowOwnerActions => IsShared && IsCurrentUserOwner;
+
+    /// <summary>Contextual hint shown in the empty state for shared groups.</summary>
+    public string? SharedEmptyStateHint => IsShared
+        ? (IsCurrentUserOwner
+            ? "Invite people to start splitting expenses together."
+            : "Waiting for expenses. The group owner or other members will add them.")
+        : null;
+
     public ObservableCollection<TimelineEntryViewModel> TimelineItems { get; } = new();
     public ObservableCollection<BalanceLineViewModel> BalanceLines { get; } = new();
 
@@ -69,11 +96,14 @@ public sealed partial class GroupViewModel : ObservableObject
     public event EventHandler? AddExpenseRequested;
     public event EventHandler? RecordPaymentRequested;
     public event EventHandler<string>? ExportRequested;
+    public event EventHandler<string>? InviteRequested;
+    public event EventHandler<string>? MembersRequested;
 
-    public GroupViewModel(IGroupPageDataService dataService, SyncOrchestrationService? syncOrchestration = null)
+    public GroupViewModel(IGroupPageDataService dataService, SyncOrchestrationService? syncOrchestration = null, IAuthPort? authPort = null)
     {
         _dataService = dataService;
         _syncOrchestration = syncOrchestration;
+        _authPort = authPort;
         if (_syncOrchestration is not null)
             _syncOrchestration.SyncStateChanged += OnSyncStateChanged;
     }
@@ -98,6 +128,19 @@ public sealed partial class GroupViewModel : ObservableObject
             AccessRemovedMessage = "You no longer have access to this group.";
         GroupImagePath = workspace.ImagePath;
         _currentGroupId = workspace.GroupId;
+        _ownerId = workspace.OwnerId;
+
+        IsShared = workspace.IsShared;
+        if (workspace.IsShared && _authPort is not null)
+        {
+            var currentUserId = await _authPort.GetCurrentUserIdAsync(CancellationToken.None);
+            IsCurrentUserOwner = currentUserId is not null &&
+                                 string.Equals(currentUserId, workspace.OwnerId, StringComparison.OrdinalIgnoreCase);
+        }
+        else
+        {
+            IsCurrentUserOwner = false;
+        }
 
         if (_syncOrchestration is not null && _currentGroupId is not null)
             GroupSyncState = _syncOrchestration.GetState(_currentGroupId);
@@ -147,5 +190,21 @@ public sealed partial class GroupViewModel : ObservableObject
         var groupId = _overrideGroupId ?? _currentGroupId;
         if (groupId is not null)
             ExportRequested?.Invoke(this, groupId);
+    }
+
+    [RelayCommand]
+    private void NavigateToInvite()
+    {
+        var groupId = _overrideGroupId ?? _currentGroupId;
+        if (groupId is not null && IsShared && IsCurrentUserOwner)
+            InviteRequested?.Invoke(this, groupId);
+    }
+
+    [RelayCommand]
+    private void NavigateToMembers()
+    {
+        var groupId = _overrideGroupId ?? _currentGroupId;
+        if (groupId is not null && IsShared)
+            MembersRequested?.Invoke(this, groupId);
     }
 }

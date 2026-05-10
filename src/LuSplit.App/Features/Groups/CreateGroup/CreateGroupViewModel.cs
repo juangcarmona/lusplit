@@ -8,6 +8,7 @@ using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Localization;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Settings;
+using LuSplit.Application.Groups;
 using LuSplit.Domain.Groups;
 
 namespace LuSplit.App.Features.Groups.CreateGroup;
@@ -25,18 +26,40 @@ public sealed partial class CreateGroupViewModel : ObservableObject
     [ObservableProperty] private CurrencyOption? _selectedCurrencyOption;
     [ObservableProperty] private string _statusText = string.Empty;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsSharedMode))]
+    [NotifyPropertyChangedFor(nameof(ModeHelperText))]
+    private GroupCollaborationMode _collaborationMode = GroupCollaborationMode.Local;
+
     public bool IsStep1 => _step == 1;
     public bool IsStep2 => _step == 2;
+    public bool IsSharedMode => CollaborationMode == GroupCollaborationMode.Shared;
+
+    public string ModeHelperText => CollaborationMode == GroupCollaborationMode.Shared
+        ? "This group will be shared. You can invite people after creating it."
+        : "This group stays on your device only.";
 
     public ObservableCollection<CurrencyOption> CurrencyOptions { get; } = new();
     public ObservableCollection<ParticipantDraftViewModel> Participants { get; } = new();
 
+    /// <summary>Raised when a local group was created. Navigate to home.</summary>
     public event EventHandler? GroupCreated;
+
+    /// <summary>Raised when a shared group was created. Navigate to invite flow. Arg = groupId.</summary>
+    public event EventHandler<string>? SharedGroupCreated;
 
     public CreateGroupViewModel(ICreateGroupDataService dataService)
     {
         _dataService = dataService;
         BuildCurrencyList(AppPreferences.GetPreferredCurrency());
+    }
+
+    [RelayCommand]
+    private void SelectMode(string mode)
+    {
+        CollaborationMode = mode == "Shared"
+            ? GroupCollaborationMode.Shared
+            : GroupCollaborationMode.Local;
     }
 
     [RelayCommand]
@@ -80,8 +103,16 @@ public sealed partial class CreateGroupViewModel : ObservableObject
                     null))
                 .ToArray();
 
-            await _dataService.CreateGroupAsync(GroupName.Trim(), SelectedCurrencyOption!.Code, drafts);
-            GroupCreated?.Invoke(this, EventArgs.Empty);
+            var groupId = await _dataService.CreateGroupAsync(GroupName.Trim(), SelectedCurrencyOption!.Code, drafts);
+
+            if (CollaborationMode == GroupCollaborationMode.Shared)
+            {
+                SharedGroupCreated?.Invoke(this, groupId);
+            }
+            else
+            {
+                GroupCreated?.Invoke(this, EventArgs.Empty);
+            }
         }
         catch (Exception ex)
         {

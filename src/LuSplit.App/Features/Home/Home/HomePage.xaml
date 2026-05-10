@@ -142,6 +142,18 @@
                                    LineBreakMode="TailTruncation"
                                    MaxLines="1" />
 
+                            <Border IsVisible="{Binding IsCurrentGroupShared}"
+                                    BackgroundColor="#44FFFFFF"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="8,2"
+                                    HorizontalOptions="Center">
+                                <Label Text="Shared"
+                                       TextColor="White"
+                                       FontFamily="BrandMedium"
+                                       FontSize="11" />
+                            </Border>
+
                             <!--<Label Text="{Binding TotalUnsettledText}"
                                    TextColor="White"
                                    FontFamily="BrandMedium"
@@ -179,6 +191,10 @@
                         <VerticalStackLayout IsVisible="{Binding ShowOverviewEmptyState}" Spacing="2">
                             <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityCount}" Style="{StaticResource BodyMuted}" />
                             <Label Text="{x:Static loc:AppResources.Home_OverviewNoActivityText}" Style="{StaticResource BodyMuted}" />
+                            <Label Text="Invite people to start splitting expenses together."
+                                   IsVisible="{Binding IsCurrentGroupShared}"
+                                   Style="{StaticResource BodyMuted}"
+                                   Margin="0,4,0,0" />
                         </VerticalStackLayout>
 
                         <Label Text="{x:Static loc:AppResources.Group_WhoOwesWhat}"

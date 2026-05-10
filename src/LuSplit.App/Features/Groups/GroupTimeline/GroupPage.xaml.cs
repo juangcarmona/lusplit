@@ -2,6 +2,7 @@ using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services;
 using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Persistence;
+using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.App.Features.Groups.GroupTimeline;
 
@@ -9,11 +10,13 @@ public partial class GroupPage : ContentPage, IQueryAttributable
 {
     private readonly GroupViewModel _viewModel;
     private readonly AppDataService _dataService;
+    private ToolbarItem? _inviteToolbarItem;
+    private ToolbarItem? _membersToolbarItem;
 
-    public GroupPage(AppDataService dataService, SyncOrchestrationService syncOrchestration)
+    public GroupPage(AppDataService dataService, SyncOrchestrationService syncOrchestration, IAuthPort? authPort = null)
     {
         _dataService = dataService;
-        _viewModel = new GroupViewModel(dataService, syncOrchestration);
+        _viewModel = new GroupViewModel(dataService, syncOrchestration, authPort);
         InitializeComponent();
         BindingContext = _viewModel;
 
@@ -25,6 +28,8 @@ public partial class GroupPage : ContentPage, IQueryAttributable
         _viewModel.AddExpenseRequested += OnAddExpenseRequested;
         _viewModel.RecordPaymentRequested += OnRecordPaymentRequested;
         _viewModel.ExportRequested += OnExportRequested;
+        _viewModel.InviteRequested += OnInviteRequested;
+        _viewModel.MembersRequested += OnMembersRequested;
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
@@ -41,6 +46,46 @@ public partial class GroupPage : ContentPage, IQueryAttributable
     {
         base.OnAppearing();
         await _viewModel.LoadAsync();
+        UpdateSharedToolbarItems();
+    }
+
+    private void UpdateSharedToolbarItems()
+    {
+        // Remove existing dynamic items
+        if (_inviteToolbarItem is not null)
+        {
+            ToolbarItems.Remove(_inviteToolbarItem);
+            _inviteToolbarItem = null;
+        }
+        if (_membersToolbarItem is not null)
+        {
+            ToolbarItems.Remove(_membersToolbarItem);
+            _membersToolbarItem = null;
+        }
+
+        // Add Invite item for shared-group owners
+        if (_viewModel.ShowInviteAction)
+        {
+            _inviteToolbarItem = new ToolbarItem
+            {
+                Text = "Invite",
+                Command = _viewModel.NavigateToInviteCommand,
+                Order = ToolbarItemOrder.Secondary
+            };
+            ToolbarItems.Insert(0, _inviteToolbarItem);
+        }
+
+        // Add Members item for all shared groups
+        if (_viewModel.ShowMembersAction)
+        {
+            _membersToolbarItem = new ToolbarItem
+            {
+                Text = "Members",
+                Command = _viewModel.NavigateToMembersCommand,
+                Order = ToolbarItemOrder.Secondary
+            };
+            ToolbarItems.Insert(_inviteToolbarItem is not null ? 1 : 0, _membersToolbarItem);
+        }
     }
 
     private async void OnGroupDetailsRequested(object? sender, string? overrideGroupId)
@@ -71,4 +116,10 @@ public partial class GroupPage : ContentPage, IQueryAttributable
             await DisplayAlertAsync(null, string.Format(AppResources.Export_Failed, ex.Message), AppResources.Common_Ok);
         }
     }
+
+    private async void OnInviteRequested(object? sender, string groupId)
+        => await Shell.Current.GoToAsync($"{AppRoutes.Invite}?groupId={groupId}");
+
+    private async void OnMembersRequested(object? sender, string groupId)
+        => await Shell.Current.GoToAsync($"{AppRoutes.MemberList}?groupId={groupId}");
 }

@@ -6,14 +6,17 @@ using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Formatting;
 using LuSplit.App.Services.Persistence;
 using LuSplit.App.Services.Settings;
+using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.App.Features.Groups.GroupDetails;
 
 public sealed partial class GroupDetailsViewModel : ObservableObject
 {
     private readonly IGroupDetailsDataService _dataService;
+    private readonly IAuthPort? _authPort;
     private string? _groupId;
     private string? _overrideGroupId;
+    private string? _ownerId;
 
     // ── Observable state ──────────────────────────────────────────────────
 
@@ -45,13 +48,31 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SharedIndicatorVisible))]
     [NotifyPropertyChangedFor(nameof(CanConvertToShared))]
+    [NotifyPropertyChangedFor(nameof(CanInviteMembers))]
+    [NotifyPropertyChangedFor(nameof(CanManageMembers))]
+    [NotifyPropertyChangedFor(nameof(CanManageSharing))]
+    [NotifyPropertyChangedFor(nameof(CanEditGroupSettings))]
     private bool _isShared;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanInviteMembers))]
+    [NotifyPropertyChangedFor(nameof(CanManageMembers))]
+    [NotifyPropertyChangedFor(nameof(CanManageSharing))]
+    [NotifyPropertyChangedFor(nameof(CanEditGroupSettings))]
+    private bool _isOwner;
 
     public bool SharedIndicatorVisible => IsShared;
     public bool CanConvertToShared => !IsShared && CanEdit;
+    public bool CanInviteMembers => IsShared && IsOwner;
+    public bool CanManageMembers => IsShared;
+    public bool CanManageSharing => IsShared && IsOwner;
+    public bool CanEditGroupSettings => !IsArchived && (!IsShared || IsOwner);
 
     /// <summary>Fires when the VM needs to navigate to the member list.</summary>
     public event EventHandler<string>? NavigateToMembersRequested;
+
+    /// <summary>Fires when the VM needs to navigate to the invite flow.</summary>
+    public event EventHandler<string>? NavigateToInviteRequested;
 
     // ── Events raised for UI-only concerns (dialogs, navigation, media) ──
 
@@ -89,9 +110,10 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
 
     public string? GroupId => _groupId;
 
-    public GroupDetailsViewModel(IGroupDetailsDataService dataService)
+    public GroupDetailsViewModel(IGroupDetailsDataService dataService, IAuthPort? authPort = null)
     {
         _dataService = dataService;
+        _authPort = authPort;
     }
 
     /// <summary>Stores an optional override group id before <see cref="LoadAsync"/> is called.</summary>
@@ -112,6 +134,21 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
             IsArchived = details.IsArchived;
             GroupName = details.GroupName;
             GroupImagePath = details.ImagePath;
+            IsShared = details.IsShared;
+            _ownerId = details.OwnerId;
+
+            // Determine if the current user is the owner
+            if (IsShared && _authPort is not null)
+            {
+                var currentUserId = await _authPort.GetCurrentUserIdAsync(CancellationToken.None);
+                IsOwner = currentUserId is not null &&
+                          string.Equals(currentUserId, _ownerId, StringComparison.OrdinalIgnoreCase);
+            }
+            else
+            {
+                IsOwner = false;
+            }
+
             BuildCurrencyOptions(details.Currency);
 
             var preferredName = UserProfilePreferences.GetPreferredName();
@@ -205,6 +242,13 @@ public sealed partial class GroupDetailsViewModel : ObservableObject
     {
         if (_groupId is null || !IsShared) return;
         NavigateToShareRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void NavigateToInvite()
+    {
+        if (_groupId is null || !IsShared || !IsOwner) return;
+        NavigateToInviteRequested?.Invoke(this, _groupId);
     }
 
     [RelayCommand]

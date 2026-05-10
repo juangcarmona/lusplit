@@ -159,3 +159,21 @@ Four primary journeys that must work end-to-end before merge.
 - [ ] **Read-only** group: no write actions, view-only members, no owner actions
 - [ ] Empty shared group (no expenses yet) shows contextual copy about inviting people or waiting for sync
 - [ ] Group list and group switcher distinguish shared/local and owner/member visually
+
+---
+
+## Phase 14 Validation Results
+
+**Build**: `dotnet build LuSplit.slnx` — 0 errors
+**Tests**: All tests pass (421 App, 145 Application, 52 Infrastructure, 42 Domain, 13 Functions, 8 Contracts)
+
+### Implementation coverage
+
+| Journey | ViewModel flags | XAML bindings | Navigation | Tests |
+|---------|----------------|---------------|------------|-------|
+| Create local group | `GroupCollaborationMode.Local` default | Local/Shared selector in step 1 | `GroupCreated` → home | `CreateGroupModeSelectionTests`, `SharedGroupPostCreateNavigationTests` |
+| Create shared group + invite | `CollaborationMode.Shared` | Same selector, `IsSharedMode` helper text | `SharedGroupCreated` → invite with `postCreate=true` | Same as above |
+| Convert local → shared | `CanConvertToShared` on GroupDetailsVM | "Share this group" button | ConvertGroup route → ShareGroupPage (already-shared guard) | `ConvertGroupAlreadySharedTests` |
+| Owner actions | `IsOwner`, `CanInviteMembers`, `CanManageSharing` | Invite/Members buttons, toolbar items | GroupPage + GroupDetails → Invite/Members routes | `GroupDetailsActionVisibilityTests`, `InviteEntryPointReachabilityTests` |
+| Member actions | `CanManageMembers` (no invite) | Members button only | GroupPage toolbar → Members route | Same as above |
+| Owner membership seed | `CreateSharedGroupUseCase`, `ConvertGroupToSharedUseCase` | N/A | N/A | `OwnerMembershipSeedTests` |

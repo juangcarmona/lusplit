@@ -51,20 +51,20 @@
                 </Border>
 
                 <!-- Shared group actions -->
+                <Button Text="Invite people"
+                        Style="{StaticResource SecondaryButton}"
+                        IsVisible="{Binding CanInviteMembers}"
+                        Command="{Binding NavigateToInviteCommand}"
+                        AutomationId="InvitePeopleButton" />
+
                 <Button Text="Members"
                         Style="{StaticResource SecondaryButton}"
-                        IsVisible="{Binding IsShared}"
+                        IsVisible="{Binding CanManageMembers}"
                         Command="{Binding NavigateToMembersCommand}"
                         AutomationId="MembersButton" />
 
-                <Button Text="Share"
-                        Style="{StaticResource SecondaryButton}"
-                        IsVisible="{Binding IsShared}"
-                        Command="{Binding NavigateToShareCommand}"
-                        AutomationId="ShareButton" />
-
-                <!-- Convert to shared (only for local groups) -->
-                <Button Text="Convert to Shared Group"
+                <!-- Convert to shared (only for local, non-archived groups) -->
+                <Button Text="Share this group"
                         Style="{StaticResource SecondaryButton}"
                         IsVisible="{Binding CanConvertToShared}"
                         Command="{Binding NavigateToConvertCommand}"

@@ -14,16 +14,36 @@ public sealed partial class ConvertGroupViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
+    /// <summary>True when the group is already shared — skips the convert flow.</summary>
+    [ObservableProperty]
+    private bool _isAlreadyShared;
+
     public event EventHandler? ConvertCompleted;
+
+    /// <summary>Raised when the group is already shared and no conversion is needed.</summary>
+    public event EventHandler? AlreadySharedDetected;
 
     public ConvertGroupViewModel(ConvertGroupToSharedUseCase convertUseCase)
     {
         _convertUseCase = convertUseCase;
     }
 
+    public void CheckAlreadyShared(bool isShared)
+    {
+        IsAlreadyShared = isShared;
+        if (isShared)
+            AlreadySharedDetected?.Invoke(this, EventArgs.Empty);
+    }
+
     [RelayCommand]
     private async Task ConvertAsync(string groupId)
     {
+        if (IsAlreadyShared)
+        {
+            ConvertCompleted?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
         IsConverting = true;
         ErrorMessage = null;
 

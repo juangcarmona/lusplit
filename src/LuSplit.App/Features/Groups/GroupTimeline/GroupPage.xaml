@@ -124,6 +124,11 @@
                             <Label Text="{x:Static loc:AppResources.Group_EmptySubtitle}"
                                    Style="{StaticResource BodyMuted}"
                                    HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding SharedEmptyStateHint}"
+                                   IsVisible="{Binding IsShared}"
+                                   Style="{StaticResource BodyMuted}"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,4,0,0" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>

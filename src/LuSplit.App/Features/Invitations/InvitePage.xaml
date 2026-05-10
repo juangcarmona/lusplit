@@ -27,6 +27,20 @@
                 IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
                 HorizontalOptions="Fill" />
 
+        <!-- Post-create onboarding actions -->
+        <Button Text="Do this later"
+                Style="{StaticResource SecondaryButton}"
+                IsVisible="{Binding IsPostCreate}"
+                Command="{Binding SkipCommand}"
+                AutomationId="SkipInviteButton"
+                HorizontalOptions="Fill" />
+
+        <Button Text="Done"
+                IsVisible="{Binding IsPostCreate}"
+                Command="{Binding DoneCommand}"
+                AutomationId="DoneInviteButton"
+                HorizontalOptions="Fill" />
+
     </VerticalStackLayout>
 
 </ContentPage>

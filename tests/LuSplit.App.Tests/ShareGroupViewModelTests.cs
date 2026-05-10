@@ -27,8 +27,9 @@ public sealed class ShareGroupViewModelTests
 
         var repos = new LuSplit.Application.Tests.Fakes.InMemoryQueryRepositories();
         var idGen = new LuSplit.Application.Tests.Fakes.SequentialIdGenerator();
+        var membershipRepo = Substitute.For<IGroupMembershipRepository>();
 
-        var useCase = new CreateSharedGroupUseCase(repos, registrationPort, sharedStateRepo, keyStorage, auth, idGen);
+        var useCase = new CreateSharedGroupUseCase(repos, registrationPort, sharedStateRepo, membershipRepo, keyStorage, auth, idGen);
         var vm = new ShareGroupViewModel(useCase);
         vm.Initialize("device-1");
 
@@ -78,7 +79,8 @@ public sealed class ShareGroupViewModelTests
 
         var repos = new LuSplit.Application.Tests.Fakes.InMemoryQueryRepositories();
         var idGen = new LuSplit.Application.Tests.Fakes.SequentialIdGenerator();
-        var useCase = new CreateSharedGroupUseCase(repos, registrationPort, sharedStateRepo, keyStorage, auth, idGen);
+        var membershipRepo = Substitute.For<IGroupMembershipRepository>();
+        var useCase = new CreateSharedGroupUseCase(repos, registrationPort, sharedStateRepo, membershipRepo, keyStorage, auth, idGen);
         var vm = new ShareGroupViewModel(useCase);
         vm.Initialize("device-1");
 

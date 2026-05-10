@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Groups.UseCases;
 
 namespace LuSplit.App.Features.SharedGroups;
@@ -8,6 +9,7 @@ public sealed partial class ShareGroupViewModel : ObservableObject
 {
     private readonly CreateSharedGroupUseCase _createSharedGroupUseCase;
     private readonly ConvertGroupToSharedUseCase? _convertUseCase;
+    private readonly ISharedGroupStateRepository? _sharedStateRepo;
     private string? _deviceId;
     private string? _existingGroupId;
 
@@ -21,23 +23,41 @@ public sealed partial class ShareGroupViewModel : ObservableObject
     private string? _errorMessage;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsCreateMode))]
     private bool _isConvertMode;
 
-    public bool IsCreateMode => !IsConvertMode;
+    [ObservableProperty]
+    private bool _isAlreadyShared;
+
+    public bool IsCreateMode => !IsConvertMode && !IsAlreadyShared;
 
     public event EventHandler<string>? GroupCreated;
     public event EventHandler? ConvertCompleted;
 
-    public ShareGroupViewModel(CreateSharedGroupUseCase createSharedGroupUseCase, ConvertGroupToSharedUseCase? convertUseCase = null)
+    public ShareGroupViewModel(CreateSharedGroupUseCase createSharedGroupUseCase, ConvertGroupToSharedUseCase? convertUseCase = null, ISharedGroupStateRepository? sharedStateRepo = null)
     {
         _createSharedGroupUseCase = createSharedGroupUseCase;
         _convertUseCase = convertUseCase;
+        _sharedStateRepo = sharedStateRepo;
     }
 
-    public void Initialize(string deviceId, string? existingGroupId = null)
+    public async void Initialize(string deviceId, string? existingGroupId = null)
     {
         _deviceId = deviceId;
         _existingGroupId = existingGroupId;
+
+        // Check if the group is already shared
+        if (!string.IsNullOrWhiteSpace(existingGroupId) && _sharedStateRepo is not null)
+        {
+            var sharedState = await _sharedStateRepo.GetByGroupIdAsync(existingGroupId, CancellationToken.None);
+            if (sharedState is not null)
+            {
+                IsAlreadyShared = true;
+                IsConvertMode = false;
+                return;
+            }
+        }
+
         IsConvertMode = !string.IsNullOrWhiteSpace(existingGroupId) && _convertUseCase is not null;
         OnPropertyChanged(nameof(IsCreateMode));
     }

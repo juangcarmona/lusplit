@@ -39,6 +39,7 @@ public sealed class CreateSharedGroupUseCaseTests
             repos,
             registration,
             sharedState,
+            Substitute.For<IGroupMembershipRepository>(),
             keyStorage,
             auth,
             new SequentialIdGenerator());

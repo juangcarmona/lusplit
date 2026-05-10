@@ -3,6 +3,7 @@ using LuSplit.App.Resources.Localization;
 using LuSplit.App.Services.Export;
 using LuSplit.App.Services.Media;
 using LuSplit.App.Services.Persistence;
+using LuSplit.Application.Shared.Ports;
 
 namespace LuSplit.App.Features.Groups.GroupDetails;
 
@@ -12,11 +13,11 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
     private readonly GroupPhotoService _photoService;
     private readonly AppDataService _dataService;
 
-    public GroupDetailsPage(AppDataService dataService)
+    public GroupDetailsPage(AppDataService dataService, IAuthPort? authPort = null)
     {
         _dataService = dataService;
         _photoService = new GroupPhotoService(dataService);
-        _viewModel = new GroupDetailsViewModel(dataService);
+        _viewModel = new GroupDetailsViewModel(dataService, authPort);
         InitializeComponent();
         BindingContext = _viewModel;
         _viewModel.SaveCompleted += OnSaveCompleted;
@@ -27,6 +28,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
         _viewModel.NavigateToMembersRequested += OnNavigateToMembers;
         _viewModel.NavigateToShareRequested += OnNavigateToShare;
         _viewModel.NavigateToConvertRequested += OnNavigateToConvert;
+        _viewModel.NavigateToInviteRequested += OnNavigateToInvite;
 #if ANDROID
         BottomBanner.AdsId = AdMobConfig.BannerId;
 #endif
@@ -125,4 +127,7 @@ public partial class GroupDetailsPage : ContentPage, IQueryAttributable
 
     private async void OnNavigateToConvert(object? sender, EventArgs e)
         => await Shell.Current.GoToAsync($"{AppRoutes.ConvertGroup}?groupId={_viewModel.GroupId}");
+
+    private async void OnNavigateToInvite(object? sender, string groupId)
+        => await Shell.Current.GoToAsync($"{AppRoutes.Invite}?groupId={groupId}");
 }

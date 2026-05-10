@@ -30,6 +30,9 @@ public sealed partial class MemberListViewModel : ObservableObject
     public ObservableCollection<GroupMemberModel> Members { get; } = new();
     public ObservableCollection<PendingInvitationDto> PendingInvitations { get; } = new();
 
+    /// <summary>Raised when the owner wants to navigate to the invite flow. Arg = groupId.</summary>
+    public event EventHandler<string>? InviteRequested;
+
     public MemberListViewModel(
         IGroupMemberPort memberPort,
         GetGroupMembersQuery getMembersQuery,
@@ -114,5 +117,11 @@ public sealed partial class MemberListViewModel : ObservableObject
         if (member is null || !IsOwner) return;
         // Implemented in T103+ key rotation phase
     }
-}
 
+    [RelayCommand]
+    private void NavigateToInvite()
+    {
+        if (IsOwner && !string.IsNullOrWhiteSpace(_groupId))
+            InviteRequested?.Invoke(this, _groupId);
+    }
+}

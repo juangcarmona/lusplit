@@ -19,4 +19,7 @@ public sealed partial class ShareGroupPage : ContentPage, IQueryAttributable
             : null;
         _viewModel.Initialize(deviceId, groupId);
     }
+
+    private async void OnGoToGroupDetailsClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("..");
 }

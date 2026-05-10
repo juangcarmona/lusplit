@@ -14,18 +14,28 @@ public sealed partial class InviteViewModel : ObservableObject
     [ObservableProperty] private string? _errorMessage;
     [ObservableProperty] private string? _generatedLink;
 
+    /// <summary>True when this invite screen follows group creation (post-create onboarding).</summary>
+    [ObservableProperty] private bool _isPostCreate;
+
     /// <summary>Raised when an invitation link is generated and ready to share.</summary>
     public event EventHandler<string>? InvitationLinkReady;
+
+    /// <summary>Raised when the user wants to skip the invite step during post-create onboarding.</summary>
+    public event EventHandler? SkipRequested;
+
+    /// <summary>Raised when the user completes the post-create invite flow.</summary>
+    public event EventHandler? DoneRequested;
 
     public InviteViewModel(CreateInvitationUseCase useCase)
     {
         _useCase = useCase;
     }
 
-    public void Initialize(string groupId, string deviceId)
+    public void Initialize(string groupId, string deviceId, bool postCreate = false)
     {
         _groupId = groupId;
         _deviceId = deviceId;
+        IsPostCreate = postCreate;
     }
 
     [RelayCommand]
@@ -51,6 +61,12 @@ public sealed partial class InviteViewModel : ObservableObject
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    private void Skip() => SkipRequested?.Invoke(this, EventArgs.Empty);
+
+    [RelayCommand]
+    private void Done() => DoneRequested?.Invoke(this, EventArgs.Empty);
 
     private static string BuildDeepLink(string invitationCode)
         => $"lusplit://invite/{Uri.EscapeDataString(invitationCode)}";

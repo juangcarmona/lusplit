@@ -12,6 +12,7 @@ public sealed class ConvertGroupToSharedUseCase
     private readonly IGroupRepository _groupRepository;
     private readonly IGroupRegistrationPort _registrationPort;
     private readonly ISharedGroupStateRepository _sharedStateRepository;
+    private readonly IGroupMembershipRepository _membershipRepository;
     private readonly ISecureKeyStoragePort _keyStorage;
     private readonly IAuthPort _authPort;
 
@@ -19,12 +20,14 @@ public sealed class ConvertGroupToSharedUseCase
         IGroupRepository groupRepository,
         IGroupRegistrationPort registrationPort,
         ISharedGroupStateRepository sharedStateRepository,
+        IGroupMembershipRepository membershipRepository,
         ISecureKeyStoragePort keyStorage,
         IAuthPort authPort)
     {
         _groupRepository = groupRepository;
         _registrationPort = registrationPort;
         _sharedStateRepository = sharedStateRepository;
+        _membershipRepository = membershipRepository;
         _keyStorage = keyStorage;
         _authPort = authPort;
     }
@@ -82,5 +85,10 @@ public sealed class ConvertGroupToSharedUseCase
 
         await _keyStorage.StoreWrappedKeyAsync(groupId, initialKeyVersion, wrappedKey, ct);
         await _keyStorage.StorePrivateKeyAsync(deviceId, privateKeyBytes, ct);
+
+        // Seed local owner membership so role-aware UI works before next sync
+        var ownerMembership = new GroupMembership(
+            groupId, userId, MemberRole.Owner, DateTimeOffset.UtcNow, false, null);
+        await _membershipRepository.UpsertAsync(ownerMembership, ct);
     }
 }

@@ -7,12 +7,37 @@
              xmlns:expenses="clr-namespace:LuSplit.App.Features.Expenses.Shared"
              x:Class="LuSplit.App.Features.Groups.CreateGroup.CreateGroupPage"
              x:Name="PageRoot"
+             xmlns:groups="clr-namespace:LuSplit.Application.Groups;assembly=LuSplit.Application"
              Title="{x:Static loc:AppResources.CreateGroup_Title}">
     <Grid RowDefinitions="*,Auto">
         <ScrollView>
             <VerticalStackLayout Padding="16,16,16,16" Spacing="10">
 
                 <VerticalStackLayout IsVisible="{Binding IsStep1}" Spacing="8">
+
+                    <!-- Collaboration mode selection -->
+                    <Border Style="{StaticResource FormFieldBorder}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Group type" Style="{StaticResource FieldLabel}" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <Button Grid.Column="0"
+                                        Text="Local"
+                                        AutomationId="LocalModeButton"
+                                        Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.SelectModeCommand}"
+                                        CommandParameter="Local" />
+                                <Button Grid.Column="1"
+                                        Text="Shared"
+                                        AutomationId="SharedModeButton"
+                                        Style="{StaticResource SecondaryButton}"
+                                        Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.SelectModeCommand}"
+                                        CommandParameter="Shared" />
+                            </Grid>
+                            <Label Text="{Binding ModeHelperText}"
+                                   Style="{StaticResource BodyMuted}"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+
                     <Border Style="{StaticResource FormFieldBorder}">
                         <VerticalStackLayout Spacing="4">
                             <Label Text="{x:Static loc:AppResources.CreateGroup_GroupName}" Style="{StaticResource FieldLabel}" />
