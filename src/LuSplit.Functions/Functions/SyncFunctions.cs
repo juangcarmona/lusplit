@@ -39,7 +39,7 @@ public sealed class SyncFunctions
         SyncTokenRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<SyncTokenRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<SyncTokenRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {
@@ -80,7 +80,7 @@ public sealed class SyncFunctions
     {
         var response = req.CreateResponse(status);
         response.Headers.Add("Content-Type", "application/json");
-        await response.WriteStringAsync(JsonSerializer.Serialize(value));
+        await response.WriteStringAsync(JsonSerializer.Serialize(value, FunctionJsonOptions.Value));
         return response;
     }
 

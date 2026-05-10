@@ -22,6 +22,12 @@ public sealed class ControlPlaneHttpClient
         if (token is not null)
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
+        // Force-buffer content so Content-Length is known before sending.
+        // JsonContent.TryComputeLength returns false (unknown size), and
+        // AndroidMessageHandler may send an empty body when Content-Length is not set.
+        if (request.Content is not null)
+            await request.Content.LoadIntoBufferAsync();
+
         // Log outgoing request (absolute URI after BaseAddress resolution)
         System.Diagnostics.Debug.WriteLine($"[ControlPlane] {request.Method} {request.RequestUri}");
 

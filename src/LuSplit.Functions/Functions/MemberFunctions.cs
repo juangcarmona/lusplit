@@ -29,7 +29,7 @@ public sealed class MemberFunctions
         RevokeMemberRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<RevokeMemberRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<RevokeMemberRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {
@@ -65,7 +65,7 @@ public sealed class MemberFunctions
         TransferOwnershipRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<TransferOwnershipRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<TransferOwnershipRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {

@@ -1,4 +1,4 @@
-using LuSplit.Application.Expenses.Ports;
+using System.Security.Cryptography;
 using LuSplit.Application.Groups.Ports;
 using LuSplit.Application.Shared.Errors;
 using LuSplit.Application.Shared.Ports;
@@ -12,21 +12,21 @@ public sealed class ConvertGroupToSharedUseCase
     private readonly IGroupRepository _groupRepository;
     private readonly IGroupRegistrationPort _registrationPort;
     private readonly ISharedGroupStateRepository _sharedStateRepository;
+    private readonly ISecureKeyStoragePort _keyStorage;
     private readonly IAuthPort _authPort;
-    private readonly IIdGenerator _idGenerator;
 
     public ConvertGroupToSharedUseCase(
         IGroupRepository groupRepository,
         IGroupRegistrationPort registrationPort,
         ISharedGroupStateRepository sharedStateRepository,
-        IAuthPort authPort,
-        IIdGenerator idGenerator)
+        ISecureKeyStoragePort keyStorage,
+        IAuthPort authPort)
     {
         _groupRepository = groupRepository;
         _registrationPort = registrationPort;
         _sharedStateRepository = sharedStateRepository;
+        _keyStorage = keyStorage;
         _authPort = authPort;
-        _idGenerator = idGenerator;
     }
 
     public async Task ExecuteAsync(string groupId, string deviceId, CancellationToken ct)
@@ -41,10 +41,11 @@ public sealed class ConvertGroupToSharedUseCase
         if (existingState?.IsShared == true)
             throw new ValidationError("Group is already shared.");
 
-        using var rsa = System.Security.Cryptography.RSA.Create(2048);
-        var groupKey = System.Security.Cryptography.RandomNumberGenerator.GetBytes(32);
+        using var rsa = RSA.Create(2048);
+        var groupKey = RandomNumberGenerator.GetBytes(32);
         const int initialKeyVersion = 1;
-        var wrappedKey = rsa.Encrypt(groupKey, System.Security.Cryptography.RSAEncryptionPadding.OaepSHA256);
+        var wrappedKey = rsa.Encrypt(groupKey, RSAEncryptionPadding.OaepSHA256);
+        var privateKeyBytes = rsa.ExportRSAPrivateKey();
 
         var request = new CreateGroupRequest(
             GroupId: groupId,
@@ -53,16 +54,33 @@ public sealed class ConvertGroupToSharedUseCase
             InitialKeyVersion: initialKeyVersion,
             WrappedKeys: [new WrappedKeyEntryDto(deviceId, wrappedKey)]);
 
-        var response = await _registrationPort.RegisterGroupAsync(request, ct);
+        string containerName;
+        try
+        {
+            var response = await _registrationPort.RegisterGroupAsync(request, ct);
+            containerName = response.ContainerName;
+        }
+        catch (InvalidOperationException) when (existingState is null)
+        {
+            // 409 Conflict — group already registered on a previous attempt that
+            // failed locally. Fetch the existing registration and proceed.
+            var info = await _registrationPort.GetGroupInfoAsync(groupId, ct);
+            if (!string.Equals(info.OwnerId, userId, StringComparison.OrdinalIgnoreCase))
+                throw;
+            containerName = $"grp-{groupId.ToLowerInvariant().Replace("-", "")}";
+        }
 
         var sharedState = new SharedGroupState(
             IsShared: true,
-            RemoteContainerName: response.ContainerName,
+            RemoteContainerName: containerName,
             OwnerId: userId,
             CurrentKeyVersion: initialKeyVersion,
             SyncStatus: SyncStatus.PendingLocalChanges,
             IsReadOnly: false);
 
         await _sharedStateRepository.SaveAsync(groupId, sharedState, ct);
+
+        await _keyStorage.StoreWrappedKeyAsync(groupId, initialKeyVersion, wrappedKey, ct);
+        await _keyStorage.StorePrivateKeyAsync(deviceId, privateKeyBytes, ct);
     }
 }

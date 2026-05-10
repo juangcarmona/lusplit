@@ -72,6 +72,9 @@ public static class MauiProgram
 
         // Register device use case (needed for post-sign-in device registration)
         builder.Services.AddTransient<LuSplit.Application.Identity.UseCases.RegisterDeviceUseCase>();
+        // Func<T> factory — MS DI does not auto-resolve Func<T>
+        builder.Services.AddSingleton<Func<LuSplit.Application.Identity.UseCases.RegisterDeviceUseCase>>(sp =>
+            () => sp.GetRequiredService<LuSplit.Application.Identity.UseCases.RegisterDeviceUseCase>());
 
         // Session service — single app-level source of truth for auth state
         builder.Services.AddSingleton<SessionService>();
@@ -139,6 +142,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<LuSplit.Application.Groups.Ports.IGroupRegistrationPort, LuSplit.Infrastructure.ControlPlane.GroupRegistrationAdapter>();
         builder.Services.AddSingleton<LuSplit.Application.Invitations.Ports.IInvitationPort, LuSplit.Infrastructure.ControlPlane.InvitationAdapter>();
         builder.Services.AddSingleton<LuSplit.Application.Revocation.Ports.IRevocationPort, LuSplit.Infrastructure.ControlPlane.MemberRevocationAdapter>();
+        builder.Services.AddSingleton<LuSplit.Application.Groups.Ports.IGroupMemberPort, LuSplit.Infrastructure.ControlPlane.GroupMemberAdapter>();
 
         // Key management
         builder.Services.AddSingleton<IKeyWrapPort>(sp => sp.GetRequiredService<RsaKeyWrapAdapter>());
@@ -171,6 +175,10 @@ public static class MauiProgram
             new GroupRepositoryProxy(sp.GetRequiredService<AppDataService>()));
         builder.Services.AddSingleton<IGroupRepository>(sp =>
             sp.GetRequiredService<GroupRepositoryProxy>());
+        builder.Services.AddSingleton<GroupMembershipRepositoryProxy>(sp =>
+            new GroupMembershipRepositoryProxy(sp.GetRequiredService<AppDataService>()));
+        builder.Services.AddSingleton<IGroupMembershipRepository>(sp =>
+            sp.GetRequiredService<GroupMembershipRepositoryProxy>());
         builder.Services.AddTransient<ActivityFeedViewModel>(sp =>
             new ActivityFeedViewModel(sp.GetRequiredService<IActivityFeedDataService>()));
 
@@ -183,6 +191,11 @@ public static class MauiProgram
                 sp.GetRequiredService<IIdGenerator>(),
                 sp.GetRequiredService<IClock>(),
                 sp.GetRequiredService<RotateGroupKeyUseCase>()));
+
+        // Application queries and use cases
+        builder.Services.AddTransient<LuSplit.Application.Groups.Queries.GetGroupMembersQuery>();
+        builder.Services.AddTransient<LuSplit.Application.Invitations.Queries.GetPendingInvitationsQuery>();
+        builder.Services.AddTransient<LuSplit.Application.Invitations.UseCases.CreateInvitationUseCase>();
 
         // New pages
         builder.Services.AddTransient<ShareGroupPage>();

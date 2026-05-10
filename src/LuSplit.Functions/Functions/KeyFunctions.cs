@@ -28,7 +28,7 @@ public sealed class KeyFunctions
         UploadRotatedKeyRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<UploadRotatedKeyRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<UploadRotatedKeyRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {
@@ -85,7 +85,7 @@ public sealed class KeyFunctions
     {
         var response = req.CreateResponse(status);
         response.Headers.Add("Content-Type", "application/json");
-        await response.WriteStringAsync(JsonSerializer.Serialize(value));
+        await response.WriteStringAsync(JsonSerializer.Serialize(value, FunctionJsonOptions.Value));
         return response;
     }
 

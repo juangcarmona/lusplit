@@ -10,11 +10,6 @@ namespace LuSplit.Functions.Functions;
 
 public sealed class GroupFunctions
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
-
     private readonly IGroupMetadataStore _store;
     private readonly ILogger<GroupFunctions> _logger;
 
@@ -31,29 +26,43 @@ public sealed class GroupFunctions
     {
         CreateGroupRequest? request;
 
+        string body;
+        using (var reader = new StreamReader(req.Body))
+            body = await reader.ReadToEndAsync(ct);
+
         try
         {
-            request = await JsonSerializer.DeserializeAsync<CreateGroupRequest>(
-                req.Body,
-                JsonOptions,
-                ct);
+            request = JsonSerializer.Deserialize<CreateGroupRequest>(body, FunctionJsonOptions.Value);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogWarning(ex, "CreateGroup rejected: deserialization failed. Body: {Body}", body);
             return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "Invalid request body.");
         }
 
         if (request is null)
+        {
+            _logger.LogWarning("CreateGroup rejected: null request body");
             return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "Request body is required.");
+        }
 
         if (string.IsNullOrWhiteSpace(request.GroupId))
+        {
+            _logger.LogWarning("CreateGroup rejected: missing GroupId");
             return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "GroupId is required.");
+        }
 
         if (string.IsNullOrWhiteSpace(request.OwnerId))
+        {
+            _logger.LogWarning("CreateGroup rejected: missing OwnerId for group {GroupId}", request.GroupId);
             return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "OwnerId is required.");
+        }
 
         if (string.IsNullOrWhiteSpace(request.OwnerDeviceId))
+        {
+            _logger.LogWarning("CreateGroup rejected: missing OwnerDeviceId for group {GroupId}", request.GroupId);
             return await CreateJsonResponseAsync(req, HttpStatusCode.BadRequest, "OwnerDeviceId is required.");
+        }
 
         await _store.EnsureTableExistsAsync(ct);
 
@@ -112,7 +121,7 @@ public sealed class GroupFunctions
         if (value is not null)
         {
             response.Headers.Add("Content-Type", "application/json");
-            await response.WriteStringAsync(JsonSerializer.Serialize(value, JsonOptions));
+            await response.WriteStringAsync(JsonSerializer.Serialize(value, FunctionJsonOptions.Value));
         }
 
         return response;

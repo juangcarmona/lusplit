@@ -34,7 +34,7 @@ public sealed class InvitationFunctions
         CreateInvitationRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<CreateInvitationRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<CreateInvitationRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {
@@ -126,7 +126,7 @@ public sealed class InvitationFunctions
         AcceptInvitationRequest? request;
         try
         {
-            request = await JsonSerializer.DeserializeAsync<AcceptInvitationRequest>(req.Body, (JsonSerializerOptions?)null, ct);
+            request = await JsonSerializer.DeserializeAsync<AcceptInvitationRequest>(req.Body, FunctionJsonOptions.Value, ct);
         }
         catch
         {
@@ -194,7 +194,7 @@ public sealed class InvitationFunctions
     {
         var response = req.CreateResponse(status);
         response.Headers.Add("Content-Type", "application/json");
-        await response.WriteStringAsync(JsonSerializer.Serialize(value));
+        await response.WriteStringAsync(JsonSerializer.Serialize(value, FunctionJsonOptions.Value));
         return response;
     }
 

@@ -17,13 +17,13 @@ public sealed class InvitationAdapter : IInvitationPort
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, $"api/groups/{Uri.EscapeDataString(request.GroupId)}/invitations")
         {
-            Content = JsonContent.Create(request)
+            Content = JsonContent.Create(request, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<CreateInvitationResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<CreateInvitationResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -44,7 +44,7 @@ public sealed class InvitationAdapter : IInvitationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<InvitationInfoResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<InvitationInfoResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -53,13 +53,13 @@ public sealed class InvitationAdapter : IInvitationPort
         using var req = new HttpRequestMessage(HttpMethod.Post,
             $"api/invitations/{Uri.EscapeDataString(request.InvitationCode)}/accept")
         {
-            Content = JsonContent.Create(request)
+            Content = JsonContent.Create(request, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<AcceptInvitationResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<AcceptInvitationResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -68,7 +68,7 @@ public sealed class InvitationAdapter : IInvitationPort
         using var req = new HttpRequestMessage(HttpMethod.Post,
             $"api/invitations/{Uri.EscapeDataString(token)}/decline")
         {
-            Content = JsonContent.Create(new { Token = token, UserId = userId })
+            Content = JsonContent.Create(new { Token = token, UserId = userId }, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
@@ -83,7 +83,7 @@ public sealed class InvitationAdapter : IInvitationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<ListPendingInvitationsResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<ListPendingInvitationsResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 }

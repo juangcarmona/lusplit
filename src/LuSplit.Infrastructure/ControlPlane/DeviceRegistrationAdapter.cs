@@ -17,13 +17,13 @@ public sealed class DeviceRegistrationAdapter : IDeviceRegistrationPort
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, "api/devices/register")
         {
-            Content = JsonContent.Create(request)
+            Content = JsonContent.Create(request, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<RegisterDeviceResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<RegisterDeviceResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -35,7 +35,7 @@ public sealed class DeviceRegistrationAdapter : IDeviceRegistrationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<ListDevicesResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<ListDevicesResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -44,7 +44,7 @@ public sealed class DeviceRegistrationAdapter : IDeviceRegistrationPort
         using var req = new HttpRequestMessage(HttpMethod.Post,
             $"api/devices/{Uri.EscapeDataString(deviceId)}/revoke")
         {
-            Content = JsonContent.Create(new { RevokedByUserId = revokedByUserId })
+            Content = JsonContent.Create(new { RevokedByUserId = revokedByUserId }, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);

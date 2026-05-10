@@ -18,7 +18,7 @@ public sealed class KeyRotationAdapter : IKeyRotationPort
         using var req = new HttpRequestMessage(HttpMethod.Post,
             $"api/groups/{Uri.EscapeDataString(groupId)}/keys")
         {
-            Content = JsonContent.Create(request)
+            Content = JsonContent.Create(request, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
@@ -33,7 +33,7 @@ public sealed class KeyRotationAdapter : IKeyRotationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<GetWrappedKeysForDeviceResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<GetWrappedKeysForDeviceResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -45,7 +45,7 @@ public sealed class KeyRotationAdapter : IKeyRotationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<List<DevicePublicKeyDto>>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<List<DevicePublicKeyDto>>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 }

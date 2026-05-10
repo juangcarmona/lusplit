@@ -19,7 +19,7 @@ public sealed class MemberRevocationAdapter : IRevocationPort
             HttpMethod.Post,
             $"api/groups/{Uri.EscapeDataString(groupId)}/members/{Uri.EscapeDataString(memberUserId)}/revoke")
         {
-            Content = JsonContent.Create(new RevokeMemberRequest(memberUserId, callerUserId))
+            Content = JsonContent.Create(new RevokeMemberRequest(memberUserId, callerUserId), options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
@@ -32,7 +32,7 @@ public sealed class MemberRevocationAdapter : IRevocationPort
             HttpMethod.Post,
             $"api/groups/{Uri.EscapeDataString(groupId)}/transfer-ownership")
         {
-            Content = JsonContent.Create(new TransferOwnershipRequest(newOwnerUserId, callerUserId))
+            Content = JsonContent.Create(new TransferOwnershipRequest(newOwnerUserId, callerUserId), options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);

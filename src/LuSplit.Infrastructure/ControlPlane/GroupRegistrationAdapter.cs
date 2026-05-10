@@ -18,7 +18,7 @@ public sealed class GroupRegistrationAdapter : IGroupRegistrationPort
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, "api/groups")
         {
-            Content = JsonContent.Create(request)
+            Content = JsonContent.Create(request, options: ControlPlaneJsonOptions.Value)
         };
 
         var response = await _httpClient.SendAsync(req, ct);
@@ -28,7 +28,7 @@ public sealed class GroupRegistrationAdapter : IGroupRegistrationPort
 
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<CreateGroupResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<CreateGroupResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 
@@ -39,7 +39,7 @@ public sealed class GroupRegistrationAdapter : IGroupRegistrationPort
         var response = await _httpClient.SendAsync(req, ct);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<GroupInfoResponse>(cancellationToken: ct)
+        return await response.Content.ReadFromJsonAsync<GroupInfoResponse>(ControlPlaneJsonOptions.Value, ct)
             ?? throw new InvalidOperationException("Empty response from control plane.");
     }
 }

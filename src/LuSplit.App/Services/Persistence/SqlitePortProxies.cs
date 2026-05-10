@@ -76,3 +76,29 @@ internal sealed class GroupRepositoryProxy : IGroupRepository
         await infra.GroupRepository.SaveGroupAsync(group, cancellationToken);
     }
 }
+
+/// <summary>
+/// Lazy proxy that resolves <see cref="IGroupMembershipRepository"/> from
+/// <see cref="AppDataService"/> on first use.
+/// </summary>
+internal sealed class GroupMembershipRepositoryProxy : IGroupMembershipRepository
+{
+    private readonly AppDataService _dataService;
+
+    public GroupMembershipRepositoryProxy(AppDataService dataService)
+    {
+        _dataService = dataService;
+    }
+
+    public async Task<IReadOnlyList<GroupMembership>> GetByGroupIdAsync(string groupId, CancellationToken ct)
+    {
+        var infra = await _dataService.GetLocalInfraAsync();
+        return await infra.GroupMembershipRepository.GetByGroupIdAsync(groupId, ct);
+    }
+
+    public async Task UpsertAsync(GroupMembership membership, CancellationToken ct)
+    {
+        var infra = await _dataService.GetLocalInfraAsync();
+        await infra.GroupMembershipRepository.UpsertAsync(membership, ct);
+    }
+}
