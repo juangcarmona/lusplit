@@ -1,0 +1,12 @@
+{
+  "provider": "speckit",
+  "version": "0.14.0",
+  "installedAt": "2026-08-24T13:43:18.514Z",
+  "memoryPath": ".specify/memory/pdac.md",
+  "ciExamplePath": ".product/integrations/speckit.ci.yml",
+  "templatePaths": [
+    ".specify/templates/spec-template.md",
+    ".specify/templates/plan-template.md",
+    ".specify/templates/tasks-template.md"
+  ]
+}

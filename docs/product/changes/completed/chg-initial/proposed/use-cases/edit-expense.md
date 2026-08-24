@@ -1,0 +1,48 @@
+---
+id: UC-005
+type: use-case
+title: Edit expense
+status: draft
+primary-actor: ACT-001
+supporting-actors: []
+governed-by: [BR-001, BR-002, BR-003]
+uses-terms: [TERM-EXPENSE, TERM-SPLIT-DEFINITION]
+provenance:
+  source: src/LuSplit.Application/Expenses/Commands/EditExpenseUseCase.cs
+  confidence: high
+  recovered-from: observation
+---
+
+## Goal
+
+Modify an existing expense's title, amount, payer, date, or split definition.
+
+## Trigger
+
+User selects an expense and enters edit mode.
+
+## Preconditions
+
+The group is not archived. The expense exists in the group.
+
+## Main Flow
+
+1. User modifies expense fields.
+2. System validates the updated split.
+3. System saves the changes.
+
+## Postconditions
+
+## Alternative Flows
+
+- User changes the split mode during editing.
+- User modifies only some fields without changing the split definition.
+
+## Failure Conditions
+
+- The updated split does not consume the full expense amount.
+- The group is archived.
+
+## Postconditions
+
+The expense reflects the updated values. Balances are recalculated.

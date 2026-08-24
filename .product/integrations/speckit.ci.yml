@@ -1,0 +1,27 @@
+# PDaC citation gate for Spec Kit consumer documents (CI-ready example).
+# Managed by `prodshape integration add speckit`; copy it into your pipeline
+# (e.g. .github/workflows/) and adapt the triggers.
+#
+# The gate runs ProductShape citation and scope verification only, enumerating the
+# spec.md, plan.md and tasks.md of every feature directory under specs/. Spec Kit has no
+# enumeration CLI, so nothing beyond Node.js needs installing here.
+#
+# Blocking behaviour:
+# - unresolved citations, tampered embedded projections, unclassified gated documents
+#   and bound documents with zero citations always fail the gate;
+# - stale citations DO NOT block this gate: .product/config.yaml sets
+#   `validation.warnings-as-errors: false`, so PRODUCT061 stays a warning. To make stale
+#   citations block the merge, set `validation.warnings-as-errors: true` in
+#   .product/config.yaml. The integration never changes that policy for you.
+name: pdac-citations
+on:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npx prodshape citations verify --provider speckit

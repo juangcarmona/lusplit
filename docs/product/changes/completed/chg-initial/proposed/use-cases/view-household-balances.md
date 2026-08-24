@@ -1,0 +1,45 @@
+---
+id: UC-009
+type: use-case
+title: View household-aggregated balances
+status: draft
+primary-actor: ACT-001
+supporting-actors: []
+governed-by: [BR-008, BR-009]
+uses-terms: [TERM-BALANCE, TERM-ECONOMIC-UNIT, TERM-DEPENDENT]
+provenance:
+  source: src/LuSplit.Application/Payments/Queries/GetBalancesByEconomicUnitOwnerUseCase.cs
+  confidence: high
+  recovered-from: observation
+---
+
+## Goal
+
+See balances aggregated by household, with dependents' balances rolled up to their responsible adult.
+
+## Trigger
+
+User views the balances tab in a group that has dependents.
+
+## Preconditions
+
+A group exists with at least one economic unit containing dependents.
+
+## Main Flow
+
+1. System aggregates each dependent's balance under their economic unit owner.
+2. System displays per-household net balances.
+
+## Postconditions
+
+## Alternative Flows
+
+- User toggles between household-aggregated and per-participant view.
+
+## Failure Conditions
+
+- No economic units with dependents exist in the group.
+
+## Postconditions
+
+None (read-only query).
