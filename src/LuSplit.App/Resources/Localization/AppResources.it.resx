@@ -454,6 +454,15 @@
   <data name="Language_German" xml:space="preserve"><value>Tedesco</value></data>
   <data name="Language_Italian" xml:space="preserve"><value>Italiano</value></data>
   <data name="Language_Portuguese" xml:space="preserve"><value>Portoghese</value></data>
+  <data name="Language_Arabic" xml:space="preserve"><value>Arabo</value></data>
+  <data name="Language_Hindi" xml:space="preserve"><value>Hindi</value></data>
+  <data name="Language_Indonesian" xml:space="preserve"><value>Indonesiano</value></data>
+  <data name="Language_Japanese" xml:space="preserve"><value>Giapponese</value></data>
+  <data name="Language_Korean" xml:space="preserve"><value>Coreano</value></data>
+  <data name="Language_Russian" xml:space="preserve"><value>Russo</value></data>
+  <data name="Language_Turkish" xml:space="preserve"><value>Turco</value></data>
+  <data name="Language_ChineseSimplified" xml:space="preserve"><value>Cinese (semplificato)</value></data>
+  <data name="Language_ChineseTraditional" xml:space="preserve"><value>Cinese (tradizionale)</value></data>
   <data name="Common_MeCapitalized" xml:space="preserve"><value>Io</value></data>
   <data name="Startup_NoGroupsAvailable" xml:space="preserve"><value>Nessun gruppo disponibile.</value></data>
   <data name="Currency_DisplayFormat" xml:space="preserve"><value>{0} {1} ({2})</value></data>

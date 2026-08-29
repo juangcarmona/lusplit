@@ -113,7 +113,7 @@ directories captured above]
   spec's citations are current with `npx prodshape citations verify --provider speckit`;
   planning against a stale citation builds on meaning that has already moved. If this plan
   has no product-semantic dependency, a human replaces this section with the exemption
-  declaration `pdac-scope: none` (exact form in .specify/memory/pdac.md).
+  reasoned declaration `pdac-scope: none` (exact form in .specify/memory/pdac.md).
 -->
 
 [List the cited product artifacts this plan depends on, or the exemption]

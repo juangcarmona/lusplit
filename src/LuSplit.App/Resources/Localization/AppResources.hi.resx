@@ -15,1010 +15,1012 @@
 
   <!-- Activity -->
   <data name="Activity_Title" xml:space="preserve">
-    <value>Activity</value>
+    <value>गतिविधि</value>
   </data>
   <data name="Activity_Subtitle" xml:space="preserve">
-    <value>Recent events from your current group.</value>
+    <value>आपके वर्तमान समूह के हाल के ईवेंट।</value>
   </data>
   <data name="Activity_EmptyTitle" xml:space="preserve">
-    <value>Nothing here yet.</value>
+    <value>यहाँ अभी तक कुछ नहीं है।</value>
   </data>
   <data name="Activity_EmptySubtitle" xml:space="preserve">
-    <value>Open a group and add the first event.</value>
+    <value>एक समूह खोलें और पहला ईवेंट जोड़ें।</value>
   </data>
 
   <!-- Groups (Home) -->
   <data name="Groups_Title" xml:space="preserve">
-    <value>Groups</value>
+    <value>समूह</value>
   </data>
   <data name="Home_Title" xml:space="preserve">
-    <value>Home</value>
+    <value>होम</value>
   </data>
   <data name="Home_NoBalancesYet" xml:space="preserve">
-    <value>No balances yet</value>
+    <value>अभी तक कोई शेष नहीं</value>
   </data>
   <data name="Home_AllSettled" xml:space="preserve">
-    <value>All balances settled</value>
+    <value>सभी शेष राशि निपटाई गई</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
-    <value>Fronted for others: {0}</value>
+    <value>अन्य के लिए अग्रिम भुगतान: {0}</value>
   </data>
   <data name="Home_PayButton" xml:space="preserve">
-    <value>Pay</value>
+    <value>भुगतान करें</value>
   </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
-    <value>Recent activity</value>
+    <value>हाल की गतिविधि</value>
   </data>
   <data name="Home_OverviewNoActivityCount" xml:space="preserve">
-    <value>0 events</value>
+    <value>0 ईवेंट</value>
   </data>
   <data name="Home_OverviewNoActivityText" xml:space="preserve">
-    <value>No activity yet</value>
+    <value>अभी तक कोई गतिविधि नहीं</value>
   </data>
   <data name="Home_ExpensesEmpty" xml:space="preserve">
-    <value>No expenses or payments yet</value>
+    <value>अभी तक कोई खर्च या भुगतान नहीं</value>
   </data>
   <data name="Home_BalancesEmpty" xml:space="preserve">
-    <value>Everyone is even</value>
+    <value>सब बराबर हैं</value>
   </data>
   <data name="Home_NoGroupsTitle" xml:space="preserve">
-    <value>Shared expenses, and clear accounts.</value>
+    <value>साझा खर्च, और स्पष्ट लेखा।</value>
   </data>
   <data name="Home_NoGroupsSubtitle" xml:space="preserve">
-    <value>Track expenses in detail, see who owes whom.</value>
+    <value>खर्चों का विस्तार से ट्रैक करें, देखें कि कौन किसका देनदार है।</value>
   </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
-    <value>View archived groups</value>
+    <value>संग्रहीत समूह देखें</value>
   </data>
   <data name="Groups_Subtitle" xml:space="preserve">
-    <value>Pick up where you left off or start a new group.</value>
+    <value>जहाँ से छोड़ा था वहाँ से शुरू करें या नया समूह बनाएं।</value>
   </data>
   <data name="Groups_EmptyTitle" xml:space="preserve">
-    <value>No groups yet.</value>
+    <value>अभी तक कोई समूह नहीं है।</value>
   </data>
   <data name="Groups_EmptySubtitle" xml:space="preserve">
-    <value>Create your first group and start adding events.</value>
+    <value>अपना पहला समूह बनाएं और ईवेंट जोड़ना शुरू करें।</value>
   </data>
   <data name="Groups_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>खोलें</value>
   </data>
   <data name="Groups_Details" xml:space="preserve">
-    <value>Details</value>
+    <value>विवरण</value>
   </data>
   <data name="Groups_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ नया समूह</value>
   </data>
   <data name="Groups_Active" xml:space="preserve">
-    <value>Active</value>
+    <value>सक्रिय</value>
   </data>
 
   <!-- Group timeline -->
   <data name="Group_Title" xml:space="preserve">
-    <value>Group</value>
+    <value>समूह</value>
   </data>
   <data name="Group_DetailsButton" xml:space="preserve">
-    <value>Details</value>
+    <value>विवरण</value>
   </data>
   <data name="Group_EditGroup" xml:space="preserve">
-    <value>Edit group</value>
+    <value>समूह संपादित करें</value>
   </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>कौन किसे कितना देना है</value>
   </data>
   <data name="Group_EveryoneEven" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>अभी सब बराबर हैं।</value>
   </data>
   <data name="Group_SettleUp" xml:space="preserve">
-    <value>Settle up</value>
+    <value>निपटान करें</value>
   </data>
   <data name="Group_Events" xml:space="preserve">
-    <value>Events</value>
+    <value>ईवेंट</value>
   </data>
   <data name="Group_EmptyTitle" xml:space="preserve">
-    <value>Your group is ready.</value>
+    <value>आपका समूह तैयार है।</value>
   </data>
   <data name="Group_EmptySubtitle" xml:space="preserve">
-    <value>Add the first expense below.</value>
+    <value>नीचे पहला खर्च जोड़ें।</value>
   </data>
   <data name="Group_AddExpense" xml:space="preserve">
-    <value>+ Add expense</value>
+    <value>+ खर्च जोड़ें</value>
   </data>
   <data name="Group_RecordPayment" xml:space="preserve">
-    <value>Record payment</value>
+    <value>भुगतान दर्ज करें</value>
   </data>
   <data name="Group_OverflowLabel" xml:space="preserve">
-    <value>More</value>
+    <value>अधिक</value>
   </data>
   <data name="Group_TabOverview" xml:space="preserve">
-    <value>Overview</value>
+    <value>अवलोकन</value>
   </data>
   <data name="Group_TabExpenses" xml:space="preserve">
-    <value>Expenses</value>
+    <value>खर्च</value>
   </data>
   <data name="Group_TabBalances" xml:space="preserve">
-    <value>Balances</value>
+    <value>शेष राशि</value>
   </data>
 
   <!-- Group Details -->
   <data name="GroupDetails_Title" xml:space="preserve">
-    <value>Group details</value>
+    <value>समूह विवरण</value>
   </data>
   <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
-    <value>New group</value>
+    <value>नया समूह</value>
   </data>
   <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
-    <value>Group details</value>
+    <value>समूह विवरण</value>
   </data>
   <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
-    <value>Set up the group once, then start adding events.</value>
+    <value>समूह को एक बार सेट करें, फिर ईवेंट जोड़ना शुरू करें।</value>
   </data>
   <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
-    <value>Update the basics and keep the group ready for the next event.</value>
+    <value>मूल बातें अपडेट करें और समूह को अगले ईवेंट के लिए तैयार रखें।</value>
   </data>
   <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
-    <value>Group name</value>
+    <value>समूह का नाम</value>
   </data>
   <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
     <value>Beach weekend, cabin stay...</value>
   </data>
   <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
-    <value>Currency</value>
+    <value>मुद्रा</value>
   </data>
   <data name="GroupDetails_PeopleSection" xml:space="preserve">
-    <value>People</value>
+    <value>लोग</value>
   </data>
   <data name="GroupDetails_HouseholdHint" xml:space="preserve">
-    <value>Leave blank for independent participants. Use the same name to group dependents under one responsible participant.</value>
+    <value>स्वतंत्र प्रतिभागियों के लिए खाली छोड़ें। आश्रितों को एक जिम्मेदार प्रतिभागी के अंतर्गत समूहित करने के लिए एक ही नाम का उपयोग करें।</value>
   </data>
   <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
-    <value>Each person is independent by default. Shared responsibility does not change who can pay.</value>
+    <value>प्रत्येक व्यक्ति डिफ़ॉल्ट रूप से स्वतंत्र है। साझा जिम्मेदारी इसे नहीं बदलती कि कौन भुगतान कर सकता है।</value>
   </data>
   <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
-    <value>No people yet.</value>
+    <value>अभी तक कोई व्यक्ति नहीं है।</value>
   </data>
   <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
-    <value>Add at least one person before saving the group.</value>
+    <value>समूह सहेजने से पहले कम से कम एक व्यक्ति जोड़ें।</value>
   </data>
   <data name="GroupDetails_AddPersonSection" xml:space="preserve">
-    <value>Add person</value>
+    <value>व्यक्ति जोड़ें</value>
   </data>
   <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Alex</value>
   </data>
   <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
-    <value>Enter person name</value>
+    <value>व्यक्ति का नाम दर्ज करें</value>
   </data>
   <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>जिम्मेदारी का नाम (वैकल्पिक)</value>
   </data>
   <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>जिम्मेदारी का नाम (वैकल्पिक)</value>
   </data>
   <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
-    <value>Depends on (optional)</value>
+    <value>पर निर्भर (वैकल्पिक)</value>
   </data>
   <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
-    <value>Independent (default)</value>
+    <value>स्वतंत्र (डिफ़ॉल्ट)</value>
   </data>
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
-    <value>Add person</value>
+    <value>व्यक्ति जोड़ें</value>
   </data>
   <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
-    <value>Manage person</value>
+    <value>व्यक्ति प्रबंधित करें</value>
   </data>
   <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
-    <value>Save person</value>
+    <value>व्यक्ति सहेजें</value>
   </data>
   <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
-    <value>This person is currently responsible for others. Update dependents first to change responsibility.</value>
+    <value>यह व्यक्ति वर्तमान में अन्य के लिए जिम्मेदार है। जिम्मेदारी बदलने के लिए पहले आश्रितों को अपडेट करें।</value>
   </data>
   <data name="GroupDetails_CreateButton" xml:space="preserve">
-    <value>Create group</value>
+    <value>समूह बनाएं</value>
   </data>
   <data name="GroupDetails_SaveButton" xml:space="preserve">
-    <value>Save group</value>
+    <value>समूह सहेजें</value>
   </data>
   <data name="GroupDetails_ExportButton" xml:space="preserve">
-    <value>Export group</value>
+    <value>समूह निर्यात करें</value>
   </data>
   <data name="GroupDetails_ArchiveButton" xml:space="preserve">
-    <value>Archive group</value>
+    <value>समूह संग्रहित करें</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
-    <value>Archive this group?</value>
+    <value>इस समूह को संग्रहित करें?</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
-    <value>This group will be archived. You can still view and export it, but you won’t be able to add new expenses.</value>
+    <value>इस समूह को संग्रहित किया जाएगा। आप अभी भी इसे देख और निर्यात कर सकते हैं, लेकिन नए खर्च नहीं जोड़ पाएंगे।</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
-    <value>Archive</value>
+    <value>संग्रहित करें</value>
   </data>
   <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>यह समूह संग्रहित है और केवल पढ़ने के लिए है।</value>
   </data>
   <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
-    <value>Consumption share</value>
+    <value>उपभोग हिस्सा</value>
   </data>
   <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
-    <value>Full</value>
+    <value>पूर्ण</value>
   </data>
   <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
-    <value>Half</value>
+    <value>आधा</value>
   </data>
   <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
-    <value>Custom weight</value>
+    <value>कस्टम वज़न</value>
   </data>
   <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
-    <value>e.g. 0.5</value>
+    <value>जैसे 0.5</value>
   </data>
   <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
-    <value>Responsible</value>
+    <value>जिम्मेदार</value>
   </data>
   <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
-    <value>Dependent</value>
+    <value>आश्रित</value>
   </data>
   <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
-    <value>independent</value>
+    <value>स्वतंत्र</value>
   </data>
   <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
-    <value>depends on {0}</value>
+    <value>{0} पर निर्भर</value>
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
-    <value>pays for {0} people</value>
+    <value>{0} लोगों के लिए भुगतान करता है</value>
   </data>
   <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
-    <value>Independent</value>
+    <value>स्वतंत्र</value>
   </data>
   <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
-    <value>Depends on: {0}</value>
+    <value>पर निर्भर: {0}</value>
   </data>
   <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
-    <value>Pays for: {0}</value>
+    <value>के लिए भुगतान: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
+    <value>प्रत्येक प्रतिभागी को जोड़ें। यदि स्वतंत्र है तो जिम्मेदारी खाली छोड़ें, या आश्रितों को चिह्नित करने के लिए जिम्मेदारी का नाम पुनः उपयोग करें।</value>
   </data>
   <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
-    <value>Settles on their own</value>
+    <value>स्वयं निपटान करता है</value>
   </data>
   <data name="GroupDetails_PersonAdded" xml:space="preserve">
-    <value>Person added.</value>
+    <value>व्यक्ति जोड़ा गया।</value>
   </data>
   <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
-    <value>Person added to the new group.</value>
+    <value>नए समूह में व्यक्ति जोड़ा गया।</value>
   </data>
   <data name="GroupDetails_PersonUpdated" xml:space="preserve">
-    <value>Person updated.</value>
+    <value>व्यक्ति अपडेट किया गया।</value>
   </data>
   <data name="GroupDetails_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>हटाएं</value>
   </data>
   <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
-    <value>Change photo</value>
+    <value>फ़ोटो बदलें</value>
   </data>
   <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
-    <value>Group photo</value>
+    <value>समूह फ़ोटो</value>
   </data>
   <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
-    <value>Camera</value>
+    <value>कैमरा</value>
   </data>
   <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>गैलरी</value>
   </data>
   <data name="GroupDetails_PhotoRemove" xml:space="preserve">
-    <value>Remove photo</value>
+    <value>फ़ोटो हटाएं</value>
   </data>
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Add expense</value>
+    <value>खर्च जोड़ें</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
-    <value>Record what just happened.</value>
+    <value>जो अभी हुआ उसे दर्ज करें।</value>
   </data>
   <data name="AddEvent_WhatHappened" xml:space="preserve">
-    <value>What happened?</value>
+    <value>क्या हुआ?</value>
   </data>
   <data name="AddEvent_QuickDinner" xml:space="preserve">
-    <value>Dinner</value>
+    <value>रात का खाना</value>
   </data>
   <data name="AddEvent_QuickTaxi" xml:space="preserve">
-    <value>Taxi</value>
+    <value>टैक्सी</value>
   </data>
   <data name="AddEvent_QuickGroceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>किराने का सामान</value>
   </data>
   <data name="AddEvent_QuickTickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>टिकट</value>
   </data>
   <data name="AddEvent_QuickCustom" xml:space="preserve">
-    <value>Custom</value>
+    <value>कस्टम</value>
   </data>
   <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
-    <value>Anything else</value>
+    <value>और कुछ और</value>
   </data>
   <data name="AddEvent_IconOption_Meal" xml:space="preserve">
-    <value>Meal</value>
+    <value>भोजन</value>
   </data>
   <data name="AddEvent_IconOption_Transport" xml:space="preserve">
-    <value>Transport</value>
+    <value>परिवहन</value>
   </data>
   <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>किराने का सामान</value>
   </data>
   <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>टिकट</value>
   </data>
   <data name="AddEvent_IconOption_Stay" xml:space="preserve">
-    <value>Stay</value>
+    <value>प्रवास</value>
   </data>
   <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
-    <value>Drinks</value>
+    <value>पेय</value>
   </data>
   <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
-    <value>Coffee</value>
+    <value>कॉफ़ी</value>
   </data>
   <data name="AddEvent_IconOption_Fun" xml:space="preserve">
-    <value>Fun</value>
+    <value>मनोरंजन</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
-    <value>Title</value>
+    <value>शीर्षक</value>
   </data>
   <data name="AddEvent_EventPlaceholder" xml:space="preserve">
-    <value>Dinner, groceries, taxi...</value>
+    <value>रात का खाना, किराने का सामान, टैक्सी...</value>
   </data>
   <data name="AddEvent_IconLabel" xml:space="preserve">
-    <value>Icon</value>
+    <value>आइकन</value>
   </data>
   <data name="AddEvent_OnDate" xml:space="preserve">
-    <value>on</value>
+    <value>को</value>
   </data>
   <data name="AddEvent_PaidBy" xml:space="preserve">
-    <value>Paid by</value>
+    <value>भुगतान किया</value>
   </data>
   <data name="AddEvent_PayerHint" xml:space="preserve">
-    <value>Any participant can be payer, regardless of responsibility.</value>
+    <value>जिम्मेदारी की परवाह किए बिना कोई भी प्रतिभागी भुगतानकर्ता हो सकता है।</value>
   </data>
   <data name="AddEvent_WhoJoined" xml:space="preserve">
-    <value>Who joined?</value>
+    <value>कौन शामिल हुआ?</value>
   </data>
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
-    <value>Everyone is included by default.</value>
+    <value>सभी को डिफ़ॉल्ट रूप से शामिल किया गया है।</value>
   </data>
   <data name="AddEvent_ParticipantHint" xml:space="preserve">
-    <value>Select a person to include. Dependents follow their responsible participant.</value>
+    <value>शामिल करने के लिए एक व्यक्ति चुनें। आश्रित अपने जिम्मेदार प्रतिभागी का अनुसरण करते हैं।</value>
   </data>
   <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
-    <value>Split preview</value>
+    <value>विभाजन पूर्वावलोकन</value>
   </data>
   <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
-    <value>Enter amount and participants to preview.</value>
+    <value>पूर्वावलोकन के लिए राशि और प्रतिभागी दर्ज करें।</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>विभाजन समायोजित करें</value>
   </data>
   <data name="AddEvent_SplitLabel" xml:space="preserve">
-    <value>Split:</value>
+    <value>विभाजन:</value>
   </data>
   <data name="AddEvent_SplitEqual" xml:space="preserve">
-    <value>Equal</value>
+    <value>समान</value>
   </data>
   <data name="AddEvent_SplitExact" xml:space="preserve">
-    <value>Exact</value>
+    <value>सटीक</value>
   </data>
   <data name="AddEvent_SplitPercent" xml:space="preserve">
     <value>%</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
-    <value>Save</value>
+    <value>सहेजें</value>
   </data>
   <data name="AddEvent_ImpactTitle" xml:space="preserve">
-    <value>After this</value>
+    <value>इसके बाद</value>
   </data>
   <data name="AddEvent_ImpactHint" xml:space="preserve">
-    <value>Who owes whom will appear here.</value>
+    <value>कौन किसे देना है यहाँ दिखाई देगा।</value>
   </data>
   <data name="AddEvent_AttachMedia" xml:space="preserve">
-    <value>Attach media</value>
+    <value>मीडिया संलग्न करें</value>
   </data>
   <data name="AddEvent_TakePhoto" xml:space="preserve">
-    <value>Take photo</value>
+    <value>फ़ोटो लें</value>
   </data>
   <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
-    <value>Attachment will be linked after save.</value>
+    <value>सहेजने के बाद अनुलग्नक जोड़ा जाएगा।</value>
   </data>
   <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
-    <value>Photo will be linked after save.</value>
+    <value>सहेजने के बाद फ़ोटो जोड़ा जाएगा।</value>
   </data>
   <data name="AddEvent_CameraNotSupported" xml:space="preserve">
-    <value>Camera capture is not supported on this device.</value>
+    <value>इस डिवाइस पर कैमरा कैप्चर समर्थित नहीं है।</value>
   </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
-    <value>Note</value>
+    <value>नोट</value>
   </data>
   <data name="AddEvent_NotePlaceholder" xml:space="preserve">
-    <value>Optional</value>
+    <value>वैकल्पिक</value>
   </data>
   <data name="AddEvent_Saved" xml:space="preserve">
-    <value>Event saved.</value>
+    <value>ईवेंट सहेजा गया।</value>
   </data>
   <data name="AddEvent_SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>सभी चुनें</value>
   </data>
   <data name="AddEvent_AdultsOnly" xml:space="preserve">
-    <value>Adults only</value>
+    <value>केवल वयस्क</value>
   </data>
   <data name="AddEvent_SectionAdults" xml:space="preserve">
-    <value>Adults</value>
+    <value>वयस्क</value>
   </data>
   <data name="AddEvent_SectionDependents" xml:space="preserve">
-    <value>Dependents</value>
+    <value>आश्रित</value>
   </data>
   <data name="AddEvent_SplitMode_Title" xml:space="preserve">
-    <value>Split mode</value>
+    <value>विभाजन मोड</value>
   </data>
   <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
-    <value>⚖️ Auto</value>
+    <value>⚖️ स्वचालित</value>
   </data>
   <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
-    <value>💰 Fixed amount</value>
+    <value>💰 निश्चित राशि</value>
   </data>
   <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
-    <value>% Percentage</value>
+    <value>% प्रतिशत</value>
   </data>
 
   <!-- Settlement -->
   <data name="Settlement_Title" xml:space="preserve">
-    <value>Settle up</value>
+    <value>निपटान करें</value>
   </data>
   <data name="Settlement_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>कौन किसे कितना देना है</value>
   </data>
   <data name="Settlement_Subtitle" xml:space="preserve">
-    <value>Record payments only when money actually changes hands.</value>
+    <value>केवल तभी भुगतान दर्ज करें जब पैसे वास्तव में हाथ बदलें।</value>
   </data>
   <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
-    <value>Settlement is participant-based so reimbursements go to who actually paid.</value>
+    <value>निपटान प्रतिभागी-आधारित है ताकि भुगतान उसे जाए जिसने वास्तव में भुगतान किया।</value>
   </data>
   <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
-    <value>Responsibility summary (readability)</value>
+    <value>जिम्मेदारी सारांश (पठनीयता)</value>
   </data>
   <data name="Settlement_EmptyTitle" xml:space="preserve">
-    <value>Everyone is even.</value>
+    <value>सब बराबर हैं।</value>
   </data>
   <data name="Settlement_EmptySubtitle" xml:space="preserve">
-    <value>Record a payment only when money actually changes hands.</value>
+    <value>केवल तभी भुगतान दर्ज करें जब पैसे वास्तव में हाथ बदलें।</value>
   </data>
   <data name="Settlement_RecordPaymentButton" xml:space="preserve">
-    <value>Record custom payment</value>
+    <value>कस्टम भुगतान दर्ज करें</value>
   </data>
 
   <!-- Record Payment -->
   <data name="RecordPayment_Title" xml:space="preserve">
-    <value>Record payment</value>
+    <value>भुगतान दर्ज करें</value>
   </data>
   <data name="RecordPayment_Subtitle" xml:space="preserve">
-    <value>Capture a real payment and keep the group timeline honest.</value>
+    <value>वास्तविक भुगतान दर्ज करें और समूह टाइमलाइन को ईमानदार रखें।</value>
   </data>
   <data name="RecordPayment_WhoPaid" xml:space="preserve">
-    <value>Who paid?</value>
+    <value>किसने भुगतान किया?</value>
   </data>
   <data name="RecordPayment_WhoReceived" xml:space="preserve">
-    <value>Who received it?</value>
+    <value>किसने प्राप्त किया?</value>
   </data>
   <data name="RecordPayment_SaveButton" xml:space="preserve">
-    <value>Save payment</value>
+    <value>भुगतान सहेजें</value>
   </data>
   <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
-    <value>Suggestion</value>
+    <value>सुझाव</value>
   </data>
   <data name="RecordPayment_ConfirmButton" xml:space="preserve">
-    <value>Confirm payment</value>
+    <value>भुगतान की पुष्टि करें</value>
   </data>
 
   <!-- Common -->
   <data name="Common_Amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>राशि</value>
   </data>
   <data name="Common_Date" xml:space="preserve">
-    <value>Date</value>
+    <value>तारीख</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>रद्द करें</value>
   </data>
   <data name="Common_Ok" xml:space="preserve">
-    <value>OK</value>
+    <value>ठीक है</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>संपादित करें</value>
   </data>
   <data name="Common_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>अज्ञात</value>
   </data>
 
   <!-- Export -->
   <data name="Export_DialogTitle" xml:space="preserve">
-    <value>Export this group</value>
+    <value>इस समूह को निर्यात करें</value>
   </data>
   <data name="Export_JsonOption" xml:space="preserve">
-    <value>Raw data (JSON)</value>
+    <value>कच्चा डेटा (JSON)</value>
   </data>
   <data name="Export_CsvOption" xml:space="preserve">
-    <value>Spreadsheet (CSV)</value>
+    <value>स्प्रेडशीट (CSV)</value>
   </data>
   <data name="Export_PdfOption" xml:space="preserve">
-    <value>Summary (PDF)</value>
+    <value>सारांश (PDF)</value>
   </data>
   <data name="Export_ShareTitle" xml:space="preserve">
-    <value>Export group</value>
+    <value>समूह निर्यात करें</value>
   </data>
   <data name="Export_Failed" xml:space="preserve">
-    <value>Export failed. {0}</value>
+    <value>निर्यात विफल। {0}</value>
   </data>
   <data name="Export_DeliveryDialogTitle" xml:space="preserve">
-    <value>How would you like to export?</value>
+    <value>आप कैसे निर्यात करना चाहेंगे?</value>
   </data>
   <data name="Export_SaveToDevice" xml:space="preserve">
-    <value>Save to device</value>
+    <value>डिवाइस में सहेजें</value>
   </data>
   <data name="Export_Share" xml:space="preserve">
-    <value>Share...</value>
+    <value>साझा करें...</value>
   </data>
   <data name="Export_SavedToDevice" xml:space="preserve">
-    <value>"{0}" saved to Downloads.</value>
+    <value>"{0}" डाउनलोड में सहेजा गया।</value>
   </data>
 
   <!-- Validation -->
   <data name="Validation_TitleRequired" xml:space="preserve">
-    <value>Title is required.</value>
+    <value>शीर्षक आवश्यक है।</value>
   </data>
   <data name="Validation_InvalidAmount" xml:space="preserve">
-    <value>Enter a valid amount.</value>
+    <value>एक मान्य राशि दर्ज करें।</value>
   </data>
   <data name="Validation_SelectPayer" xml:space="preserve">
-    <value>Select a payer.</value>
+    <value>भुगतानकर्ता चुनें।</value>
   </data>
   <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
-    <value>Pick at least one person.</value>
+    <value>कम से कम एक व्यक्ति चुनें।</value>
   </data>
   <data name="Validation_PersonNameRequired" xml:space="preserve">
-    <value>Person name is required.</value>
+    <value>व्यक्ति का नाम आवश्यक है।</value>
   </data>
   <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
-    <value>Person name must be unique in this group.</value>
+    <value>इस समूह में व्यक्ति का नाम अद्वितीय होना चाहिए।</value>
   </data>
   <data name="Validation_GroupNotFound" xml:space="preserve">
-    <value>Group not found.</value>
+    <value>समूह नहीं मिला।</value>
   </data>
   <data name="Validation_GroupNameRequired" xml:space="preserve">
-    <value>Group name is required.</value>
+    <value>समूह का नाम आवश्यक है।</value>
   </data>
   <data name="Validation_SelectCurrency" xml:space="preserve">
-    <value>Choose a currency.</value>
+    <value>एक मुद्रा चुनें।</value>
   </data>
   <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
-    <value>Add at least one person.</value>
+    <value>कम से कम एक व्यक्ति जोड़ें।</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
-    <value>Enter a valid custom weight (e.g. 0.5).</value>
+    <value>एक मान्य कस्टम वज़न दर्ज करें (जैसे 0.5)।</value>
   </data>
   <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
-    <value>Custom weight is required when consumption is set to Custom.</value>
+    <value>जब उपभोग कस्टम पर सेट हो तो कस्टम वज़न आवश्यक है।</value>
   </data>
   <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>यह समूह संग्रहित है और केवल पढ़ने के लिए है।</value>
   </data>
   <data name="Validation_PersonNotFound" xml:space="preserve">
-    <value>Person not found.</value>
+    <value>व्यक्ति नहीं मिला।</value>
   </data>
   <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
-    <value>Responsible person not found.</value>
+    <value>जिम्मेदार व्यक्ति नहीं मिला।</value>
   </data>
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
-    <value>A person cannot depend on themselves.</value>
+    <value>कोई व्यक्ति स्वयं पर निर्भर नहीं हो सकता।</value>
   </data>
   <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
-    <value>Cannot make this person a dependent while they are responsible for others.</value>
+    <value>इस व्यक्ति को आश्रित नहीं बनाया जा सकता जब वह अन्य के लिए जिम्मेदार है।</value>
   </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
-    <value>Circular dependency is not allowed.</value>
+    <value>परिपत्र निर्भरता की अनुमति नहीं है।</value>
   </data>
   <data name="GroupSwitcher_Title" xml:space="preserve">
-    <value>Switch group</value>
+    <value>समूह बदलें</value>
   </data>
   <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
-    <value>(Current)</value>
+    <value>(वर्तमान)</value>
   </data>
   <data name="GroupSwitcher_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>चुनें</value>
   </data>
   <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>संग्रहित समूह</value>
   </data>
   <data name="GroupSwitcher_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ नया समूह</value>
   </data>
   <data name="CreateGroup_Title" xml:space="preserve">
-    <value>Create group</value>
+    <value>समूह बनाएं</value>
   </data>
   <data name="CreateGroup_GroupName" xml:space="preserve">
-    <value>Group name</value>
+    <value>समूह का नाम</value>
   </data>
   <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
     <value>Ski trip</value>
   </data>
   <data name="CreateGroup_Currency" xml:space="preserve">
-    <value>Currency</value>
+    <value>मुद्रा</value>
   </data>
   <data name="CreateGroup_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>जारी रखें</value>
   </data>
   <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
-    <value>Participant name</value>
+    <value>प्रतिभागी का नाम</value>
   </data>
   <data name="CreateGroup_AddParticipant" xml:space="preserve">
-    <value>Add</value>
+    <value>जोड़ें</value>
   </data>
   <data name="CreateGroup_Create" xml:space="preserve">
-    <value>Create</value>
+    <value>बनाएं</value>
   </data>
 
   <!-- Archived groups -->
   <data name="Archived_Title" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>संग्रहित समूह</value>
   </data>
   <data name="Archived_Subtitle" xml:space="preserve">
-    <value>These groups are closed. You can still read and export them.</value>
+    <value>ये समूह बंद हैं। आप अभी भी इन्हें पढ़ और निर्यात कर सकते हैं।</value>
   </data>
   <data name="Archived_EmptyTitle" xml:space="preserve">
-    <value>No archived groups yet.</value>
+    <value>अभी तक कोई संग्रहित समूह नहीं है।</value>
   </data>
   <data name="Archived_EmptySubtitle" xml:space="preserve">
-    <value>Archived groups appear here.</value>
+    <value>संग्रहित समूह यहाँ दिखाई देते हैं।</value>
   </data>
   <data name="Archived_Badge" xml:space="preserve">
-    <value>Archived</value>
+    <value>संग्रहित</value>
   </data>
   <data name="Validation_ChooseBothPeople" xml:space="preserve">
-    <value>Choose both people.</value>
+    <value>दोनों व्यक्तियों को चुनें।</value>
   </data>
   <data name="Validation_DifferentPeople" xml:space="preserve">
-    <value>Payment needs two different people.</value>
+    <value>भुगतान के लिए दो अलग-अलग व्यक्तियों की आवश्यकता है।</value>
   </data>
   <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
-    <value>Total must match amount</value>
+    <value>कुल राशि से मेल खाना चाहिए</value>
   </data>
   <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
-    <value>Delete expense</value>
+    <value>खर्च हटाएं</value>
   </data>
   <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
-    <value>Are you sure you want to delete this expense?</value>
+    <value>क्या आप वाकई इस खर्च को हटाना चाहते हैं?</value>
   </data>
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
-    <value>Delete</value>
+    <value>हटाएं</value>
   </data>
   <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
-    <value>Total fixed: {0}</value>
+    <value>कुल निश्चित: {0}</value>
   </data>
   <data name="ExpenseDetails_NotFound" xml:space="preserve">
-    <value>Expense not found.</value>
+    <value>खर्च नहीं मिला।</value>
   </data>
 
   <!-- Settings -->
   <data name="Settings_Title" xml:space="preserve">
-    <value>Settings</value>
+    <value>सेटिंग्स</value>
   </data>
   <data name="Settings_VersionLabel" xml:space="preserve">
-    <value>Version</value>
+    <value>संस्करण</value>
   </data>
   <data name="Settings_LanguageSection" xml:space="preserve">
-    <value>Language</value>
+    <value>भाषा</value>
   </data>
   <data name="Settings_LanguageHint" xml:space="preserve">
-    <value>Choose your preferred language.</value>
+    <value>अपनी पसंदीदा भाषा चुनें।</value>
   </data>
   <data name="Settings_LanguageSaved" xml:space="preserve">
-    <value>Language updated.</value>
+    <value>भाषा अपडेट की गई।</value>
   </data>
   <data name="Settings_ProfileSection" xml:space="preserve">
-    <value>Profile</value>
+    <value>प्रोफ़ाइल</value>
   </data>
   <data name="Settings_ProfileHint" xml:space="preserve">
-    <value>Set your name to mark yourself as (me) across groups.</value>
+    <value>समूहों में खुद को (मैं) के रूप में चिह्नित करने के लिए अपना नाम सेट करें।</value>
   </data>
   <data name="Settings_MyNameLabel" xml:space="preserve">
-    <value>My name</value>
+    <value>मेरा नाम</value>
   </data>
   <data name="Settings_MyNamePlaceholder" xml:space="preserve">
-    <value>Enter your name</value>
+    <value>अपना नाम दर्ज करें</value>
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
-    <value>Save profile</value>
+    <value>प्रोफ़ाइल सहेजें</value>
   </data>
   <data name="Settings_ThemeLabel" xml:space="preserve">
-    <value>Dark theme</value>
+    <value>डार्क थीम</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
-    <value>Profile updated.</value>
+    <value>प्रोफ़ाइल अपडेट की गई।</value>
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
-    <value>System Default</value>
+    <value>सिस्टम डिफ़ॉल्ट</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>English</value>
+    <value>अंग्रेज़ी</value>
   </data>
   <data name="Language_Spanish" xml:space="preserve">
-    <value>Spanish</value>
+    <value>स्पैनिश</value>
   </data>
   <data name="Language_French" xml:space="preserve">
-    <value>French</value>
+    <value>फ़्रेंच</value>
   </data>
   <data name="Language_German" xml:space="preserve">
-    <value>German</value>
+    <value>जर्मन</value>
   </data>
   <data name="Language_Italian" xml:space="preserve">
-    <value>Italian</value>
+    <value>इतालवी</value>
   </data>
   <data name="Language_Portuguese" xml:space="preserve">
-    <value>Portuguese</value>
-  </data>
-  <data name="Language_Arabic" xml:space="preserve">
-    <value>Arabic</value>
-  </data>
-  <data name="Language_Hindi" xml:space="preserve">
-    <value>Hindi</value>
-  </data>
-  <data name="Language_Indonesian" xml:space="preserve">
-    <value>Indonesian</value>
-  </data>
-  <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="Language_Korean" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="Language_Russian" xml:space="preserve">
-    <value>Russian</value>
-  </data>
-  <data name="Language_Turkish" xml:space="preserve">
-    <value>Turkish</value>
-  </data>
-  <data name="Language_ChineseSimplified" xml:space="preserve">
-    <value>Chinese (Simplified)</value>
-  </data>
-  <data name="Language_ChineseTraditional" xml:space="preserve">
-    <value>Chinese (Traditional)</value>
+    <value>पुर्तगाली</value>
   </data>
   <data name="Common_MeCapitalized" xml:space="preserve">
-    <value>Me</value>
+    <value>मैं</value>
   </data>
   <data name="Startup_NoGroupsAvailable" xml:space="preserve">
-    <value>No groups are available.</value>
+    <value>कोई समूह उपलब्ध नहीं है।</value>
   </data>
   <data name="Currency_DisplayFormat" xml:space="preserve">
     <value>{0} {1} ({2})</value>
   </data>
   <data name="Currency_Name_Unknown" xml:space="preserve">
-    <value>Currency</value>
+    <value>मुद्रा</value>
   </data>
   <data name="Currency_Name_EUR" xml:space="preserve">
-    <value>Euro</value>
+    <value>यूरो</value>
   </data>
   <data name="Currency_Name_USD" xml:space="preserve">
-    <value>US Dollar</value>
+    <value>अमेरिकी डॉलर</value>
   </data>
   <data name="Currency_Name_GBP" xml:space="preserve">
-    <value>British Pound</value>
+    <value>ब्रिटिश पाउंड</value>
   </data>
   <data name="Currency_Name_CHF" xml:space="preserve">
-    <value>Swiss Franc</value>
+    <value>स्विस फ़्रैंक</value>
   </data>
   <data name="Currency_Name_JPY" xml:space="preserve">
-    <value>Japanese Yen</value>
+    <value>जापानी येन</value>
   </data>
   <data name="Currency_Name_CNY" xml:space="preserve">
-    <value>Chinese Yuan</value>
+    <value>चीनी युआन</value>
   </data>
   <data name="Currency_Name_INR" xml:space="preserve">
-    <value>Indian Rupee</value>
+    <value>भारतीय रुपया</value>
   </data>
   <data name="Currency_Name_AUD" xml:space="preserve">
-    <value>Australian Dollar</value>
+    <value>ऑस्ट्रेलियाई डॉलर</value>
   </data>
   <data name="Currency_Name_CAD" xml:space="preserve">
-    <value>Canadian Dollar</value>
+    <value>कनाडाई डॉलर</value>
   </data>
   <data name="Currency_Name_BRL" xml:space="preserve">
-    <value>Brazilian Real</value>
+    <value>ब्राज़ीलियाई रियल</value>
   </data>
   <data name="Currency_Name_MXN" xml:space="preserve">
-    <value>Mexican Peso</value>
+    <value>मैक्सिकन पेसो</value>
   </data>
   <data name="Currency_Name_ARS" xml:space="preserve">
-    <value>Argentine Peso</value>
+    <value>अर्जेंटीनी पेसो</value>
   </data>
   <data name="Currency_Name_CLP" xml:space="preserve">
-    <value>Chilean Peso</value>
+    <value>चिली पेसो</value>
   </data>
   <data name="Currency_Name_COP" xml:space="preserve">
-    <value>Colombian Peso</value>
+    <value>कोलंबियाई पेसो</value>
   </data>
   <data name="Currency_Name_PEN" xml:space="preserve">
-    <value>Peruvian Sol</value>
+    <value>पेरूवियन सोल</value>
   </data>
   <data name="Currency_Name_SEK" xml:space="preserve">
-    <value>Swedish Krona</value>
+    <value>स्वीडिश क्रोना</value>
   </data>
   <data name="Currency_Name_NOK" xml:space="preserve">
-    <value>Norwegian Krone</value>
+    <value>नॉर्वेजियन क्रोन</value>
   </data>
   <data name="Currency_Name_DKK" xml:space="preserve">
-    <value>Danish Krone</value>
+    <value>डैनिश क्रोन</value>
   </data>
   <data name="Currency_Name_PLN" xml:space="preserve">
-    <value>Polish Złoty</value>
+    <value>पोलिश ज़्लॉटी</value>
   </data>
   <data name="Currency_Name_CZK" xml:space="preserve">
-    <value>Czech Koruna</value>
+    <value>चेक कोरुना</value>
   </data>
   <data name="Currency_Name_HUF" xml:space="preserve">
-    <value>Hungarian Forint</value>
+    <value>हंगेरियन फ़ोरिंट</value>
   </data>
   <data name="Currency_Name_RON" xml:space="preserve">
-    <value>Romanian Leu</value>
+    <value>रोमानियाई लेउ</value>
   </data>
   <data name="Currency_Name_TRY" xml:space="preserve">
-    <value>Turkish Lira</value>
+    <value>तुर्की लीरा</value>
   </data>
   <data name="Currency_Name_AED" xml:space="preserve">
-    <value>UAE Dirham</value>
+    <value>यूएई दिरहम</value>
   </data>
   <data name="Currency_Name_SAR" xml:space="preserve">
-    <value>Saudi Riyal</value>
+    <value>सऊदी रियाल</value>
   </data>
   <data name="Currency_Name_KRW" xml:space="preserve">
-    <value>South Korean Won</value>
+    <value>दक्षिण कोरियाई वॉन</value>
   </data>
   <data name="Currency_Name_SGD" xml:space="preserve">
-    <value>Singapore Dollar</value>
+    <value>सिंगापुर डॉलर</value>
   </data>
   <data name="Currency_Name_HKD" xml:space="preserve">
-    <value>Hong Kong Dollar</value>
+    <value>हांग कांग डॉलर</value>
   </data>
   <data name="Currency_Name_NZD" xml:space="preserve">
-    <value>New Zealand Dollar</value>
+    <value>न्यूज़ीलैंड डॉलर</value>
   </data>
   <data name="Currency_Name_ZAR" xml:space="preserve">
-    <value>South African Rand</value>
+    <value>दक्षिण अफ़्रीकी रैंड</value>
   </data>
 
   <!-- Validation (service-level) -->
   <data name="Validation_CurrencyRequired" xml:space="preserve">
-    <value>Currency is required.</value>
+    <value>मुद्रा आवश्यक है।</value>
   </data>
   <data name="Validation_EachPersonNeedsName" xml:space="preserve">
-    <value>Each person needs a name.</value>
+    <value>प्रत्येक व्यक्ति को नाम की आवश्यकता है।</value>
   </data>
 
   <!-- Mapper / presentation sentences -->
   <data name="Mapper_Person" xml:space="preserve">
-    <value>Person</value>
+    <value>व्यक्ति</value>
   </data>
   <data name="Mapper_Everyone" xml:space="preserve">
-    <value>everyone</value>
+    <value>सभी</value>
   </data>
   <data name="Mapper_And" xml:space="preserve">
-    <value>and</value>
+    <value>और</value>
   </data>
   <data name="Mapper_SplitEqual" xml:space="preserve">
-    <value>Shared equally between {0}</value>
+    <value>{0} के बीच समान रूप से साझा</value>
   </data>
   <data name="Mapper_SplitWeighted" xml:space="preserve">
-    <value>Weighted between {0}</value>
+    <value>{0} के बीच भारित</value>
   </data>
   <data name="Mapper_SplitByPercentage" xml:space="preserve">
-    <value>Shared by percentages between {0}</value>
+    <value>{0} के बीच प्रतिशत द्वारा साझा</value>
   </data>
   <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
-    <value>Shared with custom amounts between {0}</value>
+    <value>{0} के बीच कस्टम राशियों के साथ साझा</value>
   </data>
   <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
-    <value>Custom amounts for {0}</value>
+    <value>{0} के लिए कस्टम राशियाँ</value>
   </data>
   <data name="Mapper_HouseholdOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>{0} की जिम्मेदारी</value>
   </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>{0} की जिम्मेदारी</value>
   </data>
   <data name="Mapper_PaymentTitle" xml:space="preserve">
-    <value>Payment</value>
+    <value>भुगतान</value>
   </data>
   <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>{0} ने {1} भुगतान किया</value>
   </data>
   <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
-    <value>Recorded payment</value>
+    <value>दर्ज भुगतान</value>
   </data>
   <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
-    <value>{0} added {1}</value>
+    <value>{0} ने {1} जोड़ा</value>
   </data>
   <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>{0} ने {1} भुगतान किया</value>
   </data>
   <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
-    <value>Payment recorded</value>
+    <value>भुगतान दर्ज किया गया</value>
   </data>
   <data name="Mapper_BalanceOwes" xml:space="preserve">
-    <value>{0} owes {1}</value>
+    <value>{0} को {1} देना है</value>
   </data>
   <data name="Mapper_BalanceEvenNow" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>अभी सब बराबर हैं।</value>
   </data>
   <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
-    <value>{0} people ready to go</value>
+    <value>{0} लोग जाने के लिए तैयार</value>
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
-    <value>{0} people · {1} events</value>
+    <value>{0} लोग · {1} ईवेंट</value>
   </data>
   <data name="Mapper_SummaryPeople" xml:space="preserve">
-    <value>{0} people</value>
+    <value>{0} लोग</value>
   </data>
   <data name="Mapper_NoActivity" xml:space="preserve">
-    <value>no activity</value>
+    <value>कोई गतिविधि नहीं</value>
   </data>
   <data name="Mapper_Activity_Expense" xml:space="preserve">
-    <value>{0} expense</value>
+    <value>{0} खर्च</value>
   </data>
   <data name="Mapper_Activity_Expenses" xml:space="preserve">
-    <value>{0} expenses</value>
+    <value>{0} खर्च</value>
   </data>
   <data name="Mapper_Activity_Payment" xml:space="preserve">
-    <value>{0} payment</value>
+    <value>{0} भुगतान</value>
   </data>
   <data name="Mapper_Activity_Payments" xml:space="preserve">
-    <value>{0} payments</value>
+    <value>{0} भुगतान</value>
   </data>
   <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
-    <value>{0} expenses · {1} payments</value>
+    <value>{0} खर्च · {1} भुगतान</value>
   </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
-    <value>{0} → {1} people</value>
+    <value>{0} → {1} लोग</value>
   </data>
   <data name="Mapper_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>आज</value>
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>कल</value>
   </data>
   <data name="Mapper_Me" xml:space="preserve">
-    <value>me</value>
+    <value>मैं</value>
   </data>
 
   <!-- Group status labels -->
   <data name="Status_CurrentGroup" xml:space="preserve">
-    <value>Current group</value>
+    <value>वर्तमान समूह</value>
   </data>
   <data name="Status_OpenedOn" xml:space="preserve">
-    <value>Opened {0}</value>
+    <value>खोला गया {0}</value>
   </data>
   <data name="Status_RecentActivity" xml:space="preserve">
-    <value>Recent activity {0}</value>
+    <value>हाल की गतिविधि {0}</value>
   </data>
   <data name="Status_ReadyForFirstEvent" xml:space="preserve">
-    <value>Ready for the first event</value>
+    <value>पहले ईवेंट के लिए तैयार</value>
   </data>
   <data name="Status_AddFirstEvent" xml:space="preserve">
-    <value>Add the first event.</value>
+    <value>पहला ईवेंट जोड़ें।</value>
   </data>
   <data name="Status_Settled" xml:space="preserve">
-    <value>Settled.</value>
+    <value>निपटान हो गया।</value>
   </data>
   <data name="Status_DefaultGroupName" xml:space="preserve">
-    <value>Group</value>
+    <value>समूह</value>
   </data>
   <data name="Status_Household" xml:space="preserve">
-    <value>Household</value>
+    <value>परिवार</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>अरबी</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>हिंदी</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>इंडोनेशियाई</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>जापानी</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>कोरियाई</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>रूसी</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>तुर्की</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>सरलीकृत चीनी</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>पारंपरिक चीनी</value>
   </data>
 
 </root>

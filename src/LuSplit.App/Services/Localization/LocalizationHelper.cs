@@ -25,6 +25,15 @@ public static class LocalizationHelper
         new LanguageOption("de", "🇩🇪", () => AppResources.Language_German),
         new LanguageOption("it", "🇮🇹", () => AppResources.Language_Italian),
         new LanguageOption("pt", "🇵🇹", () => AppResources.Language_Portuguese),
+        new LanguageOption("ar", "🇸🇦", () => AppResources.Language_Arabic),
+        new LanguageOption("hi", "🇮🇳", () => AppResources.Language_Hindi),
+        new LanguageOption("id", "🇮🇩", () => AppResources.Language_Indonesian),
+        new LanguageOption("ja", "🇯🇵", () => AppResources.Language_Japanese),
+        new LanguageOption("ko", "🇰🇷", () => AppResources.Language_Korean),
+        new LanguageOption("ru", "🇷🇺", () => AppResources.Language_Russian),
+        new LanguageOption("tr", "🇹🇷", () => AppResources.Language_Turkish),
+        new LanguageOption("zh-CN", "🇨🇳", () => AppResources.Language_ChineseSimplified),
+        new LanguageOption("zh-TW", "🇹🇼", () => AppResources.Language_ChineseTraditional),
     };
 
     private static readonly HashSet<string> _supportedCodes =

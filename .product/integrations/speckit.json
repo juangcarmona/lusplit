@@ -1,7 +1,7 @@
 {
   "provider": "speckit",
-  "version": "0.14.0",
-  "installedAt": "2026-08-24T13:43:18.514Z",
+  "version": "0.16.0",
+  "installedAt": "2026-08-29T13:48:05.749Z",
   "memoryPath": ".specify/memory/pdac.md",
   "ciExamplePath": ".product/integrations/speckit.ci.yml",
   "templatePaths": [

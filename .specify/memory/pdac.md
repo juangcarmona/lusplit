@@ -15,9 +15,9 @@ content digest and an optional verification scenario anchor. Verification report
 citation: current, stale, tampered or unresolved.
 
 To cite: run `npx prodshape inspect <ID>` to read the current digest, then
-`npx prodshape cite --id <ID> --digest <digest>` to emit the citation record. Place inline
-citations on their own line directly under the text they ground. Never write a citation record by
-hand, and never invent artifact ids or digests.
+`npx prodshape cite --id <ID> --digest <digest>` to emit the canonical payload. Wrap it in the
+document's native comment (`<!-- ... -->` in Markdown) on its own line directly under the text
+it grounds. Never write a citation record by hand, and never invent artifact ids or digests.
 
 ## Before specifying a feature
 
@@ -34,10 +34,13 @@ widen the result with `npx prodshape impact <ID>`.
   it derives from, not only the closest one, one citation per line under the text it grounds.
 - When a plan decision depends on canonical product text, cite the artifact it depends on.
 - A task that changes cited behaviour includes a follow-up task to refresh the affected citations.
-- Every gated document (spec.md, plan.md, tasks.md) of a feature must end up bound or exempt:
-  bind by citing the canonical text it depends on, or declare `pdac-scope: none` on a line of its
-  own (frontmatter or `<!-- pdac-scope: none -->`) when a human judges the document has no
-  product-semantic dependency. Never declare an exemption just because citations are missing.
+- Every gated document (spec.md, plan.md, tasks.md) of a feature must end up bound or exempt,
+  each with an explicit declaration: declare `pdac-scope: cited` on a line of its own and cite
+  the canonical text the document depends on, or declare `pdac-scope: none` with a non-empty
+  reason (`pdac-scope-reason: <why>` in frontmatter, or
+  `<!-- pdac-scope: none reason="<why>" -->`) when a human judges the document has no
+  product-semantic dependency. Citations alone never bind, and never declare an exemption just
+  because citations are missing.
 
 ## Drift
 

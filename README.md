@@ -50,16 +50,27 @@ If I ever introduce ads, it will only be to sustain optional backend infrastruct
 
 ## Architecture
 
-LuSplit is a Turborepo monorepo.
+LuSplit is a .NET MAUI app with a clean layered architecture.
 
-- `packages/core ` - Domain model (deterministic split & settlement logic)
-- `packages/application ` - CQRS handlers
-- `packages/infra-local ` - SQLite + export adapters
-- `apps/mobile ` - React Native app
-- `apps/web ` - Web client (planned)
+- `src/LuSplit.Domain` — pure business rules and invariants (money, splits, balances, settlement)
+- `src/LuSplit.Application` — use cases, queries, ports, and application models
+- `src/LuSplit.Infrastructure` — SQLite repositories, export adapters, snapshot services
+- `src/LuSplit.App` — .NET MAUI presentation layer (pages, viewmodels, navigation)
+- `website/` — public marketing site (Astro, deployed to Azure Static Web Apps)
 
-Domain rules are defined in:
-`/packages/core/DOMAIN.md`
+Domain rules depend on nothing. Application depends on Domain. Infrastructure depends on Application and Domain. The app depends on Application.
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for details.
+
+---
+
+## Product definition
+
+LuSplit's product definition is managed as code using [Product Definition as Code](https://pdac.dev) (PDaC), with [ProductShape](https://github.com/juangcarmona/productshape) as the reference implementation.
+
+The full product model — actors, journeys, use cases, business rules, domain terms, requirements, and constraints — lives under [`docs/product/`](docs/product/) and is validated with `prodshape validate`.
+
+A browsable snapshot of the product definition is published at **[lusplit.app/product-snapshot.html](https://lusplit.app/product-snapshot.html)** and regenerated on every build.
 
 ---
 

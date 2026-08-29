@@ -141,7 +141,7 @@
      record by hand, never invent ids or digests, and never paraphrase canonical text as if
      it were new.
   3. If this feature has no product-semantic dependency, a human replaces this section with
-     the exemption declaration `pdac-scope: none` (see .specify/memory/pdac.md for the exact
+     the reasoned exemption declaration `pdac-scope: none` (see .specify/memory/pdac.md for the exact
      form). Never declare the exemption just because citations are missing.
   4. If the feature needs behaviour the product definition does not describe, or contradicts
      it, record the divergence here as a "Product definition drift" note carrying the

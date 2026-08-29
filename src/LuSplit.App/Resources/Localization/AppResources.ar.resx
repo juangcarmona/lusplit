@@ -15,1010 +15,1012 @@
 
   <!-- Activity -->
   <data name="Activity_Title" xml:space="preserve">
-    <value>Activity</value>
+    <value>النشاط</value>
   </data>
   <data name="Activity_Subtitle" xml:space="preserve">
-    <value>Recent events from your current group.</value>
+    <value>أحدث الأحداث من مجموعتك الحالية.</value>
   </data>
   <data name="Activity_EmptyTitle" xml:space="preserve">
-    <value>Nothing here yet.</value>
+    <value>لا يوجد شيء هنا بعد.</value>
   </data>
   <data name="Activity_EmptySubtitle" xml:space="preserve">
-    <value>Open a group and add the first event.</value>
+    <value>افتح مجموعة وأضف الحدث الأول.</value>
   </data>
 
   <!-- Groups (Home) -->
   <data name="Groups_Title" xml:space="preserve">
-    <value>Groups</value>
+    <value>المجموعات</value>
   </data>
   <data name="Home_Title" xml:space="preserve">
-    <value>Home</value>
+    <value>الرئيسية</value>
   </data>
   <data name="Home_NoBalancesYet" xml:space="preserve">
-    <value>No balances yet</value>
+    <value>لا أرصدة بعد</value>
   </data>
   <data name="Home_AllSettled" xml:space="preserve">
-    <value>All balances settled</value>
+    <value>تمت تسوية جميع الأرصدة</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
-    <value>Fronted for others: {0}</value>
+    <value>دفع بالنيابة عن الآخرين: {0}</value>
   </data>
   <data name="Home_PayButton" xml:space="preserve">
-    <value>Pay</value>
+    <value>ادفع</value>
   </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
-    <value>Recent activity</value>
+    <value>النشاط الأخير</value>
   </data>
   <data name="Home_OverviewNoActivityCount" xml:space="preserve">
-    <value>0 events</value>
+    <value>0 أحداث</value>
   </data>
   <data name="Home_OverviewNoActivityText" xml:space="preserve">
-    <value>No activity yet</value>
+    <value>لا يوجد نشاط بعد</value>
   </data>
   <data name="Home_ExpensesEmpty" xml:space="preserve">
-    <value>No expenses or payments yet</value>
+    <value>لا توجد مصاريف أو مدفوعات بعد</value>
   </data>
   <data name="Home_BalancesEmpty" xml:space="preserve">
-    <value>Everyone is even</value>
+    <value>الجميع متساوون</value>
   </data>
   <data name="Home_NoGroupsTitle" xml:space="preserve">
-    <value>Shared expenses, and clear accounts.</value>
+    <value>مصاريف مشتركة، وحسابات واضحة.</value>
   </data>
   <data name="Home_NoGroupsSubtitle" xml:space="preserve">
-    <value>Track expenses in detail, see who owes whom.</value>
+    <value>تتبع المصاريف بالتفصيل، واعرف من يدين لمن.</value>
   </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
-    <value>View archived groups</value>
+    <value>عرض المجموعات المؤرشفة</value>
   </data>
   <data name="Groups_Subtitle" xml:space="preserve">
-    <value>Pick up where you left off or start a new group.</value>
+    <value>تابع من حيث توقفت أو ابدأ مجموعة جديدة.</value>
   </data>
   <data name="Groups_EmptyTitle" xml:space="preserve">
-    <value>No groups yet.</value>
+    <value>لا توجد مجموعات بعد.</value>
   </data>
   <data name="Groups_EmptySubtitle" xml:space="preserve">
-    <value>Create your first group and start adding events.</value>
+    <value>أنشئ مجموعتك الأولى وابدأ بإضافة الأحداث.</value>
   </data>
   <data name="Groups_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>فتح</value>
   </data>
   <data name="Groups_Details" xml:space="preserve">
-    <value>Details</value>
+    <value>التفاصيل</value>
   </data>
   <data name="Groups_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ مجموعة جديدة</value>
   </data>
   <data name="Groups_Active" xml:space="preserve">
-    <value>Active</value>
+    <value>نشط</value>
   </data>
 
   <!-- Group timeline -->
   <data name="Group_Title" xml:space="preserve">
-    <value>Group</value>
+    <value>المجموعة</value>
   </data>
   <data name="Group_DetailsButton" xml:space="preserve">
-    <value>Details</value>
+    <value>التفاصيل</value>
   </data>
   <data name="Group_EditGroup" xml:space="preserve">
-    <value>Edit group</value>
+    <value>تعديل المجموعة</value>
   </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>من يدين بماذا</value>
   </data>
   <data name="Group_EveryoneEven" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>الجميع متساوون الآن.</value>
   </data>
   <data name="Group_SettleUp" xml:space="preserve">
-    <value>Settle up</value>
+    <value>تسوية</value>
   </data>
   <data name="Group_Events" xml:space="preserve">
-    <value>Events</value>
+    <value>الأحداث</value>
   </data>
   <data name="Group_EmptyTitle" xml:space="preserve">
-    <value>Your group is ready.</value>
+    <value>مجموعتك جاهزة.</value>
   </data>
   <data name="Group_EmptySubtitle" xml:space="preserve">
-    <value>Add the first expense below.</value>
+    <value>أضف المصروف الأول أدناه.</value>
   </data>
   <data name="Group_AddExpense" xml:space="preserve">
-    <value>+ Add expense</value>
+    <value>+ إضافة مصروف</value>
   </data>
   <data name="Group_RecordPayment" xml:space="preserve">
-    <value>Record payment</value>
+    <value>تسجيل دفعة</value>
   </data>
   <data name="Group_OverflowLabel" xml:space="preserve">
-    <value>More</value>
+    <value>المزيد</value>
   </data>
   <data name="Group_TabOverview" xml:space="preserve">
-    <value>Overview</value>
+    <value>نظرة عامة</value>
   </data>
   <data name="Group_TabExpenses" xml:space="preserve">
-    <value>Expenses</value>
+    <value>المصاريف</value>
   </data>
   <data name="Group_TabBalances" xml:space="preserve">
-    <value>Balances</value>
+    <value>الأرصدة</value>
   </data>
 
   <!-- Group Details -->
   <data name="GroupDetails_Title" xml:space="preserve">
-    <value>Group details</value>
+    <value>تفاصيل المجموعة</value>
   </data>
   <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
-    <value>New group</value>
+    <value>مجموعة جديدة</value>
   </data>
   <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
-    <value>Group details</value>
+    <value>تفاصيل المجموعة</value>
   </data>
   <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
-    <value>Set up the group once, then start adding events.</value>
+    <value>أعدّ المجموعة مرة واحدة، ثم ابدأ بإضافة الأحداث.</value>
   </data>
   <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
-    <value>Update the basics and keep the group ready for the next event.</value>
+    <value>حدّث الأساسيات وأبقِ المجموعة جاهزة للحدث التالي.</value>
   </data>
   <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
-    <value>Group name</value>
+    <value>اسم المجموعة</value>
   </data>
   <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
     <value>Beach weekend, cabin stay...</value>
   </data>
   <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
-    <value>Currency</value>
+    <value>العملة</value>
   </data>
   <data name="GroupDetails_PeopleSection" xml:space="preserve">
-    <value>People</value>
+    <value>الأشخاص</value>
   </data>
   <data name="GroupDetails_HouseholdHint" xml:space="preserve">
-    <value>Leave blank for independent participants. Use the same name to group dependents under one responsible participant.</value>
+    <value>اتركه فارغاً للمشاركين المستقلين. استخدم نفس الاسم لتجميع المعالين تحت مشارك مسؤول واحد.</value>
   </data>
   <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
-    <value>Each person is independent by default. Shared responsibility does not change who can pay.</value>
+    <value>كل شخص مستقل افتراضياً. المسؤولية المشتركة لا تغير من يمكنه الدفع.</value>
   </data>
   <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
-    <value>No people yet.</value>
+    <value>لا يوجد أشخاص بعد.</value>
   </data>
   <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
-    <value>Add at least one person before saving the group.</value>
+    <value>أضف شخصاً واحداً على الأقل قبل حفظ المجموعة.</value>
   </data>
   <data name="GroupDetails_AddPersonSection" xml:space="preserve">
-    <value>Add person</value>
+    <value>إضافة شخص</value>
   </data>
   <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Alex</value>
   </data>
   <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
-    <value>Enter person name</value>
+    <value>أدخل اسم الشخص</value>
   </data>
   <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>اسم المسؤولية (اختياري)</value>
   </data>
   <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>اسم المسؤولية (اختياري)</value>
   </data>
   <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
-    <value>Depends on (optional)</value>
+    <value>يعتمد على (اختياري)</value>
   </data>
   <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
-    <value>Independent (default)</value>
+    <value>مستقل (افتراضي)</value>
   </data>
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
-    <value>Add person</value>
+    <value>إضافة شخص</value>
   </data>
   <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
-    <value>Manage person</value>
+    <value>إدارة الشخص</value>
   </data>
   <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
-    <value>Save person</value>
+    <value>حفظ الشخص</value>
   </data>
   <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
-    <value>This person is currently responsible for others. Update dependents first to change responsibility.</value>
+    <value>هذا الشخص مسؤول حالياً عن آخرين. حدّث المعالين أولاً لتغيير المسؤولية.</value>
   </data>
   <data name="GroupDetails_CreateButton" xml:space="preserve">
-    <value>Create group</value>
+    <value>إنشاء مجموعة</value>
   </data>
   <data name="GroupDetails_SaveButton" xml:space="preserve">
-    <value>Save group</value>
+    <value>حفظ المجموعة</value>
   </data>
   <data name="GroupDetails_ExportButton" xml:space="preserve">
-    <value>Export group</value>
+    <value>تصدير المجموعة</value>
   </data>
   <data name="GroupDetails_ArchiveButton" xml:space="preserve">
-    <value>Archive group</value>
+    <value>أرشفة المجموعة</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
-    <value>Archive this group?</value>
+    <value>أرشفة هذه المجموعة؟</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
-    <value>This group will be archived. You can still view and export it, but you won’t be able to add new expenses.</value>
+    <value>سيتم أرشفة هذه المجموعة. لا يزال بإمكانك عرضها وتصديرها، لكن لن تتمكن من إضافة مصاريف جديدة.</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
-    <value>Archive</value>
+    <value>أرشفة</value>
   </data>
   <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>هذه المجموعة مؤرشفة وللقراءة فقط.</value>
   </data>
   <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
-    <value>Consumption share</value>
+    <value>حصة الاستهلاك</value>
   </data>
   <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
-    <value>Full</value>
+    <value>كامل</value>
   </data>
   <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
-    <value>Half</value>
+    <value>نصف</value>
   </data>
   <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
-    <value>Custom weight</value>
+    <value>وزن مخصص</value>
   </data>
   <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
-    <value>e.g. 0.5</value>
+    <value>مثال: 0.5</value>
   </data>
   <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
-    <value>Responsible</value>
+    <value>مسؤول</value>
   </data>
   <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
-    <value>Dependent</value>
+    <value>معال</value>
   </data>
   <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
-    <value>independent</value>
+    <value>مستقل</value>
   </data>
   <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
-    <value>depends on {0}</value>
+    <value>يعتمد على {0}</value>
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
-    <value>pays for {0} people</value>
+    <value>يدفع عن {0} أشخاص</value>
   </data>
   <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
-    <value>Independent</value>
+    <value>مستقل</value>
   </data>
   <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
-    <value>Depends on: {0}</value>
+    <value>يعتمد على: {0}</value>
   </data>
   <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
-    <value>Pays for: {0}</value>
+    <value>يدفع عن: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
+    <value>أضف كل مشارك. اترك المسؤولية فارغة إذا كان مستقلاً، أو أعد استخدام اسم مسؤولية لتمييز المعالين.</value>
   </data>
   <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
-    <value>Settles on their own</value>
+    <value>يسوّي بنفسه</value>
   </data>
   <data name="GroupDetails_PersonAdded" xml:space="preserve">
-    <value>Person added.</value>
+    <value>تمت إضافة الشخص.</value>
   </data>
   <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
-    <value>Person added to the new group.</value>
+    <value>تمت إضافة الشخص إلى المجموعة الجديدة.</value>
   </data>
   <data name="GroupDetails_PersonUpdated" xml:space="preserve">
-    <value>Person updated.</value>
+    <value>تم تحديث الشخص.</value>
   </data>
   <data name="GroupDetails_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>إزالة</value>
   </data>
   <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
-    <value>Change photo</value>
+    <value>تغيير الصورة</value>
   </data>
   <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
-    <value>Group photo</value>
+    <value>صورة المجموعة</value>
   </data>
   <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
-    <value>Camera</value>
+    <value>الكاميرا</value>
   </data>
   <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>المعرض</value>
   </data>
   <data name="GroupDetails_PhotoRemove" xml:space="preserve">
-    <value>Remove photo</value>
+    <value>إزالة الصورة</value>
   </data>
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Add expense</value>
+    <value>إضافة مصروف</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
-    <value>Record what just happened.</value>
+    <value>سجّل ما حدث للتو.</value>
   </data>
   <data name="AddEvent_WhatHappened" xml:space="preserve">
-    <value>What happened?</value>
+    <value>ماذا حدث؟</value>
   </data>
   <data name="AddEvent_QuickDinner" xml:space="preserve">
-    <value>Dinner</value>
+    <value>عشاء</value>
   </data>
   <data name="AddEvent_QuickTaxi" xml:space="preserve">
-    <value>Taxi</value>
+    <value>تاكسي</value>
   </data>
   <data name="AddEvent_QuickGroceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>بقالة</value>
   </data>
   <data name="AddEvent_QuickTickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>تذاكر</value>
   </data>
   <data name="AddEvent_QuickCustom" xml:space="preserve">
-    <value>Custom</value>
+    <value>مخصص</value>
   </data>
   <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
-    <value>Anything else</value>
+    <value>أي شيء آخر</value>
   </data>
   <data name="AddEvent_IconOption_Meal" xml:space="preserve">
-    <value>Meal</value>
+    <value>وجبة</value>
   </data>
   <data name="AddEvent_IconOption_Transport" xml:space="preserve">
-    <value>Transport</value>
+    <value>نقل</value>
   </data>
   <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>بقالة</value>
   </data>
   <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>تذاكر</value>
   </data>
   <data name="AddEvent_IconOption_Stay" xml:space="preserve">
-    <value>Stay</value>
+    <value>إقامة</value>
   </data>
   <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
-    <value>Drinks</value>
+    <value>مشروبات</value>
   </data>
   <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
-    <value>Coffee</value>
+    <value>قهوة</value>
   </data>
   <data name="AddEvent_IconOption_Fun" xml:space="preserve">
-    <value>Fun</value>
+    <value>تسلية</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
-    <value>Title</value>
+    <value>العنوان</value>
   </data>
   <data name="AddEvent_EventPlaceholder" xml:space="preserve">
-    <value>Dinner, groceries, taxi...</value>
+    <value>عشاء، بقالة، تاكسي...</value>
   </data>
   <data name="AddEvent_IconLabel" xml:space="preserve">
-    <value>Icon</value>
+    <value>أيقونة</value>
   </data>
   <data name="AddEvent_OnDate" xml:space="preserve">
-    <value>on</value>
+    <value>في</value>
   </data>
   <data name="AddEvent_PaidBy" xml:space="preserve">
-    <value>Paid by</value>
+    <value>دفعه</value>
   </data>
   <data name="AddEvent_PayerHint" xml:space="preserve">
-    <value>Any participant can be payer, regardless of responsibility.</value>
+    <value>يمكن لأي مشارك أن يكون الدافع، بغض النظر عن المسؤولية.</value>
   </data>
   <data name="AddEvent_WhoJoined" xml:space="preserve">
-    <value>Who joined?</value>
+    <value>من انضم؟</value>
   </data>
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
-    <value>Everyone is included by default.</value>
+    <value>الجميع مشمولون افتراضياً.</value>
   </data>
   <data name="AddEvent_ParticipantHint" xml:space="preserve">
-    <value>Select a person to include. Dependents follow their responsible participant.</value>
+    <value>اختر شخصاً لتضمينه. يتبع المعالون مشاركهم المسؤول.</value>
   </data>
   <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
-    <value>Split preview</value>
+    <value>معاينة القسمة</value>
   </data>
   <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
-    <value>Enter amount and participants to preview.</value>
+    <value>أدخل المبلغ والمشاركين للمعاينة.</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>تعديل القسمة</value>
   </data>
   <data name="AddEvent_SplitLabel" xml:space="preserve">
-    <value>Split:</value>
+    <value>القسمة:</value>
   </data>
   <data name="AddEvent_SplitEqual" xml:space="preserve">
-    <value>Equal</value>
+    <value>متساوٍ</value>
   </data>
   <data name="AddEvent_SplitExact" xml:space="preserve">
-    <value>Exact</value>
+    <value>محدد</value>
   </data>
   <data name="AddEvent_SplitPercent" xml:space="preserve">
     <value>%</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
-    <value>Save</value>
+    <value>حفظ</value>
   </data>
   <data name="AddEvent_ImpactTitle" xml:space="preserve">
-    <value>After this</value>
+    <value>بعد هذا</value>
   </data>
   <data name="AddEvent_ImpactHint" xml:space="preserve">
-    <value>Who owes whom will appear here.</value>
+    <value>من يدين لمن سيظهر هنا.</value>
   </data>
   <data name="AddEvent_AttachMedia" xml:space="preserve">
-    <value>Attach media</value>
+    <value>إرفاق وسائط</value>
   </data>
   <data name="AddEvent_TakePhoto" xml:space="preserve">
-    <value>Take photo</value>
+    <value>التقاط صورة</value>
   </data>
   <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
-    <value>Attachment will be linked after save.</value>
+    <value>سيتم ربط المرفق بعد الحفظ.</value>
   </data>
   <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
-    <value>Photo will be linked after save.</value>
+    <value>سيتم ربط الصورة بعد الحفظ.</value>
   </data>
   <data name="AddEvent_CameraNotSupported" xml:space="preserve">
-    <value>Camera capture is not supported on this device.</value>
+    <value>التقاط الكاميرا غير مدعوم على هذا الجهاز.</value>
   </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
-    <value>Note</value>
+    <value>ملاحظة</value>
   </data>
   <data name="AddEvent_NotePlaceholder" xml:space="preserve">
-    <value>Optional</value>
+    <value>اختياري</value>
   </data>
   <data name="AddEvent_Saved" xml:space="preserve">
-    <value>Event saved.</value>
+    <value>تم حفظ الحدث.</value>
   </data>
   <data name="AddEvent_SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>تحديد الكل</value>
   </data>
   <data name="AddEvent_AdultsOnly" xml:space="preserve">
-    <value>Adults only</value>
+    <value>البالغون فقط</value>
   </data>
   <data name="AddEvent_SectionAdults" xml:space="preserve">
-    <value>Adults</value>
+    <value>البالغون</value>
   </data>
   <data name="AddEvent_SectionDependents" xml:space="preserve">
-    <value>Dependents</value>
+    <value>المعالون</value>
   </data>
   <data name="AddEvent_SplitMode_Title" xml:space="preserve">
-    <value>Split mode</value>
+    <value>وضع القسمة</value>
   </data>
   <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
-    <value>⚖️ Auto</value>
+    <value>⚖️ تلقائي</value>
   </data>
   <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
-    <value>💰 Fixed amount</value>
+    <value>💰 مبلغ ثابت</value>
   </data>
   <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
-    <value>% Percentage</value>
+    <value>% نسبة مئوية</value>
   </data>
 
   <!-- Settlement -->
   <data name="Settlement_Title" xml:space="preserve">
-    <value>Settle up</value>
+    <value>تسوية</value>
   </data>
   <data name="Settlement_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>من يدين بماذا</value>
   </data>
   <data name="Settlement_Subtitle" xml:space="preserve">
-    <value>Record payments only when money actually changes hands.</value>
+    <value>سجّل المدفوعات فقط عندما تنتقل الأموال فعلياً.</value>
   </data>
   <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
-    <value>Settlement is participant-based so reimbursements go to who actually paid.</value>
+    <value>التسوية قائمة على المشاركين بحيث تذهب التعويضات لمن دفع فعلياً.</value>
   </data>
   <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
-    <value>Responsibility summary (readability)</value>
+    <value>ملخص المسؤولية (للقابلية للقراءة)</value>
   </data>
   <data name="Settlement_EmptyTitle" xml:space="preserve">
-    <value>Everyone is even.</value>
+    <value>الجميع متساوون.</value>
   </data>
   <data name="Settlement_EmptySubtitle" xml:space="preserve">
-    <value>Record a payment only when money actually changes hands.</value>
+    <value>سجّل دفعة فقط عندما تنتقل الأموال فعلياً.</value>
   </data>
   <data name="Settlement_RecordPaymentButton" xml:space="preserve">
-    <value>Record custom payment</value>
+    <value>تسجيل دفعة مخصصة</value>
   </data>
 
   <!-- Record Payment -->
   <data name="RecordPayment_Title" xml:space="preserve">
-    <value>Record payment</value>
+    <value>تسجيل دفعة</value>
   </data>
   <data name="RecordPayment_Subtitle" xml:space="preserve">
-    <value>Capture a real payment and keep the group timeline honest.</value>
+    <value>سجّل دفعة حقيقية وأبقِ الجدول الزمني للمجموعة صادقاً.</value>
   </data>
   <data name="RecordPayment_WhoPaid" xml:space="preserve">
-    <value>Who paid?</value>
+    <value>من دفع؟</value>
   </data>
   <data name="RecordPayment_WhoReceived" xml:space="preserve">
-    <value>Who received it?</value>
+    <value>من استلمها؟</value>
   </data>
   <data name="RecordPayment_SaveButton" xml:space="preserve">
-    <value>Save payment</value>
+    <value>حفظ الدفعة</value>
   </data>
   <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
-    <value>Suggestion</value>
+    <value>اقتراح</value>
   </data>
   <data name="RecordPayment_ConfirmButton" xml:space="preserve">
-    <value>Confirm payment</value>
+    <value>تأكيد الدفعة</value>
   </data>
 
   <!-- Common -->
   <data name="Common_Amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>المبلغ</value>
   </data>
   <data name="Common_Date" xml:space="preserve">
-    <value>Date</value>
+    <value>التاريخ</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>إلغاء</value>
   </data>
   <data name="Common_Ok" xml:space="preserve">
-    <value>OK</value>
+    <value>موافق</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>تعديل</value>
   </data>
   <data name="Common_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>غير معروف</value>
   </data>
 
   <!-- Export -->
   <data name="Export_DialogTitle" xml:space="preserve">
-    <value>Export this group</value>
+    <value>تصدير هذه المجموعة</value>
   </data>
   <data name="Export_JsonOption" xml:space="preserve">
-    <value>Raw data (JSON)</value>
+    <value>بيانات خام (JSON)</value>
   </data>
   <data name="Export_CsvOption" xml:space="preserve">
-    <value>Spreadsheet (CSV)</value>
+    <value>جدول بيانات (CSV)</value>
   </data>
   <data name="Export_PdfOption" xml:space="preserve">
-    <value>Summary (PDF)</value>
+    <value>ملخص (PDF)</value>
   </data>
   <data name="Export_ShareTitle" xml:space="preserve">
-    <value>Export group</value>
+    <value>تصدير المجموعة</value>
   </data>
   <data name="Export_Failed" xml:space="preserve">
-    <value>Export failed. {0}</value>
+    <value>فشل التصدير. {0}</value>
   </data>
   <data name="Export_DeliveryDialogTitle" xml:space="preserve">
-    <value>How would you like to export?</value>
+    <value>كيف تريد التصدير؟</value>
   </data>
   <data name="Export_SaveToDevice" xml:space="preserve">
-    <value>Save to device</value>
+    <value>حفظ إلى الجهاز</value>
   </data>
   <data name="Export_Share" xml:space="preserve">
-    <value>Share...</value>
+    <value>مشاركة...</value>
   </data>
   <data name="Export_SavedToDevice" xml:space="preserve">
-    <value>"{0}" saved to Downloads.</value>
+    <value>تم حفظ "{0}" في التنزيلات.</value>
   </data>
 
   <!-- Validation -->
   <data name="Validation_TitleRequired" xml:space="preserve">
-    <value>Title is required.</value>
+    <value>العنوان مطلوب.</value>
   </data>
   <data name="Validation_InvalidAmount" xml:space="preserve">
-    <value>Enter a valid amount.</value>
+    <value>أدخل مبلغاً صحيحاً.</value>
   </data>
   <data name="Validation_SelectPayer" xml:space="preserve">
-    <value>Select a payer.</value>
+    <value>اختر دافعاً.</value>
   </data>
   <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
-    <value>Pick at least one person.</value>
+    <value>اختر شخصاً واحداً على الأقل.</value>
   </data>
   <data name="Validation_PersonNameRequired" xml:space="preserve">
-    <value>Person name is required.</value>
+    <value>اسم الشخص مطلوب.</value>
   </data>
   <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
-    <value>Person name must be unique in this group.</value>
+    <value>يجب أن يكون اسم الشخص فريداً في هذه المجموعة.</value>
   </data>
   <data name="Validation_GroupNotFound" xml:space="preserve">
-    <value>Group not found.</value>
+    <value>المجموعة غير موجودة.</value>
   </data>
   <data name="Validation_GroupNameRequired" xml:space="preserve">
-    <value>Group name is required.</value>
+    <value>اسم المجموعة مطلوب.</value>
   </data>
   <data name="Validation_SelectCurrency" xml:space="preserve">
-    <value>Choose a currency.</value>
+    <value>اختر عملة.</value>
   </data>
   <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
-    <value>Add at least one person.</value>
+    <value>أضف شخصاً واحداً على الأقل.</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
-    <value>Enter a valid custom weight (e.g. 0.5).</value>
+    <value>أدخل وزناً مخصصاً صحيحاً (مثال: 0.5).</value>
   </data>
   <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
-    <value>Custom weight is required when consumption is set to Custom.</value>
+    <value>الوزن المخصص مطلوب عند ضبط الاستهلاك على مخصص.</value>
   </data>
   <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>هذه المجموعة مؤرشفة وللقراءة فقط.</value>
   </data>
   <data name="Validation_PersonNotFound" xml:space="preserve">
-    <value>Person not found.</value>
+    <value>الشخص غير موجود.</value>
   </data>
   <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
-    <value>Responsible person not found.</value>
+    <value>الشخص المسؤول غير موجود.</value>
   </data>
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
-    <value>A person cannot depend on themselves.</value>
+    <value>لا يمكن للشخص أن يعتمد على نفسه.</value>
   </data>
   <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
-    <value>Cannot make this person a dependent while they are responsible for others.</value>
+    <value>لا يمكن جعل هذا الشخص معالاً وهو مسؤول عن آخرين.</value>
   </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
-    <value>Circular dependency is not allowed.</value>
+    <value>الاعتماد الدائري غير مسموح.</value>
   </data>
   <data name="GroupSwitcher_Title" xml:space="preserve">
-    <value>Switch group</value>
+    <value>تبديل المجموعة</value>
   </data>
   <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
-    <value>(Current)</value>
+    <value>(الحالية)</value>
   </data>
   <data name="GroupSwitcher_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>تحديد</value>
   </data>
   <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>المجموعات المؤرشفة</value>
   </data>
   <data name="GroupSwitcher_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ مجموعة جديدة</value>
   </data>
   <data name="CreateGroup_Title" xml:space="preserve">
-    <value>Create group</value>
+    <value>إنشاء مجموعة</value>
   </data>
   <data name="CreateGroup_GroupName" xml:space="preserve">
-    <value>Group name</value>
+    <value>اسم المجموعة</value>
   </data>
   <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
     <value>Ski trip</value>
   </data>
   <data name="CreateGroup_Currency" xml:space="preserve">
-    <value>Currency</value>
+    <value>العملة</value>
   </data>
   <data name="CreateGroup_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>متابعة</value>
   </data>
   <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
-    <value>Participant name</value>
+    <value>اسم المشارك</value>
   </data>
   <data name="CreateGroup_AddParticipant" xml:space="preserve">
-    <value>Add</value>
+    <value>إضافة</value>
   </data>
   <data name="CreateGroup_Create" xml:space="preserve">
-    <value>Create</value>
+    <value>إنشاء</value>
   </data>
 
   <!-- Archived groups -->
   <data name="Archived_Title" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>المجموعات المؤرشفة</value>
   </data>
   <data name="Archived_Subtitle" xml:space="preserve">
-    <value>These groups are closed. You can still read and export them.</value>
+    <value>هذه المجموعات مغلقة. لا يزال بإمكانك قراءتها وتصديرها.</value>
   </data>
   <data name="Archived_EmptyTitle" xml:space="preserve">
-    <value>No archived groups yet.</value>
+    <value>لا توجد مجموعات مؤرشفة بعد.</value>
   </data>
   <data name="Archived_EmptySubtitle" xml:space="preserve">
-    <value>Archived groups appear here.</value>
+    <value>تظهر المجموعات المؤرشفة هنا.</value>
   </data>
   <data name="Archived_Badge" xml:space="preserve">
-    <value>Archived</value>
+    <value>مؤرشفة</value>
   </data>
   <data name="Validation_ChooseBothPeople" xml:space="preserve">
-    <value>Choose both people.</value>
+    <value>اختر كلا الشخصين.</value>
   </data>
   <data name="Validation_DifferentPeople" xml:space="preserve">
-    <value>Payment needs two different people.</value>
+    <value>تتطلب الدفعة شخصين مختلفين.</value>
   </data>
   <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
-    <value>Total must match amount</value>
+    <value>يجب أن يطابق الإجمالي المبلغ</value>
   </data>
   <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
-    <value>Delete expense</value>
+    <value>حذف المصروف</value>
   </data>
   <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
-    <value>Are you sure you want to delete this expense?</value>
+    <value>هل أنت متأكد أنك تريد حذف هذا المصروف؟</value>
   </data>
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
-    <value>Delete</value>
+    <value>حذف</value>
   </data>
   <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
-    <value>Total fixed: {0}</value>
+    <value>الإجمالي المثبت: {0}</value>
   </data>
   <data name="ExpenseDetails_NotFound" xml:space="preserve">
-    <value>Expense not found.</value>
+    <value>المصروف غير موجود.</value>
   </data>
 
   <!-- Settings -->
   <data name="Settings_Title" xml:space="preserve">
-    <value>Settings</value>
+    <value>الإعدادات</value>
   </data>
   <data name="Settings_VersionLabel" xml:space="preserve">
-    <value>Version</value>
+    <value>الإصدار</value>
   </data>
   <data name="Settings_LanguageSection" xml:space="preserve">
-    <value>Language</value>
+    <value>اللغة</value>
   </data>
   <data name="Settings_LanguageHint" xml:space="preserve">
-    <value>Choose your preferred language.</value>
+    <value>اختر لغتك المفضلة.</value>
   </data>
   <data name="Settings_LanguageSaved" xml:space="preserve">
-    <value>Language updated.</value>
+    <value>تم تحديث اللغة.</value>
   </data>
   <data name="Settings_ProfileSection" xml:space="preserve">
-    <value>Profile</value>
+    <value>الملف الشخصي</value>
   </data>
   <data name="Settings_ProfileHint" xml:space="preserve">
-    <value>Set your name to mark yourself as (me) across groups.</value>
+    <value>عيّن اسمك لتمييز نفسك كـ (أنا) عبر المجموعات.</value>
   </data>
   <data name="Settings_MyNameLabel" xml:space="preserve">
-    <value>My name</value>
+    <value>اسمي</value>
   </data>
   <data name="Settings_MyNamePlaceholder" xml:space="preserve">
-    <value>Enter your name</value>
+    <value>أدخل اسمك</value>
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
-    <value>Save profile</value>
+    <value>حفظ الملف الشخصي</value>
   </data>
   <data name="Settings_ThemeLabel" xml:space="preserve">
-    <value>Dark theme</value>
+    <value>السمة الداكنة</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
-    <value>Profile updated.</value>
+    <value>تم تحديث الملف الشخصي.</value>
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
-    <value>System Default</value>
+    <value>افتراضي النظام</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>English</value>
+    <value>الإنجليزية</value>
   </data>
   <data name="Language_Spanish" xml:space="preserve">
-    <value>Spanish</value>
+    <value>الإسبانية</value>
   </data>
   <data name="Language_French" xml:space="preserve">
-    <value>French</value>
+    <value>الفرنسية</value>
   </data>
   <data name="Language_German" xml:space="preserve">
-    <value>German</value>
+    <value>الألمانية</value>
   </data>
   <data name="Language_Italian" xml:space="preserve">
-    <value>Italian</value>
+    <value>الإيطالية</value>
   </data>
   <data name="Language_Portuguese" xml:space="preserve">
-    <value>Portuguese</value>
-  </data>
-  <data name="Language_Arabic" xml:space="preserve">
-    <value>Arabic</value>
-  </data>
-  <data name="Language_Hindi" xml:space="preserve">
-    <value>Hindi</value>
-  </data>
-  <data name="Language_Indonesian" xml:space="preserve">
-    <value>Indonesian</value>
-  </data>
-  <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="Language_Korean" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="Language_Russian" xml:space="preserve">
-    <value>Russian</value>
-  </data>
-  <data name="Language_Turkish" xml:space="preserve">
-    <value>Turkish</value>
-  </data>
-  <data name="Language_ChineseSimplified" xml:space="preserve">
-    <value>Chinese (Simplified)</value>
-  </data>
-  <data name="Language_ChineseTraditional" xml:space="preserve">
-    <value>Chinese (Traditional)</value>
+    <value>البرتغالية</value>
   </data>
   <data name="Common_MeCapitalized" xml:space="preserve">
-    <value>Me</value>
+    <value>أنا</value>
   </data>
   <data name="Startup_NoGroupsAvailable" xml:space="preserve">
-    <value>No groups are available.</value>
+    <value>لا توجد مجموعات متاحة.</value>
   </data>
   <data name="Currency_DisplayFormat" xml:space="preserve">
     <value>{0} {1} ({2})</value>
   </data>
   <data name="Currency_Name_Unknown" xml:space="preserve">
-    <value>Currency</value>
+    <value>العملة</value>
   </data>
   <data name="Currency_Name_EUR" xml:space="preserve">
-    <value>Euro</value>
+    <value>اليورو</value>
   </data>
   <data name="Currency_Name_USD" xml:space="preserve">
-    <value>US Dollar</value>
+    <value>الدولار الأمريكي</value>
   </data>
   <data name="Currency_Name_GBP" xml:space="preserve">
-    <value>British Pound</value>
+    <value>الجنيه الإسترليني</value>
   </data>
   <data name="Currency_Name_CHF" xml:space="preserve">
-    <value>Swiss Franc</value>
+    <value>الفرنك السويسري</value>
   </data>
   <data name="Currency_Name_JPY" xml:space="preserve">
-    <value>Japanese Yen</value>
+    <value>الين الياباني</value>
   </data>
   <data name="Currency_Name_CNY" xml:space="preserve">
-    <value>Chinese Yuan</value>
+    <value>اليوان الصيني</value>
   </data>
   <data name="Currency_Name_INR" xml:space="preserve">
-    <value>Indian Rupee</value>
+    <value>الروبية الهندية</value>
   </data>
   <data name="Currency_Name_AUD" xml:space="preserve">
-    <value>Australian Dollar</value>
+    <value>الدولار الأسترالي</value>
   </data>
   <data name="Currency_Name_CAD" xml:space="preserve">
-    <value>Canadian Dollar</value>
+    <value>الدولار الكندي</value>
   </data>
   <data name="Currency_Name_BRL" xml:space="preserve">
-    <value>Brazilian Real</value>
+    <value>الريال البرازيلي</value>
   </data>
   <data name="Currency_Name_MXN" xml:space="preserve">
-    <value>Mexican Peso</value>
+    <value>البيزو المكسيكي</value>
   </data>
   <data name="Currency_Name_ARS" xml:space="preserve">
-    <value>Argentine Peso</value>
+    <value>البيزو الأرجنتيني</value>
   </data>
   <data name="Currency_Name_CLP" xml:space="preserve">
-    <value>Chilean Peso</value>
+    <value>البيزو التشيلي</value>
   </data>
   <data name="Currency_Name_COP" xml:space="preserve">
-    <value>Colombian Peso</value>
+    <value>البيزو الكولومبي</value>
   </data>
   <data name="Currency_Name_PEN" xml:space="preserve">
-    <value>Peruvian Sol</value>
+    <value>السول البيروفي</value>
   </data>
   <data name="Currency_Name_SEK" xml:space="preserve">
-    <value>Swedish Krona</value>
+    <value>الكرونا السويدية</value>
   </data>
   <data name="Currency_Name_NOK" xml:space="preserve">
-    <value>Norwegian Krone</value>
+    <value>الكرونة النرويجية</value>
   </data>
   <data name="Currency_Name_DKK" xml:space="preserve">
-    <value>Danish Krone</value>
+    <value>الكرونة الدنماركية</value>
   </data>
   <data name="Currency_Name_PLN" xml:space="preserve">
-    <value>Polish Złoty</value>
+    <value>الزلوتي البولندي</value>
   </data>
   <data name="Currency_Name_CZK" xml:space="preserve">
-    <value>Czech Koruna</value>
+    <value>الكرونة التشيكية</value>
   </data>
   <data name="Currency_Name_HUF" xml:space="preserve">
-    <value>Hungarian Forint</value>
+    <value>الفورنت المجري</value>
   </data>
   <data name="Currency_Name_RON" xml:space="preserve">
-    <value>Romanian Leu</value>
+    <value>الليو الروماني</value>
   </data>
   <data name="Currency_Name_TRY" xml:space="preserve">
-    <value>Turkish Lira</value>
+    <value>الليرة التركية</value>
   </data>
   <data name="Currency_Name_AED" xml:space="preserve">
-    <value>UAE Dirham</value>
+    <value>الدرهم الإماراتي</value>
   </data>
   <data name="Currency_Name_SAR" xml:space="preserve">
-    <value>Saudi Riyal</value>
+    <value>الريال السعودي</value>
   </data>
   <data name="Currency_Name_KRW" xml:space="preserve">
-    <value>South Korean Won</value>
+    <value>الوون الكوري الجنوبي</value>
   </data>
   <data name="Currency_Name_SGD" xml:space="preserve">
-    <value>Singapore Dollar</value>
+    <value>الدولار السنغافوري</value>
   </data>
   <data name="Currency_Name_HKD" xml:space="preserve">
-    <value>Hong Kong Dollar</value>
+    <value>الدولار الهونغ كونغي</value>
   </data>
   <data name="Currency_Name_NZD" xml:space="preserve">
-    <value>New Zealand Dollar</value>
+    <value>الدولار النيوزيلندي</value>
   </data>
   <data name="Currency_Name_ZAR" xml:space="preserve">
-    <value>South African Rand</value>
+    <value>الراند الجنوب أفريقي</value>
   </data>
 
   <!-- Validation (service-level) -->
   <data name="Validation_CurrencyRequired" xml:space="preserve">
-    <value>Currency is required.</value>
+    <value>العملة مطلوبة.</value>
   </data>
   <data name="Validation_EachPersonNeedsName" xml:space="preserve">
-    <value>Each person needs a name.</value>
+    <value>كل شخص يحتاج إلى اسم.</value>
   </data>
 
   <!-- Mapper / presentation sentences -->
   <data name="Mapper_Person" xml:space="preserve">
-    <value>Person</value>
+    <value>شخص</value>
   </data>
   <data name="Mapper_Everyone" xml:space="preserve">
-    <value>everyone</value>
+    <value>الجميع</value>
   </data>
   <data name="Mapper_And" xml:space="preserve">
-    <value>and</value>
+    <value>و</value>
   </data>
   <data name="Mapper_SplitEqual" xml:space="preserve">
-    <value>Shared equally between {0}</value>
+    <value>مقسّم بالتساوي بين {0}</value>
   </data>
   <data name="Mapper_SplitWeighted" xml:space="preserve">
-    <value>Weighted between {0}</value>
+    <value>مرجّح بين {0}</value>
   </data>
   <data name="Mapper_SplitByPercentage" xml:space="preserve">
-    <value>Shared by percentages between {0}</value>
+    <value>مقسّم بنسب مئوية بين {0}</value>
   </data>
   <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
-    <value>Shared with custom amounts between {0}</value>
+    <value>مقسّم بمبالغ مخصصة بين {0}</value>
   </data>
   <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
-    <value>Custom amounts for {0}</value>
+    <value>مبالغ مخصصة لـ {0}</value>
   </data>
   <data name="Mapper_HouseholdOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>مسؤولية {0}</value>
   </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>مسؤولية {0}</value>
   </data>
   <data name="Mapper_PaymentTitle" xml:space="preserve">
-    <value>Payment</value>
+    <value>دفعة</value>
   </data>
   <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>دفع {0} {1}</value>
   </data>
   <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
-    <value>Recorded payment</value>
+    <value>دفعة مسجّلة</value>
   </data>
   <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
-    <value>{0} added {1}</value>
+    <value>أضاف {0} {1}</value>
   </data>
   <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>دفع {0} {1}</value>
   </data>
   <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
-    <value>Payment recorded</value>
+    <value>تم تسجيل الدفعة</value>
   </data>
   <data name="Mapper_BalanceOwes" xml:space="preserve">
-    <value>{0} owes {1}</value>
+    <value>{0} يدين لـ {1}</value>
   </data>
   <data name="Mapper_BalanceEvenNow" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>الجميع متساوون الآن.</value>
   </data>
   <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
-    <value>{0} people ready to go</value>
+    <value>{0} أشخاص جاهزون للانطلاق</value>
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
-    <value>{0} people · {1} events</value>
+    <value>{0} أشخاص · {1} أحداث</value>
   </data>
   <data name="Mapper_SummaryPeople" xml:space="preserve">
-    <value>{0} people</value>
+    <value>{0} أشخاص</value>
   </data>
   <data name="Mapper_NoActivity" xml:space="preserve">
-    <value>no activity</value>
+    <value>لا يوجد نشاط</value>
   </data>
   <data name="Mapper_Activity_Expense" xml:space="preserve">
-    <value>{0} expense</value>
+    <value>{0} مصروف</value>
   </data>
   <data name="Mapper_Activity_Expenses" xml:space="preserve">
-    <value>{0} expenses</value>
+    <value>{0} مصاريف</value>
   </data>
   <data name="Mapper_Activity_Payment" xml:space="preserve">
-    <value>{0} payment</value>
+    <value>{0} دفعة</value>
   </data>
   <data name="Mapper_Activity_Payments" xml:space="preserve">
-    <value>{0} payments</value>
+    <value>{0} دفعات</value>
   </data>
   <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
-    <value>{0} expenses · {1} payments</value>
+    <value>{0} مصاريف · {1} دفعات</value>
   </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
-    <value>{0} → {1} people</value>
+    <value>{0} → {1} أشخاص</value>
   </data>
   <data name="Mapper_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>اليوم</value>
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>أمس</value>
   </data>
   <data name="Mapper_Me" xml:space="preserve">
-    <value>me</value>
+    <value>أنا</value>
   </data>
 
   <!-- Group status labels -->
   <data name="Status_CurrentGroup" xml:space="preserve">
-    <value>Current group</value>
+    <value>المجموعة الحالية</value>
   </data>
   <data name="Status_OpenedOn" xml:space="preserve">
-    <value>Opened {0}</value>
+    <value>تم الفتح {0}</value>
   </data>
   <data name="Status_RecentActivity" xml:space="preserve">
-    <value>Recent activity {0}</value>
+    <value>النشاط الأخير {0}</value>
   </data>
   <data name="Status_ReadyForFirstEvent" xml:space="preserve">
-    <value>Ready for the first event</value>
+    <value>جاهز للحدث الأول</value>
   </data>
   <data name="Status_AddFirstEvent" xml:space="preserve">
-    <value>Add the first event.</value>
+    <value>أضف الحدث الأول.</value>
   </data>
   <data name="Status_Settled" xml:space="preserve">
-    <value>Settled.</value>
+    <value>تمت التسوية.</value>
   </data>
   <data name="Status_DefaultGroupName" xml:space="preserve">
-    <value>Group</value>
+    <value>المجموعة</value>
   </data>
   <data name="Status_Household" xml:space="preserve">
-    <value>Household</value>
+    <value>الأسرة</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>الهندية</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>الإندونيسية</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>اليابانية</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>الكورية</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>الروسية</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>التركية</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>الصينية المبسطة</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>الصينية التقليدية</value>
   </data>
 
 </root>

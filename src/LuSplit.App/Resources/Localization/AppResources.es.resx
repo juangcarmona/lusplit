@@ -466,6 +466,33 @@
   <data name="Language_Portuguese" xml:space="preserve">
     <value>Portugués</value>
   </data>
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Árabe</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Indonesio</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Japonés</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Coreano</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Ruso</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Turco</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>Chino (simplificado)</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>Chino (tradicional)</value>
+  </data>
   <data name="Common_MeCapitalized" xml:space="preserve">
     <value>Yo</value>
   </data>

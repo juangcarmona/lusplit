@@ -259,7 +259,7 @@ With multiple developers:
   task that changes cited behaviour includes a follow-up task to refresh the affected
   citations. Never infer implementation, verification, release or deployment from Product
   Change status. If this task list has no product-semantic dependency, a human replaces this
-  section with the exemption declaration `pdac-scope: none` (exact form in
+  section with the reasoned exemption declaration `pdac-scope: none` (exact form in
   .specify/memory/pdac.md).
 -->
 

@@ -1,19 +1,17 @@
-schema: product-definition-as-code/config/v1alpha1
-product:
-  root: docs/product
-  model: docs/product/model
-generated:
-  root: .product/generated
-  commit: false
-integrations:
-  ai:
-    - copilot
-  shorthand-commands: false
+version: v1alpha1
+product-root: docs/product
 validation:
   warnings-as-errors: false
-  require-journey-for-use-case: false
-  require-requirement-reachability: true
-citations:
-  # Directories `prodshape citations verify` scans when no target is given.
-  consumer-roots:
-    - openspec
+extensions:
+  prodshape:
+    generated:
+      root: .product/generated
+      commit: false
+    integrations:
+      ai:
+        - copilot
+      shorthand-commands: false
+    citations:
+      # Directories `prodshape citations verify` scans when no target is given.
+      consumer-roots:
+        - .specify

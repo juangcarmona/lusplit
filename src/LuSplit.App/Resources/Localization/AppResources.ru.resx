@@ -15,1010 +15,1012 @@
 
   <!-- Activity -->
   <data name="Activity_Title" xml:space="preserve">
-    <value>Activity</value>
+    <value>Активность</value>
   </data>
   <data name="Activity_Subtitle" xml:space="preserve">
-    <value>Recent events from your current group.</value>
+    <value>Недавние события из вашей текущей группы.</value>
   </data>
   <data name="Activity_EmptyTitle" xml:space="preserve">
-    <value>Nothing here yet.</value>
+    <value>Здесь пока пусто.</value>
   </data>
   <data name="Activity_EmptySubtitle" xml:space="preserve">
-    <value>Open a group and add the first event.</value>
+    <value>Откройте группу и добавьте первое событие.</value>
   </data>
 
   <!-- Groups (Home) -->
   <data name="Groups_Title" xml:space="preserve">
-    <value>Groups</value>
+    <value>Группы</value>
   </data>
   <data name="Home_Title" xml:space="preserve">
-    <value>Home</value>
+    <value>Главная</value>
   </data>
   <data name="Home_NoBalancesYet" xml:space="preserve">
-    <value>No balances yet</value>
+    <value>Балансов пока нет</value>
   </data>
   <data name="Home_AllSettled" xml:space="preserve">
-    <value>All balances settled</value>
+    <value>Все балансы закрыты</value>
   </data>
   <data name="Home_UnsettledFormat" xml:space="preserve">
-    <value>Fronted for others: {0}</value>
+    <value>Оплачено за других: {0}</value>
   </data>
   <data name="Home_PayButton" xml:space="preserve">
-    <value>Pay</value>
+    <value>Оплатить</value>
   </data>
   <data name="Home_RecentExpenses" xml:space="preserve">
-    <value>Recent activity</value>
+    <value>Недавняя активность</value>
   </data>
   <data name="Home_OverviewNoActivityCount" xml:space="preserve">
-    <value>0 events</value>
+    <value>0 событий</value>
   </data>
   <data name="Home_OverviewNoActivityText" xml:space="preserve">
-    <value>No activity yet</value>
+    <value>Активности пока нет</value>
   </data>
   <data name="Home_ExpensesEmpty" xml:space="preserve">
-    <value>No expenses or payments yet</value>
+    <value>Расходов или платежей пока нет</value>
   </data>
   <data name="Home_BalancesEmpty" xml:space="preserve">
-    <value>Everyone is even</value>
+    <value>Все расчёты завершены</value>
   </data>
   <data name="Home_NoGroupsTitle" xml:space="preserve">
-    <value>Shared expenses, and clear accounts.</value>
+    <value>Общие расходы и ясные счета.</value>
   </data>
   <data name="Home_NoGroupsSubtitle" xml:space="preserve">
-    <value>Track expenses in detail, see who owes whom.</value>
+    <value>Учитывайте расходы детально, смотрите, кто кому должен.</value>
   </data>
   <data name="Groups_ViewArchived" xml:space="preserve">
-    <value>View archived groups</value>
+    <value>Посмотреть архивированные группы</value>
   </data>
   <data name="Groups_Subtitle" xml:space="preserve">
-    <value>Pick up where you left off or start a new group.</value>
+    <value>Продолжите с того места или создайте новую группу.</value>
   </data>
   <data name="Groups_EmptyTitle" xml:space="preserve">
-    <value>No groups yet.</value>
+    <value>Групп пока нет.</value>
   </data>
   <data name="Groups_EmptySubtitle" xml:space="preserve">
-    <value>Create your first group and start adding events.</value>
+    <value>Создайте первую группу и начните добавлять события.</value>
   </data>
   <data name="Groups_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Открыть</value>
   </data>
   <data name="Groups_Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Подробности</value>
   </data>
   <data name="Groups_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ Новая группа</value>
   </data>
   <data name="Groups_Active" xml:space="preserve">
-    <value>Active</value>
+    <value>Активна</value>
   </data>
 
   <!-- Group timeline -->
   <data name="Group_Title" xml:space="preserve">
-    <value>Group</value>
+    <value>Группа</value>
   </data>
   <data name="Group_DetailsButton" xml:space="preserve">
-    <value>Details</value>
+    <value>Подробности</value>
   </data>
   <data name="Group_EditGroup" xml:space="preserve">
-    <value>Edit group</value>
+    <value>Изменить группу</value>
   </data>
   <data name="Group_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>Кто кому должен</value>
   </data>
   <data name="Group_EveryoneEven" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>Сейчас все расчёты завершены.</value>
   </data>
   <data name="Group_SettleUp" xml:space="preserve">
-    <value>Settle up</value>
+    <value>Рассчитаться</value>
   </data>
   <data name="Group_Events" xml:space="preserve">
-    <value>Events</value>
+    <value>События</value>
   </data>
   <data name="Group_EmptyTitle" xml:space="preserve">
-    <value>Your group is ready.</value>
+    <value>Ваша группа готова.</value>
   </data>
   <data name="Group_EmptySubtitle" xml:space="preserve">
-    <value>Add the first expense below.</value>
+    <value>Добавьте первый расход ниже.</value>
   </data>
   <data name="Group_AddExpense" xml:space="preserve">
-    <value>+ Add expense</value>
+    <value>+ Добавить расход</value>
   </data>
   <data name="Group_RecordPayment" xml:space="preserve">
-    <value>Record payment</value>
+    <value>Записать платёж</value>
   </data>
   <data name="Group_OverflowLabel" xml:space="preserve">
-    <value>More</value>
+    <value>Ещё</value>
   </data>
   <data name="Group_TabOverview" xml:space="preserve">
-    <value>Overview</value>
+    <value>Обзор</value>
   </data>
   <data name="Group_TabExpenses" xml:space="preserve">
-    <value>Expenses</value>
+    <value>Расходы</value>
   </data>
   <data name="Group_TabBalances" xml:space="preserve">
-    <value>Balances</value>
+    <value>Балансы</value>
   </data>
 
   <!-- Group Details -->
   <data name="GroupDetails_Title" xml:space="preserve">
-    <value>Group details</value>
+    <value>Подробности группы</value>
   </data>
   <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
-    <value>New group</value>
+    <value>Новая группа</value>
   </data>
   <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
-    <value>Group details</value>
+    <value>Подробности группы</value>
   </data>
   <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
-    <value>Set up the group once, then start adding events.</value>
+    <value>Настройте группу один раз, затем добавляйте события.</value>
   </data>
   <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
-    <value>Update the basics and keep the group ready for the next event.</value>
+    <value>Обновите основное и держите группу готовой к следующему событию.</value>
   </data>
   <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
-    <value>Group name</value>
+    <value>Название группы</value>
   </data>
   <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
     <value>Beach weekend, cabin stay...</value>
   </data>
   <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
-    <value>Currency</value>
+    <value>Валюта</value>
   </data>
   <data name="GroupDetails_PeopleSection" xml:space="preserve">
-    <value>People</value>
+    <value>Участники</value>
   </data>
   <data name="GroupDetails_HouseholdHint" xml:space="preserve">
-    <value>Leave blank for independent participants. Use the same name to group dependents under one responsible participant.</value>
+    <value>Оставьте пустым для независимых участников. Используйте одно имя, чтобы объединить иждивенцев под одним ответственным участником.</value>
   </data>
   <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
-    <value>Each person is independent by default. Shared responsibility does not change who can pay.</value>
+    <value>Каждый участник по умолчанию независим. Общая ответственность не меняет, кто может платить.</value>
   </data>
   <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
-    <value>No people yet.</value>
+    <value>Участников пока нет.</value>
   </data>
   <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
-    <value>Add at least one person before saving the group.</value>
+    <value>Добавьте хотя бы одного участника перед сохранением группы.</value>
   </data>
   <data name="GroupDetails_AddPersonSection" xml:space="preserve">
-    <value>Add person</value>
+    <value>Добавить участника</value>
   </data>
   <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
     <value>Alex</value>
   </data>
   <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
-    <value>Enter person name</value>
+    <value>Введите имя участника</value>
   </data>
   <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>Имя ответственности (необязательно)</value>
   </data>
   <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
-    <value>Responsibility name (optional)</value>
+    <value>Имя ответственности (необязательно)</value>
   </data>
   <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
-    <value>Depends on (optional)</value>
+    <value>Зависит от (необязательно)</value>
   </data>
   <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
-    <value>Independent (default)</value>
+    <value>Независим (по умолчанию)</value>
   </data>
   <data name="GroupDetails_AddPersonButton" xml:space="preserve">
-    <value>Add person</value>
+    <value>Добавить участника</value>
   </data>
   <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
-    <value>Manage person</value>
+    <value>Управление участником</value>
   </data>
   <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
-    <value>Save person</value>
+    <value>Сохранить участника</value>
   </data>
   <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
-    <value>This person is currently responsible for others. Update dependents first to change responsibility.</value>
+    <value>Этот участник сейчас отвечает за других. Сначала обновите иждивенцев, чтобы изменить ответственность.</value>
   </data>
   <data name="GroupDetails_CreateButton" xml:space="preserve">
-    <value>Create group</value>
+    <value>Создать группу</value>
   </data>
   <data name="GroupDetails_SaveButton" xml:space="preserve">
-    <value>Save group</value>
+    <value>Сохранить группу</value>
   </data>
   <data name="GroupDetails_ExportButton" xml:space="preserve">
-    <value>Export group</value>
+    <value>Экспортировать группу</value>
   </data>
   <data name="GroupDetails_ArchiveButton" xml:space="preserve">
-    <value>Archive group</value>
+    <value>Архивировать группу</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
-    <value>Archive this group?</value>
+    <value>Архивировать эту группу?</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
-    <value>This group will be archived. You can still view and export it, but you won’t be able to add new expenses.</value>
+    <value>Эта группа будет архивирована. Вы по-прежнему можете просматривать и экспортировать её, но не сможете добавлять новые расходы.</value>
   </data>
   <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
-    <value>Archive</value>
+    <value>Архивировать</value>
   </data>
   <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>Эта группа архивирована и доступна только для чтения.</value>
   </data>
   <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
-    <value>Consumption share</value>
+    <value>Доля потребления</value>
   </data>
   <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
-    <value>Full</value>
+    <value>Полная</value>
   </data>
   <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
-    <value>Half</value>
+    <value>Половина</value>
   </data>
   <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
-    <value>Custom weight</value>
+    <value>Свой вес</value>
   </data>
   <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
-    <value>e.g. 0.5</value>
+    <value>напр. 0.5</value>
   </data>
   <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
-    <value>Responsible</value>
+    <value>Ответственный</value>
   </data>
   <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
-    <value>Dependent</value>
+    <value>Иждивенец</value>
   </data>
   <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
-    <value>independent</value>
+    <value>независим</value>
   </data>
   <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
-    <value>depends on {0}</value>
+    <value>зависит от {0}</value>
   </data>
   <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
-    <value>pays for {0} people</value>
+    <value>платит за {0} чел.</value>
   </data>
   <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
-    <value>Independent</value>
+    <value>Независим</value>
   </data>
   <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
-    <value>Depends on: {0}</value>
+    <value>Зависит от: {0}</value>
   </data>
   <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
-    <value>Pays for: {0}</value>
+    <value>Платит за: {0}</value>
   </data>
   <data name="GroupDetails_AddPersonHint" xml:space="preserve">
-    <value>Add each participant. Leave responsibility blank if independent, or reuse a responsibility name to mark dependents.</value>
+    <value>Добавьте каждого участника. Оставьте ответственность пустой, если независим, или используйте имя ответственности, чтобы отметить иждивенцев.</value>
   </data>
   <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
-    <value>Settles on their own</value>
+    <value>Рассчитывается сам</value>
   </data>
   <data name="GroupDetails_PersonAdded" xml:space="preserve">
-    <value>Person added.</value>
+    <value>Участник добавлен.</value>
   </data>
   <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
-    <value>Person added to the new group.</value>
+    <value>Участник добавлен в новую группу.</value>
   </data>
   <data name="GroupDetails_PersonUpdated" xml:space="preserve">
-    <value>Person updated.</value>
+    <value>Участник обновлён.</value>
   </data>
   <data name="GroupDetails_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Удалить</value>
   </data>
   <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
-    <value>Change photo</value>
+    <value>Сменить фото</value>
   </data>
   <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
-    <value>Group photo</value>
+    <value>Фото группы</value>
   </data>
   <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
-    <value>Camera</value>
+    <value>Камера</value>
   </data>
   <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>Галерея</value>
   </data>
   <data name="GroupDetails_PhotoRemove" xml:space="preserve">
-    <value>Remove photo</value>
+    <value>Удалить фото</value>
   </data>
 
   <!-- Add Event -->
   <data name="AddEvent_Title" xml:space="preserve">
-    <value>Add expense</value>
+    <value>Добавить расход</value>
   </data>
   <data name="AddEvent_Subtitle" xml:space="preserve">
-    <value>Record what just happened.</value>
+    <value>Запишите, что только что произошло.</value>
   </data>
   <data name="AddEvent_WhatHappened" xml:space="preserve">
-    <value>What happened?</value>
+    <value>Что произошло?</value>
   </data>
   <data name="AddEvent_QuickDinner" xml:space="preserve">
-    <value>Dinner</value>
+    <value>Ужин</value>
   </data>
   <data name="AddEvent_QuickTaxi" xml:space="preserve">
-    <value>Taxi</value>
+    <value>Такси</value>
   </data>
   <data name="AddEvent_QuickGroceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>Продукты</value>
   </data>
   <data name="AddEvent_QuickTickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>Билеты</value>
   </data>
   <data name="AddEvent_QuickCustom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Другое</value>
   </data>
   <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
-    <value>Anything else</value>
+    <value>Что-то ещё</value>
   </data>
   <data name="AddEvent_IconOption_Meal" xml:space="preserve">
-    <value>Meal</value>
+    <value>Еда</value>
   </data>
   <data name="AddEvent_IconOption_Transport" xml:space="preserve">
-    <value>Transport</value>
+    <value>Транспорт</value>
   </data>
   <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
-    <value>Groceries</value>
+    <value>Продукты</value>
   </data>
   <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>Билеты</value>
   </data>
   <data name="AddEvent_IconOption_Stay" xml:space="preserve">
-    <value>Stay</value>
+    <value>Проживание</value>
   </data>
   <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
-    <value>Drinks</value>
+    <value>Напитки</value>
   </data>
   <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
-    <value>Coffee</value>
+    <value>Кофе</value>
   </data>
   <data name="AddEvent_IconOption_Fun" xml:space="preserve">
-    <value>Fun</value>
+    <value>Развлечения</value>
   </data>
   <data name="AddEvent_EventLabel" xml:space="preserve">
-    <value>Title</value>
+    <value>Название</value>
   </data>
   <data name="AddEvent_EventPlaceholder" xml:space="preserve">
-    <value>Dinner, groceries, taxi...</value>
+    <value>Ужин, продукты, такси...</value>
   </data>
   <data name="AddEvent_IconLabel" xml:space="preserve">
-    <value>Icon</value>
+    <value>Значок</value>
   </data>
   <data name="AddEvent_OnDate" xml:space="preserve">
-    <value>on</value>
+    <value>на</value>
   </data>
   <data name="AddEvent_PaidBy" xml:space="preserve">
-    <value>Paid by</value>
+    <value>Кто платил</value>
   </data>
   <data name="AddEvent_PayerHint" xml:space="preserve">
-    <value>Any participant can be payer, regardless of responsibility.</value>
+    <value>Любой участник может быть плательщиком, независимо от ответственности.</value>
   </data>
   <data name="AddEvent_WhoJoined" xml:space="preserve">
-    <value>Who joined?</value>
+    <value>Кто участвовал?</value>
   </data>
   <data name="AddEvent_EveryoneDefault" xml:space="preserve">
-    <value>Everyone is included by default.</value>
+    <value>По умолчанию включены все.</value>
   </data>
   <data name="AddEvent_ParticipantHint" xml:space="preserve">
-    <value>Select a person to include. Dependents follow their responsible participant.</value>
+    <value>Выберите участника для включения. Иждивенцы следуют за своим ответственным участником.</value>
   </data>
   <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
-    <value>Split preview</value>
+    <value>Предпросмотр разделения</value>
   </data>
   <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
-    <value>Enter amount and participants to preview.</value>
+    <value>Введите сумму и участников для предпросмотра.</value>
   </data>
   <data name="AddEvent_AdjustSplit" xml:space="preserve">
-    <value>Adjust split</value>
+    <value>Настроить разделение</value>
   </data>
   <data name="AddEvent_SplitLabel" xml:space="preserve">
-    <value>Split:</value>
+    <value>Разделение:</value>
   </data>
   <data name="AddEvent_SplitEqual" xml:space="preserve">
-    <value>Equal</value>
+    <value>Поровну</value>
   </data>
   <data name="AddEvent_SplitExact" xml:space="preserve">
-    <value>Exact</value>
+    <value>Точно</value>
   </data>
   <data name="AddEvent_SplitPercent" xml:space="preserve">
     <value>%</value>
   </data>
   <data name="AddEvent_SaveButton" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="AddEvent_ImpactTitle" xml:space="preserve">
-    <value>After this</value>
+    <value>После этого</value>
   </data>
   <data name="AddEvent_ImpactHint" xml:space="preserve">
-    <value>Who owes whom will appear here.</value>
+    <value>Здесь появится, кто кому должен.</value>
   </data>
   <data name="AddEvent_AttachMedia" xml:space="preserve">
-    <value>Attach media</value>
+    <value>Прикрепить медиа</value>
   </data>
   <data name="AddEvent_TakePhoto" xml:space="preserve">
-    <value>Take photo</value>
+    <value>Сделать фото</value>
   </data>
   <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
-    <value>Attachment will be linked after save.</value>
+    <value>Вложение будет привязано после сохранения.</value>
   </data>
   <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
-    <value>Photo will be linked after save.</value>
+    <value>Фото будет привязано после сохранения.</value>
   </data>
   <data name="AddEvent_CameraNotSupported" xml:space="preserve">
-    <value>Camera capture is not supported on this device.</value>
+    <value>Съёмка камерой не поддерживается на этом устройстве.</value>
   </data>
   <data name="AddEvent_NoteLabel" xml:space="preserve">
-    <value>Note</value>
+    <value>Заметка</value>
   </data>
   <data name="AddEvent_NotePlaceholder" xml:space="preserve">
-    <value>Optional</value>
+    <value>Необязательно</value>
   </data>
   <data name="AddEvent_Saved" xml:space="preserve">
-    <value>Event saved.</value>
+    <value>Событие сохранено.</value>
   </data>
   <data name="AddEvent_SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Выбрать всех</value>
   </data>
   <data name="AddEvent_AdultsOnly" xml:space="preserve">
-    <value>Adults only</value>
+    <value>Только взрослые</value>
   </data>
   <data name="AddEvent_SectionAdults" xml:space="preserve">
-    <value>Adults</value>
+    <value>Взрослые</value>
   </data>
   <data name="AddEvent_SectionDependents" xml:space="preserve">
-    <value>Dependents</value>
+    <value>Иждивенцы</value>
   </data>
   <data name="AddEvent_SplitMode_Title" xml:space="preserve">
-    <value>Split mode</value>
+    <value>Режим разделения</value>
   </data>
   <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
-    <value>⚖️ Auto</value>
+    <value>⚖️ Авто</value>
   </data>
   <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
-    <value>💰 Fixed amount</value>
+    <value>💰 Фикс. сумма</value>
   </data>
   <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
-    <value>% Percentage</value>
+    <value>% Проценты</value>
   </data>
 
   <!-- Settlement -->
   <data name="Settlement_Title" xml:space="preserve">
-    <value>Settle up</value>
+    <value>Расчёты</value>
   </data>
   <data name="Settlement_WhoOwesWhat" xml:space="preserve">
-    <value>Who owes what</value>
+    <value>Кто кому должен</value>
   </data>
   <data name="Settlement_Subtitle" xml:space="preserve">
-    <value>Record payments only when money actually changes hands.</value>
+    <value>Записывайте платежи только когда деньги действительно переходят из рук в руки.</value>
   </data>
   <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
-    <value>Settlement is participant-based so reimbursements go to who actually paid.</value>
+    <value>Расчёты основаны на участниках, поэтому возмещения идут тому, кто фактически заплатил.</value>
   </data>
   <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
-    <value>Responsibility summary (readability)</value>
+    <value>Сводка ответственности (наглядность)</value>
   </data>
   <data name="Settlement_EmptyTitle" xml:space="preserve">
-    <value>Everyone is even.</value>
+    <value>Все расчёты завершены.</value>
   </data>
   <data name="Settlement_EmptySubtitle" xml:space="preserve">
-    <value>Record a payment only when money actually changes hands.</value>
+    <value>Записывайте платёж только когда деньги действительно переходят из рук в руки.</value>
   </data>
   <data name="Settlement_RecordPaymentButton" xml:space="preserve">
-    <value>Record custom payment</value>
+    <value>Записать произвольный платёж</value>
   </data>
 
   <!-- Record Payment -->
   <data name="RecordPayment_Title" xml:space="preserve">
-    <value>Record payment</value>
+    <value>Записать платёж</value>
   </data>
   <data name="RecordPayment_Subtitle" xml:space="preserve">
-    <value>Capture a real payment and keep the group timeline honest.</value>
+    <value>Зафиксируйте реальный платёж и сохраняйте честную хронологию группы.</value>
   </data>
   <data name="RecordPayment_WhoPaid" xml:space="preserve">
-    <value>Who paid?</value>
+    <value>Кто платил?</value>
   </data>
   <data name="RecordPayment_WhoReceived" xml:space="preserve">
-    <value>Who received it?</value>
+    <value>Кто получил?</value>
   </data>
   <data name="RecordPayment_SaveButton" xml:space="preserve">
-    <value>Save payment</value>
+    <value>Сохранить платёж</value>
   </data>
   <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
-    <value>Suggestion</value>
+    <value>Предложение</value>
   </data>
   <data name="RecordPayment_ConfirmButton" xml:space="preserve">
-    <value>Confirm payment</value>
+    <value>Подтвердить платёж</value>
   </data>
 
   <!-- Common -->
   <data name="Common_Amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>Сумма</value>
   </data>
   <data name="Common_Date" xml:space="preserve">
-    <value>Date</value>
+    <value>Дата</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Отмена</value>
   </data>
   <data name="Common_Ok" xml:space="preserve">
-    <value>OK</value>
+    <value>ОК</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Изменить</value>
   </data>
   <data name="Common_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Неизвестно</value>
   </data>
 
   <!-- Export -->
   <data name="Export_DialogTitle" xml:space="preserve">
-    <value>Export this group</value>
+    <value>Экспортировать эту группу</value>
   </data>
   <data name="Export_JsonOption" xml:space="preserve">
-    <value>Raw data (JSON)</value>
+    <value>Исходные данные (JSON)</value>
   </data>
   <data name="Export_CsvOption" xml:space="preserve">
-    <value>Spreadsheet (CSV)</value>
+    <value>Таблица (CSV)</value>
   </data>
   <data name="Export_PdfOption" xml:space="preserve">
-    <value>Summary (PDF)</value>
+    <value>Сводка (PDF)</value>
   </data>
   <data name="Export_ShareTitle" xml:space="preserve">
-    <value>Export group</value>
+    <value>Экспортировать группу</value>
   </data>
   <data name="Export_Failed" xml:space="preserve">
-    <value>Export failed. {0}</value>
+    <value>Ошибка экспорта. {0}</value>
   </data>
   <data name="Export_DeliveryDialogTitle" xml:space="preserve">
-    <value>How would you like to export?</value>
+    <value>Как вы хотите экспортировать?</value>
   </data>
   <data name="Export_SaveToDevice" xml:space="preserve">
-    <value>Save to device</value>
+    <value>Сохранить на устройство</value>
   </data>
   <data name="Export_Share" xml:space="preserve">
-    <value>Share...</value>
+    <value>Поделиться...</value>
   </data>
   <data name="Export_SavedToDevice" xml:space="preserve">
-    <value>"{0}" saved to Downloads.</value>
+    <value>"{0}" сохранено в загрузки.</value>
   </data>
 
   <!-- Validation -->
   <data name="Validation_TitleRequired" xml:space="preserve">
-    <value>Title is required.</value>
+    <value>Название обязательно.</value>
   </data>
   <data name="Validation_InvalidAmount" xml:space="preserve">
-    <value>Enter a valid amount.</value>
+    <value>Введите корректную сумму.</value>
   </data>
   <data name="Validation_SelectPayer" xml:space="preserve">
-    <value>Select a payer.</value>
+    <value>Выберите плательщика.</value>
   </data>
   <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
-    <value>Pick at least one person.</value>
+    <value>Выберите хотя бы одного участника.</value>
   </data>
   <data name="Validation_PersonNameRequired" xml:space="preserve">
-    <value>Person name is required.</value>
+    <value>Имя участника обязательно.</value>
   </data>
   <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
-    <value>Person name must be unique in this group.</value>
+    <value>Имя участника должно быть уникальным в этой группе.</value>
   </data>
   <data name="Validation_GroupNotFound" xml:space="preserve">
-    <value>Group not found.</value>
+    <value>Группа не найдена.</value>
   </data>
   <data name="Validation_GroupNameRequired" xml:space="preserve">
-    <value>Group name is required.</value>
+    <value>Название группы обязательно.</value>
   </data>
   <data name="Validation_SelectCurrency" xml:space="preserve">
-    <value>Choose a currency.</value>
+    <value>Выберите валюту.</value>
   </data>
   <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
-    <value>Add at least one person.</value>
+    <value>Добавьте хотя бы одного участника.</value>
   </data>
   <data name="Validation_InvalidCustomWeight" xml:space="preserve">
-    <value>Enter a valid custom weight (e.g. 0.5).</value>
+    <value>Введите корректный вес (напр. 0.5).</value>
   </data>
   <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
-    <value>Custom weight is required when consumption is set to Custom.</value>
+    <value>Вес обязателен, когда потребление установлено на «Свой вес».</value>
   </data>
   <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
-    <value>This group is archived and read-only.</value>
+    <value>Эта группа архивирована и доступна только для чтения.</value>
   </data>
   <data name="Validation_PersonNotFound" xml:space="preserve">
-    <value>Person not found.</value>
+    <value>Участник не найден.</value>
   </data>
   <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
-    <value>Responsible person not found.</value>
+    <value>Ответственный участник не найден.</value>
   </data>
   <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
-    <value>A person cannot depend on themselves.</value>
+    <value>Участник не может зависеть от себя.</value>
   </data>
   <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
-    <value>Cannot make this person a dependent while they are responsible for others.</value>
+    <value>Нельзя сделать этого участника иждивенцем, пока он отвечает за других.</value>
   </data>
   <data name="Validation_CircularDependency" xml:space="preserve">
-    <value>Circular dependency is not allowed.</value>
+    <value>Циклическая зависимость не допускается.</value>
   </data>
   <data name="GroupSwitcher_Title" xml:space="preserve">
-    <value>Switch group</value>
+    <value>Сменить группу</value>
   </data>
   <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
-    <value>(Current)</value>
+    <value>(Текущая)</value>
   </data>
   <data name="GroupSwitcher_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>Выбрать</value>
   </data>
   <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>Архивированные группы</value>
   </data>
   <data name="GroupSwitcher_NewGroup" xml:space="preserve">
-    <value>+ New group</value>
+    <value>+ Новая группа</value>
   </data>
   <data name="CreateGroup_Title" xml:space="preserve">
-    <value>Create group</value>
+    <value>Создать группу</value>
   </data>
   <data name="CreateGroup_GroupName" xml:space="preserve">
-    <value>Group name</value>
+    <value>Название группы</value>
   </data>
   <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
     <value>Ski trip</value>
   </data>
   <data name="CreateGroup_Currency" xml:space="preserve">
-    <value>Currency</value>
+    <value>Валюта</value>
   </data>
   <data name="CreateGroup_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Продолжить</value>
   </data>
   <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
-    <value>Participant name</value>
+    <value>Имя участника</value>
   </data>
   <data name="CreateGroup_AddParticipant" xml:space="preserve">
-    <value>Add</value>
+    <value>Добавить</value>
   </data>
   <data name="CreateGroup_Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Создать</value>
   </data>
 
   <!-- Archived groups -->
   <data name="Archived_Title" xml:space="preserve">
-    <value>Archived groups</value>
+    <value>Архивированные группы</value>
   </data>
   <data name="Archived_Subtitle" xml:space="preserve">
-    <value>These groups are closed. You can still read and export them.</value>
+    <value>Эти группы закрыты. Вы по-прежнему можете просматривать и экспортировать их.</value>
   </data>
   <data name="Archived_EmptyTitle" xml:space="preserve">
-    <value>No archived groups yet.</value>
+    <value>Архивированных групп пока нет.</value>
   </data>
   <data name="Archived_EmptySubtitle" xml:space="preserve">
-    <value>Archived groups appear here.</value>
+    <value>Архивированные группы появятся здесь.</value>
   </data>
   <data name="Archived_Badge" xml:space="preserve">
-    <value>Archived</value>
+    <value>Архивирована</value>
   </data>
   <data name="Validation_ChooseBothPeople" xml:space="preserve">
-    <value>Choose both people.</value>
+    <value>Выберите обоих участников.</value>
   </data>
   <data name="Validation_DifferentPeople" xml:space="preserve">
-    <value>Payment needs two different people.</value>
+    <value>Платёж требует двух разных участников.</value>
   </data>
   <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
-    <value>Total must match amount</value>
+    <value>Сумма должна совпадать с итогом</value>
   </data>
   <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
-    <value>Delete expense</value>
+    <value>Удалить расход</value>
   </data>
   <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
-    <value>Are you sure you want to delete this expense?</value>
+    <value>Вы уверены, что хотите удалить этот расход?</value>
   </data>
   <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
-    <value>Delete</value>
+    <value>Удалить</value>
   </data>
   <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
-    <value>Total fixed: {0}</value>
+    <value>Итог зафиксирован: {0}</value>
   </data>
   <data name="ExpenseDetails_NotFound" xml:space="preserve">
-    <value>Expense not found.</value>
+    <value>Расход не найден.</value>
   </data>
 
   <!-- Settings -->
   <data name="Settings_Title" xml:space="preserve">
-    <value>Settings</value>
+    <value>Настройки</value>
   </data>
   <data name="Settings_VersionLabel" xml:space="preserve">
-    <value>Version</value>
+    <value>Версия</value>
   </data>
   <data name="Settings_LanguageSection" xml:space="preserve">
-    <value>Language</value>
+    <value>Язык</value>
   </data>
   <data name="Settings_LanguageHint" xml:space="preserve">
-    <value>Choose your preferred language.</value>
+    <value>Выберите предпочитаемый язык.</value>
   </data>
   <data name="Settings_LanguageSaved" xml:space="preserve">
-    <value>Language updated.</value>
+    <value>Язык обновлён.</value>
   </data>
   <data name="Settings_ProfileSection" xml:space="preserve">
-    <value>Profile</value>
+    <value>Профиль</value>
   </data>
   <data name="Settings_ProfileHint" xml:space="preserve">
-    <value>Set your name to mark yourself as (me) across groups.</value>
+    <value>Укажите своё имя, чтобы отмечать себя как (я) в группах.</value>
   </data>
   <data name="Settings_MyNameLabel" xml:space="preserve">
-    <value>My name</value>
+    <value>Моё имя</value>
   </data>
   <data name="Settings_MyNamePlaceholder" xml:space="preserve">
-    <value>Enter your name</value>
+    <value>Введите ваше имя</value>
   </data>
   <data name="Settings_SaveProfileButton" xml:space="preserve">
-    <value>Save profile</value>
+    <value>Сохранить профиль</value>
   </data>
   <data name="Settings_ThemeLabel" xml:space="preserve">
-    <value>Dark theme</value>
+    <value>Тёмная тема</value>
   </data>
   <data name="Settings_ProfileSaved" xml:space="preserve">
-    <value>Profile updated.</value>
+    <value>Профиль обновлён.</value>
   </data>
   <data name="Language_SystemDefault" xml:space="preserve">
-    <value>System Default</value>
+    <value>Системный</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>English</value>
+    <value>Английский</value>
   </data>
   <data name="Language_Spanish" xml:space="preserve">
-    <value>Spanish</value>
+    <value>Испанский</value>
   </data>
   <data name="Language_French" xml:space="preserve">
-    <value>French</value>
+    <value>Французский</value>
   </data>
   <data name="Language_German" xml:space="preserve">
-    <value>German</value>
+    <value>Немецкий</value>
   </data>
   <data name="Language_Italian" xml:space="preserve">
-    <value>Italian</value>
+    <value>Итальянский</value>
   </data>
   <data name="Language_Portuguese" xml:space="preserve">
-    <value>Portuguese</value>
-  </data>
-  <data name="Language_Arabic" xml:space="preserve">
-    <value>Arabic</value>
-  </data>
-  <data name="Language_Hindi" xml:space="preserve">
-    <value>Hindi</value>
-  </data>
-  <data name="Language_Indonesian" xml:space="preserve">
-    <value>Indonesian</value>
-  </data>
-  <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="Language_Korean" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="Language_Russian" xml:space="preserve">
-    <value>Russian</value>
-  </data>
-  <data name="Language_Turkish" xml:space="preserve">
-    <value>Turkish</value>
-  </data>
-  <data name="Language_ChineseSimplified" xml:space="preserve">
-    <value>Chinese (Simplified)</value>
-  </data>
-  <data name="Language_ChineseTraditional" xml:space="preserve">
-    <value>Chinese (Traditional)</value>
+    <value>Португальский</value>
   </data>
   <data name="Common_MeCapitalized" xml:space="preserve">
-    <value>Me</value>
+    <value>Я</value>
   </data>
   <data name="Startup_NoGroupsAvailable" xml:space="preserve">
-    <value>No groups are available.</value>
+    <value>Нет доступных групп.</value>
   </data>
   <data name="Currency_DisplayFormat" xml:space="preserve">
     <value>{0} {1} ({2})</value>
   </data>
   <data name="Currency_Name_Unknown" xml:space="preserve">
-    <value>Currency</value>
+    <value>Валюта</value>
   </data>
   <data name="Currency_Name_EUR" xml:space="preserve">
-    <value>Euro</value>
+    <value>Евро</value>
   </data>
   <data name="Currency_Name_USD" xml:space="preserve">
-    <value>US Dollar</value>
+    <value>Доллар США</value>
   </data>
   <data name="Currency_Name_GBP" xml:space="preserve">
-    <value>British Pound</value>
+    <value>Фунт стерлингов</value>
   </data>
   <data name="Currency_Name_CHF" xml:space="preserve">
-    <value>Swiss Franc</value>
+    <value>Швейцарский франк</value>
   </data>
   <data name="Currency_Name_JPY" xml:space="preserve">
-    <value>Japanese Yen</value>
+    <value>Японская иена</value>
   </data>
   <data name="Currency_Name_CNY" xml:space="preserve">
-    <value>Chinese Yuan</value>
+    <value>Китайский юань</value>
   </data>
   <data name="Currency_Name_INR" xml:space="preserve">
-    <value>Indian Rupee</value>
+    <value>Индийская рупия</value>
   </data>
   <data name="Currency_Name_AUD" xml:space="preserve">
-    <value>Australian Dollar</value>
+    <value>Австралийский доллар</value>
   </data>
   <data name="Currency_Name_CAD" xml:space="preserve">
-    <value>Canadian Dollar</value>
+    <value>Канадский доллар</value>
   </data>
   <data name="Currency_Name_BRL" xml:space="preserve">
-    <value>Brazilian Real</value>
+    <value>Бразильский реал</value>
   </data>
   <data name="Currency_Name_MXN" xml:space="preserve">
-    <value>Mexican Peso</value>
+    <value>Мексиканское песо</value>
   </data>
   <data name="Currency_Name_ARS" xml:space="preserve">
-    <value>Argentine Peso</value>
+    <value>Аргентинское песо</value>
   </data>
   <data name="Currency_Name_CLP" xml:space="preserve">
-    <value>Chilean Peso</value>
+    <value>Чилийское песо</value>
   </data>
   <data name="Currency_Name_COP" xml:space="preserve">
-    <value>Colombian Peso</value>
+    <value>Колумбийское песо</value>
   </data>
   <data name="Currency_Name_PEN" xml:space="preserve">
-    <value>Peruvian Sol</value>
+    <value>Перуанский соль</value>
   </data>
   <data name="Currency_Name_SEK" xml:space="preserve">
-    <value>Swedish Krona</value>
+    <value>Шведская крона</value>
   </data>
   <data name="Currency_Name_NOK" xml:space="preserve">
-    <value>Norwegian Krone</value>
+    <value>Норвежская крона</value>
   </data>
   <data name="Currency_Name_DKK" xml:space="preserve">
-    <value>Danish Krone</value>
+    <value>Датская крона</value>
   </data>
   <data name="Currency_Name_PLN" xml:space="preserve">
-    <value>Polish Złoty</value>
+    <value>Польский злотый</value>
   </data>
   <data name="Currency_Name_CZK" xml:space="preserve">
-    <value>Czech Koruna</value>
+    <value>Чешская крона</value>
   </data>
   <data name="Currency_Name_HUF" xml:space="preserve">
-    <value>Hungarian Forint</value>
+    <value>Венгерский форинт</value>
   </data>
   <data name="Currency_Name_RON" xml:space="preserve">
-    <value>Romanian Leu</value>
+    <value>Румынский лей</value>
   </data>
   <data name="Currency_Name_TRY" xml:space="preserve">
-    <value>Turkish Lira</value>
+    <value>Турецкая лира</value>
   </data>
   <data name="Currency_Name_AED" xml:space="preserve">
-    <value>UAE Dirham</value>
+    <value>Дирхам ОАЭ</value>
   </data>
   <data name="Currency_Name_SAR" xml:space="preserve">
-    <value>Saudi Riyal</value>
+    <value>Саудовский риял</value>
   </data>
   <data name="Currency_Name_KRW" xml:space="preserve">
-    <value>South Korean Won</value>
+    <value>Южнокорейская вона</value>
   </data>
   <data name="Currency_Name_SGD" xml:space="preserve">
-    <value>Singapore Dollar</value>
+    <value>Сингапурский доллар</value>
   </data>
   <data name="Currency_Name_HKD" xml:space="preserve">
-    <value>Hong Kong Dollar</value>
+    <value>Гонконгский доллар</value>
   </data>
   <data name="Currency_Name_NZD" xml:space="preserve">
-    <value>New Zealand Dollar</value>
+    <value>Новозеландский доллар</value>
   </data>
   <data name="Currency_Name_ZAR" xml:space="preserve">
-    <value>South African Rand</value>
+    <value>Южноафриканский рэнд</value>
   </data>
 
   <!-- Validation (service-level) -->
   <data name="Validation_CurrencyRequired" xml:space="preserve">
-    <value>Currency is required.</value>
+    <value>Валюта обязательна.</value>
   </data>
   <data name="Validation_EachPersonNeedsName" xml:space="preserve">
-    <value>Each person needs a name.</value>
+    <value>Каждому участнику нужно имя.</value>
   </data>
 
   <!-- Mapper / presentation sentences -->
   <data name="Mapper_Person" xml:space="preserve">
-    <value>Person</value>
+    <value>Участник</value>
   </data>
   <data name="Mapper_Everyone" xml:space="preserve">
-    <value>everyone</value>
+    <value>все</value>
   </data>
   <data name="Mapper_And" xml:space="preserve">
-    <value>and</value>
+    <value>и</value>
   </data>
   <data name="Mapper_SplitEqual" xml:space="preserve">
-    <value>Shared equally between {0}</value>
+    <value>Поровну между {0}</value>
   </data>
   <data name="Mapper_SplitWeighted" xml:space="preserve">
-    <value>Weighted between {0}</value>
+    <value>По весу между {0}</value>
   </data>
   <data name="Mapper_SplitByPercentage" xml:space="preserve">
-    <value>Shared by percentages between {0}</value>
+    <value>По процентам между {0}</value>
   </data>
   <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
-    <value>Shared with custom amounts between {0}</value>
+    <value>С произвольными суммами между {0}</value>
   </data>
   <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
-    <value>Custom amounts for {0}</value>
+    <value>Произвольные суммы для {0}</value>
   </data>
   <data name="Mapper_HouseholdOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>ответственность {0}</value>
   </data>
   <data name="Mapper_ResponsibilityOf" xml:space="preserve">
-    <value>{0}'s responsibility</value>
+    <value>ответственность {0}</value>
   </data>
   <data name="Mapper_PaymentTitle" xml:space="preserve">
-    <value>Payment</value>
+    <value>Платёж</value>
   </data>
   <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>{0} заплатил {1}</value>
   </data>
   <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
-    <value>Recorded payment</value>
+    <value>Записанный платёж</value>
   </data>
   <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
-    <value>{0} added {1}</value>
+    <value>{0} добавил {1}</value>
   </data>
   <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
-    <value>{0} paid {1}</value>
+    <value>{0} заплатил {1}</value>
   </data>
   <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
-    <value>Payment recorded</value>
+    <value>Платёж записан</value>
   </data>
   <data name="Mapper_BalanceOwes" xml:space="preserve">
-    <value>{0} owes {1}</value>
+    <value>{0} должен {1}</value>
   </data>
   <data name="Mapper_BalanceEvenNow" xml:space="preserve">
-    <value>Everyone is even right now.</value>
+    <value>Сейчас все расчёты завершены.</value>
   </data>
   <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
-    <value>{0} people ready to go</value>
+    <value>{0} чел. готовы</value>
   </data>
   <data name="Mapper_SummaryEvents" xml:space="preserve">
-    <value>{0} people · {1} events</value>
+    <value>{0} чел. · {1} событий</value>
   </data>
   <data name="Mapper_SummaryPeople" xml:space="preserve">
-    <value>{0} people</value>
+    <value>{0} чел.</value>
   </data>
   <data name="Mapper_NoActivity" xml:space="preserve">
-    <value>no activity</value>
+    <value>нет активности</value>
   </data>
   <data name="Mapper_Activity_Expense" xml:space="preserve">
-    <value>{0} expense</value>
+    <value>{0} расход</value>
   </data>
   <data name="Mapper_Activity_Expenses" xml:space="preserve">
-    <value>{0} expenses</value>
+    <value>{0} расходов</value>
   </data>
   <data name="Mapper_Activity_Payment" xml:space="preserve">
-    <value>{0} payment</value>
+    <value>{0} платёж</value>
   </data>
   <data name="Mapper_Activity_Payments" xml:space="preserve">
-    <value>{0} payments</value>
+    <value>{0} платежей</value>
   </data>
   <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
-    <value>{0} expenses · {1} payments</value>
+    <value>{0} расходов · {1} платежей</value>
   </data>
   <data name="Mapper_PeopleCountFormat" xml:space="preserve">
-    <value>{0} → {1} people</value>
+    <value>{0} → {1} чел.</value>
   </data>
   <data name="Mapper_Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Сегодня</value>
   </data>
   <data name="Mapper_Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Вчера</value>
   </data>
   <data name="Mapper_Me" xml:space="preserve">
-    <value>me</value>
+    <value>я</value>
   </data>
 
   <!-- Group status labels -->
   <data name="Status_CurrentGroup" xml:space="preserve">
-    <value>Current group</value>
+    <value>Текущая группа</value>
   </data>
   <data name="Status_OpenedOn" xml:space="preserve">
-    <value>Opened {0}</value>
+    <value>Открыта {0}</value>
   </data>
   <data name="Status_RecentActivity" xml:space="preserve">
-    <value>Recent activity {0}</value>
+    <value>Недавняя активность {0}</value>
   </data>
   <data name="Status_ReadyForFirstEvent" xml:space="preserve">
-    <value>Ready for the first event</value>
+    <value>Готово к первому событию</value>
   </data>
   <data name="Status_AddFirstEvent" xml:space="preserve">
-    <value>Add the first event.</value>
+    <value>Добавьте первое событие.</value>
   </data>
   <data name="Status_Settled" xml:space="preserve">
-    <value>Settled.</value>
+    <value>Расчёт завершён.</value>
   </data>
   <data name="Status_DefaultGroupName" xml:space="preserve">
-    <value>Group</value>
+    <value>Группа</value>
   </data>
   <data name="Status_Household" xml:space="preserve">
-    <value>Household</value>
+    <value>Семья</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Арабский</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Хинди</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Индонезийский</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Японский</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Корейский</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Турецкий</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>Упрощённый китайский</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>Традиционный китайский</value>
   </data>
 
 </root>
