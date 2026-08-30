@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'website/**'
+      - 'docs/product/**'
+      - '.product/config.yaml'
       - '.github/workflows/public-site-ci.yml'
       - '.github/workflows/public-site-cd.yml'
   workflow_dispatch:

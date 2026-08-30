@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>アクティビティ</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>現在のグループの最新イベント。</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>まだ何もありません。</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>グループを開き、最初のイベントを追加してください。</value>
+  </data>
+
+  <!-- Groups (Home) -->
+  <data name="Groups_Title" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>まだ残高がありません</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>すべての残高が精算済み</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>立て替え分: {0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>支払う</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>最近のアクティビティ</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 件のイベント</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>まだアクティビティがありません</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>まだ費用や支払いがありません</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>全員精算済みです</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>共有費用、明確な精算。</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>費用を詳細に記録し、誰が誰に払うべきか確認。</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>アーカイブ済みグループを表示</value>
+  </data>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>続きから始めるか、新しいグループを作成しましょう。</value>
+  </data>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>まだグループがありません。</value>
+  </data>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>最初のグループを作成してイベントを追加しましょう。</value>
+  </data>
+  <data name="Groups_Open" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="Groups_Details" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ 新規グループ</value>
+  </data>
+  <data name="Groups_Active" xml:space="preserve">
+    <value>アクティブ</value>
+  </data>
+
+  <!-- Group timeline -->
+  <data name="Group_Title" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="Group_DetailsButton" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>グループを編集</value>
+  </data>
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
+    <value>誰が誰に払うべきか</value>
+  </data>
+  <data name="Group_EveryoneEven" xml:space="preserve">
+    <value>現在、全員精算済みです。</value>
+  </data>
+  <data name="Group_SettleUp" xml:space="preserve">
+    <value>精算する</value>
+  </data>
+  <data name="Group_Events" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>グループの準備ができました。</value>
+  </data>
+  <data name="Group_EmptySubtitle" xml:space="preserve">
+    <value>下から最初の費用を追加してください。</value>
+  </data>
+  <data name="Group_AddExpense" xml:space="preserve">
+    <value>+ 費用を追加</value>
+  </data>
+  <data name="Group_RecordPayment" xml:space="preserve">
+    <value>支払いを記録</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>費用</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>残高</value>
+  </data>
+
+  <!-- Group Details -->
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>グループの詳細</value>
+  </data>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>新規グループ</value>
+  </data>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>グループの詳細</value>
+  </data>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>グループを一度設定すれば、すぐにイベントを追加できます。</value>
+  </data>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>基本情報を更新し、次のイベントに備えましょう。</value>
+  </data>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>グループ名</value>
+  </data>
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
+    <value>ビーチ週末、山小屋滞在...</value>
+  </data>
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
+    <value>通貨</value>
+  </data>
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
+    <value>メンバー</value>
+  </data>
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
+    <value>独立参加者は空欄のままにしてください。同じ名前を使用して、扶養者を一人の責任参加者の下にまとめます。</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>各メンバーはデフォルトで独立しています。共有責任を設定しても、誰が支払えるかは変わりません。</value>
+  </data>
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
+    <value>まだメンバーがいません。</value>
+  </data>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>グループを保存する前に少なくとも一人追加してください。</value>
+  </data>
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
+    <value>メンバーを追加</value>
+  </data>
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>名前を入力</value>
+  </data>
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>責任名（任意）</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>責任名（任意）</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>依存先（任意）</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>独立（デフォルト）</value>
+  </data>
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
+    <value>メンバーを追加</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>メンバーを管理</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>メンバーを保存</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>このメンバーは現在 他のメンバーの責任者です。責任を変更するには、まず扶養者を更新してください。</value>
+  </data>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>グループを作成</value>
+  </data>
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
+    <value>グループを保存</value>
+  </data>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>グループをエクスポート</value>
+  </data>
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>グループをアーカイブ</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>このグループをアーカイブしますか？</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>このグループはアーカイブされます。表示やエクスポートはできますが、新しい費用は追加できなくなります。</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>アーカイブ</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>このグループはアーカイブされており、読み取り専用です。</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>負担割合</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>全額</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>半額</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>カスタム割合</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>例: 0.5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>責任者</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>扶養者</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>独立</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>{0} に依存</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>{0} 人分を支払い</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>独立</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>依存先: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>支払対象: {0}</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>各参加者を追加します。独立の場合は責任を空欄のままにするか、責任名を再利用して扶養者として設定します。</value>
+  </data>
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
+    <value>自身で精算</value>
+  </data>
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
+    <value>メンバーを追加しました。</value>
+  </data>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>新しいグループにメンバーを追加しました。</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>メンバーを更新しました。</value>
+  </data>
+  <data name="GroupDetails_Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>写真を変更</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>グループの写真</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>ギャラリー</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>写真を削除</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>費用を追加</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>今起きたことを記録。</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>何がありましたか？</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>ディナー</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>タクシー</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>食料品</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>チケット</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>食事</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>交通</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>食料品</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>チケット</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>宿泊</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>飲み物</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>コーヒー</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>娯楽</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>タイトル</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>ディナー、食料品、タクシー...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>アイコン</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>支払者</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>責任に関係なく、どの参加者でも支払い手になれます。</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>誰が参加しましたか？</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>デフォルトで全員が含まれます。</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>含めるメンバーを選択。扶養者は責任参加者に従います。</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>割り勘プレビュー</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>金額と参加者を入力してプレビュー。</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>割り勘を調整</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>割り勘:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>均等</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>金額指定</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>この後</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>ここに誰が誰に払うべきかが表示されます。</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>メディアを添付</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>写真を撮る</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>添付ファイルは保存後にリンクされます。</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>写真は保存後にリンクされます。</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>このデバイスではカメラ撮影はサポートされていません。</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>メモ</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>任意</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>イベントを保存しました。</value>
+  </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>大人のみ</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>大人</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>扶養者</value>
+  </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>割り勘モード</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ 自動</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 固定金額</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% パーセンテージ</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>精算する</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>誰が誰に払うべきか</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>実際にお金の移動があった時だけ支払いを記録してください。</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>精算は参加者ベースなので、実際に支払った人に返金されます。</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>責任の概要（参考）</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>全員精算済みです。</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>実際にお金の移動があった時だけ支払いを記録してください。</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>カスタム支払いを記録</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>支払いを記録</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>実際の支払いを記録し、グループの履歴を正確に保ちましょう。</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>誰が払いましたか？</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>誰が受け取りましたか？</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>支払いを保存</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>提案</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>支払いを確認</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>金額</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>日付</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>このグループをエクスポート</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>生データ（JSON）</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>スプレッドシート（CSV）</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>概要（PDF）</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>グループをエクスポート</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>エクスポートに失敗しました。{0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>どのようにエクスポートしますか？</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>デバイスに保存</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>共有...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>「{0}」をダウンロードに保存しました。</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>タイトルは必須です。</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>有効な金額を入力してください。</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>支払い手を選択してください。</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>少なくとも一人選択してください。</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>名前は必須です。</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>このグループ内で名前は一意である必要があります。</value>
+  </data>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>グループが見つかりません。</value>
+  </data>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>グループ名は必須です。</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>通貨を選択してください。</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>少なくとも一人追加してください。</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>有効なカスタム割合を入力してください（例: 0.5）。</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>負担割合がカスタムに設定されている場合、カスタム割合は必須です。</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>このグループはアーカイブされており、読み取り専用です。</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>メンバーが見つかりません。</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>責任者が見つかりません。</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>自分自身に依存することはできません。</value>
+  </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>他のメンバーの責任者である間は、このメンバーを扶養者にできません。</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>循環依存は許可されていません。</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>グループを切り替え</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>（現在）</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>アーカイブ済みグループ</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ 新規グループ</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>グループを作成</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>グループ名</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>通貨</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>続行</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>参加者名</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>作成</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>アーカイブ済みグループ</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>これらのグループは閉じられています。表示やエクスポートは可能です。</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>まだアーカイブ済みグループはありません。</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>アーカイブ済みグループはここに表示されます。</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>アーカイブ済み</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>両方のメンバーを選択してください。</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>支払いには二人の異なるメンバーが必要です。</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>合計が金額と一致する必要があります</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>費用を削除</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>この費用を削除してもよろしいですか？</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>合計固定: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>費用が見つかりません。</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>お好みの言語を選択してください。</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>言語を更新しました。</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>プロフィール</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>名前を設定すると、グループ全体で（自分）として表示されます。</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>自分の名前</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>名前を入力</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>プロフィールを保存</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>ダークテーマ</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>プロフィールを更新しました。</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>システム既定</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>スペイン語</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>フランス語</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>ドイツ語</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>イタリア語</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>ポルトガル語</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>自分</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>利用可能なグループがありません。</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>通貨</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>ユーロ</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>米ドル</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>英ポンド</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>スイスフラン</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>日本円</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>中国人民元</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>インドルピー</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>豪ドル</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>カナダドル</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>ブラジルレアル</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>メキシコペソ</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>アルゼンチンペソ</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>チリペソ</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>コロンビアペソ</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>ペルーソル</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>スウェーデンクローナ</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>ノルウェークローネ</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>デンマーククローネ</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>ポーランドズウォティ</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>チェココルナ</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>ハンガリーフォリント</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>ルーマニアレウ</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>トルコリラ</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>UAEディルハム</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>サウジリヤル</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>韓国ウォン</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>シンガポールドル</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>香港ドル</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>ニュージーランドドル</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>南アフリカランド</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>通貨は必須です。</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>各メンバーには名前が必要です。</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>メンバー</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>全員</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>と</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>{0} で均等に分担</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>{0} で加重分担</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>{0} でパーセンテージ別に分担</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>{0} でカスタム金額で分担</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>{0} のカスタム金額</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>{0} の責任</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>{0} の責任</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>支払い</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0} が {1} を支払い</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>支払いを記録</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0} が {1} を追加</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0} が {1} を支払い</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>支払いを記録</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0} は {1} に支払うべき</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>現在、全員精算済みです。</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0} 人が準備完了</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0} 人 · {1} イベント</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} 人</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>アクティビティなし</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} 件の費用</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} 件の費用</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} 件の支払い</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} 件の支払い</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} 件の費用 · {1} 件の支払い</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} 人</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>昨日</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>自分</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>現在のグループ</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>{0} に開始</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>最近のアクティビティ {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>最初のイベントの準備ができました</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>最初のイベントを追加してください。</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>精算済み。</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>世帯</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>アラビア語</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>ヒンディー語</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>インドネシア語</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>韓国語</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>ロシア語</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>トルコ語</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>簡体字中国語</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>繁体字中国語</value>
+  </data>
+
+</root>

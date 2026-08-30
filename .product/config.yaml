@@ -1,0 +1,17 @@
+version: v1alpha1
+product-root: docs/product
+validation:
+  warnings-as-errors: false
+extensions:
+  prodshape:
+    generated:
+      root: .product/generated
+      commit: false
+    integrations:
+      ai:
+        - copilot
+      shorthand-commands: false
+    citations:
+      # Directories `prodshape citations verify` scans when no target is given.
+      consumer-roots:
+        - .specify

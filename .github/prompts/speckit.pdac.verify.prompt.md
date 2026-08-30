@@ -1,0 +1,3 @@
+---
+agent: speckit.pdac.verify
+---

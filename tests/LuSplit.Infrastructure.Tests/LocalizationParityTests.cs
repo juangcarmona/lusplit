@@ -49,4 +49,18 @@ public sealed class LocalizationParityTests
             missing.Count == 0,
             $"{languageFileName} is missing {missing.Count} key(s):\n  " + string.Join("\n  ", missing));
     }
+
+    [Fact]
+    public void AtLeastFourteenLocalesAreSupported()
+    {
+        var localeFiles = Directory.GetFiles(LocalizationDir, "AppResources.*.resx")
+            .Select(Path.GetFileName)
+            .Where(f => f != "AppResources.resx")
+            .ToList();
+
+        Assert.True(
+            localeFiles.Count >= 14,
+            $"Expected at least 14 locale .resx files, found {localeFiles.Count}:\n  " +
+            string.Join("\n  ", localeFiles));
+    }
 }

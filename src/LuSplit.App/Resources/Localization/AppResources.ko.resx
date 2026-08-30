@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>활동</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>현재 그룹의 최근 이벤트입니다.</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>아직 아무것도 없습니다.</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>그룹을 열고 첫 이벤트를 추가하세요.</value>
+  </data>
+
+  <!-- Groups (Home) -->
+  <data name="Groups_Title" xml:space="preserve">
+    <value>그룹</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>홈</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>아직 잔액 없음</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>모든 잔액 정산 완료</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>대신 결제한 금액: {0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>결제</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>최근 활동</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>이벤트 0건</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>아직 활동 없음</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>아직 비용이나 결제가 없습니다</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>모두 정산 완료</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>공동 비용, 명확한 정산.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>비용을 상세히 기록하고, 누가 누구에게 줄지 확인하세요.</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>보관된 그룹 보기</value>
+  </data>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>이어서 진행하거나 새 그룹을 시작하세요.</value>
+  </data>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>아직 그룹이 없습니다.</value>
+  </data>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>첫 그룹을 만들고 이벤트를 추가하세요.</value>
+  </data>
+  <data name="Groups_Open" xml:space="preserve">
+    <value>열기</value>
+  </data>
+  <data name="Groups_Details" xml:space="preserve">
+    <value>상세</value>
+  </data>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ 새 그룹</value>
+  </data>
+  <data name="Groups_Active" xml:space="preserve">
+    <value>활성</value>
+  </data>
+
+  <!-- Group timeline -->
+  <data name="Group_Title" xml:space="preserve">
+    <value>그룹</value>
+  </data>
+  <data name="Group_DetailsButton" xml:space="preserve">
+    <value>상세</value>
+  </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>그룹 편집</value>
+  </data>
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
+    <value>누가 누구에게 줄지</value>
+  </data>
+  <data name="Group_EveryoneEven" xml:space="preserve">
+    <value>지금 모두 정산 완료입니다.</value>
+  </data>
+  <data name="Group_SettleUp" xml:space="preserve">
+    <value>정산하기</value>
+  </data>
+  <data name="Group_Events" xml:space="preserve">
+    <value>이벤트</value>
+  </data>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>그룹이 준비되었습니다.</value>
+  </data>
+  <data name="Group_EmptySubtitle" xml:space="preserve">
+    <value>아래에서 첫 비용을 추가하세요.</value>
+  </data>
+  <data name="Group_AddExpense" xml:space="preserve">
+    <value>+ 비용 추가</value>
+  </data>
+  <data name="Group_RecordPayment" xml:space="preserve">
+    <value>결제 기록</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>더보기</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>개요</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>비용</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>잔액</value>
+  </data>
+
+  <!-- Group Details -->
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>그룹 상세</value>
+  </data>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>새 그룹</value>
+  </data>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>그룹 상세</value>
+  </data>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>그룹을 한 번 설정하면 이벤트를 바로 추가할 수 있습니다.</value>
+  </data>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>기본 정보를 업데이트하고 다음 이벤트에 대비하세요.</value>
+  </data>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>그룹 이름</value>
+  </data>
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
+    <value>해변 주말, 산장 숙박...</value>
+  </data>
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
+    <value>통화</value>
+  </data>
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
+    <value>인원</value>
+  </data>
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
+    <value>독립 참가자는 비워두세요. 같은 이름을 사용해 부양자를 한 책임 참가자 아래로 묶습니다.</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>각 인원은 기본적으로 독립입니다. 공동 책임은 누가 결제할 수 있는지를 변경하지 않습니다.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
+    <value>아직 인원이 없습니다.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>그룹을 저장하기 전에 최소 한 명을 추가하세요.</value>
+  </data>
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
+    <value>인원 추가</value>
+  </data>
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>이름 입력</value>
+  </data>
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>책임 이름(선택)</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>책임 이름(선택)</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>종속 대상(선택)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>독립(기본)</value>
+  </data>
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
+    <value>인원 추가</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>인원 관리</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>인원 저장</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>이 인원은 현재 다른 인원의 책임자입니다. 책임을 변경하려면 먼저 부양자를 업데이트하세요.</value>
+  </data>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>그룹 만들기</value>
+  </data>
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
+    <value>그룹 저장</value>
+  </data>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>그룹 내보내기</value>
+  </data>
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>그룹 보관</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>이 그룹을 보관하시겠습니까?</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>이 그룹은 보관됩니다. 여전히 보고 내보낼 수 있지만, 새 비용은 추가할 수 없습니다.</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>보관</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>이 그룹은 보관되었으며 읽기 전용입니다.</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>부담 비율</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>전액</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>반액</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>사용자 지정 비율</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>예: 0.5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>책임자</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>부양자</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>독립</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>{0}에 종속</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>{0}명 결제</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>독립</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>종속 대상: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>결제 대상: {0}</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>각 참가자를 추가합니다. 독립이면 책임을 비워두거나, 책임 이름을 재사용해 부양자로 표시하세요.</value>
+  </data>
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
+    <value>스스로 정산</value>
+  </data>
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
+    <value>인원을 추가했습니다.</value>
+  </data>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>새 그룹에 인원을 추가했습니다.</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>인원을 업데이트했습니다.</value>
+  </data>
+  <data name="GroupDetails_Remove" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>사진 변경</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>그룹 사진</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>카메라</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>갤러리</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>사진 삭제</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>비용 추가</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>방금 일어난 일을 기록하세요.</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>무슨 일이 있었나요?</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>저녁 식사</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>택시</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>식료품</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>티켓</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>사용자 지정</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>기타</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>식사</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>교통</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>식료품</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>티켓</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>숙박</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>음료</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>커피</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>오락</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>제목</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>저녁 식사, 식료품, 택시...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>아이콘</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>결제자</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>책임과 관계없이 모든 참가자가 결제자가 될 수 있습니다.</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>누가 참여했나요?</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>기본적으로 모두 포함됩니다.</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>포함할 인원을 선택하세요. 부양자는 책임 참가자를 따릅니다.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>분할 미리보기</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>금액과 참가자를 입력해 미리보세요.</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>분할 조정</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>분할:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>균등</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>정확한 금액</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>저장</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>이후</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>여기에 누가 누구에게 줄지 표시됩니다.</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>미디어 첨부</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>사진 촬영</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>첨부파일은 저장 후 연결됩니다.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>사진은 저장 후 연결됩니다.</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>이 기기에서는 카라 촬영이 지원되지 않습니다.</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>메모</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>선택</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>이벤트를 저장했습니다.</value>
+  </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>모두 선택</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>성인만</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>성인</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>부양자</value>
+  </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>분할 모드</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ 자동</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 고정 금액</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% 백분율</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>정산하기</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>누가 누구에게 줄지</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>실제로 돈이 오갈 때만 결제를 기록하세요.</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>정산은 참가자 기반이므로 환불이 실제 결제자에게 돌아갑니다.</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>책임 요약(참고용)</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>모두 정산 완료입니다.</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>실제로 돈이 오갈 때만 결제를 기록하세요.</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>사용자 지정 결제 기록</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>결제 기록</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>실제 결제를 기록하고 그룹 타임라인을 정확하게 유지하세요.</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>누가 결제했나요?</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>누가 받았나요?</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>결제 저장</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>제안</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>결제 확인</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>금액</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>날짜</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>확인</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>편집</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>알 수 없음</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>이 그룹 내보내기</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>원본 데이터(JSON)</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>스프레드시트(CSV)</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>요약(PDF)</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>그룹 내보내기</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>내보내기 실패. {0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>어떻게 내보내시겠습니까?</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>기기에 저장</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>공유...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>"{0}"을(를) 다운로드에 저장했습니다.</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>제목은 필수입니다.</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>유효한 금액을 입력하세요.</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>결제자를 선택하세요.</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>최소 한 명을 선택하세요.</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>이름은 필수입니다.</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>이 그룹에서 이름은 고유해야 합니다.</value>
+  </data>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>그룹을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>그룹 이름은 필수입니다.</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>통화를 선택하세요.</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>최소 한 명을 추가하세요.</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>유효한 사용자 지정 비율을 입력하세요(예: 0.5).</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>부담 비율이 사용자 지정으로 설정된 경우 사용자 지정 비율이 필요합니다.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>이 그룹은 보관되었으며 읽기 전용입니다.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>인원을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>책임자를 찾을 수 없습니다.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>자기 자신에게 종속될 수 없습니다.</value>
+  </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>다른 인원의 책임자인 동안에는 이 인원을 부양자로 만들 수 없습니다.</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>순환 종속은 허용되지 않습니다.</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>그룹 전환</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(현재)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>선택</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>보관된 그룹</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ 새 그룹</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>그룹 만들기</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>그룹 이름</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>통화</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>계속</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>참가자 이름</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>추가</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>만들기</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>보관된 그룹</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>이 그룹들은 닫혀 있습니다. 여전히 보고 내보낼 수 있습니다.</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>아직 보관된 그룹이 없습니다.</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>보관된 그룹이 여기에 표시됩니다.</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>보관됨</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>두 인원 모두 선택하세요.</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>결제에는 두 명의 다른 인원이 필요합니다.</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>합계가 금액과 일치해야 합니다</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>비용 삭제</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>이 비용을 삭제하시겠습니까?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>고정 합계: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>비용을 찾을 수 없습니다.</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>선호하는 언어를 선택하세요.</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>언어가 업데이트되었습니다.</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>프로필</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>이름을 설정하면 그룹 전체에서 (나)로 표시됩니다.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>내 이름</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>이름 입력</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>프로필 저장</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>다크 테마</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>프로필이 업데이트되었습니다.</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>시스템 기본값</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>영어</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>스페인어</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>프랑스어</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>독일어</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>이탈리아어</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>포르투갈어</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>나</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>사용 가능한 그룹이 없습니다.</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>통화</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>유로</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>미국 달러</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>영국 파운드</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>스위스 프랑</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>일본 엔</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>중국 위안</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>인도 루피</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>호주 달러</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>캐나다 달러</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>브라질 헤알</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>멕시코 페소</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>아르헨티나 페소</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>칠레 페소</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>콜롬비아 페소</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>페루 솔</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>스웨덴 크로나</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>노르웨이 크로네</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>덴마크 크로네</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>폴란드 즈워티</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>체코 코루나</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>헝가리 포린트</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>루마니아 레우</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>튀르키예 리라</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>UAE 디르함</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>사우디 리얄</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>대한민국 원</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>싱가포르 달러</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>홍콩 달러</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>뉴질랜드 달러</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>남아프리카 랜드</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>통화는 필수입니다.</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>각 인원에게는 이름이 필요합니다.</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>인원</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>모두</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>및</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>{0}이(가) 균등하게 분할</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>{0}이(가) 가중 분할</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>{0}이(가) 백분율로 분할</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>{0}이(가) 사용자 지정 금액으로 분할</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>{0}의 사용자 지정 금액</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>{0}의 책임</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>{0}의 책임</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>결제</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0}이(가) {1}을(를) 결제</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>결제 기록됨</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0}이(가) {1}을(를) 추가</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0}이(가) {1}을(를) 결제</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>결제 기록됨</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0}이(가) {1}에게 줄 금액</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>지금 모두 정산 완료입니다.</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0}명 준비 완료</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0}명 · {1}개 이벤트</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0}명</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>활동 없음</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>비용 {0}건</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>비용 {0}건</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>결제 {0}건</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>결제 {0}건</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>비용 {0}건 · 결제 {1}건</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1}명</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>오늘</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>어제</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>나</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>현재 그룹</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>{0}에 시작</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>최근 활동 {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>첫 이벤트 준비 완료</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>첫 이벤트를 추가하세요.</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>정산 완료.</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>그룹</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>가구</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>아랍어</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>힌디어</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>인도네시아어</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>러시아어</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>튀르키예어</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>중국어 간체</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>중국어 번체</value>
+  </data>
+
+</root>

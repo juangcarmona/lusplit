@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>活动</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>当前群组的最近事件。</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>暂无内容。</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>打开一个群组并添加第一个事件。</value>
+  </data>
+
+  <!-- Groups (Home) -->
+  <data name="Groups_Title" xml:space="preserve">
+    <value>群组</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>首页</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>暂无余额</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>所有余额已结清</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>为他人垫付：{0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>支付</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>最近活动</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 个事件</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>暂无活动</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>暂无费用或付款</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>大家已两清</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>共享费用，账目清晰。</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>详细记录费用，查看谁欠谁。</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>查看已归档群组</value>
+  </data>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>从上次的地方继续，或创建新群组。</value>
+  </data>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>暂无群组。</value>
+  </data>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>创建你的第一个群组并开始添加事件。</value>
+  </data>
+  <data name="Groups_Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Groups_Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ 新建群组</value>
+  </data>
+  <data name="Groups_Active" xml:space="preserve">
+    <value>活跃</value>
+  </data>
+
+  <!-- Group timeline -->
+  <data name="Group_Title" xml:space="preserve">
+    <value>群组</value>
+  </data>
+  <data name="Group_DetailsButton" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>编辑群组</value>
+  </data>
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
+    <value>谁欠什么</value>
+  </data>
+  <data name="Group_EveryoneEven" xml:space="preserve">
+    <value>现在大家已两清。</value>
+  </data>
+  <data name="Group_SettleUp" xml:space="preserve">
+    <value>结算</value>
+  </data>
+  <data name="Group_Events" xml:space="preserve">
+    <value>事件</value>
+  </data>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>你的群组已就绪。</value>
+  </data>
+  <data name="Group_EmptySubtitle" xml:space="preserve">
+    <value>在下方添加第一笔费用。</value>
+  </data>
+  <data name="Group_AddExpense" xml:space="preserve">
+    <value>+ 添加费用</value>
+  </data>
+  <data name="Group_RecordPayment" xml:space="preserve">
+    <value>记录付款</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>费用</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>余额</value>
+  </data>
+
+  <!-- Group Details -->
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>群组详情</value>
+  </data>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>新建群组</value>
+  </data>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>群组详情</value>
+  </data>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>一次性设置群组，然后开始添加事件。</value>
+  </data>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>更新基本信息，让群组为下一个事件做好准备。</value>
+  </data>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>群组名称</value>
+  </data>
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
+    <value>Beach weekend, cabin stay...</value>
+  </data>
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
+    <value>成员</value>
+  </data>
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
+    <value>留空表示独立参与者。使用相同名称将受抚养人归到同一负责人名下。</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>每个人默认独立。共享责任不会改变谁可以付款。</value>
+  </data>
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
+    <value>暂无成员。</value>
+  </data>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>保存群组前至少添加一个人。</value>
+  </data>
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
+    <value>添加成员</value>
+  </data>
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>输入成员姓名</value>
+  </data>
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>责任名称（可选）</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>责任名称（可选）</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>依赖于（可选）</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>独立（默认）</value>
+  </data>
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
+    <value>添加成员</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>管理成员</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>保存成员</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>此人目前对其他人负责。请先更新受抚养人以更改责任。</value>
+  </data>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>创建群组</value>
+  </data>
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
+    <value>保存群组</value>
+  </data>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>导出群组</value>
+  </data>
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>归档群组</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>归档此群组？</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>此群组将被归档。你仍可查看和导出，但无法添加新费用。</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>归档</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>此群组已归档且为只读。</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>消费份额</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>全额</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>半额</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>自定义权重</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>例如 0.5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>负责人</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>受抚养人</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>独立</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>依赖于 {0}</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>为 {0} 人付款</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>独立</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>依赖于：{0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>为：{0} 付款</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>添加每位参与者。如果独立则留空责任，或重复使用责任名称来标记受抚养人。</value>
+  </data>
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
+    <value>自行结算</value>
+  </data>
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
+    <value>成员已添加。</value>
+  </data>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>成员已添加到新群组。</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>成员已更新。</value>
+  </data>
+  <data name="GroupDetails_Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>更换照片</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>群组照片</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>相机</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>图库</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>移除照片</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>添加费用</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>记录刚发生的事。</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>发生了什么？</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>晚餐</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>出租车</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>杂货</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>门票</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>餐饮</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>交通</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>杂货</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>门票</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>住宿</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>饮品</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>咖啡</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>娱乐</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>晚餐、杂货、出租车...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>于</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>付款人</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>任何参与者都可以付款，与责任无关。</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>谁参与了？</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>默认包含所有人。</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>选择要包含的人。受抚养人跟随其负责人。</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>分摊预览</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>输入金额和参与者以预览。</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>调整分摊</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>分摊：</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>均分</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>精确</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>此后</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>谁欠谁将显示在这里。</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>附加媒体</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>拍照</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>附件将在保存后关联。</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>照片将在保存后关联。</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>此设备不支持相机拍摄。</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>可选</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>事件已保存。</value>
+  </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>仅成人</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>成人</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>受抚养人</value>
+  </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>分摊模式</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ 自动</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 固定金额</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% 百分比</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>结算</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>谁欠什么</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>仅在钱款实际转手时记录付款。</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>结算基于参与者，因此报销给实际付款的人。</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>责任摘要（可读性）</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>大家已两清。</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>仅在钱款实际转手时记录付款。</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>记录自定义付款</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>记录付款</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>记录真实付款，保持群组时间线真实。</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>谁付款？</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>谁收款？</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>保存付款</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>建议</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>确认付款</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>金额</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>导出此群组</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>原始数据 (JSON)</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>电子表格 (CSV)</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>摘要 (PDF)</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>导出群组</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>导出失败。{0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>你想如何导出？</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>保存到设备</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>分享...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>"{0}" 已保存到下载。</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>标题为必填项。</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>请输入有效金额。</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>选择付款人。</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>至少选择一个人。</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>成员姓名为必填项。</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>成员姓名在此群组中必须唯一。</value>
+  </data>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>未找到群组。</value>
+  </data>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>群组名称为必填项。</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>选择货币。</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>至少添加一个人。</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>请输入有效的自定义权重（例如 0.5）。</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>当消费设为自定义时，自定义权重为必填项。</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>此群组已归档且为只读。</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>未找到成员。</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>未找到负责人。</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>一个人不能依赖于自己。</value>
+  </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>此人正在对其他人负责时，不能将其设为受抚养人。</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>不允许循环依赖。</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>切换群组</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>（当前）</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>已归档群组</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ 新建群组</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>创建群组</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>群组名称</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>参与者姓名</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>已归档群组</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>这些群组已关闭。你仍可阅读和导出。</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>暂无已归档群组。</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>已归档群组显示在这里。</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>已归档</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>选择两个人。</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>付款需要两个不同的人。</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>总额必须与金额匹配</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>删除费用</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>确定要删除此费用吗？</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>固定总额：{0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>未找到费用。</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>选择你的首选语言。</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>语言已更新。</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>个人资料</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>设置你的姓名，以便在各群组中将自己标记为（我）。</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>我的姓名</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>输入你的姓名</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>保存个人资料</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>深色主题</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>个人资料已更新。</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>系统默认</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>葡萄牙语</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>我</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>没有可用的群组。</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>欧元</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>美元</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>英镑</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>瑞士法郎</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>日元</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>人民币</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>印度卢比</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>澳大利亚元</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>加拿大元</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>巴西雷亚尔</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>墨西哥比索</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>阿根廷比索</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>智利比索</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>哥伦比亚比索</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>秘鲁索尔</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>瑞典克朗</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>挪威克朗</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>丹麦克朗</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>波兰兹罗提</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>捷克克朗</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>匈牙利福林</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>罗马尼亚列伊</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>土耳其里拉</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>阿联酋迪拉姆</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>沙特里亚尔</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>韩元</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>新加坡元</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>港元</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>新西兰元</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>南非兰特</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>货币为必填项。</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>每个人都需要姓名。</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>成员</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>所有人</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>和</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>在 {0} 之间均分</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>在 {0} 之间按权重分摊</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>在 {0} 之间按百分比分摊</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>在 {0} 之间按自定义金额分摊</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>{0} 的自定义金额</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>{0} 的责任</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>{0} 的责任</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>付款</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0} 支付了 {1}</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>已记录付款</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0} 添加了 {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0} 支付了 {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>已记录付款</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0} 欠 {1}</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>现在大家已两清。</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0} 人准备就绪</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0} 人 · {1} 个事件</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} 人</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>暂无活动</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} 笔费用</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} 笔费用</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} 笔付款</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} 笔付款</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} 笔费用 · {1} 笔付款</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} 人</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>我</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>当前群组</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>打开于 {0}</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>最近活动 {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>准备好第一个事件</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>添加第一个事件。</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>已结清。</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>群组</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>家庭</value>
+  </data>
+
+  <!-- Additional languages -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>阿拉伯语</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>印地语</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>印尼语</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>土耳其语</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>繁体中文</value>
+  </data>
+
+</root>

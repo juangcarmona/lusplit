@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>Aktivitas</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>Peristiwa terbaru dari grup Anda saat ini.</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>Belum ada apa-apa di sini.</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>Buka grup dan tambahkan peristiwa pertama.</value>
+  </data>
+
+  <!-- Groups (Home) -->
+  <data name="Groups_Title" xml:space="preserve">
+    <value>Grup</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Beranda</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>Belum ada saldo</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>Semua saldo lunas</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>Membayar untuk orang lain: {0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>Bayar</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Aktivitas terbaru</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 peristiwa</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>Belum ada aktivitas</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>Belum ada pengeluaran atau pembayaran</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Semua sudah beres</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Pengeluaran bersama, dan catatan yang jelas.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Lacak pengeluaran secara rinci, lihat siapa berhutang kepada siapa.</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>Lihat grup yang diarsipkan</value>
+  </data>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>Lanjutkan dari tempat Anda berhenti atau mulai grup baru.</value>
+  </data>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>Belum ada grup.</value>
+  </data>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>Buat grup pertama Anda dan mulai tambahkan peristiwa.</value>
+  </data>
+  <data name="Groups_Open" xml:space="preserve">
+    <value>Buka</value>
+  </data>
+  <data name="Groups_Details" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ Grup baru</value>
+  </data>
+  <data name="Groups_Active" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+
+  <!-- Group timeline -->
+  <data name="Group_Title" xml:space="preserve">
+    <value>Grup</value>
+  </data>
+  <data name="Group_DetailsButton" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Edit grup</value>
+  </data>
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
+    <value>Siapa berhutang apa</value>
+  </data>
+  <data name="Group_EveryoneEven" xml:space="preserve">
+    <value>Semua sudah beres sekarang.</value>
+  </data>
+  <data name="Group_SettleUp" xml:space="preserve">
+    <value>Lunaskan</value>
+  </data>
+  <data name="Group_Events" xml:space="preserve">
+    <value>Peristiwa</value>
+  </data>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>Grup Anda siap.</value>
+  </data>
+  <data name="Group_EmptySubtitle" xml:space="preserve">
+    <value>Tambahkan pengeluaran pertama di bawah.</value>
+  </data>
+  <data name="Group_AddExpense" xml:space="preserve">
+    <value>+ Tambah pengeluaran</value>
+  </data>
+  <data name="Group_RecordPayment" xml:space="preserve">
+    <value>Catat pembayaran</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>Lainnya</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Ringkasan</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Pengeluaran</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+
+  <!-- Group Details -->
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>Detail grup</value>
+  </data>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>Grup baru</value>
+  </data>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>Detail grup</value>
+  </data>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>Atur grup sekali, lalu mulai tambahkan peristiwa.</value>
+  </data>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>Perbarui dasar-dasarnya dan siapkan grup untuk peristiwa berikutnya.</value>
+  </data>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>Nama grup</value>
+  </data>
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
+    <value>Beach weekend, cabin stay...</value>
+  </data>
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
+    <value>Mata uang</value>
+  </data>
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
+    <value>Orang</value>
+  </data>
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
+    <value>Biarkan kosong untuk peserta independen. Gunakan nama yang sama untuk mengelompokkan tanggungan di bawah satu peserta penanggung jawab.</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>Setiap orang independen secara default. Tanggung jawab bersama tidak mengubah siapa yang bisa membayar.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
+    <value>Belum ada orang.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>Tambahkan setidaknya satu orang sebelum menyimpan grup.</value>
+  </data>
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
+    <value>Tambah orang</value>
+  </data>
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>Masukkan nama orang</value>
+  </data>
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>Nama tanggung jawab (opsional)</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>Nama tanggung jawab (opsional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>Bergantung pada (opsional)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>Independen (default)</value>
+  </data>
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
+    <value>Tambah orang</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>Kelola orang</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>Simpan orang</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>Orang ini saat ini menjadi penanggung jawab untuk orang lain. Perbarui tanggungan terlebih dahulu untuk mengubah tanggung jawab.</value>
+  </data>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>Buat grup</value>
+  </data>
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
+    <value>Simpan grup</value>
+  </data>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>Ekspor grup</value>
+  </data>
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>Arsipkan grup</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>Arsipkan grup ini?</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>Grup ini akan diarsipkan. Anda masih bisa melihat dan mengekspornya, tetapi tidak bisa menambah pengeluaran baru.</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>Arsipkan</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>Grup ini diarsipkan dan hanya bisa dibaca.</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>Bagian konsumsi</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>Penuh</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>Setengah</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>Bobot kustom</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>mis. 0.5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>Penanggung jawab</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>Tanggungan</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>independen</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>bergantung pada {0}</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>membayar untuk {0} orang</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Independen</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>Bergantung pada: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>Membayar untuk: {0}</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>Tambahkan setiap peserta. Biarkan tanggung jawab kosong jika independen, atau gunakan kembali nama tanggung jawab untuk menandai tanggungan.</value>
+  </data>
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
+    <value>Melunasi sendiri</value>
+  </data>
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
+    <value>Orang ditambahkan.</value>
+  </data>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>Orang ditambahkan ke grup baru.</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>Orang diperbarui.</value>
+  </data>
+  <data name="GroupDetails_Remove" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Ganti foto</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Foto grup</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Kamera</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Galeri</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Hapus foto</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>Tambah pengeluaran</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>Catat apa yang baru saja terjadi.</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>Apa yang terjadi?</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>Makan malam</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>Taksi</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>Belanjaan</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>Tiket</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>Kustom</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Lainnya</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Makanan</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Transportasi</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Belanjaan</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Tiket</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Menginap</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>Minuman</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Kopi</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Hiburan</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>Judul</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>Makan malam, belanjaan, taksi...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Ikon</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>pada</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>Dibayar oleh</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>Peserta apa pun bisa menjadi pembayar, terlepas dari tanggung jawab.</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>Siapa yang ikut?</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>Semua orang ikut secara default.</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>Pilih orang untuk disertakan. Tanggungan mengikuti peserta penanggung jawabnya.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>Pratinjau pembagian</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>Masukkan jumlah dan peserta untuk pratinjau.</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Sesuaikan pembagian</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>Pembagian:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>Sama</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>Tepat</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>Simpan</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>Setelah ini</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>Siapa berhutang kepada siapa akan muncul di sini.</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Lampirkan media</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Ambil foto</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>Lampiran akan ditautkan setelah disimpan.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>Foto akan ditautkan setelah disimpan.</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>Pengambilan foto dengan kamera tidak didukung di perangkat ini.</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Catatan</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>Opsional</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>Peristiwa disimpan.</value>
+  </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>Pilih semua</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>Hanya dewasa</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>Dewasa</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>Tanggungan</value>
+  </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Mode pembagian</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Otomatis</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Jumlah tetap</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Persentase</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>Lunaskan</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>Siapa berhutang apa</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>Catat pembayaran hanya ketika uang benar-benar berpindah tangan.</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>Penyelesaian berbasis peserta sehingga penggantian uang diberikan kepada yang benar-benar membayar.</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>Ringkasan tanggung jawab (keterbacaan)</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>Semua sudah beres.</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>Catat pembayaran hanya ketika uang benar-benar berpindah tangan.</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>Catat pembayaran kustom</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>Catat pembayaran</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>Catat pembayaran nyata dan jaga linimasa grup tetap jujur.</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>Siapa yang membayar?</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>Siapa yang menerimanya?</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>Simpan pembayaran</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>Saran</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>Konfirmasi pembayaran</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>Jumlah</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Batal</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>Ekspor grup ini</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>Data mentah (JSON)</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>Lembar kerja (CSV)</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>Ringkasan (PDF)</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>Ekspor grup</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>Ekspor gagal. {0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>Bagaimana Anda ingin mengekspor?</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>Simpan ke perangkat</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>Bagikan...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>"{0}" disimpan ke Unduhan.</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>Judul wajib diisi.</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>Masukkan jumlah yang valid.</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>Pilih pembayar.</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>Pilih setidaknya satu orang.</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>Nama orang wajib diisi.</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>Nama orang harus unik di grup ini.</value>
+  </data>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>Grup tidak ditemukan.</value>
+  </data>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>Nama grup wajib diisi.</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>Pilih mata uang.</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>Tambahkan setidaknya satu orang.</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>Masukkan bobot kustom yang valid (mis. 0.5).</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>Bobot kustom wajib diisi ketika konsumsi diatur ke Kustom.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>Grup ini diarsipkan dan hanya bisa dibaca.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>Orang tidak ditemukan.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>Penanggung jawab tidak ditemukan.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>Seseorang tidak bisa bergantung pada dirinya sendiri.</value>
+  </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Tidak bisa menjadikan orang ini tanggungan saat mereka menjadi penanggung jawab untuk orang lain.</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>Ketergantungan melingkar tidak diperbolehkan.</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>Ganti grup</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(Saat ini)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>Pilih</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>Grup yang diarsipkan</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ Grup baru</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>Buat grup</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>Nama grup</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>Mata uang</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>Lanjutkan</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>Nama peserta</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Tambah</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>Buat</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>Grup yang diarsipkan</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>Grup-grup ini sudah ditutup. Anda masih bisa membaca dan mengekspornya.</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>Belum ada grup yang diarsipkan.</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>Grup yang diarsipkan muncul di sini.</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>Diarsipkan</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>Pilih kedua orang.</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>Pembayaran membutuhkan dua orang yang berbeda.</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>Total harus sesuai dengan jumlah</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>Hapus pengeluaran</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus pengeluaran ini?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Total tetap: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Pengeluaran tidak ditemukan.</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Pengaturan</value>
+  </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>Versi</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>Pilih bahasa yang Anda inginkan.</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>Bahasa diperbarui.</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Atur nama Anda untuk menandai diri Anda sebagai (saya) di seluruh grup.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>Nama saya</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Masukkan nama Anda</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Simpan profil</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Tema gelap</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profil diperbarui.</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>Default Sistem</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>Inggris</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Spanyol</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>Prancis</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>Jerman</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italia</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Portugis</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>Saya</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>Tidak ada grup yang tersedia.</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>Mata Uang</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>Euro</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>Dolar AS</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>Pound Inggris</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>Franc Swiss</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>Yen Jepang</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>Yuan Tiongkok</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>Rupee India</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>Dolar Australia</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>Dolar Kanada</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>Real Brasil</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>Peso Meksiko</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>Peso Argentina</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>Peso Chili</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>Peso Kolombia</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>Sol Peru</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>Krona Swedia</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>Krone Norwegia</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>Krone Denmark</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>Złoty Polandia</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>Koruna Ceko</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>Forint Hongaria</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>Leu Rumania</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>Lira Turki</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>Dirham UEA</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>Riyal Arab Saudi</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>Won Korea Selatan</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>Dolar Singapura</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>Dolar Hong Kong</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>Dolar Selandia Baru</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>Rand Afrika Selatan</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>Mata uang wajib diisi.</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>Setiap orang membutuhkan nama.</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>Orang</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>semua orang</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>dan</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>Dibagi sama rata antara {0}</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>Dibagi dengan bobot antara {0}</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>Dibagi dengan persentase antara {0}</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>Dibagi dengan jumlah kustom antara {0}</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>Jumlah kustom untuk {0}</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>Tanggung jawab {0}</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>Tanggung jawab {0}</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>Pembayaran</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0} membayar {1}</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>Pembayaran tercatat</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0} menambahkan {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0} membayar {1}</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>Pembayaran tercatat</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0} berhutang {1}</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>Semua sudah beres sekarang.</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0} orang siap</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0} orang · {1} peristiwa</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} orang</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>tidak ada aktivitas</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} pengeluaran</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} pengeluaran</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} pembayaran</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} pembayaran</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} pengeluaran · {1} pembayaran</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} orang</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>Hari ini</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>Kemarin</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>saya</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>Grup saat ini</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>Dibuka {0}</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>Aktivitas terbaru {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>Siap untuk peristiwa pertama</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>Tambahkan peristiwa pertama.</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>Lunas.</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>Grup</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>Rumah tangga</value>
+  </data>
+
+  <!-- Language names (additional) -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Arab</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Indonesia</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Jepang</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Korea</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Rusia</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Turki</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>Tiongkok Sederhana</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>Tiongkok Tradisional</value>
+  </data>
+
+</root>

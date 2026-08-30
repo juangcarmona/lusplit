@@ -12,7 +12,7 @@
     <Color x:Key="PositiveSoftGreen">#16A34A</Color>
     <Color x:Key="OwesWarmAmber">#F59E0B</Color>
     <Color x:Key="ErrorSoftRed">#DC2626</Color>
-    <Color x:Key="TextMutedGray">#6B7280</Color>
+    <Color x:Key="TextMutedGray">#5B6470</Color>
     <Color x:Key="BackgroundDark">#0F172A</Color>
 
     <Color x:Key="CardLight">#FFFFFF</Color>

@@ -1,0 +1,82 @@
+schema: product-definition-as-code/recovery-brief/v1alpha1
+scope: LuSplit — a personal offline-first expense-splitting app for families and friends, no accounts, no paywalls
+roots:
+  - src
+  - tests
+  - docs/product-def
+# include: let default '**/*' apply — explicit extensions caused empty inventory on Windows
+exclude:
+  - '**/bin/**'
+  - '**/obj/**'
+  - 'src/LuSplit.App/bin/**'
+  - 'src/LuSplit.App/obj/**'
+  - 'website/**'
+  - 'build_output.txt'
+  - 'build_*.txt'
+forbidden:
+  - '**/.env'
+  - '**/.env.*'
+  - '**/*.pem'
+  - '**/*.key'
+ignore:
+  - '**/generated/**'
+  - 'docs/product/**'
+  - '.product/**'
+  - '.github/skills/**'
+  - '.github/prompts/**'
+languages:
+  - en
+known-actors:
+  - Group member
+  - Group creator
+known-journeys:
+  - Create a group and add members
+  - Log a shared expense and split it
+  - View balances and settle up
+  - Record a payment between members
+  - Export group expenses
+known-use-cases:
+  - Add expense with equal or custom split
+  - Record payment between two members
+  - Calculate balances and suggest settlements
+  - Export expenses as PDF or CSV
+  - Archive a group
+known-terminology:
+  - group
+  - expense
+  - split
+  - payment
+  - settlement
+  - balance
+  - participant
+  - member
+  - archive
+  - export
+synonyms:
+  friend: member
+  person: participant
+  settle up: settlement
+  owe: balance
+known-contradictions:
+  - REPO_STRUCTURE.md references docs/product/ but Juan moved product docs to docs/product-def/ to avoid collision with prodshape output
+authority:
+  - Tests over code comments
+  - Domain layer over Application layer when rules conflict
+  - Code over documentation
+  - The user over everything
+secondary-evidence:
+  code: true
+  tests: true
+  issues: false
+  commit-history: false
+  external: true
+batch-size: 15
+confirm:
+  - Anything about settlement planning algorithm
+  - Any actor beyond group member and group creator
+  - Any bounded context beyond the core expense-splitting context
+external-sources:
+  - file: docs/ARCHITECTURE.md
+    title: Architecture — project responsibilities, dependency direction, MVVM pattern
+  - file: docs/REPO_STRUCTURE.md
+    title: Repository structure — source tree and project roles

@@ -278,6 +278,15 @@ public static class AppResources
     public static string Language_German => Get(nameof(Language_German));
     public static string Language_Italian => Get(nameof(Language_Italian));
     public static string Language_Portuguese => Get(nameof(Language_Portuguese));
+    public static string Language_Arabic => Get(nameof(Language_Arabic));
+    public static string Language_Hindi => Get(nameof(Language_Hindi));
+    public static string Language_Indonesian => Get(nameof(Language_Indonesian));
+    public static string Language_Japanese => Get(nameof(Language_Japanese));
+    public static string Language_Korean => Get(nameof(Language_Korean));
+    public static string Language_Russian => Get(nameof(Language_Russian));
+    public static string Language_Turkish => Get(nameof(Language_Turkish));
+    public static string Language_ChineseSimplified => Get(nameof(Language_ChineseSimplified));
+    public static string Language_ChineseTraditional => Get(nameof(Language_ChineseTraditional));
     public static string Common_MeCapitalized => Get(nameof(Common_MeCapitalized));
     public static string Startup_NoGroupsAvailable => Get(nameof(Startup_NoGroupsAvailable));
     public static string Currency_DisplayFormat => Get(nameof(Currency_DisplayFormat));

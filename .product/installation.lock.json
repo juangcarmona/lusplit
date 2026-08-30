@@ -1,0 +1,34 @@
+{
+  "schema": "product-definition-as-code/installation-lock/v1alpha1",
+  "version": "0.16.0",
+  "providers": {
+    "copilot": {
+      "files": {
+        ".github/prompts/product-audit.prompt.md": "sha256:6a362adf77cf109a250aade26a4a2022ad36cc8a2653b056a48179f30b0ee034",
+        ".github/prompts/product-change.prompt.md": "sha256:65f974492e8eb0cc881b29700555acfe980d50073a2a0ab518f78deafe4ce9bf",
+        ".github/prompts/product-define.prompt.md": "sha256:c487d59fc52aa76be79d10b4e007eb94148b9f083106cca203cbbee1eea94afa",
+        ".github/prompts/product-explore.prompt.md": "sha256:121bc12332f19b5f2353168187de8cf8f93705b5ddeb1e94ba81eaa098cf0dc7",
+        ".github/prompts/product-impact.prompt.md": "sha256:460b6141688fee33aebe8e2565eea774bf42f2b29a44b4d598fbd1085f21058c",
+        ".github/prompts/product-recover.prompt.md": "sha256:4a72a997162db9e7dd502b09c4c888b8d01bbb11834909cd3b23e4c0c5612ec6",
+        ".github/skills/analyze-product-change/references/change-template-guide.md": "sha256:489210efaaafd40e0e53f34648896b39fa321f58a0eb2d8c4bf96aa75e791dc7",
+        ".github/skills/analyze-product-change/references/operations-checklist.md": "sha256:daaff01e70dd2666c89282ae6dc6cfc6c3d1774f18e0b4ddf60359f43ef4673b",
+        ".github/skills/analyze-product-change/SKILL.md": "sha256:f82628f1818f97a56df3cc39c1a474903b5c2fcf7165fac30e8c299cb31d0014",
+        ".github/skills/audit-product-model/references/diagnostic-codes.md": "sha256:a6ddb63de04d883434c2781e2079806e3cf373ba5e98db0188983b26bdd63182",
+        ".github/skills/audit-product-model/references/finding-classification.md": "sha256:624265b24e14bd50350373a47b24325e6cf8a1cfd08e870c0ba9ac792b3f0fde",
+        ".github/skills/audit-product-model/SKILL.md": "sha256:036f7865dc2880a37a582f157c3d28d6c164adeb63d053c0744db0483177e543",
+        ".github/skills/define-product/references/authoring-order.md": "sha256:b71691a3188b16557dcffa8b707414709a57414ae0e46fa3ecb1cd6625535189",
+        ".github/skills/define-product/SKILL.md": "sha256:df484b6a593600b9efd6a1920c336aa43ae24888ad018dc2439ee7397685dfb7",
+        ".github/skills/explore-product/references/exploration-heuristics.md": "sha256:e82704ce3b0ace0222a5a27a4a9e346131ebaf69d6af797553767056634132c0",
+        ".github/skills/explore-product/SKILL.md": "sha256:a34f0723692e5d5b5324e4fa36516150405e35f40294709e7e6ef5eea10d53b7",
+        ".github/skills/recover-product/references/artifact-extraction.md": "sha256:781837035e413c83ec52083e48f1997622b5c954c058e9084cf6e996917bcd8c",
+        ".github/skills/recover-product/references/completion-criteria.md": "sha256:12a43457de96fc2dcaf4c683441f143de213af8b4f3891245de4bf1099239778",
+        ".github/skills/recover-product/references/evidence-classification.md": "sha256:0edfc47ec7c1c98cfdfa4230728111df29ecc736aff21bf6f16227f4f9ddae38",
+        ".github/skills/recover-product/references/evidence-sources.md": "sha256:1de395443eefc4a54f5e5d86d6712ee9cf20d2fe070c89a006390590877df6a5",
+        ".github/skills/recover-product/references/provenance-format.md": "sha256:86c38de1da51e8e66ccbaeb4e8a50207a9fe1f1b87337af39fc19d22a3fb296a",
+        ".github/skills/recover-product/references/reconciliation.md": "sha256:38cd6b6d7afec24d215e97c48ba6eb81096bdf643334de51cff3d0e23c2fa350",
+        ".github/skills/recover-product/references/recovery-workflow.md": "sha256:a3e5f282ae8831222f0a47c35a1e45ad837013636e7ee364d9b4ba910b015902",
+        ".github/skills/recover-product/SKILL.md": "sha256:f95209012ac3e85460494c22f59a5ea518d1d694fc4ad4cd14fb7b46aac4ab42"
+      }
+    }
+  }
+}

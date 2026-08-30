@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "extensions": {
+    "git": {
+      "version": "1.0.0",
+      "source": "local",
+      "manifest_hash": "sha256:9731aa8143a72fbebfdb440f155038ab42642517c2b2bdbbf67c8fdbe076ed79",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "copilot": [
+          "speckit.git.feature",
+          "speckit.git.validate",
+          "speckit.git.remote",
+          "speckit.git.initialize",
+          "speckit.git.commit"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-08-24T13:41:37.309115+00:00"
+    },
+    "pdac": {
+      "version": "0.1.0",
+      "source": "local",
+      "manifest_hash": "sha256:f3e83b9cb9aacbfaadcf240026656aea383ceb653609bd7023bf397be666e57c",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "copilot": [
+          "speckit.pdac.context",
+          "speckit.pdac.verify"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-08-24T13:41:52.882244+00:00"
+    }
+  }
+}

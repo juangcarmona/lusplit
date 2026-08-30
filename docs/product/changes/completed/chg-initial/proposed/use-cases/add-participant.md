@@ -1,0 +1,49 @@
+---
+id: UC-002
+type: use-case
+title: Add participant to group
+status: draft
+primary-actor: ACT-002
+supporting-actors: []
+governed-by: [BR-001, BR-005]
+uses-terms: [TERM-PARTICIPANT, TERM-ECONOMIC-UNIT, TERM-CONSUMPTION-CATEGORY]
+provenance:
+  source: src/LuSplit.Application/Groups/Commands/CreateParticipantUseCase.cs
+  confidence: high
+  recovered-from: observation
+---
+
+## Goal
+
+Add a person as a participant in a group, assigned to an economic unit.
+
+## Trigger
+
+User adds a participant during group creation or from group details.
+
+## Preconditions
+
+The group exists and is not archived. The economic unit exists in the group.
+
+## Main Flow
+
+1. User provides a participant name.
+2. User selects the economic unit (household) for the participant.
+3. User optionally sets the consumption category (Full, Half, Custom).
+4. System creates the participant in the group.
+
+## Postconditions
+
+## Alternative Flows
+
+- User skips setting the consumption category (defaults to Full).
+- User assigns the participant to a different economic unit after creation.
+
+## Failure Conditions
+
+- The group is archived.
+- The specified economic unit does not exist in the group.
+
+## Postconditions
+
+A new participant exists in the group, belonging to the specified economic unit.

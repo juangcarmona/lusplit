@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Activity -->
+  <data name="Activity_Title" xml:space="preserve">
+    <value>Aktivite</value>
+  </data>
+  <data name="Activity_Subtitle" xml:space="preserve">
+    <value>Mevcut grubunuzdan son etkinlikler.</value>
+  </data>
+  <data name="Activity_EmptyTitle" xml:space="preserve">
+    <value>Burada henüz bir şey yok.</value>
+  </data>
+  <data name="Activity_EmptySubtitle" xml:space="preserve">
+    <value>Bir grup açın ve ilk etkinliği ekleyin.</value>
+  </data>
+
+  <!-- Groups (Home) -->
+  <data name="Groups_Title" xml:space="preserve">
+    <value>Gruplar</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Ana sayfa</value>
+  </data>
+  <data name="Home_NoBalancesYet" xml:space="preserve">
+    <value>Henüz bakiye yok</value>
+  </data>
+  <data name="Home_AllSettled" xml:space="preserve">
+    <value>Tüm bakiyeler kapatıldı</value>
+  </data>
+  <data name="Home_UnsettledFormat" xml:space="preserve">
+    <value>Başkaları için ödendi: {0}</value>
+  </data>
+  <data name="Home_PayButton" xml:space="preserve">
+    <value>Öde</value>
+  </data>
+  <data name="Home_RecentExpenses" xml:space="preserve">
+    <value>Son aktivite</value>
+  </data>
+  <data name="Home_OverviewNoActivityCount" xml:space="preserve">
+    <value>0 etkinlik</value>
+  </data>
+  <data name="Home_OverviewNoActivityText" xml:space="preserve">
+    <value>Henüz aktivite yok</value>
+  </data>
+  <data name="Home_ExpensesEmpty" xml:space="preserve">
+    <value>Henüz gider veya ödeme yok</value>
+  </data>
+  <data name="Home_BalancesEmpty" xml:space="preserve">
+    <value>Herkes eşit</value>
+  </data>
+  <data name="Home_NoGroupsTitle" xml:space="preserve">
+    <value>Ortak giderler ve net hesaplar.</value>
+  </data>
+  <data name="Home_NoGroupsSubtitle" xml:space="preserve">
+    <value>Giderleri detaylı takip edin, kimin kime borçlu olduğunu görün.</value>
+  </data>
+  <data name="Groups_ViewArchived" xml:space="preserve">
+    <value>Arşivlenen grupları görüntüle</value>
+  </data>
+  <data name="Groups_Subtitle" xml:space="preserve">
+    <value>Kaldığınız yerden devam edin veya yeni bir grup başlatın.</value>
+  </data>
+  <data name="Groups_EmptyTitle" xml:space="preserve">
+    <value>Henüz grup yok.</value>
+  </data>
+  <data name="Groups_EmptySubtitle" xml:space="preserve">
+    <value>İlk grubunuzu oluşturun ve etkinlik eklemeye başlayın.</value>
+  </data>
+  <data name="Groups_Open" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="Groups_Details" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="Groups_NewGroup" xml:space="preserve">
+    <value>+ Yeni grup</value>
+  </data>
+  <data name="Groups_Active" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+
+  <!-- Group timeline -->
+  <data name="Group_Title" xml:space="preserve">
+    <value>Grup</value>
+  </data>
+  <data name="Group_DetailsButton" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="Group_EditGroup" xml:space="preserve">
+    <value>Grubu düzenle</value>
+  </data>
+  <data name="Group_WhoOwesWhat" xml:space="preserve">
+    <value>Kim neye borçlu</value>
+  </data>
+  <data name="Group_EveryoneEven" xml:space="preserve">
+    <value>Şu an herkes eşit.</value>
+  </data>
+  <data name="Group_SettleUp" xml:space="preserve">
+    <value>Hesaplaş</value>
+  </data>
+  <data name="Group_Events" xml:space="preserve">
+    <value>Etkinlikler</value>
+  </data>
+  <data name="Group_EmptyTitle" xml:space="preserve">
+    <value>Grubunuz hazır.</value>
+  </data>
+  <data name="Group_EmptySubtitle" xml:space="preserve">
+    <value>İlk gideri aşağıdan ekleyin.</value>
+  </data>
+  <data name="Group_AddExpense" xml:space="preserve">
+    <value>+ Gider ekle</value>
+  </data>
+  <data name="Group_RecordPayment" xml:space="preserve">
+    <value>Ödeme kaydet</value>
+  </data>
+  <data name="Group_OverflowLabel" xml:space="preserve">
+    <value>Daha fazla</value>
+  </data>
+  <data name="Group_TabOverview" xml:space="preserve">
+    <value>Genel bakış</value>
+  </data>
+  <data name="Group_TabExpenses" xml:space="preserve">
+    <value>Giderler</value>
+  </data>
+  <data name="Group_TabBalances" xml:space="preserve">
+    <value>Bakiyeler</value>
+  </data>
+
+  <!-- Group Details -->
+  <data name="GroupDetails_Title" xml:space="preserve">
+    <value>Grup detayları</value>
+  </data>
+  <data name="GroupDetails_PageTitleCreate" xml:space="preserve">
+    <value>Yeni grup</value>
+  </data>
+  <data name="GroupDetails_PageTitleEdit" xml:space="preserve">
+    <value>Grup detayları</value>
+  </data>
+  <data name="GroupDetails_SubtitleCreate" xml:space="preserve">
+    <value>Grubu bir kez ayarlayın, sonra etkinlik eklemeye başlayın.</value>
+  </data>
+  <data name="GroupDetails_SubtitleEdit" xml:space="preserve">
+    <value>Temel bilgileri güncelleyin ve grubu bir sonraki etkinliğe hazır tutun.</value>
+  </data>
+  <data name="GroupDetails_GroupNameLabel" xml:space="preserve">
+    <value>Grup adı</value>
+  </data>
+  <data name="GroupDetails_GroupNamePlaceholder" xml:space="preserve">
+    <value>Beach weekend, cabin stay...</value>
+  </data>
+  <data name="GroupDetails_CurrencyLabel" xml:space="preserve">
+    <value>Para birimi</value>
+  </data>
+  <data name="GroupDetails_PeopleSection" xml:space="preserve">
+    <value>Kişiler</value>
+  </data>
+  <data name="GroupDetails_HouseholdHint" xml:space="preserve">
+    <value>Bağımsız katılımcılar için boş bırakın. Bağımlıları tek bir sorumlu katılımcı altında gruplandırmak için aynı adı kullanın.</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityHint" xml:space="preserve">
+    <value>Her kişi varsayılan olarak bağımsızdır. Ortak sorumluluk kimin ödeyebileceğini değiştirmez.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleTitle" xml:space="preserve">
+    <value>Henüz kişi yok.</value>
+  </data>
+  <data name="GroupDetails_NoPeopleSubtitle" xml:space="preserve">
+    <value>Grubu kaydetmeden önce en az bir kişi ekleyin.</value>
+  </data>
+  <data name="GroupDetails_AddPersonSection" xml:space="preserve">
+    <value>Kişi ekle</value>
+  </data>
+  <data name="GroupDetails_PersonNamePlaceholder" xml:space="preserve">
+    <value>Alex</value>
+  </data>
+  <data name="GroupDetails_PersonNamePrompt" xml:space="preserve">
+    <value>Kişi adını girin</value>
+  </data>
+  <data name="GroupDetails_HouseholdNamePlaceholder" xml:space="preserve">
+    <value>Sorumluluk adı (isteğe bağlı)</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityNamePlaceholder" xml:space="preserve">
+    <value>Sorumluluk adı (isteğe bağlı)</value>
+  </data>
+  <data name="GroupDetails_DependsOnLabel" xml:space="preserve">
+    <value>Bağlı olduğu (isteğe bağlı)</value>
+  </data>
+  <data name="GroupDetails_DependsOnPlaceholder" xml:space="preserve">
+    <value>Bağımsız (varsayılan)</value>
+  </data>
+  <data name="GroupDetails_AddPersonButton" xml:space="preserve">
+    <value>Kişi ekle</value>
+  </data>
+  <data name="GroupDetails_ManagePersonSection" xml:space="preserve">
+    <value>Kişiyi yönet</value>
+  </data>
+  <data name="GroupDetails_SavePersonChangesButton" xml:space="preserve">
+    <value>Kişiyi kaydet</value>
+  </data>
+  <data name="GroupDetails_EditDependencyLockedHint" xml:space="preserve">
+    <value>Bu kişi şu anda başkalarından sorumlu. Sorumluluğu değiştirmek için önce bağımlıları güncelleyin.</value>
+  </data>
+  <data name="GroupDetails_CreateButton" xml:space="preserve">
+    <value>Grup oluştur</value>
+  </data>
+  <data name="GroupDetails_SaveButton" xml:space="preserve">
+    <value>Grubu kaydet</value>
+  </data>
+  <data name="GroupDetails_ExportButton" xml:space="preserve">
+    <value>Grubu dışa aktar</value>
+  </data>
+  <data name="GroupDetails_ArchiveButton" xml:space="preserve">
+    <value>Grubu arşivle</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmTitle" xml:space="preserve">
+    <value>Bu grup arşivlensin mi?</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmMessage" xml:space="preserve">
+    <value>Bu grup arşivlenecek. Hala görüntüleyebilir ve dışa aktarabilirsiniz, ancak yeni gider ekleyemeyeceksiniz.</value>
+  </data>
+  <data name="GroupDetails_ArchiveConfirmYes" xml:space="preserve">
+    <value>Arşivle</value>
+  </data>
+  <data name="GroupDetails_ArchivedStatus" xml:space="preserve">
+    <value>Bu grup arşivlendi ve salt okunur.</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCategoryLabel" xml:space="preserve">
+    <value>Tüketim payı</value>
+  </data>
+  <data name="GroupDetails_ConsumptionFull" xml:space="preserve">
+    <value>Tam</value>
+  </data>
+  <data name="GroupDetails_ConsumptionHalf" xml:space="preserve">
+    <value>Yarım</value>
+  </data>
+  <data name="GroupDetails_ConsumptionCustom" xml:space="preserve">
+    <value>Özel ağırlık</value>
+  </data>
+  <data name="GroupDetails_CustomWeightPlaceholder" xml:space="preserve">
+    <value>örn. 0.5</value>
+  </data>
+  <data name="GroupDetails_PersonIsOwner" xml:space="preserve">
+    <value>Sorumlu</value>
+  </data>
+  <data name="GroupDetails_PersonIsDependent" xml:space="preserve">
+    <value>Bağımlı</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityIndependent" xml:space="preserve">
+    <value>bağımsız</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityDependsOn" xml:space="preserve">
+    <value>{0} kişisine bağlı</value>
+  </data>
+  <data name="GroupDetails_ResponsibilityResponsibleForPeople" xml:space="preserve">
+    <value>{0} kişi için ödüyor</value>
+  </data>
+  <data name="GroupDetails_DependencyIndependent" xml:space="preserve">
+    <value>Bağımsız</value>
+  </data>
+  <data name="GroupDetails_DependencyDependsOnFormat" xml:space="preserve">
+    <value>Bağlı olduğu: {0}</value>
+  </data>
+  <data name="GroupDetails_DependencyResponsibleForFormat" xml:space="preserve">
+    <value>Ödediği kişiler: {0}</value>
+  </data>
+  <data name="GroupDetails_AddPersonHint" xml:space="preserve">
+    <value>Her katılımcıyı ekleyin. Bağımsız ise sorumluluğu boş bırakın veya bağımlıları işaretlemek için bir sorumluluk adını yeniden kullanın.</value>
+  </data>
+  <data name="GroupDetails_SettlesOnOwn" xml:space="preserve">
+    <value>Kendi hesabını kapatır</value>
+  </data>
+  <data name="GroupDetails_PersonAdded" xml:space="preserve">
+    <value>Kişi eklendi.</value>
+  </data>
+  <data name="GroupDetails_PersonAddedNew" xml:space="preserve">
+    <value>Kişi yeni gruba eklendi.</value>
+  </data>
+  <data name="GroupDetails_PersonUpdated" xml:space="preserve">
+    <value>Kişi güncellendi.</value>
+  </data>
+  <data name="GroupDetails_Remove" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="GroupDetails_ChangePhotoButton" xml:space="preserve">
+    <value>Fotoğrafı değiştir</value>
+  </data>
+  <data name="GroupDetails_PhotoSectionTitle" xml:space="preserve">
+    <value>Grup fotoğrafı</value>
+  </data>
+  <data name="GroupDetails_PhotoFromCamera" xml:space="preserve">
+    <value>Kamera</value>
+  </data>
+  <data name="GroupDetails_PhotoFromGallery" xml:space="preserve">
+    <value>Galeri</value>
+  </data>
+  <data name="GroupDetails_PhotoRemove" xml:space="preserve">
+    <value>Fotoğrafı kaldır</value>
+  </data>
+
+  <!-- Add Event -->
+  <data name="AddEvent_Title" xml:space="preserve">
+    <value>Gider ekle</value>
+  </data>
+  <data name="AddEvent_Subtitle" xml:space="preserve">
+    <value>Az önce olanı kaydedin.</value>
+  </data>
+  <data name="AddEvent_WhatHappened" xml:space="preserve">
+    <value>Ne oldu?</value>
+  </data>
+  <data name="AddEvent_QuickDinner" xml:space="preserve">
+    <value>Akşam yemeği</value>
+  </data>
+  <data name="AddEvent_QuickTaxi" xml:space="preserve">
+    <value>Taksi</value>
+  </data>
+  <data name="AddEvent_QuickGroceries" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="AddEvent_QuickTickets" xml:space="preserve">
+    <value>Biletler</value>
+  </data>
+  <data name="AddEvent_QuickCustom" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="AddEvent_IconOption_AnythingElse" xml:space="preserve">
+    <value>Başka bir şey</value>
+  </data>
+  <data name="AddEvent_IconOption_Meal" xml:space="preserve">
+    <value>Yemek</value>
+  </data>
+  <data name="AddEvent_IconOption_Transport" xml:space="preserve">
+    <value>Ulaşım</value>
+  </data>
+  <data name="AddEvent_IconOption_Groceries" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="AddEvent_IconOption_Tickets" xml:space="preserve">
+    <value>Biletler</value>
+  </data>
+  <data name="AddEvent_IconOption_Stay" xml:space="preserve">
+    <value>Konaklama</value>
+  </data>
+  <data name="AddEvent_IconOption_Drinks" xml:space="preserve">
+    <value>İçecekler</value>
+  </data>
+  <data name="AddEvent_IconOption_Coffee" xml:space="preserve">
+    <value>Kahve</value>
+  </data>
+  <data name="AddEvent_IconOption_Fun" xml:space="preserve">
+    <value>Eğlence</value>
+  </data>
+  <data name="AddEvent_EventLabel" xml:space="preserve">
+    <value>Başlık</value>
+  </data>
+  <data name="AddEvent_EventPlaceholder" xml:space="preserve">
+    <value>Akşam yemeği, market, taksi...</value>
+  </data>
+  <data name="AddEvent_IconLabel" xml:space="preserve">
+    <value>Simge</value>
+  </data>
+  <data name="AddEvent_OnDate" xml:space="preserve">
+    <value>tarihinde</value>
+  </data>
+  <data name="AddEvent_PaidBy" xml:space="preserve">
+    <value>Ödeyen</value>
+  </data>
+  <data name="AddEvent_PayerHint" xml:space="preserve">
+    <value>Sorumluluktan bağımsız olarak her katılımcı ödeyen olabilir.</value>
+  </data>
+  <data name="AddEvent_WhoJoined" xml:space="preserve">
+    <value>Kim katıldı?</value>
+  </data>
+  <data name="AddEvent_EveryoneDefault" xml:space="preserve">
+    <value>Varsayılan olarak herkes dahildir.</value>
+  </data>
+  <data name="AddEvent_ParticipantHint" xml:space="preserve">
+    <value>Dahil etmek için bir kişi seçin. Bağımlılar sorumlu katılımcılarını izler.</value>
+  </data>
+  <data name="AddEvent_SplitPreviewTitle" xml:space="preserve">
+    <value>Bölme önizlemesi</value>
+  </data>
+  <data name="AddEvent_SplitPreviewHint" xml:space="preserve">
+    <value>Önizleme için tutarı ve katılımcıları girin.</value>
+  </data>
+  <data name="AddEvent_AdjustSplit" xml:space="preserve">
+    <value>Bölmeyi ayarla</value>
+  </data>
+  <data name="AddEvent_SplitLabel" xml:space="preserve">
+    <value>Bölme:</value>
+  </data>
+  <data name="AddEvent_SplitEqual" xml:space="preserve">
+    <value>Eşit</value>
+  </data>
+  <data name="AddEvent_SplitExact" xml:space="preserve">
+    <value>Tam</value>
+  </data>
+  <data name="AddEvent_SplitPercent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="AddEvent_SaveButton" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>
+  <data name="AddEvent_ImpactTitle" xml:space="preserve">
+    <value>Bundan sonra</value>
+  </data>
+  <data name="AddEvent_ImpactHint" xml:space="preserve">
+    <value>Kimin kime borçlu olduğu burada görünecek.</value>
+  </data>
+  <data name="AddEvent_AttachMedia" xml:space="preserve">
+    <value>Medya ekle</value>
+  </data>
+  <data name="AddEvent_TakePhoto" xml:space="preserve">
+    <value>Fotoğraf çek</value>
+  </data>
+  <data name="AddEvent_AttachMediaQueued" xml:space="preserve">
+    <value>Ek, kaydetmeden sonra bağlanacak.</value>
+  </data>
+  <data name="AddEvent_TakePhotoQueued" xml:space="preserve">
+    <value>Fotoğraf, kaydetmeden sonra bağlanacak.</value>
+  </data>
+  <data name="AddEvent_CameraNotSupported" xml:space="preserve">
+    <value>Bu cihazda kamera yakalama desteklenmiyor.</value>
+  </data>
+  <data name="AddEvent_NoteLabel" xml:space="preserve">
+    <value>Not</value>
+  </data>
+  <data name="AddEvent_NotePlaceholder" xml:space="preserve">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data name="AddEvent_Saved" xml:space="preserve">
+    <value>Etkinlik kaydedildi.</value>
+  </data>
+  <data name="AddEvent_SelectAll" xml:space="preserve">
+    <value>Tümünü seç</value>
+  </data>
+  <data name="AddEvent_AdultsOnly" xml:space="preserve">
+    <value>Sadece yetişkinler</value>
+  </data>
+  <data name="AddEvent_SectionAdults" xml:space="preserve">
+    <value>Yetişkinler</value>
+  </data>
+  <data name="AddEvent_SectionDependents" xml:space="preserve">
+    <value>Bağımlılar</value>
+  </data>
+  <data name="AddEvent_SplitMode_Title" xml:space="preserve">
+    <value>Bölme modu</value>
+  </data>
+  <data name="AddEvent_SplitMode_Auto" xml:space="preserve">
+    <value>⚖️ Otomatik</value>
+  </data>
+  <data name="AddEvent_SplitMode_Fixed" xml:space="preserve">
+    <value>💰 Sabit tutar</value>
+  </data>
+  <data name="AddEvent_SplitMode_Percentage" xml:space="preserve">
+    <value>% Yüzde</value>
+  </data>
+
+  <!-- Settlement -->
+  <data name="Settlement_Title" xml:space="preserve">
+    <value>Hesaplaş</value>
+  </data>
+  <data name="Settlement_WhoOwesWhat" xml:space="preserve">
+    <value>Kim neye borçlu</value>
+  </data>
+  <data name="Settlement_Subtitle" xml:space="preserve">
+    <value>Ödemeleri yalnızca para gerçekten el değiştirdiğinde kaydedin.</value>
+  </data>
+  <data name="Settlement_ParticipantFairnessHint" xml:space="preserve">
+    <value>Hesaplaşma katılımcı tabanlıdır, bu nedenle geri ödemeler gerçekten ödeyen kişiye gider.</value>
+  </data>
+  <data name="Settlement_ResponsibilitySummaryTitle" xml:space="preserve">
+    <value>Sorumluluk özeti (okunabilirlik)</value>
+  </data>
+  <data name="Settlement_EmptyTitle" xml:space="preserve">
+    <value>Herkes eşit.</value>
+  </data>
+  <data name="Settlement_EmptySubtitle" xml:space="preserve">
+    <value>Ödemeyi yalnızca para gerçekten el değiştirdiğinde kaydedin.</value>
+  </data>
+  <data name="Settlement_RecordPaymentButton" xml:space="preserve">
+    <value>Özel ödeme kaydet</value>
+  </data>
+
+  <!-- Record Payment -->
+  <data name="RecordPayment_Title" xml:space="preserve">
+    <value>Ödeme kaydet</value>
+  </data>
+  <data name="RecordPayment_Subtitle" xml:space="preserve">
+    <value>Gerçek bir ödeme kaydedin ve grup zaman çizelgesini dürüst tutun.</value>
+  </data>
+  <data name="RecordPayment_WhoPaid" xml:space="preserve">
+    <value>Kim ödedi?</value>
+  </data>
+  <data name="RecordPayment_WhoReceived" xml:space="preserve">
+    <value>Kim aldı?</value>
+  </data>
+  <data name="RecordPayment_SaveButton" xml:space="preserve">
+    <value>Ödemeyi kaydet</value>
+  </data>
+  <data name="RecordPayment_SuggestionTitle" xml:space="preserve">
+    <value>Öneri</value>
+  </data>
+  <data name="RecordPayment_ConfirmButton" xml:space="preserve">
+    <value>Ödemeyi onayla</value>
+  </data>
+
+  <!-- Common -->
+  <data name="Common_Amount" xml:space="preserve">
+    <value>Tutar</value>
+  </data>
+  <data name="Common_Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+
+  <!-- Export -->
+  <data name="Export_DialogTitle" xml:space="preserve">
+    <value>Bu grubu dışa aktar</value>
+  </data>
+  <data name="Export_JsonOption" xml:space="preserve">
+    <value>Ham veri (JSON)</value>
+  </data>
+  <data name="Export_CsvOption" xml:space="preserve">
+    <value>Tablo (CSV)</value>
+  </data>
+  <data name="Export_PdfOption" xml:space="preserve">
+    <value>Özet (PDF)</value>
+  </data>
+  <data name="Export_ShareTitle" xml:space="preserve">
+    <value>Grubu dışa aktar</value>
+  </data>
+  <data name="Export_Failed" xml:space="preserve">
+    <value>Dışa aktarma başarısız. {0}</value>
+  </data>
+  <data name="Export_DeliveryDialogTitle" xml:space="preserve">
+    <value>Nasıl dışa aktarmak istersiniz?</value>
+  </data>
+  <data name="Export_SaveToDevice" xml:space="preserve">
+    <value>Cihaza kaydet</value>
+  </data>
+  <data name="Export_Share" xml:space="preserve">
+    <value>Paylaş...</value>
+  </data>
+  <data name="Export_SavedToDevice" xml:space="preserve">
+    <value>"{0}" İndirilenler'e kaydedildi.</value>
+  </data>
+
+  <!-- Validation -->
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>Başlık zorunludur.</value>
+  </data>
+  <data name="Validation_InvalidAmount" xml:space="preserve">
+    <value>Geçerli bir tutar girin.</value>
+  </data>
+  <data name="Validation_SelectPayer" xml:space="preserve">
+    <value>Bir ödeyen seçin.</value>
+  </data>
+  <data name="Validation_PickAtLeastOnePerson" xml:space="preserve">
+    <value>En az bir kişi seçin.</value>
+  </data>
+  <data name="Validation_PersonNameRequired" xml:space="preserve">
+    <value>Kişi adı zorunludur.</value>
+  </data>
+  <data name="Validation_PersonNameMustBeUnique" xml:space="preserve">
+    <value>Kişi adı bu grupta benzersiz olmalıdır.</value>
+  </data>
+  <data name="Validation_GroupNotFound" xml:space="preserve">
+    <value>Grup bulunamadı.</value>
+  </data>
+  <data name="Validation_GroupNameRequired" xml:space="preserve">
+    <value>Grup adı zorunludur.</value>
+  </data>
+  <data name="Validation_SelectCurrency" xml:space="preserve">
+    <value>Bir para birimi seçin.</value>
+  </data>
+  <data name="Validation_AddAtLeastOnePerson" xml:space="preserve">
+    <value>En az bir kişi ekleyin.</value>
+  </data>
+  <data name="Validation_InvalidCustomWeight" xml:space="preserve">
+    <value>Geçerli bir özel ağırlık girin (örn. 0.5).</value>
+  </data>
+  <data name="Validation_CustomWeightRequiredForCustomCategory" xml:space="preserve">
+    <value>Tüketim Özel olarak ayarlandığında özel ağırlık zorunludur.</value>
+  </data>
+  <data name="Validation_GroupArchivedReadonly" xml:space="preserve">
+    <value>Bu grup arşivlendi ve salt okunur.</value>
+  </data>
+  <data name="Validation_PersonNotFound" xml:space="preserve">
+    <value>Kişi bulunamadı.</value>
+  </data>
+  <data name="Validation_ResponsiblePersonNotFound" xml:space="preserve">
+    <value>Sorumlu kişi bulunamadı.</value>
+  </data>
+  <data name="Validation_PersonCannotDependOnSelf" xml:space="preserve">
+    <value>Bir kişi kendisine bağlı olamaz.</value>
+  </data>
+  <data name="Validation_CannotMakeDependentWhileOwningOthers" xml:space="preserve">
+    <value>Bu kişi başkalarından sorumlu olduğunda bağımlı yapılamaz.</value>
+  </data>
+  <data name="Validation_CircularDependency" xml:space="preserve">
+    <value>Döngüsel bağımlılığa izin verilmez.</value>
+  </data>
+  <data name="GroupSwitcher_Title" xml:space="preserve">
+    <value>Grup değiştir</value>
+  </data>
+  <data name="GroupSwitcher_CurrentSuffix" xml:space="preserve">
+    <value>(Mevcut)</value>
+  </data>
+  <data name="GroupSwitcher_Select" xml:space="preserve">
+    <value>Seç</value>
+  </data>
+  <data name="GroupSwitcher_ArchivedToggle" xml:space="preserve">
+    <value>Arşivlenen gruplar</value>
+  </data>
+  <data name="GroupSwitcher_NewGroup" xml:space="preserve">
+    <value>+ Yeni grup</value>
+  </data>
+  <data name="CreateGroup_Title" xml:space="preserve">
+    <value>Grup oluştur</value>
+  </data>
+  <data name="CreateGroup_GroupName" xml:space="preserve">
+    <value>Grup adı</value>
+  </data>
+  <data name="CreateGroup_GroupNamePlaceholder" xml:space="preserve">
+    <value>Ski trip</value>
+  </data>
+  <data name="CreateGroup_Currency" xml:space="preserve">
+    <value>Para birimi</value>
+  </data>
+  <data name="CreateGroup_Continue" xml:space="preserve">
+    <value>Devam et</value>
+  </data>
+  <data name="CreateGroup_ParticipantPlaceholder" xml:space="preserve">
+    <value>Katılımcı adı</value>
+  </data>
+  <data name="CreateGroup_AddParticipant" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="CreateGroup_Create" xml:space="preserve">
+    <value>Oluştur</value>
+  </data>
+
+  <!-- Archived groups -->
+  <data name="Archived_Title" xml:space="preserve">
+    <value>Arşivlenen gruplar</value>
+  </data>
+  <data name="Archived_Subtitle" xml:space="preserve">
+    <value>Bu gruplar kapalı. Hala okuyabilir ve dışa aktarabilirsiniz.</value>
+  </data>
+  <data name="Archived_EmptyTitle" xml:space="preserve">
+    <value>Henüz arşivlenen grup yok.</value>
+  </data>
+  <data name="Archived_EmptySubtitle" xml:space="preserve">
+    <value>Arşivlenen gruplar burada görünür.</value>
+  </data>
+  <data name="Archived_Badge" xml:space="preserve">
+    <value>Arşivlendi</value>
+  </data>
+  <data name="Validation_ChooseBothPeople" xml:space="preserve">
+    <value>Her iki kişiyi de seçin.</value>
+  </data>
+  <data name="Validation_DifferentPeople" xml:space="preserve">
+    <value>Ödeme iki farklı kişi gerektirir.</value>
+  </data>
+  <data name="Validation_TotalMustMatchAmount" xml:space="preserve">
+    <value>Toplam tutarla eşleşmeli</value>
+  </data>
+  <data name="ExpenseDetails_DeleteTitle" xml:space="preserve">
+    <value>Gideri sil</value>
+  </data>
+  <data name="ExpenseDetails_DeleteMessage" xml:space="preserve">
+    <value>Bu gideri silmek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="ExpenseDetails_DeleteAction" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ExpenseDetails_TotalFixed" xml:space="preserve">
+    <value>Sabit toplam: {0}</value>
+  </data>
+  <data name="ExpenseDetails_NotFound" xml:space="preserve">
+    <value>Gider bulunamadı.</value>
+  </data>
+
+  <!-- Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="Settings_VersionLabel" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="Settings_LanguageSection" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="Settings_LanguageHint" xml:space="preserve">
+    <value>Tercih ettiğiniz dili seçin.</value>
+  </data>
+  <data name="Settings_LanguageSaved" xml:space="preserve">
+    <value>Dil güncellendi.</value>
+  </data>
+  <data name="Settings_ProfileSection" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Settings_ProfileHint" xml:space="preserve">
+    <value>Gruplar arasında kendinizi (ben) olarak işaretlemek için adınızı ayarlayın.</value>
+  </data>
+  <data name="Settings_MyNameLabel" xml:space="preserve">
+    <value>Adım</value>
+  </data>
+  <data name="Settings_MyNamePlaceholder" xml:space="preserve">
+    <value>Adınızı girin</value>
+  </data>
+  <data name="Settings_SaveProfileButton" xml:space="preserve">
+    <value>Profili kaydet</value>
+  </data>
+  <data name="Settings_ThemeLabel" xml:space="preserve">
+    <value>Koyu tema</value>
+  </data>
+  <data name="Settings_ProfileSaved" xml:space="preserve">
+    <value>Profil güncellendi.</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>Sistem Varsayılanı</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>İspanyolca</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>Almanca</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>İtalyanca</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Portekizce</value>
+  </data>
+  <data name="Common_MeCapitalized" xml:space="preserve">
+    <value>Ben</value>
+  </data>
+  <data name="Startup_NoGroupsAvailable" xml:space="preserve">
+    <value>Kullanılabilir grup yok.</value>
+  </data>
+  <data name="Currency_DisplayFormat" xml:space="preserve">
+    <value>{0} {1} ({2})</value>
+  </data>
+  <data name="Currency_Name_Unknown" xml:space="preserve">
+    <value>Para Birimi</value>
+  </data>
+  <data name="Currency_Name_EUR" xml:space="preserve">
+    <value>Euro</value>
+  </data>
+  <data name="Currency_Name_USD" xml:space="preserve">
+    <value>Amerikan Doları</value>
+  </data>
+  <data name="Currency_Name_GBP" xml:space="preserve">
+    <value>İngiliz Sterlini</value>
+  </data>
+  <data name="Currency_Name_CHF" xml:space="preserve">
+    <value>İsviçre Frangı</value>
+  </data>
+  <data name="Currency_Name_JPY" xml:space="preserve">
+    <value>Japon Yeni</value>
+  </data>
+  <data name="Currency_Name_CNY" xml:space="preserve">
+    <value>Çin Yuanı</value>
+  </data>
+  <data name="Currency_Name_INR" xml:space="preserve">
+    <value>Hint Rupisi</value>
+  </data>
+  <data name="Currency_Name_AUD" xml:space="preserve">
+    <value>Avustralya Doları</value>
+  </data>
+  <data name="Currency_Name_CAD" xml:space="preserve">
+    <value>Kanada Doları</value>
+  </data>
+  <data name="Currency_Name_BRL" xml:space="preserve">
+    <value>Brezilya Reali</value>
+  </data>
+  <data name="Currency_Name_MXN" xml:space="preserve">
+    <value>Meksika Pesosu</value>
+  </data>
+  <data name="Currency_Name_ARS" xml:space="preserve">
+    <value>Arjantin Pesosu</value>
+  </data>
+  <data name="Currency_Name_CLP" xml:space="preserve">
+    <value>Şili Pesosu</value>
+  </data>
+  <data name="Currency_Name_COP" xml:space="preserve">
+    <value>Kolombiya Pesosu</value>
+  </data>
+  <data name="Currency_Name_PEN" xml:space="preserve">
+    <value>Peru Solu</value>
+  </data>
+  <data name="Currency_Name_SEK" xml:space="preserve">
+    <value>İsveç Kronu</value>
+  </data>
+  <data name="Currency_Name_NOK" xml:space="preserve">
+    <value>Norveç Kronu</value>
+  </data>
+  <data name="Currency_Name_DKK" xml:space="preserve">
+    <value>Danimarka Kronu</value>
+  </data>
+  <data name="Currency_Name_PLN" xml:space="preserve">
+    <value>Polonya Zlotisi</value>
+  </data>
+  <data name="Currency_Name_CZK" xml:space="preserve">
+    <value>Çek Korunası</value>
+  </data>
+  <data name="Currency_Name_HUF" xml:space="preserve">
+    <value>Macar Forinti</value>
+  </data>
+  <data name="Currency_Name_RON" xml:space="preserve">
+    <value>Romen Leyi</value>
+  </data>
+  <data name="Currency_Name_TRY" xml:space="preserve">
+    <value>Türk Lirası</value>
+  </data>
+  <data name="Currency_Name_AED" xml:space="preserve">
+    <value>BAE Dirhemi</value>
+  </data>
+  <data name="Currency_Name_SAR" xml:space="preserve">
+    <value>Suudi Riyali</value>
+  </data>
+  <data name="Currency_Name_KRW" xml:space="preserve">
+    <value>Güney Kore Wonu</value>
+  </data>
+  <data name="Currency_Name_SGD" xml:space="preserve">
+    <value>Singapur Doları</value>
+  </data>
+  <data name="Currency_Name_HKD" xml:space="preserve">
+    <value>Hong Kong Doları</value>
+  </data>
+  <data name="Currency_Name_NZD" xml:space="preserve">
+    <value>Yeni Zelanda Doları</value>
+  </data>
+  <data name="Currency_Name_ZAR" xml:space="preserve">
+    <value>Güney Afrika Randı</value>
+  </data>
+
+  <!-- Validation (service-level) -->
+  <data name="Validation_CurrencyRequired" xml:space="preserve">
+    <value>Para birimi zorunludur.</value>
+  </data>
+  <data name="Validation_EachPersonNeedsName" xml:space="preserve">
+    <value>Her kişinin bir adı olmalıdır.</value>
+  </data>
+
+  <!-- Mapper / presentation sentences -->
+  <data name="Mapper_Person" xml:space="preserve">
+    <value>Kişi</value>
+  </data>
+  <data name="Mapper_Everyone" xml:space="preserve">
+    <value>herkes</value>
+  </data>
+  <data name="Mapper_And" xml:space="preserve">
+    <value>ve</value>
+  </data>
+  <data name="Mapper_SplitEqual" xml:space="preserve">
+    <value>{0} arasında eşit bölüştü</value>
+  </data>
+  <data name="Mapper_SplitWeighted" xml:space="preserve">
+    <value>{0} arasında ağırlıklı bölüştü</value>
+  </data>
+  <data name="Mapper_SplitByPercentage" xml:space="preserve">
+    <value>{0} arasında yüzdeyle bölüştü</value>
+  </data>
+  <data name="Mapper_SplitCustomAmounts" xml:space="preserve">
+    <value>{0} arasında özel tutarla bölüştü</value>
+  </data>
+  <data name="Mapper_SplitCustomAmountsOnly" xml:space="preserve">
+    <value>{0} için özel tutarlar</value>
+  </data>
+  <data name="Mapper_HouseholdOf" xml:space="preserve">
+    <value>{0} sorumluluğu</value>
+  </data>
+  <data name="Mapper_ResponsibilityOf" xml:space="preserve">
+    <value>{0} sorumluluğu</value>
+  </data>
+  <data name="Mapper_PaymentTitle" xml:space="preserve">
+    <value>Ödeme</value>
+  </data>
+  <data name="Mapper_PaymentPrimaryText" xml:space="preserve">
+    <value>{0}, {1} ödedi</value>
+  </data>
+  <data name="Mapper_PaymentSecondaryText" xml:space="preserve">
+    <value>Kaydedilen ödeme</value>
+  </data>
+  <data name="Mapper_ActivityExpenseTitle" xml:space="preserve">
+    <value>{0}, {1} ekledi</value>
+  </data>
+  <data name="Mapper_ActivityPaymentTitle" xml:space="preserve">
+    <value>{0}, {1} ödedi</value>
+  </data>
+  <data name="Mapper_ActivityPaymentDetail" xml:space="preserve">
+    <value>Ödeme kaydedildi</value>
+  </data>
+  <data name="Mapper_BalanceOwes" xml:space="preserve">
+    <value>{0}, {1} kişisine borçlu</value>
+  </data>
+  <data name="Mapper_BalanceEvenNow" xml:space="preserve">
+    <value>Şu an herkes eşit.</value>
+  </data>
+  <data name="Mapper_SummaryReadyToGo" xml:space="preserve">
+    <value>{0} kişi hazır</value>
+  </data>
+  <data name="Mapper_SummaryEvents" xml:space="preserve">
+    <value>{0} kişi · {1} etkinlik</value>
+  </data>
+  <data name="Mapper_SummaryPeople" xml:space="preserve">
+    <value>{0} kişi</value>
+  </data>
+  <data name="Mapper_NoActivity" xml:space="preserve">
+    <value>aktivite yok</value>
+  </data>
+  <data name="Mapper_Activity_Expense" xml:space="preserve">
+    <value>{0} gider</value>
+  </data>
+  <data name="Mapper_Activity_Expenses" xml:space="preserve">
+    <value>{0} gider</value>
+  </data>
+  <data name="Mapper_Activity_Payment" xml:space="preserve">
+    <value>{0} ödeme</value>
+  </data>
+  <data name="Mapper_Activity_Payments" xml:space="preserve">
+    <value>{0} ödeme</value>
+  </data>
+  <data name="Mapper_Activity_ExpensesPayments" xml:space="preserve">
+    <value>{0} gider · {1} ödeme</value>
+  </data>
+  <data name="Mapper_PeopleCountFormat" xml:space="preserve">
+    <value>{0} → {1} kişi</value>
+  </data>
+  <data name="Mapper_Today" xml:space="preserve">
+    <value>Bugün</value>
+  </data>
+  <data name="Mapper_Yesterday" xml:space="preserve">
+    <value>Dün</value>
+  </data>
+  <data name="Mapper_Me" xml:space="preserve">
+    <value>ben</value>
+  </data>
+
+  <!-- Group status labels -->
+  <data name="Status_CurrentGroup" xml:space="preserve">
+    <value>Mevcut grup</value>
+  </data>
+  <data name="Status_OpenedOn" xml:space="preserve">
+    <value>Açıldı {0}</value>
+  </data>
+  <data name="Status_RecentActivity" xml:space="preserve">
+    <value>Son aktivite {0}</value>
+  </data>
+  <data name="Status_ReadyForFirstEvent" xml:space="preserve">
+    <value>İlk etkinliğe hazır</value>
+  </data>
+  <data name="Status_AddFirstEvent" xml:space="preserve">
+    <value>İlk etkinliği ekleyin.</value>
+  </data>
+  <data name="Status_Settled" xml:space="preserve">
+    <value>Kapatıldı.</value>
+  </data>
+  <data name="Status_DefaultGroupName" xml:space="preserve">
+    <value>Grup</value>
+  </data>
+  <data name="Status_Household" xml:space="preserve">
+    <value>Hane</value>
+  </data>
+
+  <!-- Language names (additional) -->
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Arapça</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Hintçe</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Endonezce</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Japonca</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Korece</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Rusça</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Türkçe</value>
+  </data>
+  <data name="Language_ChineseSimplified" xml:space="preserve">
+    <value>Basitleştirilmiş Çince</value>
+  </data>
+  <data name="Language_ChineseTraditional" xml:space="preserve">
+    <value>Geleneksel Çince</value>
+  </data>
+
+</root>

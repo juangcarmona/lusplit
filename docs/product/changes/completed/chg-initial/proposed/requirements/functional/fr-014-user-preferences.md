@@ -1,0 +1,22 @@
+---
+id: FR-014
+type: functional-requirement
+title: User preferences
+status: draft
+derived-from:
+  - UC-001
+verification:
+  - scenario: A user sets their preferred name, currency, language, and theme
+provenance:
+  source: src/LuSplit.App/Features/Settings/Settings/SettingsViewModel.cs
+  confidence: high
+  recovered-from: observation
+---
+
+## Requirement
+
+The product MUST allow a user to set their preferred name, default currency, app language, and dark/light theme.
+
+## Rationale
+
+Personalization improves the user experience in a personal, offline-first app.
